@@ -1,0 +1,804 @@
+openapi: 3.0.0
+info:
+  title: HannaCode API
+  description: API for HannaCode e-learning platform
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000/api/v1
+    description: Development server
+  - url: https://api.hannacode.com/api/v1
+    description: Production server
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+          enum: [user, premium, admin]
+        profileImage:
+          type: string
+        bio:
+          type: string
+        emailVerified:
+          type: boolean
+        lastLogin:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - name
+        - email
+
+    Course:
+      type: object
+      properties:
+        _id:
+          type: string
+        title:
+          type: string
+        slug:
+          type: string
+        description:
+          type: string
+        shortDescription:
+          type: string
+        level:
+          type: string
+          enum: [beginner, intermediate, advanced]
+        language:
+          type: string
+        duration:
+          type: number
+        coverImage:
+          type: string
+        isPremium:
+          type: boolean
+        isPublished:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+        prerequisites:
+          type: array
+          items:
+            type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - title
+        - description
+        - shortDescription
+        - level
+        - language
+        - duration
+
+    Lesson:
+      type: object
+      properties:
+        _id:
+          type: string
+        title:
+          type: string
+        slug:
+          type: string
+        description:
+          type: string
+        content:
+          type: string
+        videoUrl:
+          type: string
+        duration:
+          type: number
+        order:
+          type: number
+        course:
+          type: string
+        isPublished:
+          type: boolean
+        resources:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              type:
+                type: string
+              url:
+                type: string
+        quiz:
+          type: array
+          items:
+            type: object
+            properties:
+              question:
+                type: string
+              options:
+                type: array
+                items:
+                  type: string
+              correctAnswer:
+                type: number
+              explanation:
+                type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - title
+        - description
+        - content
+        - duration
+        - order
+        - course
+
+    Subscription:
+      type: object
+      properties:
+        _id:
+          type: string
+        user:
+          type: string
+        stripeCustomerId:
+          type: string
+        stripeSubscriptionId:
+          type: string
+        stripePriceId:
+          type: string
+        plan:
+          type: string
+          enum: [monthly, annual, lifetime]
+        status:
+          type: string
+          enum: [active, canceled, past_due, unpaid, trialing, incomplete, incomplete_expired]
+        currentPeriodStart:
+          type: string
+          format: date-time
+        currentPeriodEnd:
+          type: string
+          format: date-time
+        cancelAtPeriodEnd:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - user
+        - stripeCustomerId
+        - stripeSubscriptionId
+        - stripePriceId
+        - plan
+        - status
+        - currentPeriodStart
+        - currentPeriodEnd
+
+    Progress:
+      type: object
+      properties:
+        _id:
+          type: string
+        user:
+          type: string
+        course:
+          type: string
+        completedLessons:
+          type: array
+          items:
+            type: object
+            properties:
+              lesson:
+                type: string
+              completedAt:
+                type: string
+                format: date-time
+              quizScore:
+                type: number
+        lastAccessedLesson:
+          type: string
+        percentageCompleted:
+          type: number
+        startedAt:
+          type: string
+          format: date-time
+        completedAt:
+          type: string
+          format: date-time
+        lastAccessedAt:
+          type: string
+          format: date-time
+        notes:
+          type: array
+          items:
+            type: object
+            properties:
+              lesson:
+                type: string
+              content:
+                type: string
+              createdAt:
+                type: string
+                format: date-time
+      required:
+        - user
+        - course
+
+    Mentorship:
+      type: object
+      properties:
+        _id:
+          type: string
+        user:
+          type: string
+        mentor:
+          type: string
+        status:
+          type: string
+          enum: [scheduled, completed, canceled]
+        scheduledDate:
+          type: string
+          format: date-time
+        duration:
+          type: number
+        topic:
+          type: string
+        notes:
+          type: string
+        calendlyEventId:
+          type: string
+        zoomMeetingId:
+          type: string
+        zoomMeetingPassword:
+          type: string
+        zoomJoinUrl:
+          type: string
+        feedback:
+          type: object
+          properties:
+            rating:
+              type: number
+            comment:
+              type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - user
+        - mentor
+        - scheduledDate
+        - topic
+
+paths:
+  /auth/register:
+    post:
+      summary: Register a new user
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - name
+                - email
+                - password
+      responses:
+        '201':
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  token:
+                    type: string
+        '400':
+          description: Bad request
+
+  /auth/login:
+    post:
+      summary: Login user
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - email
+                - password
+      responses:
+        '200':
+          description: User logged in successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  token:
+                    type: string
+        '401':
+          description: Invalid credentials
+
+  /auth/me:
+    get:
+      summary: Get current user
+      tags:
+        - Authentication
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: User data retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/User'
+        '401':
+          description: Not authorized
+
+  /courses:
+    get:
+      summary: Get all courses
+      tags:
+        - Courses
+      parameters:
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: Search term for course title or description
+        - name: level
+          in: query
+          schema:
+            type: string
+            enum: [beginner, intermediate, advanced]
+          description: Filter by course level
+        - name: language
+          in: query
+          schema:
+            type: string
+          description: Filter by programming language
+        - name: isPremium
+          in: query
+          schema:
+            type: boolean
+          description: Filter by premium status
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+          description: Page number
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 10
+          description: Number of items per page
+      responses:
+        '200':
+          description: List of courses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  count:
+                    type: integer
+                  pagination:
+                    type: object
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Course'
+    post:
+      summary: Create a new course
+      tags:
+        - Courses
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Course'
+      responses:
+        '201':
+          description: Course created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Course'
+        '401':
+          description: Not authorized
+        '403':
+          description: Forbidden
+
+  /courses/{id}:
+    get:
+      summary: Get a single course
+      tags:
+        - Courses
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Course details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Course'
+        '404':
+          description: Course not found
+    put:
+      summary: Update a course
+      tags:
+        - Courses
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Course'
+      responses:
+        '200':
+          description: Course updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Course'
+        '401':
+          description: Not authorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Course not found
+    delete:
+      summary: Delete a course
+      tags:
+        - Courses
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Course deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: object
+        '401':
+          description: Not authorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Course not found
+
+  /courses/{courseId}/lessons:
+    get:
+      summary: Get all lessons for a course
+      tags:
+        - Lessons
+      parameters:
+        - name: courseId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of lessons
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  count:
+                    type: integer
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Lesson'
+        '404':
+          description: Course not found
+    post:
+      summary: Create a new lesson for a course
+      tags:
+        - Lessons
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: courseId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lesson'
+      responses:
+        '201':
+          description: Lesson created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Lesson'
+        '401':
+          description: Not authorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Course not found
+
+  /subscriptions/create-checkout-session:
+    post:
+      summary: Create a Stripe checkout session
+      tags:
+        - Subscriptions
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                priceId:
+                  type: string
+              required:
+                - priceId
+      responses:
+        '200':
+          description: Checkout session created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  sessionId:
+                    type: string
+        '401':
+          description: Not authorized
+
+  /progress/{courseId}:
+    get:
+      summary: Get progress for a course
+      tags:
+        - Progress
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: courseId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Progress data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Progress'
+        '401':
+          description: Not authorized
+        '404':
+          description: Course not found
+    post:
+      summary: Update progress for a course
+      tags:
+        - Progress
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: courseId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                lastAccessedLesson:
+                  type: string
+                percentageCompleted:
+                  type: number
+      responses:
+        '200':
+          description: Progress updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Progress'
+        '401':
+          description: Not authorized
+        '404':
+          description: Course not found
+
+  /mentorship/mentors:
+    get:
+      summary: Get available mentors
+      tags:
+        - Mentorship
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of available mentors
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+        '401':
+          description: Not authorized
+
+  /mentorship/book:
+    post:
+      summary: Book a mentorship session
+      tags:
+        - Mentorship
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mentorId:
+                  type: string
+                scheduledDate:
+                  type: string
+                  format: date-time
+                topic:
+                  type: string
+              required:
+                - mentorId
+                - scheduledDate
+                - topic
+      responses:
+        '201':
+          description: Mentorship session booked
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Mentorship'
+        '401':
+          description: Not authorized
+        '403':
+          description: Premium subscription required
