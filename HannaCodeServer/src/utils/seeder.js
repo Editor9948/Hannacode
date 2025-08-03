@@ -51,6 +51,7 @@ const createCourses = async () => {
       duration: 480, // 8 weeks * 60 minutes
       language: "html",
       isPremium: false,
+       isPublished: true,
       createdAt: getRandomDate(),
       updatedAt: getRandomDate(),
       coverImage: "/images/courses/htmlogo.jpg"
@@ -70,6 +71,7 @@ const createCourses = async () => {
       duration: 600, // 10 weeks * 60 minutes
       language: "css",
       isPremium: false,
+       isPublished: true,
       createdAt: getRandomDate(),
       updatedAt: getRandomDate(),
        coverImage: "/images/courses/csslogo.jpg"
@@ -89,6 +91,7 @@ const createCourses = async () => {
       duration: 360, // 6 weeks * 60 minutes
       language: "css",
       isPremium: true,
+       isPublished: true,
       createdAt: getRandomDate(),
       updatedAt: getRandomDate(),
        coverImage: "/images/courses/advan.jpg"
@@ -108,6 +111,7 @@ const createCourses = async () => {
       duration: 720, // 12 weeks * 60 minutes
       language: "javascript",
       isPremium: false,
+       isPublished: true,
       createdAt: getRandomDate(),
       updatedAt: getRandomDate(),
        coverImage: "/images/courses/java.jpg"
@@ -127,6 +131,7 @@ const createCourses = async () => {
       duration: 480, // 8 weeks * 60 minutes
       language: "javascript",
       isPremium: true,
+       isPublished: true,
       createdAt: getRandomDate(),
       updatedAt: getRandomDate(),
        coverImage: "/images/courses/db1.jpeg"
@@ -146,6 +151,7 @@ const createCourses = async () => {
       duration: 360, // 6 weeks * 60 minutes
       language: "html",
       isPremium: true,
+       isPublished: true,
       createdAt: getRandomDate(),
       updatedAt: getRandomDate(),
        coverImage: "/images/courses/respoweb.jpg"
@@ -165,6 +171,7 @@ const createCourses = async () => {
       duration: 600, // 10 weeks * 60 minutes
       language: "php",
       isPremium: false,
+       isPublished: true,
       createdAt: getRandomDate(),
       updatedAt: getRandomDate(),
        coverImage: "/images/courses/php.jpg"
@@ -184,6 +191,7 @@ const createCourses = async () => {
       duration: 480, // 8 weeks * 60 minutes
       language: "php",
       isPremium: true,
+       isPublished: true,
       createdAt: getRandomDate(),
       updatedAt: getRandomDate(),
        coverImage: "/images/courses/php1.png"
@@ -203,6 +211,7 @@ const createCourses = async () => {
       duration: 360, // 6 weeks * 60 minutes
       language: "html",
       isPremium: true,
+       isPublished: true,
       createdAt: getRandomDate(),
       updatedAt: getRandomDate(),
        coverImage: "/images/courses/access1.png"
@@ -222,6 +231,7 @@ const createCourses = async () => {
       duration: 720, // 12 weeks * 60 minutes
       language: "cpp",
       isPremium: false,
+       isPublished: true,
       createdAt: getRandomDate(),
       updatedAt: getRandomDate(),
        coverImage: "/images/courses/cpp.jpg"
@@ -242,6 +252,7 @@ const createCourses = async () => {
       duration: 720, // 12 weeks * 60 minutes
       language: "python",
       isPremium: false,
+       isPublished: true,
       createdAt: getRandomDate(),
       updatedAt: getRandomDate(),
        coverImage: "/images/courses/python.jpg"

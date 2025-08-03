@@ -27,7 +27,9 @@ export const useCourses = () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await courseService.getAllCourses(params);
+      // Disable pagination by default to fetch all courses
+      const queryParams = { noPagination: true, ...params };
+      const response = await courseService.getAllCourses(queryParams);
       setCourses(response.data);
       setRetryCount(0);
     } catch (err) {

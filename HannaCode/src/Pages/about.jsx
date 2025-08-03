@@ -10,7 +10,7 @@ export default function AboutPage() {
       name: "Oladapo Ayomide.O",
       role: "Founder & Lead Instructor",
       bio: "Oladapo has over 2 years of experience in web development and has worked with companies like Google and Facebook. He founded HannaCode to make programming education accessible to everyone.",
-      avatar: "/sarah.jpg?height=200&width=200",
+      avatar: "/dapo.jpg?height=200&width=200",
     },
     {
       name: "Sarah Johnson",
@@ -22,7 +22,7 @@ export default function AboutPage() {
       name: "Michael Chen",
       role: "Backend Development Lead",
       bio: "Michael is a full stack developer with a strong background in both frontend and backend technologies. He loves helping students build complete web applications from scratch.",
-      avatar: "/placeholder.svg?height=200&width=200",
+      avatar: "/micheal.jpg?height=200&width=200",
     },
     {
       name: "Jessica Williams",

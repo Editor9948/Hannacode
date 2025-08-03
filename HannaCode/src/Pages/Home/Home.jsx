@@ -55,7 +55,7 @@ export default function Home() {
       level: "Advanced",
       lessons: 36,
       image: "/php.jpg?height=200&width=300",
-      path: "/courses/php-mysql",
+      path: "/courses/php-and-mysql-basics",
     },
   ]
 

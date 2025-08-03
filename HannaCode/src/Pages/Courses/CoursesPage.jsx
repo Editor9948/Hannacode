@@ -40,7 +40,7 @@ export default function CoursesPage() {
           throw new Error("Please login to view courses");
         }
 
-        const response = await fetch(`${API_URL}/courses`, {
+        const response = await fetch(`${API_URL}/courses?noPagination=true`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
@@ -95,6 +95,8 @@ export default function CoursesPage() {
           };
         }).filter(Boolean);
 
+        // Debug: Log all course titles and slugs
+        console.log('Course slugs:', courseList.map(c => ({ title: c.title, slug: c.slug })));
         setCourses(courseList);
       } catch (err) {
         console.error("Error fetching courses:", err);

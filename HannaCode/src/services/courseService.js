@@ -98,8 +98,10 @@ const makeRequest = async (requestFn, maxRetries = 3) => {
 const courseService = {
   // Get all courses
   getAllCourses: async (params = {}) => {
+    // Disable pagination by default to fetch all courses
+    const queryParams = { noPagination: true, ...params };
     return makeRequest(async () => {
-      const response = await api.get('/courses', { params });
+      const response = await api.get('/courses', { params: queryParams });
       return response.data;
     });
   },

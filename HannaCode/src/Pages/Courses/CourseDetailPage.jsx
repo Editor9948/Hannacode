@@ -34,8 +34,6 @@ export default function CourseDetailPage() {
           throw new Error("Please login to view course details");
         }
 
-        
-
         // Debug: Log the API URL and slug
         console.log('Fetching course:', `${API_URL}/courses/slug/${slug}`);
 
@@ -76,6 +74,7 @@ export default function CourseDetailPage() {
 
         // Debug: Log the original coverImage value
         console.log('Original coverImage:', courseData.coverImage);
+      
 
         // Transform the course data with improved image handling
         const transformedCourse = {
@@ -103,18 +102,21 @@ export default function CourseDetailPage() {
           isPublished: courseData.isPublished || false,
           tags: courseData.tags || [],
           prerequisites: courseData.prerequisites || [],
-          instructor: courseData.instructor ? {
-            name: courseData.instructor.name || 'Instructor',
-            role: courseData.instructor.role || 'Course Instructor',
-            bio: courseData.instructor.bio || 'No bio available',
-            avatar: courseData.instructor.avatar 
-              ? courseData.instructor.avatar.startsWith('http')
-                ? courseData.instructor.avatar
-                : courseData.instructor.avatar.startsWith('/')
-                  ? `${API_URL}${courseData.instructor.avatar}`
-                  : `${API_URL}/uploads/images/instructors/${courseData.instructor.avatar.replace(/^\/+/, '')}`
-              : DEFAULT_PLACEHOLDER
-          } : null,
+          instructor: (courseData.mentor || courseData.instructor) ? (() => {
+            const mentorObj = courseData.mentor || courseData.instructor;
+            return {
+              name: mentorObj.name || 'Mentor',
+              role: mentorObj.role || 'Course Mentor',
+              bio: mentorObj.bio || 'No bio available',
+              avatar: mentorObj.avatar 
+                ? mentorObj.avatar.startsWith('http')
+                  ? mentorObj.avatar
+                  : mentorObj.avatar.startsWith('/')
+                    ? `${API_URL}${mentorObj.avatar}`
+                    : `${API_URL}/uploads/images/instructors/${mentorObj.avatar.replace(/^\/+/, '')}`
+                : DEFAULT_PLACEHOLDER
+            };
+          })() : null,
           modules: courseData.modules || []
         };
 

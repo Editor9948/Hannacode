@@ -12,7 +12,7 @@ exports.getCourses = asyncHandler(async (req, res, next) => {
   const reqQuery = { ...req.query }
 
   // Fields to exclude
-  const removeFields = ["select", "sort", "page", "limit"]
+  const removeFields = ["select", "sort", "page", "limit", "noPagination"]
 
   // Loop over removeFields and delete them from reqQuery
   removeFields.forEach((param) => delete reqQuery[param])
@@ -22,6 +22,9 @@ exports.getCourses = asyncHandler(async (req, res, next) => {
 
   // Create operators ($gt, $gte, etc)
   queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, (match) => `$${match}`)
+
+  // Debug: print the query object
+  console.log("[getCourses] Query object:", queryStr);
 
   // Finding resource
   let query = Course.find(JSON.parse(queryStr))
@@ -40,32 +43,43 @@ exports.getCourses = asyncHandler(async (req, res, next) => {
     query = query.sort("-createdAt")
   }
 
-  // Pagination
-  const page = Number.parseInt(req.query.page, 10) || 1
-  const limit = Number.parseInt(req.query.limit, 10) || 10
-  const startIndex = (page - 1) * limit
-  const endIndex = page * limit
-  const total = await Course.countDocuments(JSON.parse(queryStr))
+  // Check if pagination is disabled
+  let courses;
+  let pagination = {};
+  
+  if (req.query.noPagination === 'true') {
+    // No pagination - fetch all courses
+    courses = await query;
+    // Debug: print the number of courses found
+    console.log(`[getCourses] Courses found (noPagination): ${courses.length}`);
+  } else {
+    // Pagination
+    const page = Number.parseInt(req.query.page, 10) || 1
+    const limit = Number.parseInt(req.query.limit, 10) || 10
+    const startIndex = (page - 1) * limit
+    const endIndex = page * limit
+    const total = await Course.countDocuments(JSON.parse(queryStr))
 
-  query = query.skip(startIndex).limit(limit)
+    query = query.skip(startIndex).limit(limit)
 
-  // Executing query
-  const courses = await query
+    // Executing query
+    courses = await query
+    // Debug: print the number of courses found
+    console.log(`[getCourses] Courses found (paginated): ${courses.length}`);
 
-  // Pagination result
-  const pagination = {}
-
-  if (endIndex < total) {
-    pagination.next = {
-      page: page + 1,
-      limit,
+    // Pagination result
+    if (endIndex < total) {
+      pagination.next = {
+        page: page + 1,
+        limit,
+      }
     }
-  }
 
-  if (startIndex > 0) {
-    pagination.prev = {
-      page: page - 1,
-      limit,
+    if (startIndex > 0) {
+      pagination.prev = {
+        page: page - 1,
+        limit,
+      }
     }
   }
 

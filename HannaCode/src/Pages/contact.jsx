@@ -115,8 +115,8 @@ export default function ContactPage() {
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground mb-2">Monday to Friday, 9AM - 5PM EST:</p>
-            <a href="tel:+1234567890" className="text-primary hover:underline">
-              +1 (234) 567-890
+            <a href="tel:+2348136096609" className="text-primary hover:underline">
+              +2348136096609
             </a>
           </CardContent>
         </Card>
@@ -231,7 +231,7 @@ export default function ContactPage() {
           <div className="mt-6">
             <p className="text-muted-foreground mb-4">
               Don't see your question here? Check our comprehensive{" "}
-              <Link href="/help" className="text-primary hover:underline">
+              <Link to="/help" className="text-primary hover:underline">
                 Help Center
               </Link>{" "}
               or contact us directly.

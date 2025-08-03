@@ -39,7 +39,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/courses/php-mysql" className="text-sm text-muted-foreground hover:text-primary">
+                <Link to="/courses/php-and-mysql-basics" className="text-sm text-muted-foreground hover:text-primary">
                   PHP
                 </Link>
               </li>

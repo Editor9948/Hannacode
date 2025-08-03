@@ -469,3 +469,4 @@
 2025-07-31 20:28:51 error: Error: Not authorized to access this route
 2025-07-31 20:28:56 error: Error: Not authorized to access this route
 2025-08-03 01:40:09 error: [31mDatabase Connection Error: querySrv ECONNREFUSED _mongodb._tcp.cluster0.jxpglfb.mongodb.net[39m
+2025-08-03 09:06:46 error: Error: Premium subscription required to access this content
