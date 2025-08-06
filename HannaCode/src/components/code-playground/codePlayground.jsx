@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../components/ui/ta
 import { Card } from "../../components/ui/card"
 import { Play, Download, Copy, Save } from "lucide-react"
 import { useToast } from "../../hooks/useToast"
-import { codeApi } from "../../lib/api"
+import { codeApi } from "../../lib/compilerApi"
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { dracula} from 'react-syntax-highlighter/dist/esm/styles/prism'
 
@@ -87,41 +87,73 @@ export default function CodePlayground({
 
     setOutput("Running...");
     setError(null);
+    setIsRunning(true);
 
     try {
-      let response;
-      if (activeTab === "js") {
-        response = await codeApi.executeJavaScript(js);
-      } else if (activeTab === "cpp") {
-        if (cpp.includes("cin")) {
-          setOutput("Note: Interactive input (cin) is not supported in the playground. Please modify your code to use hardcoded values or remove cin statements.");
-          return;
-        }
-        response = await codeApi.executeCpp(cpp);
-      } else if(activeTab === "py"){
-        response = await codeApi.executePython(py)
-      } else {
+      // For HTML and CSS tabs, just show the content directly
+      if (activeTab === "html" || activeTab === "css") {
         setOutput(activeTab === "html" ? html : css);
+        setIsRunning(false);
         return;
       }
 
-      console.log('Code execution response:', response);
+      let code, language;
+      
+      switch (activeTab) {
+        case "js":
+          code = js;
+          language = "javascript";
+          break;
+        case "cpp":
+          code = cpp;
+          language = "cpp";
+          
+          // Simple HTML entity decode for specific C++ operators
+          code = code
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+            .replace(/&amp;/g, '&')
+            .replace(/&quot;/g, '"')
+            .replace(/&#39;/g, "'");
+          
+          if (code.includes("cin")) {
+            setOutput("Note: Interactive input (cin) is not supported. Please modify your code to use hardcoded values.");
+            setIsRunning(false);
+            return;
+          }
 
+          // Log the code being sent
+          console.log('Sending C++ code:', code);
+          break;
+        case "py":
+          code = py;
+          language = "python";
+          break;
+        default:
+          setOutput("Please select a language tab (JavaScript, C++, or Python)");
+          setIsRunning(false);
+          return;
+      }
+
+      console.log('Executing code for language:', language);
+      const response = await codeApi.executeCode(language, code);
+      console.log('Code execution response:', response);
+      
       if (response.success) {
+        setOutput(response.output || 'No output');
         if (response.error) {
           setError(response.error);
-          setOutput("");
-        } else {
-          setOutput(response.output || "No output");
         }
       } else {
-        setError(response.error || "Unknown error occurred");
-        setOutput("");
+        setError(response.error || 'An error occurred while running the code');
+        setOutput('Execution failed. See error above.');
       }
     } catch (error) {
-      console.error("Code execution error:", error);
-      setError(error.message || "Error executing code");
-      setOutput("");
+      console.error('Error executing code:', error);
+      setError(error.message || 'An unexpected error occurred');
+      setOutput('Execution failed. See error above.');
+    } finally {
+      setIsRunning(false);
     }
   };
 
@@ -338,9 +370,23 @@ ${py}
                 <div className="relative h-full overflow-auto">
                   <textarea
                     value={cpp}
-                    onChange={(e) => setCpp(e.target.value)}
+                    onChange={(e) => {
+                      const newCode = e.target.value;
+                      // Convert HTML entities back to characters
+                      const decodedCode = newCode
+                        .replace(/&lt;/g, '<')
+                        .replace(/&gt;/g, '>')
+                        .replace(/&amp;/g, '&')
+                        .replace(/&quot;/g, '"')
+                        .replace(/&#39;/g, "'");
+                      setCpp(decodedCode);
+                    }}
                     className="absolute inset-0 w-full h-full p-3 sm:p-4 bg-transparent text-transparent caret-white font-mono resize-none focus:outline-none focus:ring-2 focus:ring-primary rounded-md text-sm sm:text-base z-10"
                     placeholder="// Write your C++ here"
+                    spellCheck="false"
+                    autoCapitalize="none"
+                    autoComplete="off"
+                    autoCorrect="off"
                   />
                   <SyntaxHighlighter
                     language="cpp"
@@ -351,6 +397,11 @@ ${py}
                       margin: 0,
                       padding: '1rem',
                     }}
+                    PreTag={({ children, ...props }) => (
+                      <pre {...props} className="!m-0 !bg-transparent">
+                        {children}
+                      </pre>
+                    )}
                   >
                     {cpp}
                   </SyntaxHighlighter>

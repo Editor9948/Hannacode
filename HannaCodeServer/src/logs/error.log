@@ -475,3 +475,5 @@
 2025-08-04 01:30:38 error: [31mError: getaddrinfo ENOTFOUND ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m
 2025-08-04 01:32:33 error: [31mDatabase Connection Error: querySrv ETIMEOUT _mongodb._tcp.cluster0.jxpglfb.mongodb.net[39m
 2025-08-04 01:37:00 error: [31mError: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "User"[39m
+2025-08-06 22:06:52 error: [31mDatabase Connection Error: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/[39m
+2025-08-06 22:21:39 error: [31mDatabase Connection Error: querySrv ESERVFAIL _mongodb._tcp.cluster0.jxpglfb.mongodb.net[39m

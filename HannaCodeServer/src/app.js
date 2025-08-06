@@ -18,7 +18,8 @@ const errorHandler = require("./middleware/errorMiddleware")
 const connectDB = require("./config/database")
 const logger = require("./utils/logger")
 require("./models/Module");
-const socketService = require("./services/socketService")
+const socketService = require("./services/socketService");
+const compilerRoutes = require("./routes/compilerRoutes");
 
 // Load env vars
 dotenv.config()
@@ -115,6 +116,7 @@ app.get("/api/v1/test", (req, res) => {
 });
 
 // Mount routers
+app.use("/api/v1/compiler", compilerRoutes)
 app.use("/api/v1/auth", authRoutes)
 app.use("/api/v1/courses", courseRoutes)
 app.use("/api/v1/lessons", lessonRoutes)
