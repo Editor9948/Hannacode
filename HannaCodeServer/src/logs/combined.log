@@ -1759,3 +1759,29 @@
 2025-08-04 00:41:30 info: Socket.IO initialized
 2025-08-04 00:41:30 info: [1m[33mServer running in development mode on port 5000[39m[22m
 2025-08-04 00:41:33 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-04 01:04:15 info: Socket.IO initialized
+2025-08-04 01:04:15 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-04 01:04:23 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-01.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-04 01:05:41 error: MongoPoolClearedError: Connection pool for ac-cktbf1f-shard-00-01.jxpglfb.mongodb.net:27017 was cleared because another operation failed with: "connection <monitor> to 89.192.8.203:27017 closed"
+2025-08-04 01:27:23 error: [31mError: connect ETIMEDOUT 89.192.8.203:27017[39m
+2025-08-04 01:28:14 info: Socket.IO initialized
+2025-08-04 01:28:14 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-04 01:28:52 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-04 01:30:38 error: [31mError: getaddrinfo ENOTFOUND ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m
+2025-08-04 01:31:30 info: Socket.IO initialized
+2025-08-04 01:31:30 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-04 01:32:07 info: Socket.IO initialized
+2025-08-04 01:32:07 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-04 01:32:33 error: [31mDatabase Connection Error: querySrv ETIMEOUT _mongodb._tcp.cluster0.jxpglfb.mongodb.net[39m
+2025-08-04 01:34:45 info: Socket.IO initialized
+2025-08-04 01:34:45 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-04 01:34:53 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-01.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-04 01:37:00 error: [31mError: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "User"[39m
+2025-08-04 01:37:59 info: Socket.IO initialized
+2025-08-04 01:37:59 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-04 19:33:12 info: Socket.IO initialized
+2025-08-04 19:33:12 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-04 19:33:15 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-01.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-04 20:45:06 info: Socket.IO initialized
+2025-08-04 20:45:06 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-04 20:45:11 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-01.jxpglfb.mongodb.net[39m[24m[22m

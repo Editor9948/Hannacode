@@ -1,0 +1,25 @@
+/* Override any network-loaded styles */
+:root {
+  --primary: 142 71% 45% !important;
+}
+
+/* Force primary color classes to use the correct color */
+.bg-primary {
+  background-color: hsl(142 71% 45%) !important;
+}
+
+.text-primary {
+  color: hsl(142 71% 45%) !important;
+}
+
+.border-primary {
+  border-color: hsl(142 71% 45%) !important;
+}
+
+.hover\:bg-primary:hover {
+  background-color: hsl(142 71% 45%) !important;
+}
+
+.hover\:text-primary:hover {
+  color: hsl(142 71% 45%) !important;
+}

@@ -1816,4 +1816,4 @@ module.exports = {
     getAccessibilityCodeExplanation,
     getAccessibilityExercises,
     getAccessibilityQuiz
-    };
+    }; 

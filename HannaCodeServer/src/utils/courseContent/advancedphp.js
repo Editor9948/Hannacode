@@ -1248,7 +1248,7 @@ $response = $client->put('/v1/agent/service/register', [
     'json' => [
         'Name' => 'user-service',
         'ID' => 'user-service-1',
-        'Address' => '127.0.0.1',
+        'Address' => '127.0.0.1', 
         'Port' => 8080
     ]
 ]);

@@ -1,6 +1,7 @@
 "use client"
 
-import  React from "react"
+
+import React, { useEffect } from "react"
 
 import { useState } from "react"
 import {Link} from "react-router-dom"
@@ -16,6 +17,22 @@ import { useToast } from "../hooks/useToast"
 
 export default function ContactPage() {
   const { toast } = useToast()
+
+  // Hide Tawk widget on page load, even if script loads after React
+  useEffect(() => {
+    function hideTawk() {
+      if (window.Tawk_API && window.Tawk_API.hide) {
+        window.Tawk_API.hide();
+      }
+    }
+    // Hide immediately if already loaded
+    hideTawk();
+    // Also set onLoad callback for late script load
+    window.Tawk_API = window.Tawk_API || {};
+    window.Tawk_API.onLoad = function() {
+      hideTawk();
+    };
+  }, []);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -129,7 +146,13 @@ export default function ContactPage() {
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground mb-2">Chat with our support team:</p>
-            <Button className="bg-primary hover:bg-primary/90">Start Chat</Button>
+            <Button className="bg-primary hover:bg-primary/90"
+              onClick={() => {
+                if (window.Tawk_API && window.Tawk_API.maximize) {
+                  window.Tawk_API.maximize();
+                }
+              }}
+            >Start Chat</Button>
           </CardContent>
         </Card>
       </div>
