@@ -1,18 +1,16 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
-import { Menu, X, Code, Moon, Sun, User, LogOut, Settings as SettingsIcon, LayoutDashboardIcon } from "lucide-react";
+import { Menu, X, Moon, Sun, User, LogOut, Settings as SettingsIcon, LayoutDashboardIcon } from "lucide-react";
 import { useTheme } from "next-themes";
 import { cn } from "../../lib/utils";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
-import { useMobile } from "../../hooks/useMobile";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const pathname = location.pathname;
   const { theme, setTheme } = useTheme();
-  const isMobile = useMobile();
   const navigate = useNavigate();
 
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
@@ -39,6 +37,7 @@ export default function Navbar() {
     { name: "Courses", path: "/courses" },
     { name: "Pricing", path: "/pricing" },
     { name: "About", path: "/about" },
+
     
     
     
@@ -120,6 +119,13 @@ export default function Navbar() {
                       <LayoutDashboardIcon className="mr-2 h-4 w-4" /> dashboard
                     </Link>
                   </DropdownMenuItem>
+
+                   <DropdownMenuItem asChild>
+                    <Link to="/settings">
+                      <SettingsIcon className="mr-2 h-4 w-4" /> Settings
+                    </Link>
+                  </DropdownMenuItem>
+
                   <DropdownMenuItem onClick={handleLogout}>
                     <LogOut className="mr-2 h-4 w-4" /> Logout
                   </DropdownMenuItem>
@@ -175,6 +181,11 @@ export default function Navbar() {
                   <Link to="/dashboard" onClick={() => setIsMenuOpen(false)}>
                     <Button variant="outline" className="w-full flex items-center justify-start">
                       <LayoutDashboardIcon className="mr-2 h-4 w-4" /> Dashboard
+                    </Button>
+                  </Link>
+                  <Link to="/setting" onClick={() => setIsMenuOpen(false)}>
+                    <Button variant="outline" className="w-full flex items-center justify-start">
+                      <SettingsIcon className="mr-2 h-4 w-4" /> Settings
                     </Button>
                   </Link>
                   <Button

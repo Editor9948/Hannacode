@@ -77,8 +77,9 @@ const CourseSchema = new mongoose.Schema(
       default: 0,
     },
     instructor: {
-      type: String,
-      default: "HannaCode Team",
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null, // Changed from string default to null for proper ObjectId reference
     },
     createdAt: {
       type: Date,

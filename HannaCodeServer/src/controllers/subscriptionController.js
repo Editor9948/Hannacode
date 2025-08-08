@@ -2,7 +2,7 @@ const Subscription = require("../models/Subscription")
 const User = require("../models/User")
 const asyncHandler = require("../middleware/async")
 const ErrorResponse = require("../utils/errorResponse")
-const stripe = require("../services/stripeService")
+const stripe = require("../services/paystackService")
 const { sendEmail } = require("../services/emailService")
 
 // @desc    Get subscription plans
@@ -14,7 +14,7 @@ exports.getSubscriptionPlans = asyncHandler(async (req, res, next) => {
       id: "monthly",
       name: "Monthly Plan",
       description: "Access to all courses and features for one month",
-      price: 19.99,
+      price: 30000,
       interval: "month",
       features: ["Access to all courses", "Coding playground", "Course certificates", "Community access"],
     },
@@ -22,7 +22,7 @@ exports.getSubscriptionPlans = asyncHandler(async (req, res, next) => {
       id: "annual",
       name: "Annual Plan",
       description: "Access to all courses and features for one year (save 20%)",
-      price: 191.9, // 19.99 * 12 * 0.8 (20% discount)
+      price: 288000, // 30000 * 12 * 0.8 (20% discount)
       interval: "year",
       features: [
         "Access to all courses",
@@ -37,7 +37,7 @@ exports.getSubscriptionPlans = asyncHandler(async (req, res, next) => {
       id: "lifetime",
       name: "Lifetime Access",
       description: "One-time payment for lifetime access",
-      price: 499.99,
+      price: 499999,
       interval: "one-time",
       features: [
         "Lifetime access to all courses",
@@ -117,7 +117,7 @@ exports.createSubscription = asyncHandler(async (req, res, next) => {
 
   // Handle different subscription types
   if (plan === "monthly") {
-    price = 1999 // $19.99 in cents
+    price = 3000000 // ₦30,000 in kobo
 
     // Create subscription in Stripe
     subscriptionData = await stripe.subscriptions.create({
@@ -158,7 +158,7 @@ exports.createSubscription = asyncHandler(async (req, res, next) => {
       payment_behavior: "default_incomplete",
       expand: ["latest_invoice.payment_intent"],
     })
-  price = 1999 // for your own DB record, if needed
+  price = 3000000 // for your own DB record, if needed
   } else if (plan === "annual") {
     // Use Stripe Price ID for recurring product
     subscriptionData = await stripe.subscriptions.create({
@@ -331,6 +331,57 @@ exports.cancelSubscription = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     success: true,
     data: subscription,
+  })
+})
+
+// @desc    Get current user's subscription
+// @route   GET /api/subscriptions/current
+// @access  Private
+exports.getCurrentSubscription = asyncHandler(async (req, res, next) => {
+  const subscription = await Subscription.findOne({
+    user: req.user.id,
+    status: { $in: ["active", "trialing", "past_due"] },
+  })
+    .populate("user", "name email")
+    .sort({ createdAt: -1 })
+
+  if (!subscription) {
+    return res.status(200).json({
+      success: true,
+      data: null,
+      message: "No active subscription found",
+    })
+  }
+
+  // Format the subscription data for frontend
+  const subscriptionData = {
+    id: subscription._id,
+    plan: subscription.plan,
+    status: subscription.status,
+    currentPeriodStart: subscription.currentPeriodStart,
+    currentPeriodEnd: subscription.currentPeriodEnd,
+    cancelAtPeriodEnd: subscription.cancelAtPeriodEnd,
+    price: subscription.price,
+    currency: subscription.currency || 'NGN',
+    paymentMethod: subscription.paymentMethod,
+    createdAt: subscription.createdAt,
+    updatedAt: subscription.updatedAt,
+    nextBillingDate: subscription.currentPeriodEnd,
+    // Format plan name for display
+    planName: subscription.plan === 'monthly' ? 'Premium Monthly' : 
+             subscription.plan === 'annual' ? 'Premium Annual' : 
+             subscription.plan === 'lifetime' ? 'Lifetime Access' : 
+             subscription.plan,
+    // Format status for display
+    statusDisplay: subscription.status === 'active' ? 'Active' :
+                  subscription.status === 'trialing' ? 'Trial' :
+                  subscription.status === 'past_due' ? 'Past Due' :
+                  subscription.status,
+  }
+
+  res.status(200).json({
+    success: true,
+    data: subscriptionData,
   })
 })
 

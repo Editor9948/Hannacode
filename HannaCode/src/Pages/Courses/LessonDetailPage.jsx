@@ -12,7 +12,7 @@ import "react-syntax-highlighter/dist/esm/languages/prism/markup";
 import "react-syntax-highlighter/dist/esm/languages/prism/cpp"; 
 
 
-const API_URL = process.env.REACT_APP_API_URL 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/v1'; 
 
 const LessonDetailPage = () => {
   const { slug, lessonId } = useParams();
@@ -23,6 +23,13 @@ const LessonDetailPage = () => {
   const [error, setError] = useState(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
+  const [completingLesson, setCompletingLesson] = useState(false);
+
+  // Get user info for access control
+  const user = JSON.parse(localStorage.getItem("user"));
+  const isAdminOrMentor = user && (user.role === "admin" || user.role === "mentor");
+  const isPremiumUser = user && user.role === "premium";
 
   // Quiz state
   const [quizStep, setQuizStep] = useState(0);
@@ -120,6 +127,70 @@ const LessonDetailPage = () => {
       }
     }, 1000);
   };
+
+  // Handle lesson completion
+  const markLessonComplete = async () => {
+    if (!course?._id || !lesson?._id) return;
+    
+    setCompletingLesson(true);
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${API_URL}/progress/${course._id}/lessons/${lesson._id}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          completed: true,
+          timeSpent: 0, // You can track actual time spent
+          quizScore: quizDone ? quizScore : null,
+          challengeCompleted: false
+        })
+      });
+
+      if (response.ok) {
+        setIsCompleted(true);
+        // You could also show a success message or redirect to next lesson
+        console.log('Lesson marked as complete!');
+      } else {
+        console.error('Failed to mark lesson as complete');
+      }
+    } catch (error) {
+      console.error('Error marking lesson as complete:', error);
+    } finally {
+      setCompletingLesson(false);
+    }
+  };
+
+  // Check if lesson is already completed
+  useEffect(() => {
+    const checkLessonCompletion = async () => {
+      if (!course?._id || !lesson?._id) return;
+      
+      try {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`${API_URL}/progress/${course._id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success && data.data.lessons) {
+            const completedLesson = data.data.lessons.find(l => l._id === lesson._id);
+            setIsCompleted(!!completedLesson?.isCompleted);
+          }
+        }
+      } catch (error) {
+        console.error('Error checking lesson completion:', error);
+      }
+    };
+
+    checkLessonCompletion();
+  }, [course?._id, lesson?._id]);
 
   const renderQuizInteractive = (lesson) => {
     if (!lesson.quiz || lesson.quiz.length === 0) return null;
@@ -294,6 +365,41 @@ const LessonDetailPage = () => {
     );
   }
 
+  // Check premium access for premium courses
+  if (course?.isPremium && !isAdminOrMentor && !isPremiumUser && !lesson?.isFree) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+          <h2 className="text-blue-800 font-semibold mb-2">🔒 Premium Content</h2>
+          <p className="text-blue-600 mb-4">This lesson is part of a premium course. Subscribe to get access to all premium content.</p>
+          <div className="space-y-3">
+            <p className="text-sm text-blue-700">With premium access, you get:</p>
+            <ul className="list-disc ml-6 text-sm text-blue-700 space-y-1">
+              <li>Access to all premium courses and lessons</li>
+              <li>1-on-1 mentorship sessions</li>
+              <li>Code reviews by experts</li>
+              <li>Certification upon completion</li>
+            </ul>
+          </div>
+          <div className="mt-6 flex gap-3">
+            <Link 
+              to="/pricing" 
+              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+            >
+              Get Premium Access
+            </Link>
+            <Link 
+              to={`/courses/${slug}`} 
+              className="text-blue-600 px-4 py-2 border border-blue-600 rounded-md hover:bg-blue-50 transition-colors"
+            >
+              ← Back to Course
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // Custom Markdown renderers for headings, lists, and code blocks
   const markdownComponents = {
     h2: ({ node, ...props }) => <h2 className="text-lg font-bold mt-6 mb-2 text-primary dark:text-primary" {...props} />,
@@ -416,6 +522,34 @@ const LessonDetailPage = () => {
             </div>
             {/* Quiz */}
             {renderQuizInteractive(lesson)}
+            
+            {/* Lesson Completion */}
+            <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-lg font-semibold mb-1">Lesson Progress</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    {isCompleted ? "✅ You have completed this lesson" : "Mark this lesson as complete when you're done"}
+                  </p>
+                </div>
+                <button
+                  onClick={markLessonComplete}
+                  disabled={completingLesson || isCompleted}
+                  className={`px-6 py-2 rounded-lg font-medium transition-colors ${
+                    isCompleted 
+                      ? "bg-green-500 text-white cursor-default" 
+                      : "bg-primary hover:bg-primary/90 text-white disabled:opacity-50"
+                  }`}
+                >
+                  {completingLesson 
+                    ? "Saving..." 
+                    : isCompleted 
+                      ? "✓ Completed" 
+                      : "Mark Complete"
+                  }
+                </button>
+              </div>
+            </div>
           </div>
           <div className="mt-6 text-sm text-gray-500 dark:text-gray-400">
             Duration: {lesson.duration || "N/A"} min | {lesson.isPublished ? "Published" : "Draft"}

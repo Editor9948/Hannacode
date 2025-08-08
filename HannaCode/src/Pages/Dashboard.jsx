@@ -9,11 +9,12 @@ import { ArrowRight, BookOpen, Clock, Award, BarChart, BookMarked, CheckCircle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs"
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar"
 
-const API_URL = process.env.REACT_APP_API_URL 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/v1'; 
 export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState("in-progress")
   const [inProgressCourses, setInProgressCourses] = useState([])
   const [completedCourses, setCompletedCourses] = useState([])
+  const [certificates, setCertificates] = useState([])
   const [recommendedCourses, setRecommendedCourses] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
@@ -36,33 +37,102 @@ const role = user?.role;
       setError("");
       try {
         const token = localStorage.getItem("token");
+        console.log("Fetching progress from:", `${API_URL}/progress`);
+        console.log("Token exists:", !!token);
+        
         const res = await fetch(`${API_URL}/progress`, {
           headers: { Authorization: `Bearer ${token}` }
         });
+        
+        console.log("Progress response status:", res.status);
         const data = await res.json();
+        console.log("Progress response data:", data);
+        
         if (!data.success) throw new Error(data.message || "Failed to fetch progress");
         setInProgressCourses(data.data.inProgress || []);
         setCompletedCourses(data.data.completed || []);
       } catch (err) {
+        console.error("Progress fetch error:", err);
         setError(err.message || "Failed to load dashboard.");
       } finally {
         setLoading(false);
       }
     };
-    fetchProgress();
-  }, [location.pathname]);
 
-  // Example static mentorships (replace with backend if needed)
-  const upcomingMentorships = [
-    {
-      id: 1,
-      mentor: "Alex Johnson",
-      role: "Senior Frontend Developer",
-      date: "May 18, 2025",
-      time: "3:00 PM - 3:30 PM",
-      avatar: "/placeholder.svg?height=40&width=40",
-    },
-  ]
+    const fetchCertificates = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await fetch(`${API_URL}/progress/certificates`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success) {
+            setCertificates(data.data || []);
+          }
+        }
+      } catch (err) {
+        console.error("Certificates fetch error:", err);
+        // Don't set error state for certificates, just log it
+      }
+    };
+
+    fetchProgress();
+    fetchCertificates();
+    
+    // Fetch mentorship sessions for premium users
+    if (user?.role === "premium" || user?.role === "admin") {
+      fetchMentorshipSessions();
+    }
+  }, [location.pathname, user?.role]);
+
+  // Fetch mentorship sessions
+  const fetchMentorshipSessions = async () => {
+    setMentorshipLoading(true);
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${API_URL}/mentorship/sessions`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success) {
+          // Filter for upcoming sessions and format for display
+          const upcoming = data.data
+            .filter(session => 
+              (session.status === 'pending' || session.status === 'confirmed') &&
+              new Date(session.scheduledDate) > new Date()
+            )
+            .slice(0, 3) // Show only next 3 sessions
+            .map(session => ({
+              id: session._id,
+              mentor: session.mentorId?.name || "Unknown Mentor",
+              role: session.mentorId?.role || "Mentor",
+              date: new Date(session.scheduledDate).toLocaleDateString(),
+              time: new Date(session.scheduledDate).toLocaleTimeString([], { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: true 
+              }),
+              avatar: session.mentorId?.profileImage || "/placeholder.svg?height=40&width=40",
+              meetingUrl: session.meetingUrl,
+              topic: session.topic
+            }));
+          setUpcomingMentorships(upcoming);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching mentorship sessions:", error);
+    } finally {
+      setMentorshipLoading(false);
+    }
+  };
+
+  // Fetch real mentorship sessions
+  const [upcomingMentorships, setUpcomingMentorships] = useState([])
+  const [mentorshipLoading, setMentorshipLoading] = useState(false)
 useEffect(() => {
   if (role === "admin") {
     const fetchStats = async () => {
@@ -237,9 +307,10 @@ if (role === "mentor") {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
           <Tabs defaultValue="in-progress" className="w-full" onValueChange={setActiveTab}>
-            <TabsList className="grid w-full grid-cols-2 mb-6">
+            <TabsList className="grid w-full grid-cols-3 mb-6">
               <TabsTrigger value="in-progress">In Progress</TabsTrigger>
               <TabsTrigger value="completed">Completed</TabsTrigger>
+              <TabsTrigger value="certificates">Certificates</TabsTrigger>
             </TabsList>
             <TabsContent value="in-progress" className="space-y-4">
               {loading ? (
@@ -331,11 +402,40 @@ if (role === "mentor") {
                           </span>
                         </div>
                         <div className="flex gap-2">
-                          <Link to={course.path || `/courses/${course._id || course.id}`}>
-                            <Button variant="outline">
-                              <Award className="mr-2 h-4 w-4" /> View Certificate
+                          {course.certificate && course.certificate.certificateId ? (
+                            <Link to={`/certificate/${course.certificate.certificateId}`}>
+                              <Button variant="outline">
+                                <Award className="mr-2 h-4 w-4" /> View Certificate
+                              </Button>
+                            </Link>
+                          ) : (
+                            <Button 
+                              variant="outline"
+                              onClick={async () => {
+                                try {
+                                  const token = localStorage.getItem("token");
+                                  const response = await fetch(`${API_URL}/progress/${course._id}/certificate`, {
+                                    headers: { Authorization: `Bearer ${token}` }
+                                  });
+                                  
+                                  if (response.ok) {
+                                    const data = await response.json();
+                                    if (data.success && data.data.certificateId) {
+                                      // Navigate to certificate page
+                                      window.location.href = `/certificate/${data.data.certificateId}`;
+                                    }
+                                  } else {
+                                    alert('Failed to get certificate. Please try again.');
+                                  }
+                                } catch (error) {
+                                  console.error('Certificate error:', error);
+                                  alert('Error getting certificate. Please try again.');
+                                }
+                              }}
+                            >
+                              <Award className="mr-2 h-4 w-4" /> Get Certificate
                             </Button>
-                          </Link>
+                          )}
                           <Link to={`${course.path || `/courses/${course._id || course.id}`}/review`}>
                             <Button variant="ghost">Review Course</Button>
                           </Link>
@@ -351,6 +451,67 @@ if (role === "mentor") {
                     <h3 className="text-xl font-bold mb-2">No completed courses yet</h3>
                     <p className="text-muted-foreground mb-4">
                       Keep learning and you'll earn your first certificate soon!
+                    </p>
+                    <Link to="/courses">
+                      <Button className="bg-primary hover:bg-primary/90">Browse Courses</Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              )}
+            </TabsContent>
+            <TabsContent value="certificates" className="space-y-4">
+              {loading ? (
+                <p>Loading...</p>
+              ) : certificates.length > 0 ? (
+                certificates.map((certificate) => (
+                  <Card key={certificate._id} className="overflow-hidden">
+                    <div className="flex flex-col md:flex-row">
+                      <div className="md:w-24 md:h-24 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+                        <Award className="h-8 w-8 text-white" />
+                      </div>
+                      <div className="flex-1 p-6">
+                        <div className="flex justify-between items-start mb-2">
+                          <div>
+                            <h3 className="text-lg font-semibold mb-1">{certificate.course.title}</h3>
+                            <p className="text-sm text-muted-foreground mb-2">{certificate.course.category}</p>
+                            <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                              <span>Grade: {certificate.grade}</span>
+                              <span>Issued: {new Date(certificate.issuedAt).toLocaleDateString()}</span>
+                            </div>
+                          </div>
+                          <Badge variant="secondary" className="bg-green-100 text-green-800">
+                            Certified
+                          </Badge>
+                        </div>
+                        <div className="flex gap-2">
+                          <Link to={`/certificate/${certificate.certificateId}`}>
+                            <Button size="sm">
+                              <Award className="mr-2 h-4 w-4" /> View Certificate
+                            </Button>
+                          </Link>
+                          <Button 
+                            size="sm" 
+                            variant="outline"
+                            onClick={() => {
+                              const url = `${window.location.origin}/certificate/${certificate.certificateId}`;
+                              navigator.clipboard.writeText(url);
+                              alert('Certificate link copied to clipboard!');
+                            }}
+                          >
+                            Share
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
+                ))
+              ) : (
+                <Card className="p-6 text-center">
+                  <CardContent className="pt-6">
+                    <Award className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
+                    <h3 className="text-xl font-bold mb-2">No certificates yet</h3>
+                    <p className="text-muted-foreground mb-4">
+                      Complete a course to earn your first certificate!
                     </p>
                     <Link to="/courses">
                       <Button className="bg-primary hover:bg-primary/90">Browse Courses</Button>
@@ -427,7 +588,12 @@ if (role === "mentor") {
               <CardDescription>Your scheduled sessions</CardDescription>
             </CardHeader>
             <CardContent>
-              {upcomingMentorships.length > 0 ? (
+              {mentorshipLoading ? (
+                <div className="text-center py-4">
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent mx-auto mb-2" />
+                  <p className="text-sm text-muted-foreground">Loading sessions...</p>
+                </div>
+              ) : upcomingMentorships.length > 0 ? (
                 <div className="space-y-4">
                   {upcomingMentorships.map((session) => (
                     <div key={session.id} className="flex items-start gap-4">
@@ -435,14 +601,18 @@ if (role === "mentor") {
                         <AvatarImage src={session.avatar || "/placeholder.svg"} alt={session.mentor} />
                         <AvatarFallback>
                           {session.mentor
-                            .split(" ")
-                            .map((n) => n[0])
-                            .join("")}
+                            ? session.mentor.split(" ")
+                                .map((n) => n[0])
+                                .join("")
+                            : "?"}
                         </AvatarFallback>
                       </Avatar>
-                      <div>
+                      <div className="flex-1">
                         <h4 className="font-medium">{session.mentor}</h4>
                         <p className="text-sm text-muted-foreground">{session.role}</p>
+                        {session.topic && (
+                          <p className="text-xs text-muted-foreground mt-1">Topic: {session.topic}</p>
+                        )}
                         <div className="mt-2 text-sm">
                           <div className="flex items-center">
                             <svg
@@ -487,19 +657,56 @@ if (role === "mentor") {
                     </div>
                   ))}
                   <div className="pt-2">
-                    <Button variant="outline" className="w-full">
-                      Join Meeting
-                    </Button>
+                    {upcomingMentorships[0]?.meetingUrl ? (
+                      <Button 
+                        variant="outline" 
+                        className="w-full"
+                        onClick={() => window.open(upcomingMentorships[0].meetingUrl, '_blank')}
+                      >
+                        Join Next Meeting
+                      </Button>
+                    ) : (
+                      <Button variant="outline" className="w-full" asChild>
+                        <Link to="/mentorship">View All Sessions</Link>
+                      </Button>
+                    )}
                   </div>
                 </div>
               ) : (
                 <div className="text-center py-4">
                   <p className="text-muted-foreground mb-4">No upcoming sessions</p>
-                  <Button variant="outline" className="w-full">
-                    Schedule Session
+                  <Button variant="outline" className="w-full" asChild>
+                    <Link to="/mentorship">Schedule Session</Link>
                   </Button>
                 </div>
               )}
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Quick Actions</CardTitle>
+              <CardDescription>Shortcuts to important features</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Link to="/certificates" className="block">
+                <Button variant="outline" className="w-full justify-start">
+                  <Award className="mr-2 h-4 w-4" />
+                  View My Certificates ({certificates.length})
+                </Button>
+              </Link>
+              <Link to="/courses" className="block">
+                <Button variant="outline" className="w-full justify-start">
+                  <BookOpen className="mr-2 h-4 w-4" />
+                  Browse Courses
+                </Button>
+              </Link>
+              <Link to="/mentorship" className="block">
+                <Button variant="outline" className="w-full justify-start">
+                  <Clock className="mr-2 h-4 w-4" />
+                  Book Mentorship
+                </Button>
+              </Link>
             </CardContent>
           </Card>
 

@@ -15,8 +15,23 @@ export default function MentorInbox() {
         "Content-Type": "application/json",
       },
     })
-      .then((res) => res.json())
-      .then((data) => setChats(data.data || []));
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log("Mentor chats data:", data);
+        console.log("Chats array:", data.data);
+        if (data.data && data.data.length > 0) {
+          console.log("First chat structure:", data.data[0]);
+        }
+        setChats(data.data || []);
+      })
+      .catch((error) => {
+        console.error("Error fetching mentor chats:", error);
+      });
   }, [user._id, token]);
 
 
@@ -26,11 +41,27 @@ export default function MentorInbox() {
       {chats.length === 0 ? (
         <p>No messages yet.</p>
       ) : (
-        <ul>
+        <ul className="space-y-2">
           {chats.map((chat) => (
-            <li key={chat._id}>
-              <Link to={`/mentorship/chat/${chat.mentorship._id}`}>
-                Chat with {chat.username}
+            <li key={chat._id} className="border rounded-lg p-4 hover:bg-gray-50">
+              <Link to={`/mentorship/chat/${chat.mentorship._id}`} className="block">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <span className="font-medium">
+                      Chat with {chat.sender?.name || chat.sender?.username || 'Unknown User'}
+                    </span>
+                    {chat.content && (
+                      <p className="text-sm text-gray-600 mt-1 truncate">
+                        {chat.content}
+                      </p>
+                    )}
+                  </div>
+                  {chat.createdAt && (
+                    <span className="text-xs text-gray-500">
+                      {new Date(chat.createdAt).toLocaleDateString()}
+                    </span>
+                  )}
+                </div>
               </Link>
             </li>
           ))}

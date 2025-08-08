@@ -248,7 +248,7 @@ export default function CoursesPage() {
                   className={`absolute top-2 right-2 ${
                     course.isFree
                       ? "bg-primary text-white"
-                      : "bg-yellow-500 text-white"
+                      : "bg-yellow-500 text-white" 
                   }`}
                 >
                   {course.isFree ? "Free" : "Premium"}

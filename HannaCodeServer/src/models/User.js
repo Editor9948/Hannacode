@@ -62,6 +62,16 @@ location: {
       type: String,
       maxlength: [500, "Bio cannot be more than 500 characters"],
     },
+    calendlyUrl: {
+      type: String,
+      trim: true,
+      validate: {
+        validator: function(v) {
+          return !v || /^https:\/\/calendly\.com\//.test(v);
+        },
+        message: "Calendly URL must be a valid Calendly link"
+      }
+    },
     resetPasswordToken: String,
     resetPasswordExpire: Date,
     emailVerificationToken: String,

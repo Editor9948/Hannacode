@@ -9,7 +9,7 @@ export default function AboutPage() {
     {
       name: "Oladapo Ayomide.O",
       role: "Founder & Lead Instructor",
-      bio: "Oladapo has over 2 years of experience in web development and has worked with companies like Google and Facebook. He founded HannaCode to make programming education accessible to everyone.",
+      bio: "Oladapo Olotu is a web developer with over two years of hands-on experience in building modern, responsive, and user-friendly applications. He is the founder of HannaCode, an e-learning platform dedicated to making programming education accessible and engaging for learners worldwide. Passionate about technology and teaching, Oladapo combines technical expertise with a mission to empower the next generation of developers.",
       avatar: "/dapo.jpg?height=200&width=200",
     },
     {

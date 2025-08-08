@@ -43,6 +43,7 @@ const lessonRoutes = require("./routes/lessons")
 const subscriptionRoutes = require("./routes/subscriptions")
 const mentorshipRoutes = require("./routes/mentorship")
 const progressRoutes = require("./routes/progress")
+const paymentsRoutes = require("./routes/payments")
 
 
 const app = express()
@@ -122,11 +123,13 @@ app.use("/api/v1/courses", courseRoutes)
 app.use("/api/v1/lessons", lessonRoutes)
 app.use("/api/v1/subscriptions", subscriptionRoutes)
 app.use("/api/v1/mentorship", mentorshipRoutes)
-app.use("/api/v1/progress", progressRoutes)
+app.use("/api/v1/progress", progressRoutes) 
+app.use("/api/v1/payments", paymentsRoutes)
 app.use("/api/v1/admin", require("./routes/admin"));
-app.use("/api/v1/mentors", require("./routes/mentors"));
-app.use("/api/v1/chats", require("./routes/mentors")); 
+app.use("/api/v1/mentors", require("./routes/mentors")); 
+app.use("/api/v1/chats", require("./routes/mentors"));   
 app.use("/api/v1/code", require("./routes/codeExecution"));
+
 
 
 // Health check endpoint
@@ -151,4 +154,4 @@ process.on("uncaughtException", (err) => {
   process.exit(1);
 });
 
-module.exports = app
+module.exports = app 

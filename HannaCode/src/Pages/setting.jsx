@@ -1,41 +1,107 @@
 "use client"
 
 import React from "react"
-
-import { useState } from "react"
+import { useState, useEffect, useCallback } from "react"
 import {Link} from "react-router-dom"
 import { Button } from "../components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../components/ui/card"
-import { Input } from "../components/ui/input"
 import { Label } from "../components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs"
-import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar"
 import { Switch } from "../components/ui/switch"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select"
-import { AlertCircle, CheckCircle, Upload } from "lucide-react"
+import { AlertCircle, CheckCircle } from "lucide-react"
 import { Alert, AlertDescription } from "../components/ui/alert"
 import { useToast } from "../hooks/useToast"
+import CalendlySettings from "../components/CalendlySettings"
+
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/v1'
 
 export default function SettingsPage() {
   const { toast } = useToast()
-  const [isUpdating, setIsUpdating] = useState(false)
-  const [isChangingPassword, setIsChangingPassword, confirm] = useState(false)
-  const [profileImage, setProfileImage] = useState(null)
+  const [user, setUser] = useState(null)
+  const [calendlyUrl, setCalendlyUrl] = useState('')
+  const [subscription, setSubscription] = useState(null)
+  const [loadingSubscription, setLoadingSubscription] = useState(true)
 
-  // Profile form state
-  const [profileForm, setProfileForm] = useState({
-    name: "John Doe",
-    email: "john.doe@example.com",
-    username: "johndoe",
-    bio: "Web developer passionate about learning new technologies.",
-  })
+  // Fetch current Calendly URL from backend
+  const fetchCalendlyUrl = useCallback(async (userId) => {
+    try {
+      const token = localStorage.getItem('token')
+      const response = await fetch(`${API_URL}/mentorship/mentors/${userId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      })
+      
+      if (response.ok) {
+        const data = await response.json()
+        if (data.success && data.data.calendlyUrl) {
+          setCalendlyUrl(data.data.calendlyUrl)
+          // Update localStorage with latest calendly URL
+          const userData = JSON.parse(localStorage.getItem('user'))
+          const updatedUser = { ...userData, calendlyUrl: data.data.calendlyUrl }
+          localStorage.setItem('user', JSON.stringify(updatedUser))
+          setUser(updatedUser)
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching Calendly URL:', error)
+      // Fallback: For testing, if user is admin, provide a default Calendly URL
+      const userData = JSON.parse(localStorage.getItem('user'))
+      if (userData && userData.role === 'admin' && !calendlyUrl) {
+        const defaultCalendlyUrl = 'https://calendly.com/hannah-mentor'
+        setCalendlyUrl(defaultCalendlyUrl)
+        const updatedUser = { ...userData, calendlyUrl: defaultCalendlyUrl }
+        localStorage.setItem('user', JSON.stringify(updatedUser))
+        setUser(updatedUser)
+      }
+    }
+  }, [calendlyUrl])
 
-  // Password form state
-  const [passwordForm, setPasswordForm] = useState({
-    currentPassword: "",
-    newPassword: "",
-    confirmPassword: "",
-  })
+  // Load user data on mount
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user")
+    if (storedUser) {
+      const userData = JSON.parse(storedUser)
+      setUser(userData)
+      setCalendlyUrl(userData.calendlyUrl || '')
+      
+      // Fetch latest calendly URL from backend if user is mentor/admin
+      if (userData.role === 'admin' || userData.role === 'mentor') {
+        fetchCalendlyUrl(userData._id || userData.id)
+      }
+    }
+  }, [fetchCalendlyUrl])
+
+  // Fetch subscription data
+  useEffect(() => {
+    const fetchSubscription = async () => {
+      try {
+        const token = localStorage.getItem("token")
+        if (!token) return
+
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/subscriptions/current`, {
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+          }
+        })
+
+        const data = await response.json()
+        
+        if (data.success) {
+          setSubscription(data.data)
+        }
+      } catch (error) {
+        console.error("Failed to fetch subscription:", error)
+      } finally {
+        setLoadingSubscription(false)
+      }
+    }
+
+    fetchSubscription()
+  }, [])
 
   // Notification settings
   const [notifications, setNotifications] = useState({
@@ -46,84 +112,55 @@ export default function SettingsPage() {
     courseUpdates: true,
   })
 
-  // Subscription info
-  const subscriptionInfo = {
-    plan: "Premium",
-    status: "Active",
-    renewalDate: "June 15, 2025",
-    paymentMethod: "Visa ending in 4242",
-  }
-
-  const handleProfileUpdate = (e) => {
-    e.preventDefault()
-    setIsUpdating(true)
-
-    // Simulate API call
-    setTimeout(() => {
-      setIsUpdating(false)
-      toast({
-        title: "Profile updated",
-        description: "Your profile information has been updated successfully.",
-      })
-    }, 1000)
-  }
-
-  const handlePasswordChange = (e) => {
-    e.preventDefault()
-
-    // Validate passwords
-    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
-      toast({
-        title: "Passwords don't match",
-        description: "New password and confirmation password must match.",
-        variant: "destructive",
-      })
-      return
-    }
-
-    setIsChangingPassword(true)
-
-    // Simulate API call
-    setTimeout(() => {
-      setIsChangingPassword(false)
-      setPasswordForm({
-        currentPassword: "",
-        newPassword: "",
-        confirmPassword: "",
-      })
-      toast({
-        title: "Password changed",
-        description: "Your password has been changed successfully.",
-      })
-    }, 1000)
-  }
-
-  const handleImageUpload = (e) => {
-    const file = e.target.files?.[0]
-    if (file) {
-      // In a real app, you would upload the file to a server
-      // Here we're just creating a local URL for preview
-      const imageUrl = URL.createObjectURL(file)
-      setProfileImage(imageUrl)
-
-      toast({
-        title: "Image uploaded",
-        description: "Your profile image has been updated.",
-      })
-    }
-  }
-
-  const handleCancelSubscription = () => {
+  const handleCancelSubscription = async () => {
     // Show confirmation dialog
     if (
-      confirm (
+      window.confirm(
         "Are you sure you want to cancel your subscription? You will lose access to premium features at the end of your billing period.",
       )
     ) {
-      toast({
-        title: "Subscription cancelled",
-        description: "Your subscription has been cancelled. You will have access until the end of your billing period.",
-      })
+      try {
+        const token = localStorage.getItem("token")
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/subscriptions/cancel`, {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+          }
+        })
+
+        const data = await response.json()
+        
+        if (data.success) {
+          toast({
+            title: "Subscription cancelled",
+            description: "Your subscription has been cancelled. You will have access until the end of your billing period.",
+          })
+          // Refresh subscription data
+          const updatedResponse = await fetch(`${process.env.REACT_APP_API_URL}/subscriptions/current`, {
+            headers: {
+              "Authorization": `Bearer ${token}`,
+              "Content-Type": "application/json"
+            }
+          })
+          const updatedData = await updatedResponse.json()
+          if (updatedData.success) {
+            setSubscription(updatedData.data)
+          }
+        } else {
+          toast({
+            title: "Error",
+            description: data.message || "Failed to cancel subscription",
+            variant: "destructive",
+          })
+        }
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "Failed to cancel subscription. Please try again.",
+          variant: "destructive",
+        })
+      }
     }
   }
 
@@ -134,143 +171,12 @@ export default function SettingsPage() {
         <p className="text-muted-foreground">Manage your account settings and preferences</p>
       </div>
 
-      <Tabs defaultValue="profile" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="profile">Profile</TabsTrigger>
-          <TabsTrigger value="password">Password</TabsTrigger>
+      <Tabs defaultValue="notifications" className="w-full">
+        <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="notifications">Notifications</TabsTrigger>
+          <TabsTrigger value="calendly">Calendly</TabsTrigger>
           <TabsTrigger value="subscription">Subscription</TabsTrigger>
         </TabsList>
-
-        <TabsContent value="profile" className="mt-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Profile Information</CardTitle>
-              <CardDescription>Update your personal information and public profile</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="flex flex-col md:flex-row gap-6 items-start">
-                <div className="flex flex-col items-center gap-4">
-                  <Avatar className="h-24 w-24">
-                    <AvatarImage src={profileImage || "/placeholder.svg?height=96&width=96"} alt="Profile" />
-                    <AvatarFallback>JD</AvatarFallback>
-                  </Avatar>
-                  <div className="flex flex-col items-center gap-2">
-                    <Label
-                      htmlFor="picture"
-                      className="cursor-pointer text-sm font-medium text-primary hover:underline flex items-center"
-                    >
-                      <Upload className="mr-2 h-4 w-4" /> Upload Photo
-                    </Label>
-                    <Input id="picture" type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
-                    <p className="text-xs text-muted-foreground">JPG, GIF or PNG. Max size 2MB.</p>
-                  </div>
-                </div>
-
-                <form onSubmit={handleProfileUpdate} className="flex-1 space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="name">Full Name</Label>
-                      <Input
-                        id="name"
-                        value={profileForm.name}
-                        onChange={(e) => setProfileForm({ ...profileForm, name: e.target.value })}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="username">Username</Label>
-                      <Input
-                        id="username"
-                        value={profileForm.username}
-                        onChange={(e) => setProfileForm({ ...profileForm, username: e.target.value })}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      value={profileForm.email}
-                      onChange={(e) => setProfileForm({ ...profileForm, email: e.target.value })}
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="bio">Bio</Label>
-                    <textarea
-                      id="bio"
-                      className="w-full min-h-[100px] p-3 rounded-md border border-input bg-background"
-                      value={profileForm.bio}
-                      onChange={(e) => setProfileForm({ ...profileForm, bio: e.target.value })}
-                    />
-                  </div>
-
-                  <Button type="submit" className="bg-primary hover:bg-primary/90" disabled={isUpdating}>
-                    {isUpdating ? "Updating..." : "Update Profile"}
-                  </Button>
-                </form>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="password" className="mt-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Change Password</CardTitle>
-              <CardDescription>Update your password to keep your account secure</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handlePasswordChange} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="current-password">Current Password</Label>
-                  <Input
-                    id="current-password"
-                    type="password"
-                    value={passwordForm.currentPassword}
-                    onChange={(e) => setPasswordForm({ ...passwordForm, currentPassword: e.target.value })}
-                    required
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="new-password">New Password</Label>
-                  <Input
-                    id="new-password"
-                    type="password"
-                    value={passwordForm.newPassword}
-                    onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
-                    required
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="confirm-password">Confirm New Password</Label>
-                  <Input
-                    id="confirm-password"
-                    type="password"
-                    value={passwordForm.confirmPassword}
-                    onChange={(e) => setPasswordForm({ ...passwordForm, confirmPassword: e.target.value })}
-                    required
-                  />
-                </div>
-
-                <Alert>
-                  <AlertCircle className="h-4 w-4" />
-                  <AlertDescription>
-                    Password must be at least 8 characters and include a mix of letters, numbers, and symbols.
-                  </AlertDescription>
-                </Alert>
-
-                <Button type="submit" className="bg-primary hover:bg-primary/90" disabled={isChangingPassword}>
-                  {isChangingPassword ? "Changing Password..." : "Change Password"}
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
-        </TabsContent>
 
         <TabsContent value="notifications" className="mt-6">
           <Card>
@@ -355,6 +261,42 @@ export default function SettingsPage() {
           </Card>
         </TabsContent>
 
+        <TabsContent value="calendly" className="mt-6">
+          <div className="space-y-6">
+            {user && (user.role === 'admin' || user.role === 'mentor') ? (
+              <CalendlySettings
+                mentorId={user._id || user.id}
+                currentUrl={calendlyUrl}
+                onUpdate={(newUrl) => {
+                  setCalendlyUrl(newUrl)
+                  // Update user data in localStorage
+                  const updatedUser = { ...user, calendlyUrl: newUrl }
+                  localStorage.setItem('user', JSON.stringify(updatedUser))
+                  setUser(updatedUser)
+                }}
+              />
+            ) : (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Calendly Integration</CardTitle>
+                  <CardDescription>
+                    This feature is only available for mentors and administrators
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Alert>
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertDescription>
+                      To access Calendly integration, you need to have mentor or administrator privileges.
+                      Contact support if you believe you should have access to this feature.
+                    </AlertDescription>
+                  </Alert>
+                </CardContent>
+              </Card>
+            )}
+          </div>
+        </TabsContent>
+
         <TabsContent value="subscription" className="mt-6">
           <Card>
             <CardHeader>
@@ -362,95 +304,142 @@ export default function SettingsPage() {
               <CardDescription>Manage your subscription plan and payment details</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="bg-lavender/30 dark:bg-primary/5 rounded-md p-4 flex items-start gap-4">
-                <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
-                <div>
-                  <h3 className="font-medium">Premium Plan - Active</h3>
-                  <p className="text-sm text-muted-foreground">
-                    You have full access to all premium features, courses, and mentorship.
-                  </p>
+              {loadingSubscription ? (
+                <div className="text-center py-8">
+                  <p className="text-muted-foreground">Loading subscription details...</p>
                 </div>
-              </div>
-
-              <div className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <h3 className="text-sm font-medium text-muted-foreground mb-1">Current Plan</h3>
-                    <p className="font-medium">{subscriptionInfo.plan}</p>
+              ) : subscription ? (
+                <>
+                  <div className="bg-lavender/30 dark:bg-primary/5 rounded-md p-4 flex items-start gap-4">
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5" />
+                    <div>
+                      <h3 className="font-medium">{subscription.planName} - {subscription.statusDisplay}</h3>
+                      <p className="text-sm text-muted-foreground">
+                        {subscription.plan === 'lifetime' 
+                          ? 'You have lifetime access to all premium features, courses, and mentorship.'
+                          : 'You have full access to all premium features, courses, and mentorship.'
+                        }
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="text-sm font-medium text-muted-foreground mb-1">Status</h3>
-                    <p className="font-medium">{subscriptionInfo.status}</p>
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-medium text-muted-foreground mb-1">Next Billing Date</h3>
-                    <p className="font-medium">{subscriptionInfo.renewalDate}</p>
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-medium text-muted-foreground mb-1">Payment Method</h3>
-                    <p className="font-medium">{subscriptionInfo.paymentMethod}</p>
-                  </div>
-                </div>
-
-                <div className="pt-4 border-t">
-                  <h3 className="text-lg font-medium mb-4">Manage Subscription</h3>
 
                   <div className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="billing-cycle">Billing Cycle</Label>
-                      <Select defaultValue="monthly">
-                        <SelectTrigger id="billing-cycle">
-                          <SelectValue placeholder="Select billing cycle" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="monthly">Monthly ($29/month)</SelectItem>
-                          <SelectItem value="annual">Annual ($290/year - Save 20%)</SelectItem>
-                        </SelectContent>
-                      </Select>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <h3 className="text-sm font-medium text-muted-foreground mb-1">Current Plan</h3>
+                        <p className="font-medium">{subscription.planName}</p>
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-medium text-muted-foreground mb-1">Status</h3>
+                        <p className="font-medium">
+                          <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                            subscription.status === 'active' ? 'bg-green-100 text-green-800' :
+                            subscription.status === 'trialing' ? 'bg-blue-100 text-blue-800' :
+                            subscription.status === 'past_due' ? 'bg-red-100 text-red-800' :
+                            'bg-gray-100 text-gray-800'
+                          }`}>
+                            {subscription.statusDisplay}
+                          </span>
+                        </p>
+                      </div>
+                      {subscription.plan !== 'lifetime' && (
+                        <div>
+                          <h3 className="text-sm font-medium text-muted-foreground mb-1">Next Billing Date</h3>
+                          <p className="font-medium">
+                            {subscription.nextBillingDate 
+                              ? new Date(subscription.nextBillingDate).toLocaleDateString('en-US', {
+                                  year: 'numeric',
+                                  month: 'long',
+                                  day: 'numeric'
+                                })
+                              : 'N/A'
+                            }
+                          </p>
+                        </div>
+                      )}
+                      <div>
+                        <h3 className="text-sm font-medium text-muted-foreground mb-1">
+                          {subscription.plan === 'lifetime' ? 'Total Paid' : 'Price'}
+                        </h3>
+                        <p className="font-medium">
+                          {subscription.currency === 'NGN' ? '₦' : '$'}
+                          {subscription.price?.toLocaleString() || 'N/A'}
+                          {subscription.plan !== 'lifetime' && (
+                            <span className="text-sm text-muted-foreground">
+                              /{subscription.plan === 'monthly' ? 'month' : 'year'}
+                            </span>
+                          )}
+                        </p>
+                      </div>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row gap-4">
-                      <Button asChild className="bg-primary hover:bg-primary/90">
-                        <Link href="/settings/payment">Update Payment Method</Link>
-                      </Button>
-                      <Button variant="outline" onClick={handleCancelSubscription}>
-                        Cancel Subscription
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                    {subscription.plan !== 'lifetime' && (
+                      <div className="pt-4 border-t">
+                        <h3 className="text-lg font-medium mb-4">Manage Subscription</h3>
 
-              <div className="pt-4 border-t">
-                <h3 className="text-lg font-medium mb-4">Billing History</h3>
-                <div className="rounded-md border">
-                  <div className="grid grid-cols-3 p-4 font-medium border-b">
-                    <div>Date</div>
-                    <div>Amount</div>
-                    <div>Status</div>
+                        <div className="space-y-4">
+                          {subscription.cancelAtPeriodEnd && (
+                            <Alert>
+                              <AlertCircle className="h-4 w-4" />
+                              <AlertDescription>
+                                Your subscription will be cancelled at the end of the current billing period on{' '}
+                                {new Date(subscription.currentPeriodEnd).toLocaleDateString('en-US', {
+                                  year: 'numeric',
+                                  month: 'long',
+                                  day: 'numeric'
+                                })}.
+                              </AlertDescription>
+                            </Alert>
+                          )}
+
+                          <div className="space-y-2">
+                            <Label htmlFor="billing-cycle">Billing Cycle</Label>
+                            <Select value={subscription.plan} disabled>
+                              <SelectTrigger id="billing-cycle">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="monthly">Monthly (₦30,000/month)</SelectItem>
+                                <SelectItem value="annual">Annual (₦288,000/year - Save 20%)</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+
+                          <div className="flex flex-col sm:flex-row gap-4">
+                            <Link to="/pricing">
+                              <Button className="bg-primary hover:bg-primary/90">
+                                Change Plan
+                              </Button>
+                            </Link>
+                            {!subscription.cancelAtPeriodEnd && (
+                              <Button variant="outline" onClick={handleCancelSubscription}>
+                                Cancel Subscription
+                              </Button>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
-                  <div className="grid grid-cols-3 p-4 border-b">
-                    <div>May 15, 2025</div>
-                    <div>$29.00</div>
-                    <div className="text-green-600">Paid</div>
+                </>
+              ) : (
+                <div className="text-center py-8">
+                  <div className="mx-auto w-24 h-24 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-4">
+                    <AlertCircle className="h-12 w-12 text-gray-400" />
                   </div>
-                  <div className="grid grid-cols-3 p-4 border-b">
-                    <div>Apr 15, 2025</div>
-                    <div>$29.00</div>
-                    <div className="text-green-600">Paid</div>
-                  </div>
-                  <div className="grid grid-cols-3 p-4">
-                    <div>Mar 15, 2025</div>
-                    <div>$29.00</div>
-                    <div className="text-green-600">Paid</div>
-                  </div>
+                  <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
+                    No Active Subscription
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-md mx-auto">
+                    You don't have an active subscription. Upgrade to premium to access all features.
+                  </p>
+                  <Link to="/pricing">
+                    <Button className="bg-primary hover:bg-primary/90">
+                      View Plans
+                    </Button>
+                  </Link>
                 </div>
-                <div className="mt-2 text-right">
-                  <Button variant="link" className="text-primary">
-                    View All Invoices
-                  </Button>
-                </div>
-              </div>
+              )}
             </CardContent>
           </Card>
         </TabsContent>

@@ -10,7 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar"
 import { ArrowLeft, BookOpen, Clock, Users, Star, CheckCircle} from "lucide-react";
 
 const DEFAULT_PLACEHOLDER = "/placeholder.svg";
-const API_URL = process.env.REACT_APP_API_URL 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/v1'; 
 
 export default function CourseDetailPage() {
   const { slug } = useParams();
@@ -102,21 +102,33 @@ export default function CourseDetailPage() {
           isPublished: courseData.isPublished || false,
           tags: courseData.tags || [],
           prerequisites: courseData.prerequisites || [],
-          instructor: (courseData.mentor || courseData.instructor) ? (() => {
-            const mentorObj = courseData.mentor || courseData.instructor;
+          instructor: (courseData.instructor || courseData.mentor) ? (() => {
+            const instructorObj = courseData.instructor || courseData.mentor;
+            console.log("Instructor object:", instructorObj); // Debug log
             return {
-              name: mentorObj.name || 'Mentor',
-              role: mentorObj.role || 'Course Mentor',
-              bio: mentorObj.bio || 'No bio available',
-              avatar: mentorObj.avatar 
-                ? mentorObj.avatar.startsWith('http')
-                  ? mentorObj.avatar
-                  : mentorObj.avatar.startsWith('/')
-                    ? `${API_URL}${mentorObj.avatar}`
-                    : `${API_URL}/uploads/images/instructors/${mentorObj.avatar.replace(/^\/+/, '')}`
-                : DEFAULT_PLACEHOLDER
+              name: instructorObj.name || (instructorObj.firstName && instructorObj.lastName ? instructorObj.firstName + ' ' + instructorObj.lastName : null) || 'Unknown Instructor',
+              role: instructorObj.role || instructorObj.title || 'Course Instructor',
+              bio: instructorObj.bio || instructorObj.description || 'Experienced instructor passionate about teaching and helping students succeed.',
+              avatar: instructorObj.avatar || instructorObj.profileImage || instructorObj.photo
+                ? (instructorObj.avatar || instructorObj.profileImage || instructorObj.photo).startsWith('http')
+                  ? (instructorObj.avatar || instructorObj.profileImage || instructorObj.photo)
+                  : (instructorObj.avatar || instructorObj.profileImage || instructorObj.photo).startsWith('/')
+                    ? `${API_URL}${instructorObj.avatar || instructorObj.profileImage || instructorObj.photo}`
+                    : `${API_URL}/uploads/images/instructors/${(instructorObj.avatar || instructorObj.profileImage || instructorObj.photo).replace(/^\/+/, '')}`
+                : DEFAULT_PLACEHOLDER,
+              email: instructorObj.email || null,
+              experience: instructorObj.experience || null,
+              specialization: instructorObj.specialization || instructorObj.specialties?.join(', ') || instructorObj.expertise || null
             };
-          })() : null,
+          })() : {
+            name: 'HannaCode Team',
+            role: 'Course Instructor',
+            bio: 'Expert instructors from the HannaCode team with years of industry experience.',
+            avatar: DEFAULT_PLACEHOLDER,
+            email: null,
+            experience: null,
+            specialization: null
+          },
           modules: courseData.modules || []
         };
 
@@ -421,17 +433,33 @@ const renderQuiz = (lesson) => {
                           e.target.src = DEFAULT_PLACEHOLDER;
                         }}
                       />
-                      <AvatarFallback>
-                        {(course.instructor?.name || 'IN')
+                      <AvatarFallback className="text-lg font-bold">
+                        {(course.instructor?.name || 'HT')
                           .split(" ")
                           .map((n) => n[0])
-                          .join("")}
+                          .join("")
+                          .toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
-                    <div>
-                      <h3 className="text-xl font-bold">{course.instructor?.name || 'Instructor'}</h3>
-                      <p className="text-muted-foreground mb-2">{course.instructor?.role || 'Course Instructor'}</p>
-                      <p>{course.instructor?.bio || 'No bio available'}</p>
+                    <div className="flex-1">
+                      <h3 className="text-xl font-bold">{course.instructor?.name}</h3>
+                      <p className="text-primary font-medium mb-2">{course.instructor?.role}</p>
+                      {course.instructor?.specialization && (
+                        <p className="text-sm text-muted-foreground mb-2">
+                          <strong>Specialization:</strong> {course.instructor.specialization}
+                        </p>
+                      )}
+                      {course.instructor?.experience && (
+                        <p className="text-sm text-muted-foreground mb-2">
+                          <strong>Experience:</strong> {course.instructor.experience}
+                        </p>
+                      )}
+                      <p className="text-muted-foreground leading-relaxed">{course.instructor?.bio}</p>
+                      {course.instructor?.email && (
+                        <p className="text-sm text-primary mt-2">
+                          📧 {course.instructor.email}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -467,11 +495,16 @@ const renderQuiz = (lesson) => {
             <CardHeader>
               <CardTitle>Course Price</CardTitle>
               <CardDescription>
-                {(course.isPremium && !isAdminOrMentor) ? (
-                  <span className="text-2xl font-bold">${course.price || 29}</span>
-                ) : (
-                  <span className="text-2xl font-bold text-primary">Free</span>
-                )}
+                {(() => {
+                  const isPremiumUser = user && user.role === "premium";
+                  if (course.isPremium && !isAdminOrMentor && !isPremiumUser) {
+                    return <span className="text-2xl font-bold">₦30,000</span>;
+                  } else if (course.isPremium && isPremiumUser) {
+                    return <span className="text-2xl font-bold text-green-600">Included in Premium</span>;
+                  } else {
+                    return <span className="text-2xl font-bold text-primary">Free</span>;
+                  }
+                })()}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -498,7 +531,19 @@ const renderQuiz = (lesson) => {
               <Button className="w-full transition-transform duration-200 hover:scale-105" size="lg"
                  onClick={() => {
     console.log("lessons:", lessons);
-    if ((!course.isPremium || isAdminOrMentor) && lessons.length > 0) {
+    console.log("course.isPremium:", course.isPremium);
+    console.log("isAdminOrMentor:", isAdminOrMentor);
+    console.log("user:", user);
+    
+    // Check if user is premium
+    const isPremiumUser = user && user.role === "premium";
+    
+    if (course.isPremium && !isAdminOrMentor && !isPremiumUser) {
+      // User needs to subscribe for premium course
+      console.log("Redirecting to pricing page for premium course");
+      navigate("/pricing");
+    } else if (lessons.length > 0) {
+      // User can access the course (either free course, admin/mentor, or premium user)
       const lessonId = lessons[0].id || lessons[0]._id;
       console.log("Navigating to:", `/courses/${course.slug}/lessons/${lessonId}`);
       if (lessonId) {
@@ -506,13 +551,18 @@ const renderQuiz = (lesson) => {
       } else {
         alert("First lesson is missing an ID.");
       }
-    } else if (!course.isPremium) {
+    } else {
       alert("No lessons available for this course.");
     }
-    // Optionally handle premium enroll here
   }}
 >
-  {(course.isPremium && !isAdminOrMentor) ? "Enroll Now" : "Start Learning"}
+  {(() => {
+    const isPremiumUser = user && user.role === "premium";
+    if (course.isPremium && !isAdminOrMentor && !isPremiumUser) {
+      return "Enroll Now";
+    }
+    return "Start Learning";
+  })()}
 
 
               </Button>

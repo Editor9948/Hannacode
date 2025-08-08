@@ -1,4 +1,3 @@
-
 const getCppLessonConcepts= (lessonTitle) => {
   const concepts = {
  
@@ -2044,12 +2043,758 @@ int main() {
   return 0;
 }`,
 
+    "Exception Handling": `
+// Example 1: Basic Exception Handling
+#include <iostream>
+#include <stdexcept>
+using namespace std;
+
+int divide(int a, int b) {
+    if (b == 0) {
+        throw runtime_error("Division by zero!");
+    }
+    return a / b;
+}
+
+int main() {
+    try {
+        int result = divide(10, 0);
+        cout << "Result: " << result << endl;
+    } catch (const runtime_error& e) {
+        cout << "Error: " << e.what() << endl;
+    }
+    return 0;
+}
+
+// Example 2: Custom Exception Classes
+#include <iostream>
+#include <string>
+using namespace std;
+
+class InvalidAgeException : public exception {
+private:
+    string message;
+public:
+    InvalidAgeException(const string& msg) : message(msg) {}
+    
+    const char* what() const noexcept override {
+        return message.c_str();
+    }
+};
+
+class Person {
+private:
+    string name;
+    int age;
+public:
+    Person(const string& n, int a) : name(n) {
+        if (a < 0 || a > 150) {
+            throw InvalidAgeException("Age must be between 0 and 150");
+        }
+        age = a;
+    }
+    
+    void display() const {
+        cout << "Name: " << name << ", Age: " << age << endl;
+    }
+};
+
+int main() {
+    try {
+        Person p1("John", 25);
+        p1.display();
+        
+        Person p2("Jane", -5); // This will throw an exception
+    } catch (const InvalidAgeException& e) {
+        cout << "Invalid Age Error: " << e.what() << endl;
+    }
+    return 0;
+}
+
+// Example 3: Exception Safety with RAII
+#include <iostream>
+#include <memory>
+using namespace std;
+
+class ResourceManager {
+private:
+    int* data;
+public:
+    ResourceManager(int size) : data(new int[size]) {
+        cout << "Resource allocated" << endl;
+    }
+    
+    ~ResourceManager() {
+        delete[] data;
+        cout << "Resource deallocated" << endl;
+    }
+    
+    void process() {
+        throw runtime_error("Processing failed!");
+    }
+};
+
+int main() {
+    try {
+        ResourceManager rm(100);
+        rm.process();
+    } catch (const exception& e) {
+        cout << "Exception: " << e.what() << endl;
+    }
+    return 0;
+}
+
+// Example 4: noexcept Specification
+#include <iostream>
+using namespace std;
+
+void safeFunction() noexcept {
+    cout << "This function will not throw exceptions" << endl;
+}
+
+void riskyFunction() {
+    throw runtime_error("Something went wrong!");
+}
+
+int main() {
+    safeFunction();
+    
+    try {
+        riskyFunction();
+    } catch (const exception& e) {
+        cout << "Caught: " << e.what() << endl;
+    }
+    return 0;
+}`,
+
+    "Templates": `
+// Example 1: Function Templates
+#include <iostream>
+using namespace std;
+
+template<typename T>
+T maximum(T a, T b) {
+    return (a > b) ? a : b;
+}
+
+template<typename T>
+void swap(T& a, T& b) {
+    T temp = a;
+    a = b;
+    b = temp;
+}
+
+int main() {
+    // Using with different types
+    cout << "Max of 5 and 10: " << maximum(5, 10) << endl;
+    cout << "Max of 3.14 and 2.71: " << maximum(3.14, 2.71) << endl;
+    
+    int x = 5, y = 10;
+    swap(x, y);
+    cout << "After swap: x=" << x << ", y=" << y << endl;
+    
+    return 0;
+}
+
+// Example 2: Class Templates
+#include <iostream>
+using namespace std;
+
+template<typename T>
+class Stack {
+private:
+    T* data;
+    int top;
+    int capacity;
+    
+public:
+    Stack(int size) : capacity(size), top(-1) {
+        data = new T[size];
+    }
+    
+    ~Stack() {
+        delete[] data;
+    }
+    
+    void push(T value) {
+        if (top < capacity - 1) {
+            data[++top] = value;
+        }
+    }
+    
+    T pop() {
+        if (top >= 0) {
+            return data[top--];
+        }
+        throw runtime_error("Stack is empty!");
+    }
+    
+    bool isEmpty() const {
+        return top == -1;
+    }
+};
+
+int main() {
+    Stack<int> intStack(5);
+    intStack.push(1);
+    intStack.push(2);
+    intStack.push(3);
+    
+    while (!intStack.isEmpty()) {
+        cout << intStack.pop() << " ";
+    }
+    cout << endl;
+    
+    return 0;
+}
+
+// Example 3: Template Specialization
+#include <iostream>
+using namespace std;
+
+template<typename T>
+class Calculator {
+public:
+    T add(T a, T b) {
+        return a + b;
+    }
+};
+
+// Specialization for strings
+template<>
+class Calculator<string> {
+public:
+    string add(string a, string b) {
+        return a + " " + b;
+    }
+};
+
+int main() {
+    Calculator<int> intCalc;
+    Calculator<string> stringCalc;
+    
+    cout << "Int addition: " << intCalc.add(5, 3) << endl;
+    cout << "String addition: " << stringCalc.add("Hello", "World") << endl;
+    
+    return 0;
+}
+
+// Example 4: Variadic Templates
+#include <iostream>
+using namespace std;
+
+template<typename T>
+T sum(T t) {
+    return t;
+}
+
+template<typename T, typename... Args>
+T sum(T first, Args... args) {
+    return first + sum(args...);
+}
+
+int main() {
+    cout << "Sum of 1, 2, 3, 4: " << sum(1, 2, 3, 4) << endl;
+    cout << "Sum of 1.5, 2.5, 3.5: " << sum(1.5, 2.5, 3.5) << endl;
+    
+    return 0;
+}`,
+
+    "Modern C++ Features": `
+// Example 1: auto Type Deduction
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+int main() {
+    // auto for simple types
+    auto i = 42;           // int
+    auto d = 3.14;         // double
+    auto s = "Hello";      // const char*
+    auto str = string("World"); // string
+    
+    cout << "i: " << i << " (type: " << typeid(i).name() << ")" << endl;
+    cout << "d: " << d << " (type: " << typeid(d).name() << ")" << endl;
+    cout << "s: " << s << " (type: " << typeid(s).name() << ")" << endl;
+    
+    // auto with iterators
+    vector<int> numbers = {1, 2, 3, 4, 5};
+    for (auto it = numbers.begin(); it != numbers.end(); ++it) {
+        cout << *it << " ";
+    }
+    cout << endl;
+    
+    return 0;
+}
+
+// Example 2: Range-based for loops
+#include <iostream>
+#include <vector>
+#include <map>
+using namespace std;
+
+int main() {
+    // Range-based for with vector
+    vector<int> numbers = {1, 2, 3, 4, 5};
+    for (const auto& num : numbers) {
+        cout << num << " ";
+    }
+    cout << endl;
+    
+    // Range-based for with map
+    map<string, int> scores = {{"Alice", 95}, {"Bob", 87}, {"Charlie", 92}};
+    for (const auto& [name, score] : scores) {
+        cout << name << ": " << score << endl;
+    }
+    
+    return 0;
+}
+
+// Example 3: Lambda Expressions
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main() {
+    vector<int> numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    
+    // Lambda to find even numbers
+    auto isEven = [](int n) { return n % 2 == 0; };
+    
+    // Lambda to square numbers
+    auto square = [](int n) { return n * n; };
+    
+    // Using lambda with algorithm
+    vector<int> evenNumbers;
+    copy_if(numbers.begin(), numbers.end(), back_inserter(evenNumbers), isEven);
+    
+    cout << "Even numbers: ";
+    for (int num : evenNumbers) {
+        cout << num << " ";
+    }
+    cout << endl;
+    
+    // Lambda with capture
+    int multiplier = 3;
+    auto multiply = [multiplier](int n) { return n * multiplier; };
+    
+    cout << "Numbers multiplied by " << multiplier << ": ";
+    for (int num : numbers) {
+        cout << multiply(num) << " ";
+    }
+    cout << endl;
+    
+    return 0;
+}
+
+// Example 4: Smart Pointers
+#include <iostream>
+#include <memory>
+using namespace std;
+
+class Resource {
+public:
+    Resource() { cout << "Resource created" << endl; }
+    ~Resource() { cout << "Resource destroyed" << endl; }
+    void use() { cout << "Resource being used" << endl; }
+};
+
+int main() {
+    // unique_ptr - exclusive ownership
+    auto unique = make_unique<Resource>();
+    unique->use();
+    
+    // shared_ptr - shared ownership
+    auto shared1 = make_shared<Resource>();
+    auto shared2 = shared1; // Reference count increases
+    shared1->use();
+    shared2->use();
+    
+    // weak_ptr - non-owning reference
+    auto weak = weak_ptr<Resource>(shared1);
+    if (auto locked = weak.lock()) {
+        locked->use();
+    }
+    
+    return 0;
+}
+
+// Example 5: Move Semantics
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class StringWrapper {
+private:
+    string* data;
+    
+public:
+    StringWrapper(const string& str) : data(new string(str)) {
+        cout << "Constructor called" << endl;
+    }
+    
+    // Copy constructor
+    StringWrapper(const StringWrapper& other) : data(new string(*other.data)) {
+        cout << "Copy constructor called" << endl;
+    }
+    
+    // Move constructor
+    StringWrapper(StringWrapper&& other) noexcept : data(other.data) {
+        other.data = nullptr;
+        cout << "Move constructor called" << endl;
+    }
+    
+    ~StringWrapper() {
+        delete data;
+    }
+    
+    const string& getData() const { return *data; }
+};
+
+StringWrapper createString() {
+    return StringWrapper("Hello from function");
+}
+
+int main() {
+    StringWrapper obj1("Hello");
+    StringWrapper obj2 = move(obj1); // Move constructor called
+    
+    auto obj3 = createString(); // Move constructor called
+    
+    return 0;
+}
+
+// Example 6: constexpr and Structured Bindings
+#include <iostream>
+#include <tuple>
+#include <array>
+using namespace std;
+
+// constexpr function
+constexpr int factorial(int n) {
+    return (n <= 1) ? 1 : n * factorial(n - 1);
+}
+
+// constexpr class
+class Point {
+public:
+    constexpr Point(int x, int y) : x_(x), y_(y) {}
+    constexpr int x() const { return x_; }
+    constexpr int y() const { return y_; }
+private:
+    int x_, y_;
+};
+
+int main() {
+    // constexpr usage
+    constexpr int result = factorial(5);
+    cout << "Factorial of 5: " << result << endl;
+    
+    constexpr Point p(10, 20);
+    cout << "Point: (" << p.x() << ", " << p.y() << ")" << endl;
+    
+    // Structured bindings
+    auto tuple = make_tuple(1, 2.5, "Hello");
+    auto [first, second, third] = tuple;
+    cout << "Tuple elements: " << first << ", " << second << ", " << third << endl;
+    
+    array<int, 3> arr = {10, 20, 30};
+    auto [a, b, c] = arr;
+    cout << "Array elements: " << a << ", " << b << ", " << c << endl;
+    
+    return 0;
+}`,
+
+    "Multithreading": `
+// Example 1: Basic Thread Creation
+#include <iostream>
+#include <thread>
+#include <chrono>
+using namespace std;
+
+void workerFunction(int id) {
+    cout << "Worker " << id << " started" << endl;
+    this_thread::sleep_for(chrono::milliseconds(1000));
+    cout << "Worker " << id << " finished" << endl;
+}
+
+int main() {
+    cout << "Main thread started" << endl;
+    
+    // Create threads
+    thread t1(workerFunction, 1);
+    thread t2(workerFunction, 2);
+    
+    // Wait for threads to complete
+    t1.join();
+    t2.join();
+    
+    cout << "Main thread finished" << endl;
+    return 0;
+}
+
+// Example 2: Mutex and Lock Guard
+#include <iostream>
+#include <thread>
+#include <mutex>
+#include <vector>
+using namespace std;
+
+class BankAccount {
+private:
+    int balance;
+    mutex mtx;
+    
+public:
+    BankAccount(int initial) : balance(initial) {}
+    
+    void deposit(int amount) {
+        lock_guard<mutex> lock(mtx);
+        balance += amount;
+        cout << "Deposited " << amount << ", new balance: " << balance << endl;
+    }
+    
+    void withdraw(int amount) {
+        lock_guard<mutex> lock(mtx);
+        if (balance >= amount) {
+            balance -= amount;
+            cout << "Withdrawn " << amount << ", new balance: " << balance << endl;
+        } else {
+            cout << "Insufficient funds!" << endl;
+        }
+    }
+    
+    int getBalance() {
+        lock_guard<mutex> lock(mtx);
+        return balance;
+    }
+};
+
+int main() {
+    BankAccount account(1000);
+    
+    thread t1([&account]() {
+        for (int i = 0; i < 5; ++i) {
+            account.deposit(100);
+            this_thread::sleep_for(chrono::milliseconds(100));
+        }
+    });
+    
+    thread t2([&account]() {
+        for (int i = 0; i < 5; ++i) {
+            account.withdraw(50);
+            this_thread::sleep_for(chrono::milliseconds(100));
+        }
+    });
+    
+    t1.join();
+    t2.join();
+    
+    cout << "Final balance: " << account.getBalance() << endl;
+    return 0;
+}
+
+// Example 3: Condition Variables
+#include <iostream>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
+#include <queue>
+using namespace std;
+
+class ProducerConsumer {
+private:
+    queue<int> buffer;
+    mutex mtx;
+    condition_variable cv;
+    bool done = false;
+    
+public:
+    void producer() {
+        for (int i = 0; i < 10; ++i) {
+            unique_lock<mutex> lock(mtx);
+            buffer.push(i);
+            cout << "Produced: " << i << endl;
+            lock.unlock();
+            cv.notify_one();
+            this_thread::sleep_for(chrono::milliseconds(100));
+        }
+        
+        unique_lock<mutex> lock(mtx);
+        done = true;
+        cv.notify_all();
+    }
+    
+    void consumer() {
+        while (true) {
+            unique_lock<mutex> lock(mtx);
+            cv.wait(lock, [this] { return !buffer.empty() || done; });
+            
+            if (buffer.empty() && done) break;
+            
+            int value = buffer.front();
+            buffer.pop();
+            cout << "Consumed: " << value << endl;
+        }
+    }
+};
+
+int main() {
+    ProducerConsumer pc;
+    
+    thread producer_thread(&ProducerConsumer::producer, &pc);
+    thread consumer_thread(&ProducerConsumer::consumer, &pc);
+    
+    producer_thread.join();
+    consumer_thread.join();
+    
+    cout << "Producer-Consumer completed" << endl;
+    return 0;
+}
+
+// Example 4: Future and Promise
+#include <iostream>
+#include <future>
+#include <chrono>
+using namespace std;
+
+int calculateFactorial(int n) {
+    int result = 1;
+    for (int i = 2; i <= n; ++i) {
+        result *= i;
+        this_thread::sleep_for(chrono::milliseconds(100));
+    }
+    return result;
+}
+
+int main() {
+    // Using async with future
+    auto future1 = async(launch::async, calculateFactorial, 5);
+    auto future2 = async(launch::async, calculateFactorial, 6);
+    
+    cout << "Calculating factorials..." << endl;
+    
+    int result1 = future1.get();
+    int result2 = future2.get();
+    
+    cout << "Factorial of 5: " << result1 << endl;
+    cout << "Factorial of 6: " << result2 << endl;
+    
+    return 0;
+}
+
+// Example 5: Atomic Operations
+#include <iostream>
+#include <thread>
+#include <atomic>
+#include <vector>
+using namespace std;
+
+atomic<int> counter(0);
+
+void incrementCounter() {
+    for (int i = 0; i < 1000; ++i) {
+        ++counter;
+    }
+}
+
+int main() {
+    vector<thread> threads;
+    
+    // Create multiple threads
+    for (int i = 0; i < 5; ++i) {
+        threads.emplace_back(incrementCounter);
+    }
+    
+    // Wait for all threads
+    for (auto& t : threads) {
+        t.join();
+    }
+    
+    cout << "Final counter value: " << counter << endl;
+    return 0;
+}
+
+// Example 6: Thread Pool Implementation
+#include <iostream>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
+#include <queue>
+#include <functional>
+#include <vector>
+using namespace std;
+
+class ThreadPool {
+private:
+    vector<thread> workers;
+    queue<function<void()>> tasks;
+    mutex queue_mutex;
+    condition_variable condition;
+    bool stop;
+    
+public:
+    ThreadPool(size_t threads) : stop(false) {
+        for (size_t i = 0; i < threads; ++i) {
+            workers.emplace_back([this] {
+                while (true) {
+                    function<void()> task;
+                    {
+                        unique_lock<mutex> lock(queue_mutex);
+                        condition.wait(lock, [this] { return stop || !tasks.empty(); });
+                        if (stop && tasks.empty()) return;
+                        task = move(tasks.front());
+                        tasks.pop();
+                    }
+                    task();
+                }
+            });
+        }
+    }
+    
+    template<class F>
+    void enqueue(F&& f) {
+        {
+            unique_lock<mutex> lock(queue_mutex);
+            tasks.emplace(forward<F>(f));
+        }
+        condition.notify_one();
+    }
+    
+    ~ThreadPool() {
+        {
+            unique_lock<mutex> lock(queue_mutex);
+            stop = true;
+        }
+        condition.notify_all();
+        for (thread& worker : workers) {
+            worker.join();
+        }
+    }
+};
+
+int main() {
+    ThreadPool pool(4);
+    
+    for (int i = 0; i < 8; ++i) {
+        pool.enqueue([i] {
+            cout << "Task " << i << " executed by thread " 
+                 << this_thread::get_id() << endl;
+            this_thread::sleep_for(chrono::milliseconds(100));
+        });
+    }
+    
+    return 0;
+}`,
+
 };
   return examples[lessonTitle] || "// Example code will be provided"
-};
+}
 
 
-const  getCppCodeExplanations = (lessonTitle) => {
+const getCppCodeExplanations = (lessonTitle) => {
     const explanations = { 
     "Introduction to C++": `
 **What is C++?**
@@ -2130,7 +2875,7 @@ The following code example 2 above demonstrates the use of type modifiers
 
 **Explanation**:
 In the example, we declare and initialize variables with variables with type modifiers:
-- \`unsigned\`:Can’t store negative numbers, increases the positive range
+- \`unsigned\`:Can't store negative numbers, increases the positive range
 - \`long\`:Used for large integers.
 - \`short\`: Saves memory when smaller range is enough.
 - \`double\`:Used to declare floating-point numbers with double precision.

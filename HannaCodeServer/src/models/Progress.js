@@ -50,6 +50,26 @@ const ProgressSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    certificate: {
+      isIssued: {
+        type: Boolean,
+        default: false,
+      },
+      issuedAt: {
+        type: Date,
+      },
+      certificateId: {
+        type: String,
+        unique: true,
+        sparse: true, // Only enforce uniqueness if the field exists
+      },
+      certificateUrl: {
+        type: String,
+      },
+      verificationCode: {
+        type: String,
+      },
+    },
     notes: [
       {
         lesson: {

@@ -300,9 +300,10 @@ export default function CoursePage() {
                               <AvatarImage src={review.avatar} alt={review.name} />
                               <AvatarFallback>
                                 {review.name
-                                  .split(" ")
-                                  .map((n) => n[0])
-                                  .join("")}
+                                  ? review.name.split(" ")
+                                      .map((n) => n[0])
+                                      .join("")
+                                  : "?"}
                               </AvatarFallback>
                             </Avatar>
                             <div className="flex-1">

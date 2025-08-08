@@ -477,3 +477,57 @@
 2025-08-04 01:37:00 error: [31mError: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "User"[39m
 2025-08-06 22:06:52 error: [31mDatabase Connection Error: Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/[39m
 2025-08-06 22:21:39 error: [31mDatabase Connection Error: querySrv ESERVFAIL _mongodb._tcp.cluster0.jxpglfb.mongodb.net[39m
+2025-08-07 11:59:44 error: MongoServerError: E11000 duplicate key error collection: hannacode.users index: email_1 dup key: { email: "olotuoladapoayomide@gmail.com" }
+2025-08-07 20:04:04 error: [31mDatabase Connection Error: querySrv ETIMEOUT _mongodb._tcp.cluster0.jxpglfb.mongodb.net[39m
+2025-08-07 20:28:01 error: [31mDatabase Connection Error: queryTxt ESERVFAIL cluster0.jxpglfb.mongodb.net[39m
+2025-08-07 20:34:42 error: [31mDatabase Connection Error: queryTxt ESERVFAIL cluster0.jxpglfb.mongodb.net[39m
+2025-08-07 20:49:35 error: Error: Payment verification failed
+2025-08-07 20:52:38 error: [31mDatabase Connection Error: queryTxt ESERVFAIL cluster0.jxpglfb.mongodb.net[39m
+2025-08-07 20:57:48 error: Error: Payment verification failed
+2025-08-07 21:01:38 error: [31mDatabase Connection Error: querySrv ESERVFAIL _mongodb._tcp.cluster0.jxpglfb.mongodb.net[39m
+2025-08-07 21:42:28 error: [31mDatabase Connection Error: queryTxt ESERVFAIL cluster0.jxpglfb.mongodb.net[39m
+2025-08-07 21:43:29 error: [31mDatabase Connection Error: querySrv ESERVFAIL _mongodb._tcp.cluster0.jxpglfb.mongodb.net[39m
+2025-08-07 22:02:40 error: Error: Not authorized to access this session
+2025-08-07 22:02:42 error: Error: Not authorized to access this session
+2025-08-07 22:07:06 error: [31mDatabase Connection Error: querySrv ETIMEOUT _mongodb._tcp.cluster0.jxpglfb.mongodb.net[39m
+2025-08-07 22:14:46 error: [31mError: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "User"[39m
+2025-08-07 22:22:33 error: [31mDatabase Connection Error: queryTxt ESERVFAIL cluster0.jxpglfb.mongodb.net[39m
+2025-08-07 22:25:39 error: [31mError: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "User"[39m
+2025-08-07 22:28:44 error: [31mDatabase Connection Error: queryTxt ESERVFAIL cluster0.jxpglfb.mongodb.net[39m
+2025-08-07 22:29:52 error: [31mDatabase Connection Error: queryTxt ESERVFAIL cluster0.jxpglfb.mongodb.net[39m
+2025-08-07 22:31:45 error: [31mError: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "User"[39m
+2025-08-07 22:35:13 error: [31mError: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "User"[39m
+2025-08-07 22:45:14 error: [31mError: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "User"[39m
+2025-08-07 22:49:15 error: [31mError: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "User"[39m
+2025-08-07 22:51:11 error: [31mError: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "User"[39m
+2025-08-07 22:59:33 error: [31mError: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "User"[39m
+2025-08-07 23:01:59 error: [31mError: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "User"[39m
+2025-08-07 23:09:47 error: [31mError: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "User"[39m
+2025-08-07 23:10:28 error: [31mError: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "User"[39m
+2025-08-07 23:17:47 error: [31mDatabase Connection Error: queryTxt ESERVFAIL cluster0.jxpglfb.mongodb.net[39m
+2025-08-08 08:26:03 error: Error: Invalid credentials
+2025-08-08 08:46:43 error: Error: User not found
+2025-08-08 08:48:08 error: Error: Invalid credentials
+2025-08-08 16:05:26 error: [31mError: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "User"[39m
+2025-08-08 16:25:37 error: [31mDatabase Connection Error: queryTxt ESERVFAIL cluster0.jxpglfb.mongodb.net[39m
+2025-08-08 16:28:21 error: [31mError: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "User"[39m
+2025-08-08 16:32:40 error: [31mDatabase Connection Error: queryTxt ESERVFAIL cluster0.jxpglfb.mongodb.net[39m
+2025-08-08 16:57:20 error: [31mError: Cast to ObjectId failed for value "undefined" (type string) at path "_id" for model "User"[39m
+2025-08-08 17:47:36 error: ValidationError: Progress validation failed: course: Path `course` is required., user: Path `user` is required.
+2025-08-08 17:47:55 error: ValidationError: Progress validation failed: course: Path `course` is required., user: Path `user` is required.
+2025-08-08 18:31:06 error: [31mDatabase Connection Error: querySrv ESERVFAIL _mongodb._tcp.cluster0.jxpglfb.mongodb.net[39m
+2025-08-08 18:59:42 error: [31mDatabase Connection Error: queryTxt ESERVFAIL cluster0.jxpglfb.mongodb.net[39m
+2025-08-08 19:12:18 error: [31mDatabase Connection Error: queryTxt ESERVFAIL cluster0.jxpglfb.mongodb.net[39m
+2025-08-08 19:31:31 error: [31mDatabase Connection Error: queryTxt ESERVFAIL cluster0.jxpglfb.mongodb.net[39m
+2025-08-08 19:35:18 error: Error: Failed to generate certificate
+2025-08-08 20:59:14 error: [31mDatabase Connection Error: querySrv ETIMEOUT _mongodb._tcp.cluster0.jxpglfb.mongodb.net[39m
+2025-08-08 21:04:01 error: [31mDatabase Connection Error: queryTxt ESERVFAIL cluster0.jxpglfb.mongodb.net[39m
+2025-08-08 21:24:24 error: [31mDatabase Connection Error: querySrv ETIMEOUT _mongodb._tcp.cluster0.jxpglfb.mongodb.net[39m
+2025-08-08 21:26:00 error: [31mDatabase Connection Error: queryTxt ETIMEOUT cluster0.jxpglfb.mongodb.net[39m
+2025-08-08 21:48:16 error: [31mDatabase Connection Error: queryTxt ESERVFAIL cluster0.jxpglfb.mongodb.net[39m
+2025-08-08 21:52:12 error: [31mDatabase Connection Error: querySrv ETIMEOUT _mongodb._tcp.cluster0.jxpglfb.mongodb.net[39m
+2025-08-08 22:07:04 error: Error: User not found
+2025-08-08 22:07:04 error: Error: User not found
+2025-08-08 22:07:05 error: Error: User not found
+2025-08-08 22:59:53 error: Error: User not found
+2025-08-08 23:59:15 error: Error: Session not found with id of 68434ece40704b4db64e5572

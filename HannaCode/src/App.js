@@ -15,6 +15,8 @@ import BookMentorship from "./Pages/mentorship/book";
 import MentorshipPage from "./Pages/mentorship/mentorship";
 import ResourcesPage from "./Pages/Courses/Slug/resources";
 import CheckoutPage from "./Pages/Payment/checkout";
+import PaymentVerification from "./Pages/Payment/verification";
+import PaymentSuccessPage from "./Pages/Payment/success";
 import AdminUsersPage from "./Pages/Admin/AdminUsersPage";
 import AdminCoursesPage from "./Pages/Admin/AdminCoursesPage";
 import MentorInbox from "./Pages/mentorship/MentorInbox";
@@ -35,6 +37,10 @@ import Playground from "./Pages/Courses/Slug/playground";
 import Resources from "./Pages/Courses/Slug/resources";
 import ForgotPasswordPage from "./Pages/ForgotPassword";
 import ResetPasswordPage from "./Pages/ResetPassword";
+import CertificatePage from "./Pages/Certificates/CertificatePage";
+import Certificates from "./Pages/Certificates/Certificates";
+import VerifyCertificate from "./Pages/Certificates/VerifyCertificate";
+import MasterCertificatePage from "./Pages/Certificates/MasterCertificatePage";
 
 // NotFound component
 const NotFound = () => (
@@ -63,7 +69,7 @@ export default function App() {
             <Route path="/courses/:slug/playground" element={<CoursePlaygroundPage />} />
             <Route path="/playground" element={<PlaygroundPage />} />
             <Route path="/mentorship" element={<MentorshipPage />} />
-            <Route path="/mentorship/book" element={<BookMentorship />} />
+            <Route path="/mentorship/book/:id" element={<BookMentorship />} />
             <Route path="/mentorship/chat/:mentorshipId" element={<ChatPage />} />
             <Route path="/resources/:slug" element={<ResourcesPage />} />
             <Route path="/admin/users" element={<AdminUsersPage />} />
@@ -83,6 +89,14 @@ export default function App() {
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/settings" element={<SettingsPage />} />
+            
+            {/* Certificate Routes */}
+            <Route path="/certificates" element={<Certificates />} />
+            <Route path="/certificate/:certificateId" element={<CertificatePage />} />
+            <Route path="/master-certificate/:certificateId" element={<MasterCertificatePage />} />
+            <Route path="/verify-certificate" element={<VerifyCertificate />} />
+            <Route path="/verify-certificate/:verificationCode" element={<VerifyCertificate />} />
+            <Route path="/verify-master-certificate/:verificationCode" element={<VerifyCertificate />} />
 
             {/* New routes */}
             <Route path="/courses/:courseId" element={<CourseDetailPage />} />
@@ -91,6 +105,10 @@ export default function App() {
             <Route path="/courses/:courseId/resources" element={<Resources />} />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
+
+            {/* Payment Routes */}
+            <Route path="/payment/verify" element={<PaymentVerification />} />
+            <Route path="/payment/success" element={<PaymentSuccessPage />} />
 
             {/* 404 Not Found */}
             <Route path="*" element={<NotFound />} />

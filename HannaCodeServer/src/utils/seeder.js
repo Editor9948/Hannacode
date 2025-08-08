@@ -23,7 +23,18 @@ const pythonContent = require('./courseContent/python')
 dotenv.config()
 
 // Connect to DB
-mongoose.connect(process.env.MONGO_URI)
+console.log('Connecting to MongoDB...')
+console.log('MONGO_URI:', process.env.MONGO_URI ? 'Set' : 'Not set')
+
+mongoose.connect(process.env.MONGO_URI, {
+  serverSelectionTimeoutMS: 30000, // 30 seconds
+  socketTimeoutMS: 45000, // 45 seconds
+}).then(() => {
+  console.log('MongoDB connected successfully')
+}).catch((err) => {
+  console.error('MongoDB connection error:', err)
+  process.exit(1)
+})
 
 
 // Generate random date within last year

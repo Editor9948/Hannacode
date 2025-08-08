@@ -162,11 +162,17 @@ exports.getCourseBySlug = asyncHandler(async (req, res, next) => {
       .populate({
         path: "modules",
         populate: { path: "lessons" }
+      })
+      .populate({
+        path: "instructor", 
+        select: "name email role bio profileImage specialties"
       });
 
     if (!course) {
       return res.status(404).json({ message: "Course not found" });
     }
+
+    console.log("Course instructor data:", course.instructor);
 
     // Optionally format the response if you want
     res.status(200).json({

@@ -23,6 +23,7 @@ const {
   createAdminChat,
 } = require("../controllers/mentorshipController")
 const Mentorship = require("../models/Mentorship")
+const User = require("../models/User")
 const { protect } = require("../middleware/authMiddleware")
 const { premiumOnly } = require("../middleware/roleMiddleware")
 const upload = require("../middleware/fileUpload")
@@ -59,14 +60,100 @@ router.patch("/:id/status", protect, updateMentorStatus);
 // Update mentor's specialties
 router.patch("/:id/specialties", protect, updateMentorSpecialties);
 
-router.post("/sessions/find-or-create", protect, premiumOnly, async (req, res) => {
-  const { mentorId } = req.body;
-  const userId = req.user.id;
-  let session = await Mentorship.findOne({ mentorId: mentorId, userId: userId });
-  if (!session) {
-    session = await Mentorship.create({ mentorId: mentorId, userId: userId });
+// Update mentor's Calendly URL
+router.patch("/mentors/:id/calendly", protect, async (req, res) => {
+  try {
+    const { calendlyUrl } = req.body;
+    const mentorId = req.params.id;
+
+    // Validate that user is updating their own profile or is admin
+    if (req.user.id !== mentorId && req.user.role !== "admin") {
+      return res.status(403).json({
+        success: false,
+        message: "Not authorized to update this mentor's Calendly URL"
+      });
+    }
+
+    // Validate Calendly URL format
+    if (calendlyUrl && !/^https:\/\/calendly\.com\//.test(calendlyUrl)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid Calendly URL format. Must be a valid Calendly link."
+      });
+    }
+
+    const mentor = await User.findByIdAndUpdate(
+      mentorId,
+      { calendlyUrl },
+      { new: true }
+    ).select("name email calendlyUrl");
+
+    if (!mentor) {
+      return res.status(404).json({
+        success: false,
+        message: "Mentor not found"
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Calendly URL updated successfully",
+      data: mentor
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message
+    });
   }
-  res.json({ success: true, data: session });
+});
+
+router.post("/sessions/find-or-create", protect, premiumOnly, async (req, res) => {
+  try {
+    const { mentorId } = req.body;
+    const userId = req.user.id;
+
+    console.log("find-or-create called with:", { mentorId, userId });
+
+    if (!userId) {
+      return res.status(401).json({ 
+        success: false, 
+        error: "User not authenticated" 
+      });
+    }
+
+    if (!mentorId) {
+      return res.status(400).json({ 
+        success: false, 
+        error: "Mentor ID is required" 
+      });
+    }
+
+    let session = await Mentorship.findOne({ 
+      mentorId: mentorId, 
+      userId: userId 
+    });
+
+    if (!session) {
+      session = await Mentorship.create({ 
+        mentorId: mentorId, 
+        userId: userId,
+        status: "active"
+      });
+      console.log("Created new session:", session);
+    } else {
+      console.log("Found existing session:", session);
+    }
+
+    res.json({ success: true, data: session });
+  } catch (error) {
+    console.error("Error in find-or-create:", error);
+    res.status(500).json({ 
+      success: false, 
+      error: error.message 
+    });
+  }
 });
 
 // Cancel a mentorship session

@@ -4,15 +4,42 @@ const asyncHandler = require("../middleware/async")
 const ErrorResponse = require("../utils/errorResponse")
 const { sendEmail } = require("../services/emailService")
 const calendlyService = require("../services/calendlyService")
-const stripeService = require("../services/stripeService")
+const paystackService = require("../services/paystackService")
 const Message = require("../models/Message")
+
+// Helper function to extract user ID consistently
+const extractUserId = (user) => {
+  if (!user) return null;
+  
+  // Try different possible ID fields
+  let userId = user._id || user.id || user.userId;
+  
+  // If userId is still null/undefined, try to get it from the user object
+  if (!userId && user.toString) {
+    userId = user.toString();
+  }
+  
+  // Additional validation to ensure we have a valid ObjectId
+  if (userId) {
+    // Check if it's a valid MongoDB ObjectId format
+    const objectIdPattern = /^[0-9a-fA-F]{24}$/;
+    if (typeof userId === 'string' && objectIdPattern.test(userId)) {
+      return userId;
+    } else if (typeof userId === 'object' && userId.toString) {
+      // If it's an ObjectId object, convert to string
+      return userId.toString();
+    }
+  }
+  
+  return null;
+};
 
 // @desc    Get all mentors
 // @route   GET /api/v1/mentorship/mentors
 // @access  Public
 exports.getMentors = asyncHandler(async (req, res, next) => {
   // Find users with admin role (mentors)
-  const mentors = await User.find({ role: "admin" }).select("name email bio profileImage preferredLanguages")
+  const mentors = await User.find({ role: "admin" }).select("name email bio profileImage preferredLanguages specialties status calendlyUrl")
 
   res.status(200).json({
     success: true,
@@ -27,12 +54,16 @@ exports.getAllMentors = async (req, res) => {
 };
 
 exports.getMentorById = async (req, res) => {
-  const mentor = await User.findById(req.params.id);
+  const mentor = await User.findById(req.params.id).select("name email bio profileImage specialties status role calendlyUrl");
   if (!mentor) {
     return res.status(404).json({ success: false, message: "Mentor not found" });
   }
-  res.json(mentor);
+  res.json({
+    success: true,
+    data: mentor
+  });
 };
+
 // @desc    Get mentor availability
 // @route   GET /api/v1/mentorship/mentors/:id/availability
 // @access  Public
@@ -116,12 +147,15 @@ exports.bookMentorshipSession = asyncHandler(async (req, res, next) => {
   // Calculate price based on session type
   const price = sessionType === "one-time" ? 49.99 : 199.99
 
+  // Use helper function to extract user ID consistently
+  const userId = extractUserId(req.user);
+
   // Create payment intent with Stripe
-  const paymentIntent = await stripeService.createPaymentIntent({
+  const paymentIntent = await paystackService.createPaymentIntent({
     amount: Math.round(price * 100), // convert to cents
     currency: "usd",
     metadata: {
-      userId: req.user.id,
+      userId: userId,
       mentorId,
       sessionType,
     },
@@ -129,7 +163,7 @@ exports.bookMentorshipSession = asyncHandler(async (req, res, next) => {
 
   // Create mentorship session
   const mentorship = await Mentorship.create({
-    userId: req.user.id,
+    userId: userId,
     mentorId,
     sessionType,
     topic,
@@ -192,12 +226,15 @@ exports.bookMentorshipSession = asyncHandler(async (req, res, next) => {
 exports.getMentorshipSessions = asyncHandler(async (req, res, next) => {
   const query = {}
 
+  // Use helper function to extract user ID consistently
+  const userId = extractUserId(req.user);
+
   // If user is not admin, only show their sessions
   if (req.user.role !== "admin") {
-    query.userId = req.user.id
+    query.userId = userId
   } else {
     // If admin/mentor, show sessions where they are the mentor
-    query.mentorId = req.user.id
+    query.mentorId = userId
   }
 
   // Filter by status if provided
@@ -221,6 +258,22 @@ exports.getMentorshipSessions = asyncHandler(async (req, res, next) => {
 // @route   GET /api/v1/mentorship/sessions/:id
 // @access  Private
 exports.getMentorshipSession = asyncHandler(async (req, res, next) => {
+  console.log("Getting mentorship session:", req.params.id);
+
+  // Check if user is properly authenticated
+  if (!req.user) {
+    console.log("User not authenticated");
+    return next(new ErrorResponse("User not authenticated", 401));
+  }
+
+  // Use helper function to extract user ID consistently
+  const userId = extractUserId(req.user);
+
+  if (!userId) {
+    console.log("User ID not found");
+    return next(new ErrorResponse("User ID not found", 401));
+  }
+
   const session = await Mentorship.findById(req.params.id)
     .populate("userId", "name email")
     .populate("mentorId", "name email")
@@ -230,9 +283,21 @@ exports.getMentorshipSession = asyncHandler(async (req, res, next) => {
   }
 
   // Check if user is authorized to view this session
-  if (req.user.role !== "admin" && req.user.role !== "mentor" && session.userId.toString() !== req.user.id.toString() && session.mentorId.toString() !== req.user.id.toString()) {
-return next(new ErrorResponse(`Not authorized to access this session`, 401))
-}
+  const sessionUserId = session.userId._id ? session.userId._id.toString() : session.userId.toString();
+  const sessionMentorId = session.mentorId._id ? session.mentorId._id.toString() : session.mentorId.toString();
+  
+  if (req.user.role !== "admin" && 
+      req.user.role !== "mentor" && 
+      sessionUserId !== userId.toString() && 
+      sessionMentorId !== userId.toString()) {
+    console.log("Authorization failed:", {
+      userRole: req.user.role,
+      userId: userId,
+      sessionUserId,
+      sessionMentorId
+    });
+    return next(new ErrorResponse(`Not authorized to access this session`, 401));
+  }
 
   res.status(200).json({
     success: true,
@@ -250,8 +315,11 @@ exports.cancelMentorshipSession = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse(`Session not found with id of ${req.params.id}`, 404))
   }
 
+  // Use helper function to extract user ID consistently
+  const userId = extractUserId(req.user);
+
   // Check if user is authorized to cancel this session
-  if (req.user.role !== "admin" && session.userId.toString() !== req.user.id.toString()) {
+  if (req.user.role !== "admin" && session.userId.toString() !== userId.toString()) {
     return next(new ErrorResponse(`Not authorized to cancel this session`, 401))
   }
 
@@ -335,8 +403,11 @@ exports.completeMentorship = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse(`Session not found with id of ${req.params.id}`, 404))
   }
 
+  // Use helper function to extract user ID consistently
+  const userId = extractUserId(req.user);
+
   // Check if user is authorized to complete this session
-  if (req.user.role !== "admin" && session.userId.toString() !== req.user.id.toString()) {
+  if (req.user.role !== "admin" && session.userId.toString() !== userId.toString()) {
     return next(new ErrorResponse(`Not authorized to complete this session`, 401))
   }
 
@@ -396,8 +467,11 @@ exports.provideFeedback = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse(`Session not found with id of ${req.params.id}`, 404))
   }
 
+  // Use helper function to extract user ID consistently
+  const userId = extractUserId(req.user);
+
   // Check if user is authorized to provide feedback
-  if (session.userId.toString() !== req.user.id.toString()) {
+  if (session.userId.toString() !== userId.toString()) {
     return next(new ErrorResponse(`Not authorized to provide feedback for this session`, 401))
   }
 
@@ -444,11 +518,22 @@ exports.getCalendlyLink = asyncHandler(async (req, res, next) => {
 exports.getChatHistory = asyncHandler(async (req, res) => {
   const { mentorshipId } = req.params
   const { page = 1, limit = 50 } = req.query
-  const userId = req.user.id
-  const userRole = req.user.role
+  
+  // Use helper function to extract user ID consistently
+  const userId = extractUserId(req.user);
+  const userRole = req.user?.role
 
   console.log("getChatHistory called with mentorshipId:", mentorshipId);
   console.log("User ID:", userId, "User Role:", userRole);
+
+  // Check if user is properly authenticated
+  if (!req.user || !userId) {
+    console.log("User not authenticated or missing ID");
+    return res.status(401).json({
+      success: false,
+      error: 'User not authenticated'
+    });
+  }
 
   // Verify mentorship exists and user is authorized
   const mentorship = await Mentorship.findById(mentorshipId)
@@ -488,25 +573,78 @@ exports.getChatHistory = asyncHandler(async (req, res) => {
     'Expires': '0'
   })
 
-  const messages = await Message.find({ mentorship: mentorshipId })
-    .sort({ createdAt: -1 })
-    .skip((page - 1) * limit)
-    .limit(limit)
-    .populate('sender', 'name avatar')
-    .populate('reactions.user', 'name avatar')
+  try {
+    // Use a more robust query that avoids casting issues
+    const messages = await Message.find({ 
+      mentorship: mentorshipId
+    })
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit)
 
-  console.log("Found messages count:", messages.length);
-  console.log("Messages:", messages.map(m => ({ id: m._id, content: m.content, sender: m.sender?.name })));
+    console.log("Raw messages found:", messages.length);
+    console.log("Raw messages:", messages.map(m => ({ 
+      id: m._id, 
+      sender: m.sender, 
+      senderType: typeof m.sender,
+      content: m.content?.substring(0, 30) 
+    })));
 
-  res.json({
-    success: true,
-    data: messages.reverse(),
-    pagination: {
-      page: parseInt(page),
-      limit: parseInt(limit),
-      total: await Message.countDocuments({ mentorship: mentorshipId })
-    }
-  })
+    // Filter out messages with invalid senders after the query
+    const validMessages = messages.filter(msg => {
+      const isValid = msg.sender && 
+             msg.sender !== 'undefined' && 
+             msg.sender !== null && 
+             msg.sender !== '' &&
+             typeof msg.sender === 'object';
+      
+      if (!isValid) {
+        console.log("Filtering out invalid message:", { 
+          id: msg._id, 
+          sender: msg.sender, 
+          senderType: typeof msg.sender 
+        });
+      }
+      return isValid;
+    });
+
+    console.log("Valid messages after filtering:", validMessages.length);
+
+    // Now populate the valid messages
+    const populatedMessages = await Message.populate(validMessages, [
+      { path: 'sender', select: 'name avatar' },
+      { path: 'reactions.user', select: 'name avatar' }
+    ]);
+
+    console.log("Found valid messages count:", populatedMessages.length);
+    console.log("Sample populated message:", populatedMessages[0] ? {
+      id: populatedMessages[0]._id,
+      sender: populatedMessages[0].sender,
+      content: populatedMessages[0].content?.substring(0, 30)
+    } : "No messages");
+
+    // Get total count properly
+    const totalMessages = await Message.countDocuments({ 
+      mentorship: mentorshipId
+    });
+
+    res.json({
+      success: true,
+      data: populatedMessages.reverse(),
+      pagination: {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        total: totalMessages,
+        validTotal: populatedMessages.length
+      }
+    })
+  } catch (error) {
+    console.error("Error in getChatHistory:", error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to retrieve chat history: ' + error.message
+    });
+  }
 })
 
 exports.getMentorChats = async (req, res) => {
@@ -529,10 +667,59 @@ exports.getMentorChats = async (req, res) => {
 exports.sendMessage = asyncHandler(async (req, res) => {
   const { mentorshipId } = req.params
   const { content, type = 'text' } = req.body
-  const userId = req.user.id
-  const userRole = req.user.role
+  
+  // Use helper function to extract user ID consistently
+  const userId = extractUserId(req.user);
+  const userRole = req.user?.role
+
+  console.log("sendMessage called with:", { 
+    mentorshipId, 
+    userId, 
+    userRole,
+    userObject: req.user ? {
+      hasId: !!req.user.id,
+      has_id: !!req.user._id,
+      hasUserId: !!req.user.userId,
+      idType: typeof req.user.id,
+      _idType: typeof req.user._id
+    } : 'No user object'
+  });
+
+  // Check if user is properly authenticated
+  if (!req.user || !userId) {
+    console.log("User not authenticated or missing ID");
+    return res.status(401).json({
+      success: false,
+      error: 'User not authenticated'
+    });
+  }
+
+  console.log("About to create message with userId:", userId, "type:", typeof userId);
+
+  // Validate userId before proceeding
+  if (!userId || userId === 'undefined' || typeof userId === 'undefined') {
+    console.error("Invalid userId detected:", userId);
+    return res.status(401).json({
+      success: false,
+      error: 'Invalid user ID'
+    });
+  }
+
+  // Check if user actually exists in database
+  const userExists = await User.findById(userId);
+  if (!userExists) {
+    console.error("User not found in database:", userId);
+    return res.status(401).json({
+      success: false,
+      error: 'User not found'
+    });
+  }
+
+  console.log("User validation passed:", userExists.name, userExists.email);
 
   const mentorship = await Mentorship.findById(mentorshipId)
+  console.log("Found mentorship:", mentorship);
+  
   if (!mentorship) {
     return res.status(404).json({
       success: false,
@@ -542,17 +729,22 @@ exports.sendMessage = asyncHandler(async (req, res) => {
 
   // Allow admin to message any mentor
   if (userRole === 'admin') {
+    // Ensure userId is properly formatted for MongoDB
+    const senderId = userId.toString();
+    
     const message = await Message.create({
       mentorship: mentorshipId,
-      sender: userId,
+      sender: senderId,
       content,
       type
     })
 
     // Emit socket event for real-time updates
-    req.io.to(mentorshipId).emit('new_message', {
-      message: await message.populate('sender', 'name avatar')
-    })
+    if (req.io) {
+      req.io.to(mentorshipId).emit('new_message', {
+        message: await message.populate('sender', 'name avatar')
+      })
+    }
 
     return res.status(201).json({
       success: true,
@@ -579,17 +771,50 @@ if (![mentorship.userId.toString(), mentorship.mentorId.toString()].includes(use
   });
 }
 
-  const message = await Message.create({
-    mentorship: mentorshipId,
-    sender: userId,
-    content,
-    type
-  })
+  let message;
+  try {
+    // Ensure userId is properly formatted for MongoDB
+    const senderId = userId.toString();
+    
+    console.log("Attempting to create message with data:", {
+      mentorship: mentorshipId,
+      sender: senderId,
+      content: content,
+      type: type
+    });
+
+    message = await Message.create({
+      mentorship: mentorshipId,
+      sender: senderId,
+      content,
+      type
+    })
+
+    console.log("Created message successfully:", message);
+    console.log("Message sender field:", message.sender);
+  } catch (createError) {
+    console.error("Error creating message:", createError);
+    return res.status(500).json({
+      success: false,
+      error: 'Failed to create message: ' + createError.message
+    });
+  }
 
   // Emit socket event for real-time updates
-  req.io.to(mentorshipId).emit('new_message', {
-    message: await message.populate('sender', 'name avatar')
-  })
+  try {
+    if (req.io) {
+      console.log("About to populate message with sender ID:", message.sender);
+      const populatedMessage = await Message.findById(message._id).populate('sender', 'name avatar');
+      console.log("Populated message:", populatedMessage);
+      console.log("Populated sender:", populatedMessage.sender);
+      req.io.to(mentorshipId).emit('new_message', {
+        message: populatedMessage
+      });
+    }
+  } catch (socketError) {
+    console.error("Socket emission error:", socketError);
+    // Continue without failing the request
+  }
 
   res.status(201).json({
     success: true,
@@ -600,7 +825,9 @@ if (![mentorship.userId.toString(), mentorship.mentorId.toString()].includes(use
 // Send Voice Message
 exports.sendVoiceMessage = asyncHandler(async (req, res) => {
   const { mentorshipId } = req.params
-  const userId = req.user.id
+  
+  // Use helper function to extract user ID consistently
+  const userId = extractUserId(req.user);
 
   if (!req.file) {
     return res.status(400).json({
@@ -624,17 +851,22 @@ exports.sendVoiceMessage = asyncHandler(async (req, res) => {
     error: 'Not authorized to send messages in this chat'
   })
 }
+  // Ensure userId is properly formatted for MongoDB
+  const senderId = userId.toString();
+  
   const message = await Message.create({
     mentorship: mentorshipId,
-    sender: userId,
+    sender: senderId,
     content: req.file.path,
     type: 'voice'
   })
 
   // Emit socket event for real-time updates
-  req.io.to(mentorshipId).emit('new_message', {
-    message: await message.populate('sender', 'name avatar')
-  })
+  if (req.io) {
+    req.io.to(mentorshipId).emit('new_message', {
+      message: await message.populate('sender', 'name avatar')
+    })
+  }
 
   res.status(201).json({
     success: true,
@@ -646,7 +878,9 @@ exports.sendVoiceMessage = asyncHandler(async (req, res) => {
 exports.addMessageReaction = asyncHandler(async (req, res) => {
   const { mentorshipId, messageId } = req.params
   const { emoji } = req.body
-  const userId = req.user.id
+  
+  // Use helper function to extract user ID consistently
+  const userId = extractUserId(req.user);
 
   const message = await Message.findById(messageId)
   if (!message) {
@@ -674,10 +908,12 @@ exports.addMessageReaction = asyncHandler(async (req, res) => {
   await message.save()
 
   // Emit socket event for real-time updates
-  req.io.to(mentorshipId).emit('message_reaction', {
-    messageId,
-    reactions: message.reactions
-  })
+  if (req.io) {
+    req.io.to(mentorshipId).emit('message_reaction', {
+      messageId,
+      reactions: message.reactions
+    })
+  }
 
   res.json({
     success: true,
@@ -689,7 +925,9 @@ exports.addMessageReaction = asyncHandler(async (req, res) => {
 exports.shareCode = asyncHandler(async (req, res) => {
   const { mentorshipId } = req.params
   const { code, language } = req.body
-  const userId = req.user.id
+  
+  // Use helper function to extract user ID consistently
+  const userId = extractUserId(req.user);
 
   const mentorship = await Mentorship.findById(mentorshipId)
   if (!mentorship) {
@@ -706,18 +944,23 @@ exports.shareCode = asyncHandler(async (req, res) => {
     error: 'Not authorized to send messages in this chat'
   })
 }
+  // Ensure userId is properly formatted for MongoDB
+  const senderId = userId.toString();
+  
   const message = await Message.create({
     mentorship: mentorshipId,
-    sender: userId,
+    sender: senderId,
     content: code,
     type: 'code',
     metadata: { language }
   })
 
   // Emit socket event for real-time updates
-  req.io.to(mentorshipId).emit('new_message', {
-    message: await message.populate('sender', 'name avatar')
-  })
+  if (req.io) {
+    req.io.to(mentorshipId).emit('new_message', {
+      message: await message.populate('sender', 'name avatar')
+    })
+  }
 
   res.status(201).json({
     success: true,
@@ -729,7 +972,9 @@ exports.shareCode = asyncHandler(async (req, res) => {
 exports.shareScreen = asyncHandler(async (req, res) => {
   const { mentorshipId } = req.params
   const { image } = req.body
-  const userId = req.user.id
+  
+  // Use helper function to extract user ID consistently
+  const userId = extractUserId(req.user);
 
   const mentorship = await Mentorship.findById(mentorshipId)
   if (!mentorship) {
@@ -746,17 +991,22 @@ exports.shareScreen = asyncHandler(async (req, res) => {
     error: 'Not authorized to send messages in this chat'
   })
 }
+  // Ensure userId is properly formatted for MongoDB
+  const senderId = userId.toString();
+  
   const message = await Message.create({
     mentorship: mentorshipId,
-    sender: userId,
+    sender: senderId,
     content: image,
     type: 'screen'
   })
 
   // Emit socket event for real-time updates
-  req.io.to(mentorshipId).emit('new_message', {
-    message: await message.populate('sender', 'name avatar')
-  })
+  if (req.io) {
+    req.io.to(mentorshipId).emit('new_message', {
+      message: await message.populate('sender', 'name avatar')
+    })
+  }
 
   res.status(201).json({
     success: true,
@@ -767,7 +1017,9 @@ exports.shareScreen = asyncHandler(async (req, res) => {
 // Create admin-mentor chat session
 exports.createAdminChat = asyncHandler(async (req, res) => {
   const { mentorId } = req.body;
-  const adminId = req.user.id;
+  
+  // Use helper function to extract user ID consistently
+  const adminId = extractUserId(req.user);
 
   // Verify admin role
   if (req.user.role !== 'admin') {

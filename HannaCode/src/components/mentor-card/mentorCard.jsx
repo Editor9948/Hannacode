@@ -3,7 +3,7 @@ import { Button } from "../../components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar"
 import { Badge } from "../../components/ui/badge"
 import { Calendar, MessageCircle, Star } from "lucide-react"
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 
 const API_URL = process.env.REACT_APP_API_URL
@@ -47,6 +47,17 @@ export default function MentorCard({
     if (!user || !localStorage.getItem("token")) {
       alert("You must be logged in to message a mentor.");
       navigate("/login");
+      return;
+    }
+
+    // Check if user has premium access for mentorship
+    if (!user.role || (user.role !== "premium" && user.role !== "admin")) {
+      navigate("/pricing", { 
+        state: { 
+          message: "Premium subscription required to access mentorship features. Please upgrade your plan to chat with mentors.",
+          feature: "mentorship"
+        }
+      });
       return;
     }
 
@@ -109,6 +120,29 @@ export default function MentorCard({
     }
   };
 
+  const handleBookSession = () => {
+    if (isLoading) return;
+
+    if (!user || !localStorage.getItem("token")) {
+      alert("You must be logged in to book a session with a mentor.");
+      navigate("/login");
+      return;
+    }
+
+    // Check if user has premium access for mentorship
+    if (!user.role || (user.role !== "premium" && user.role !== "admin")) {
+      navigate("/pricing", { 
+        state: { 
+          message: "Premium subscription required to access mentorship features. Please upgrade your plan to book sessions with mentors.",
+          feature: "mentorship"
+        }
+      });
+      return;
+    }
+
+    navigate(`/mentorship/book/${id}`);
+  };
+
   return (
     <Card className="w-full max-w-sm">
       <CardHeader className="flex flex-row items-center gap-4">
@@ -116,9 +150,10 @@ export default function MentorCard({
           <AvatarImage src={avatar || "/placeholder.svg"} alt={name} />
           <AvatarFallback>
             {name
-              .split(" ")
-              .map((n) => n[0])
-              .join("")}
+              ? name.split(" ")
+                  .map((n) => n[0])
+                  .join("")
+              : "?"}
           </AvatarFallback>
         </Avatar>
         <div className="flex-1">
@@ -163,11 +198,13 @@ export default function MentorCard({
           <MessageCircle className="mr-2 h-4 w-4" />
           Message
         </Button>
-        <Button asChild className="flex-1">
-          <Link to={`/mentorship/book/${id}`}>
-            <Calendar className="mr-2 h-4 w-4" />
-            Book Session
-          </Link>
+        <Button 
+          className="flex-1"
+          onClick={handleBookSession}
+          disabled={isLoading}
+        >
+          <Calendar className="mr-2 h-4 w-4" />
+          Book Session
         </Button>
       </CardFooter>
     </Card>

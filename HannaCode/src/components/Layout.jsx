@@ -7,8 +7,7 @@ import useAutoLogout from "../hooks/useAutoLogout";
 
 export default function Layout({ children }) {
   useAutoLogout(() => {
-    // Optional: show a toast or alert
-    alert("You have been logged out due to inactivity.");
+
   });
 
   return (

@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
 const SubscriptionSchema = new mongoose.Schema({
   user: {
@@ -6,17 +6,21 @@ const SubscriptionSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  stripeCustomerId: {
+  // Paystack fields
+  paystackCustomerCode: {
     type: String,
     required: true,
   },
-  stripeSubscriptionId: {
+  paystackSubscriptionCode: {
     type: String,
     required: true,
   },
-  stripePriceId: {
+  paystackPlanCode: {
     type: String,
     required: true,
+  },
+  paystackAuthorizationCode: {
+    type: String,
   },
   plan: {
     type: String,
@@ -48,12 +52,27 @@ const SubscriptionSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-})
+  // Additional Paystack fields
+  paystackNextPaymentDate: {
+    type: Date,
+  },
+  paystackLastPaymentDate: {
+    type: Date,
+  },
+  paystackInvoiceCode: {
+    type: String,
+  },
+});
 
 // Update the updatedAt field on save
 SubscriptionSchema.pre("save", function (next) {
-  this.updatedAt = Date.now()
-  next()
-})
+  this.updatedAt = Date.now();
+  next();
+});
 
-module.exports = mongoose.model("Subscription", SubscriptionSchema)
+// Indexes for Paystack fields
+SubscriptionSchema.index({ paystackCustomerCode: 1 });
+SubscriptionSchema.index({ paystackSubscriptionCode: 1 });
+SubscriptionSchema.index({ paystackPlanCode: 1 });
+
+module.exports = mongoose.model("Subscription", SubscriptionSchema);

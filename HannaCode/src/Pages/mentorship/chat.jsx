@@ -5,13 +5,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/ca
 import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar";
 import { Badge } from "../../components/ui/badge";
 import { Input } from "../../components/ui/input";
-import { ArrowLeft, Send, Calendar, Paperclip, Code, Smile,  Mic } from "lucide-react";
+import { ArrowLeft, Send, Calendar, Paperclip, Code, Smile, Mic, ChevronDown } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "../../components/ui/popover";
 import { EmojiPicker } from "../../components/ui/emoji-picker";
 import { CodeBlock } from "../../components/ui/code-block";
 import { AlertCircle } from "lucide-react";
 
-const API_URL = process.env.REACT_APP_API_URL 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/v1';
 
 export default function ChatPage() {
   const {mentorshipId} = useParams();
@@ -22,13 +22,33 @@ export default function ChatPage() {
   const [showCodeEditor, setShowCodeEditor] = useState(false);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isUserScrolledUp, setIsUserScrolledUp] = useState(false);
   const messagesEndRef = useRef(null);
+  const messagesContainerRef = useRef(null);
   const mediaRecorderRef = useRef(null);
   const navigate = useNavigate();
 
   // Get token and user from localStorage
   const token = localStorage.getItem("token");
   const user = JSON.parse(localStorage.getItem("user"));
+
+  // Debug logging
+  console.log("=== CHAT COMPONENT DEBUG ===");
+  console.log("API_URL:", API_URL);
+  console.log("Token exists:", !!token);
+  console.log("User:", user);
+  console.log("MentorshipId:", mentorshipId);
+  console.log("MentorshipId type:", typeof mentorshipId);
+  console.log("MentorshipId length:", mentorshipId?.length);
+  console.log("=== DEBUG END ===");  // Debug logging
+  console.log("=== FRONTEND DEBUG ===");
+  console.log("API_URL:", API_URL);
+  console.log("Token exists:", !!token);
+  console.log("User object:", user);
+  console.log("User ID:", user?.id);
+  console.log("User _id:", user?._id);
+  console.log("User role:", user?.role);
+  console.log("=== FRONTEND DEBUG END ===");
 
   // Check authentication on mount
   useEffect(() => {
@@ -44,81 +64,198 @@ export default function ChatPage() {
     setIsLoading(true);
     setError(null);
 
+    // Test basic connectivity first
+    console.log("Testing basic connectivity...");
+    console.log("API_URL being used:", API_URL);
+
     // Fetch mentor info
-    fetch(`${API_URL}/mentorship/sessions/${mentorshipId}`, {
+    console.log("API_URL:", API_URL);
+    console.log("mentorshipId:", mentorshipId);
+    
+    // Check if API_URL is valid
+    if (!API_URL) {
+      console.error("API_URL is not defined");
+      setError("Configuration error: API URL is not defined");
+      setIsLoading(false);
+      return;
+    }
+    
+    // Validate mentorshipId
+    if (!mentorshipId || mentorshipId === 'undefined' || typeof mentorshipId !== 'string') {
+      console.error("Invalid mentorshipId:", mentorshipId);
+      setError("Invalid mentorship session ID. Please check the URL.");
+      setIsLoading(false);
+      return;
+    }
+    
+    console.log("Making session request to:", `${API_URL}/mentorship/sessions/${mentorshipId}`);
+    console.log("Request headers:", {
+      "Authorization": `Bearer ${token ? token.substring(0, 20) + "..." : "no token"}`,
+      "Content-Type": "application/json"
+    });
+    
+    console.log("About to make fetch request...");
+    console.log("API_URL value:", API_URL);
+    console.log("Full URL:", `${API_URL}/mentorship/sessions/${mentorshipId}?t=${Date.now()}`);
+    console.log("mentorshipId value:", mentorshipId);
+    console.log("Token exists:", !!token);
+    
+    // Test basic connectivity first
+    console.log("Testing basic connectivity...");
+    console.log("API_URL being used:", API_URL);
+    
+    // Try a simple fetch without any complex options
+    fetch(`${API_URL}/mentorship/sessions`, {
+      method: 'GET',
       headers: {
         "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json"
       }
     })
-      .then(res => {
-        if (!res.ok) {
-          if (res.status === 401) {
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-            navigate("/login");
-            return;
-          }
-          if (res.status === 404) {
-            throw new Error("Mentorship session not found. Please check the session ID or create a new session.");
-          }
-          throw new Error(`HTTP error! status: ${res.status}`);
-        }
-        return res.json();
-      })
-      .then(data => {
-        if (data && data.data) {
-          // For admin sessions, the mentorId is in a different field
-          const mentorId =
-         data.data.type === "admin"
-          ? (typeof data.data.mentorId === "object" ? data.data.mentorId._id : data.data.mentorId)
-          : (typeof data.data.mentor === "object" ? data.data.mentor._id : data.data.mentor);
-
-          fetch(`${API_URL}/mentorship/mentors/${mentorId}`, {
-          headers: {
-          "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json"
+    .then(res => {
+      console.log("Simple test response status:", res.status);
+      return res.json();
+    })
+    .then(data => {
+      console.log("Simple test response data:", data);
+    })
+    .catch(err => {
+      console.error("Simple test failed:", err);
+      console.error("Error type:", err.constructor.name);
+      console.error("Error message:", err.message);
+    });
+    
+    // Main session fetch with simplified approach
+    console.log("=== STARTING MAIN SESSION FETCH ===");
+    fetch(`${API_URL}/mentorship/sessions/${mentorshipId}`, {
+      method: 'GET',
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      }
+    })
+       .then(res => {
+         console.log("=== SESSION FETCH SUCCESS ===");
+         console.log("Session data response status:", res.status);
+         console.log("Session data response ok:", res.ok);
+         console.log("Session data response headers:", res.headers);
+         
+         if (!res.ok) {
+           if (res.status === 401) {
+             localStorage.removeItem("token");
+             localStorage.removeItem("user");
+             navigate("/login");
+             return;
+           }
+           if (res.status === 404) {
+             throw new Error("Mentorship session not found. Please check the session ID or create a new session.");
+           }
+           throw new Error(`HTTP error! status: ${res.status}`);
          }
-        })
-            .then(res => {
-              if (!res.ok) {
-                if (res.status === 401) {
-                  localStorage.removeItem("token");
-                  localStorage.removeItem("user");
-                  navigate("/login");
-                  return;
-                }
-                throw new Error(`HTTP error! status: ${res.status}`);
-              }
-              return res.json();
-            })
-            .then(mentorData => {
-             if (mentorData) {
-              setMentor(mentorData);
+         return res.json();
+       })
+       .then(data => {
+         if (data && data.data) {
+           console.log("Mentorship session data:", data.data);
+           console.log("Session type:", data.data.type);
+           console.log("mentorId field:", data.data.mentorId);
+           console.log("mentorId._id:", data.data.mentorId?._id);
+           console.log("mentorId type:", typeof data.data.mentorId);
+           console.log("mentor field:", data.data.mentor);
+           console.log("Full session data structure:", JSON.stringify(data.data, null, 2));
+           
+           // Extract mentorId from the session data
+           // The backend returns populated mentorId and userId fields
+           let mentorId = null;
+           
+           if (data.data.mentorId) {
+             // mentorId is populated by the backend, so it's an object with _id, name, email
+             mentorId = data.data.mentorId._id || data.data.mentorId;
+           }
+           
+           console.log("Extracted mentorId:", mentorId);
+           console.log("MentorId type:", typeof mentorId);
+
+           // Validate mentorId before making the request
+           if (!mentorId || mentorId === 'undefined' || mentorId === 'null' || mentorId === undefined) {
+             console.error("Invalid mentorId:", mentorId);
+             console.error("Session data structure:", data.data);
+             setError("Invalid mentor ID in session data. Please try refreshing the page or contact support.");
+             return;
+           }
+
+           console.log("Making request to:", `${API_URL}/mentorship/mentors/${mentorId}`);
+           
+           return fetch(`${API_URL}/mentorship/mentors/${mentorId}`, {
+           method: 'GET',
+           headers: {
+           "Authorization": `Bearer ${token}`,
+           "Content-Type": "application/json"
+          }
+         })
+             .then(res => {
+               if (!res.ok) {
+                 if (res.status === 401) {
+                   localStorage.removeItem("token");
+                   localStorage.removeItem("user");
+                   navigate("/login");
+                   return;
+                 }
+                 throw new Error(`HTTP error! status: ${res.status}`);
                }
-            })
-            .catch(error => {
-              console.error("Error fetching mentor:", error);
-              setError("Failed to load mentor information");
-            });
-        }
-      })
-      .catch(error => {
-        console.error("Error fetching session:", error);
-        setError(error.message || "Failed to load mentorship session");
-      })
+               return res.json();
+             })
+             .then(mentorData => {
+              if (mentorData && mentorData.data) {
+               setMentor(mentorData.data);
+                } else {
+                  console.error("Invalid mentor data structure:", mentorData);
+                  setError("Failed to load mentor information");
+                }
+             });
+         }
+       })
+               .catch(error => {
+          console.error("=== DETAILED SESSION FETCH ERROR ===");
+          console.error("Error fetching session:", error);
+          console.error("Error name:", error.name);
+          console.error("Error message:", error.message);
+          console.error("Error stack:", error.stack);
+          console.error("Error cause:", error.cause);
+          console.error("Full error object:", JSON.stringify(error, Object.getOwnPropertyNames(error)));
+          console.error("=== END DETAILED ERROR ===");
+          
+          let errorMessage = "Network error";
+          if (error.name === 'TypeError') {
+            if (error.message.includes('fetch') || error.message.includes('Failed to fetch')) {
+              errorMessage = "Failed to connect to server. Please check if the backend is running and accessible.";
+            } else if (error.message.includes('Cannot read properties of undefined')) {
+              errorMessage = "Data structure error: " + error.message;
+            } else {
+              errorMessage = "JavaScript error: " + error.message;
+            }
+          } else if (error.message.includes('CORS')) {
+            errorMessage = "CORS error. Please check server configuration.";
+          } else if (error.message.includes('HTTP error')) {
+            errorMessage = error.message;
+          } else {
+            errorMessage = error.message;
+          }
+          
+          setError(`${errorMessage}`);
+        })
       .finally(() => {
         setIsLoading(false);
       });
 
     // Fetch chat history
+    console.log("=== STARTING CHAT HISTORY FETCH ===");
     fetch(`${API_URL}/mentorship/chat/${mentorshipId}/history`, {
+      method: 'GET',
       headers: {
         "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json"
-      },
-      // Add cache control headers
-      cache: 'no-cache'
+      }
     })
       .then(res => {
         console.log("Chat history response status:", res.status);
@@ -178,8 +315,25 @@ export default function ChatPage() {
           console.log("Polling response:", data);
           console.log("Current messages count:", messages.length);
           console.log("New messages count:", data.data ? data.data.length : 0);
+          
           if (data && Array.isArray(data.data)) {
-            setMessages(data.data);
+            // Only update messages if there are actually new messages
+            const newMessagesCount = data.data.length;
+            const currentMessagesCount = messages.length;
+            
+            if (newMessagesCount > currentMessagesCount) {
+              setMessages(data.data);
+            } else if (newMessagesCount === currentMessagesCount) {
+              // Same count - only update if content is different (to handle message updates)
+              const lastCurrentMessage = messages[messages.length - 1];
+              const lastNewMessage = data.data[data.data.length - 1];
+              
+              if (!lastCurrentMessage || !lastNewMessage || 
+                  lastCurrentMessage._id !== lastNewMessage._id ||
+                  lastCurrentMessage.content !== lastNewMessage.content) {
+                setMessages(data.data);
+              }
+            }
           }
         })
         .catch(error => {
@@ -191,12 +345,38 @@ export default function ChatPage() {
     return () => {
       clearInterval(pollInterval);
     };
-  }, [mentorshipId, token, navigate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mentorshipId, token, navigate]); // messages intentionally excluded to prevent infinite polling
 
-  // Scroll to bottom of messages
+  // Scroll to bottom of messages only when appropriate
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    const scrollToBottom = () => {
+      if (messagesEndRef.current && !isUserScrolledUp) {
+        messagesEndRef.current.scrollIntoView({ behavior: "instant" });
+      }
+    };
+
+    // Small delay to ensure DOM has updated
+    const timeoutId = setTimeout(scrollToBottom, 100);
+    return () => clearTimeout(timeoutId);
+  }, [messages, isUserScrolledUp]);
+
+  // Handle scroll detection to prevent auto-scroll when user scrolls up
+  const handleScroll = () => {
+    if (messagesContainerRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = messagesContainerRef.current;
+      const isAtBottom = scrollTop + clientHeight >= scrollHeight - 50; // 50px threshold
+      setIsUserScrolledUp(!isAtBottom);
+    }
+  };
+
+  // Scroll to bottom when user sends a message (always scroll for own messages)
+  const scrollToBottomForced = () => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+      setIsUserScrolledUp(false);
+    }
+  };
 
   // Send message to backend
   const handleSendMessage = async (e) => {
@@ -220,8 +400,22 @@ export default function ChatPage() {
 
     setMessages((prev) => [...prev, tempMessage]);
     setNewMessage("");
+    
+    // Force scroll to bottom when user sends a message
+    scrollToBottomForced();
 
     try {
+      console.log("Sending message to URL:", `${API_URL}/mentorship/chat/${mentorshipId}/messages`);
+      console.log("Request headers:", {
+        "Authorization": `Bearer ${token ? token.substring(0, 20) + "..." : "NO_TOKEN"}`,
+        "Content-Type": "application/json"
+      });
+      console.log("Request body:", messageData);
+
+      // Create a fetch with timeout
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+
       const response = await fetch(`${API_URL}/mentorship/chat/${mentorshipId}/messages`, {
         method: "POST",
         headers: {
@@ -229,13 +423,23 @@ export default function ChatPage() {
           "Content-Type": "application/json"
         },
         body: JSON.stringify(messageData),
+        signal: controller.signal
       });
 
+      clearTimeout(timeoutId);
+
+      console.log("Response status:", response.status);
+      console.log("Response ok:", response.ok);
+      console.log("Response headers:", Object.fromEntries(response.headers.entries()));
+
       if (!response.ok) {
-        throw new Error("Failed to send message");
+        const errorText = await response.text();
+        console.error("Error response text:", errorText);
+        throw new Error(`HTTP ${response.status}: ${errorText}`);
       }
 
       const result = await response.json();
+      console.log("Success response:", result);
       
       // Replace temporary message with real one from server
       if (result.success && result.data) {
@@ -249,7 +453,20 @@ export default function ChatPage() {
       }
     } catch (err) {
       console.error("Error sending message:", err);
-      setError("Failed to send message");
+      console.error("Error type:", err.name);
+      console.error("Error message:", err.message);
+      console.error("Error stack:", err.stack);
+      
+      let errorMessage = "Failed to send message";
+      if (err.name === 'AbortError') {
+        errorMessage = "Request timed out. Please try again.";
+      } else if (err.name === 'TypeError' && err.message.includes('fetch')) {
+        errorMessage = "Network error. Please check your connection and try again.";
+      } else if (err.message.includes('HTTP')) {
+        errorMessage = err.message;
+      }
+      
+      setError(errorMessage);
       
       // Remove temporary message on error
       setMessages((prev) => prev.filter(msg => !msg.isTemp || msg.content !== newMessage));
@@ -386,43 +603,6 @@ export default function ChatPage() {
     }
   };
 
-  const handleReaction = (messageId, reaction) => {
-    // Optimistically add reaction to UI
-    setMessages(prev => 
-      prev.map(msg => 
-        (msg._id === messageId || msg.id === messageId)
-          ? { 
-              ...msg, 
-              reactions: [...(msg.reactions || []), { emoji: reaction, user: user } 
-            ]}
-          : msg
-      )
-    );
-
-    // Send reaction to backend
-    fetch(`${API_URL}/mentorship/chat/${mentorshipId}/messages/${messageId}/reactions`, {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ emoji: reaction }),
-    }).catch(err => {
-      console.error("Error sending reaction:", err);
-      // Remove reaction on error
-      setMessages(prev => 
-        prev.map(msg => 
-          (msg._id === messageId || msg.id === messageId)
-            ? { 
-                ...msg, 
-                reactions: (msg.reactions || []).filter(r => r.emoji !== reaction || r.user._id !== user._id)
-              }
-            : msg
-        )
-      );
-    });
-  };
-
   const formatTime = (date) => {
   if (!date) return "";
   const d = typeof date === "string" ? new Date(date) : date;
@@ -496,13 +676,14 @@ export default function ChatPage() {
                     <AvatarImage src={mentor.avatar || "/placeholder.svg"} alt={mentor.name} />
                     <AvatarFallback>
                       {mentor.name
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")}
+                        ? mentor.name.split(" ")
+                            .map((n) => n[0])
+                            .join("")
+                        : "?"}
                     </AvatarFallback>
                   </Avatar>
                   <div>
-                    <CardTitle className="text-base">{mentor.name}</CardTitle>
+                    <CardTitle className="text-base">{mentor.name || "Unknown Mentor"}</CardTitle>
                     <div className="flex items-center">
                       <div
                       className={`h-2 w-2 rounded-full mr-1 ${
@@ -522,7 +703,11 @@ export default function ChatPage() {
                 </Button>
               </div>
             </CardHeader>
-            <CardContent className="flex-1 overflow-y-auto p-4">
+            <CardContent 
+              className="flex-1 overflow-y-auto p-4 relative" 
+              ref={messagesContainerRef}
+              onScroll={handleScroll}
+            >
               <div className="space-y-4">
                 {messages.map((message) => {
                   // Determine if message is from current user
@@ -570,6 +755,21 @@ export default function ChatPage() {
                 })}
                 <div ref={messagesEndRef} />
               </div>
+              
+              {/* Scroll to bottom button */}
+              {isUserScrolledUp && (
+                <div className="absolute bottom-20 right-6">
+                  <Button
+                    onClick={scrollToBottomForced}
+                    size="sm"
+                    className="rounded-full shadow-lg"
+                    variant="secondary"
+                  >
+                    <ChevronDown className="h-4 w-4 mr-1" />
+                    New messages
+                  </Button>
+                </div>
+              )}
             </CardContent>
             <div className="border-t p-4">
               <form onSubmit={handleSendMessage} className="flex gap-2">
@@ -645,23 +845,26 @@ export default function ChatPage() {
                   <AvatarImage src={mentor.avatar || "/placeholder.svg"} alt={mentor.name} />
                   <AvatarFallback>
                     {mentor.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")}
+                      ? mentor.name.split(" ")
+                          .map((n) => n[0])
+                          .join("")
+                      : "?"}
                   </AvatarFallback>
                 </Avatar>
                 <div>
-                  <h3 className="font-bold text-lg">{mentor.name}</h3>
-                  <p className="text-muted-foreground">{mentor.role}</p>
+                  <h3 className="font-bold text-lg">{mentor.name || "Unknown Mentor"}</h3>
+                  <p className="text-muted-foreground">{mentor.role || "Mentor"}</p>
                 </div>
               </div>
 
               <div className="flex flex-wrap gap-2">
-                {mentor.specialties.map((specialty, index) => (
-                  <Badge key={index} variant="secondary">
-                    {specialty}
-                  </Badge>
-                ))}
+                {mentor.specialties && Array.isArray(mentor.specialties) 
+                  ? mentor.specialties.map((specialty, index) => (
+                      <Badge key={index} variant="secondary">
+                        {specialty}
+                      </Badge>
+                    ))
+                  : <Badge variant="secondary">General Mentoring</Badge>}
               </div>
 
               <div className="space-y-2 text-sm text-muted-foreground">

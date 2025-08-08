@@ -1,4 +1,4 @@
-import {Link} from "react-router-dom"
+import {Link, useLocation} from "react-router-dom"
 import { Button } from "../components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../components/ui/card"
 import { CheckCircle, X } from "lucide-react"
@@ -6,6 +6,9 @@ import { Badge } from "../components/ui/badge"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../components/ui/accordion"
 
 export default function PricingPage() {
+  const location = useLocation();
+  const message = location.state?.message;
+  const feature = location.state?.feature;
   const freePlanFeatures = [
     { name: "Access to basic courses", included: true },
     { name: "Interactive coding exercises", included: true },
@@ -65,17 +68,23 @@ export default function PricingPage() {
         <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
           Choose the plan that works best for your learning journey.
         </p>
+        
+        {message && (
+          <div className="mx-auto max-w-2xl p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <p className="text-blue-800 font-medium">{message}</p>
+          </div>
+        )}
       </div>
 
       {/* Pricing Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
         {/* Free Plan */}
         <Card className="border-2 border-secondary/20">
           <CardHeader>
             <CardTitle className="text-2xl">Free Plan</CardTitle>
             <CardDescription>Perfect for beginners and casual learners</CardDescription>
             <div className="mt-4 text-4xl font-bold">
-              $0<span className="text-lg font-normal text-muted-foreground">/month</span>
+              #0<span className="text-lg font-normal text-muted-foreground">/month</span>
             </div>
           </CardHeader>
           <CardContent>
@@ -110,7 +119,7 @@ export default function PricingPage() {
             <CardTitle className="text-2xl">Premium Plan</CardTitle>
             <CardDescription>For serious learners and career changers</CardDescription>
             <div className="mt-4 text-4xl font-bold">
-              $29<span className="text-lg font-normal text-muted-foreground">/month</span>
+              ₦30,000<span className="text-lg font-normal text-muted-foreground">/month</span>
             </div>
           </CardHeader>
           <CardContent>
@@ -124,8 +133,45 @@ export default function PricingPage() {
             </ul>
           </CardContent>
           <CardFooter>
-            <Link to="/register?plan=premium" className="w-full">
+            <Link to="/checkout?plan=monthly" className="w-full">
               <Button className="w-full bg-primary hover:bg-primary/90">Get Premium</Button>
+            </Link>
+          </CardFooter>
+        </Card>
+
+        {/* Lifetime Plan */}
+        <Card className="border-2 border-yellow-500 relative">
+          <div className="absolute top-0 right-0 transform translate-x-2 -translate-y-2">
+            <Badge className="bg-yellow-500 text-white">Best Value</Badge>
+          </div>
+          <CardHeader>
+            <CardTitle className="text-2xl">Lifetime Access</CardTitle>
+            <CardDescription>One-time payment for unlimited access</CardDescription>
+            <div className="mt-4 text-4xl font-bold">
+              ₦499,999<span className="text-lg font-normal text-muted-foreground">/once</span>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <ul className="space-y-3">
+              {premiumPlanFeatures.map((feature, index) => (
+                <li key={index} className="flex items-start">
+                  <CheckCircle className="mr-2 h-5 w-5 text-primary shrink-0" />
+                  <span>{feature.name}</span>
+                </li>
+              ))}
+              <li className="flex items-start">
+                <CheckCircle className="mr-2 h-5 w-5 text-primary shrink-0" />
+                <span>Early access to new courses</span>
+              </li>
+              <li className="flex items-start">
+                <CheckCircle className="mr-2 h-5 w-5 text-primary shrink-0" />
+                <span>Lifetime updates and support</span>
+              </li>
+            </ul>
+          </CardContent>
+          <CardFooter>
+            <Link to="/checkout?plan=lifetime" className="w-full">
+              <Button className="w-full bg-yellow-500 hover:bg-yellow-600 text-white">Get Lifetime Access</Button>
             </Link>
           </CardFooter>
         </Card>
@@ -136,9 +182,9 @@ export default function PricingPage() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
             <h3 className="text-xl font-bold">Save 20% with annual billing</h3>
-            <p className="text-muted-foreground">Get 12 months for the price of 10 when you choose annual billing.</p>
+            <p className="text-muted-foreground">Get 12 months for the price of 10 when you choose annual billing (₦288,000/year).</p>
           </div>
-          <Link to="/register?plan=premium-annual">
+          <Link to="/checkout?plan=annual">
             <Button className="bg-primary hover:bg-primary/90">Get Annual Plan</Button>
           </Link>
         </div>

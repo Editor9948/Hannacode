@@ -4,7 +4,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../../comp
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../components/ui/tabs"
 import { Input } from "../../components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../components/ui/select"
-import { Search, Calendar, MessageCircle, CheckCircle } from "lucide-react"
+import { Search, Calendar, MessageCircle, CheckCircle, Crown } from "lucide-react"
 import {Link} from "react-router-dom"
 import MentorCard from "../../components/mentor-card/mentorCard"
 
@@ -14,11 +14,15 @@ const API_URL = process.env.REACT_APP_API_URL
 export default function MentorshipPage() {
   // Sample mentors data
   const [mentors, setMentors] = useState([]);
-     useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
+  const [user, setUser] = useState(null);
+  
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    setUser(storedUser);
+    
     fetch(`${API_URL}/mentors`, {
       headers: {
-        "Authorization": `Bearer ${user?.token}`,
+        "Authorization": `Bearer ${storedUser?.token || localStorage.getItem("token")}`,
         "Content-Type": "application/json"
       }
     })
@@ -38,7 +42,9 @@ export default function MentorshipPage() {
       .catch(error => {
         console.error('Error:', error);
       });
-}, []);
+  }, []);
+
+  const isPremiumUser = user?.role === "premium" || user?.role === "admin";
   return (
     <div className="container py-12">
       <div className="space-y-4 text-center mb-12">
@@ -46,6 +52,21 @@ export default function MentorshipPage() {
         <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
           Connect with experienced developers for personalized guidance and accelerate your learning journey.
         </p>
+        
+        {!isPremiumUser && (
+          <div className="mx-auto max-w-md p-4 bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-lg">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <Crown className="h-5 w-5 text-yellow-600" />
+              <span className="font-semibold text-yellow-800">Premium Feature</span>
+            </div>
+            <p className="text-sm text-yellow-700 mb-3">
+              Mentorship is available for premium subscribers only. Upgrade to access 1-on-1 mentoring sessions.
+            </p>
+            <Button asChild size="sm" className="bg-yellow-600 hover:bg-yellow-700">
+              <Link to="/pricing">Upgrade to Premium</Link>
+            </Button>
+          </div>
+        )}
       </div>
 
       <Tabs defaultValue="all" className="w-full mb-8">
