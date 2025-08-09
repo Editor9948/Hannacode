@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../co
 import { Mail, RefreshCw, ArrowLeft } from "lucide-react"
 import { useToast } from "../hooks/useToast"
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/v1'
+const API_URL = process.env.REACT_APP_API_URL 
 
 export default function ResendVerificationPage() {
   const navigate = useNavigate()

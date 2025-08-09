@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useToast } from "../../hooks/useToast";
 
+const API_URL = process.env.REACT_APP_API_URL 
+
 export default function CheckoutPage() {
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -167,7 +169,7 @@ export default function CheckoutPage() {
       console.log("Plan:", selectedPlan);
       console.log("Email:", billingDetails.email);
       
-      const response = await fetch("http://localhost:5000/api/v1/payments/initialize", {
+      const response = await fetch(`${API_URL}/payments/initialize`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

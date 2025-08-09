@@ -14,7 +14,7 @@ import { Alert, AlertDescription } from "../components/ui/alert"
 import { useToast } from "../hooks/useToast"
 import CalendlySettings from "../components/CalendlySettings"
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/v1'
+const API_URL = process.env.REACT_APP_API_URL 
 
 export default function SettingsPage() {
   const { toast } = useToast()

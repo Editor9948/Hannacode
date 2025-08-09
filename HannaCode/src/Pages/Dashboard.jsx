@@ -9,7 +9,7 @@ import { ArrowRight, BookOpen, Clock, Award, BarChart, BookMarked, CheckCircle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs"
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar"
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/v1'; 
+const API_URL = process.env.REACT_APP_API_URL 
 export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState("in-progress")
   const [inProgressCourses, setInProgressCourses] = useState([])
