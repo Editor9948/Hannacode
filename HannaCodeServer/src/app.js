@@ -49,12 +49,12 @@ const premiumRoutes = require("./routes/premium")
 
 const app = express()
 
-// Enable CORS with more permissive settings for development
+// Enable CORS with proper settings for production
 app.use(cors({
-  origin: true, // Allow all origins in development
-  credentials: false, // Disable credentials for now
+  origin: process.env.CLIENT_URL , // Use specific origin in production
+  credentials: true, // Enable credentials for authentication
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization", "Accept"],
+  allowedHeaders: ["Content-Type", "Authorization", "Accept", "X-Requested-With"],
   exposedHeaders: ["Content-Type", "Authorization"],
   maxAge: 86400 // 24 hours
 }));

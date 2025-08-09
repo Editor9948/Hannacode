@@ -168,7 +168,7 @@ export default function CheckoutPage() {
       console.log("Making payment request with token:", token ? "Present" : "Missing");
       console.log("Plan:", selectedPlan);
       console.log("Email:", billingDetails.email);
-      
+
       const response = await fetch(`${API_URL}/payments/initialize`, {
         method: "POST",
         headers: {

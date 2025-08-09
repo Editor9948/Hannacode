@@ -2623,3 +2623,10 @@
 2025-08-09 19:01:49 info: [1m[33mServer running in development mode on port 5000[39m[22m
 2025-08-09 19:01:56 info: Socket.IO initialized
 2025-08-09 19:01:56 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-09 19:35:22 info: Socket.IO initialized
+2025-08-09 19:35:22 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-09 19:35:25 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-09 19:37:24 info: Email sent: <d01aeb53-4402-edbb-62c1-2d91f69d4ab7@hannacode.com>
+2025-08-09 19:38:32 info: Email sent: <b95cf4a1-8f3f-d46e-0a30-02efd2e686be@hannacode.com>
+2025-08-09 19:45:40 info: Socket.IO initialized
+2025-08-09 19:45:40 info: [1m[33mServer running in development mode on port 5000[39m[22m
