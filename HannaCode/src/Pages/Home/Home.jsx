@@ -224,10 +224,6 @@ export default function Home() {
                       <CheckCircle className="mr-2 h-4 w-4 text-primary" />
                       <span>Community forum access</span>
                     </li>
-                    <li className="flex items-center">
-                      <CheckCircle className="mr-2 h-4 w-4 text-primary" />
-                      <span>Progress tracking</span>
-                    </li>
                   </ul>
                 </CardContent>
                 <CardFooter>
@@ -245,7 +241,7 @@ export default function Home() {
                 <CardHeader>
                   <CardTitle>Premium Plan</CardTitle>
                   <div className="mt-4 text-4xl font-bold">
-                    $29<span className="text-lg font-normal text-muted-foreground">/month</span>
+                    #30,000<span className="text-lg font-normal text-muted-foreground">/month</span>
                   </div>
                 </CardHeader>
                 <CardContent>
@@ -269,6 +265,10 @@ export default function Home() {
                     <li className="flex items-center">
                       <CheckCircle className="mr-2 h-4 w-4 text-primary" />
                       <span>Project-based learning</span>
+                    </li>
+                     <li className="flex items-center">
+                      <CheckCircle className="mr-2 h-4 w-4 text-primary" />
+                      <span>Progress tracking</span>
                     </li>
                     <li className="flex items-center">
                       <CheckCircle className="mr-2 h-4 w-4 text-primary" />
