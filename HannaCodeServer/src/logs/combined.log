@@ -2556,3 +2556,8 @@
 2025-08-08 23:03:22 info: Email sent: <fb90fffa-633c-5fe8-2a16-3f1027a0dd02@hannacode.com>
 2025-08-08 23:03:50 info: Email sent: <785930f1-95f4-0ada-9365-88cfbf50f64d@hannacode.com>
 2025-08-08 23:59:15 error: Error: Session not found with id of 68434ece40704b4db64e5572
+2025-08-09 01:22:26 info: Socket.IO initialized
+2025-08-09 01:22:26 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-09 01:22:29 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-09 01:24:28 info: Email sent: <47166f74-e360-7a8e-f327-617089ac73dd@hannacode.com>
+2025-08-09 01:33:45 info: Email sent: <e8d75d59-b8a2-81d4-82cb-47b3f8f318cf@hannacode.com>

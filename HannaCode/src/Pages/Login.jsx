@@ -2,8 +2,8 @@
 
 import  React from "react"
 
-import { useState } from "react"
-import {Link} from "react-router-dom"
+import { useState, useEffect } from "react"
+import {Link, useLocation} from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 import { Button } from "../components/ui/button"
 import { Input } from "../components/ui/input"
@@ -17,11 +17,20 @@ const API_URL = process.env.REACT_APP_API_URL
 
 export default function LoginPage() {
   const navigate = useNavigate()
+  const location = useLocation()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [rememberMe, setRememberMe] = useState(false)
   const [error, setError] = useState("")
+  const [successMessage, setSuccessMessage] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+
+  // Check for messages from email verification or registration
+  useEffect(() => {
+    if (location.state?.message) {
+      setSuccessMessage(location.state.message)
+    }
+  }, [location.state])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -72,6 +81,11 @@ localStorage.setItem("user", JSON.stringify(data.user));
             <CardDescription className="text-center">Enter your credentials to access your account</CardDescription>
           </CardHeader>
           <CardContent>
+            {successMessage && (
+              <Alert className="mb-4 border-green-200 bg-green-50 text-green-800">
+                <AlertDescription>{successMessage}</AlertDescription>
+              </Alert>
+            )}
             {error && (
               <Alert variant="destructive" className="mb-4">
                 <AlertCircle className="h-4 w-4" />

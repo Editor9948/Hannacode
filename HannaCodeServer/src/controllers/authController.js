@@ -82,6 +82,11 @@ exports.login = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse("Invalid credentials", 401))
   }
 
+  // Check if email is verified
+  if (!user.emailVerified) {
+    return next(new ErrorResponse("Please verify your email before logging in. Check your email for verification link.", 401))
+  }
+
   // Reset login attempts on successful login
   user.loginAttempts = 0
   user.lockUntil = undefined
@@ -381,6 +386,70 @@ exports.bookMentorship = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse("Mentorship booked, but email could not be sent", 500));
   }
 });
+
+// @desc    Verify email
+// @route   GET /api/v1/auth/verifyemail/:verificationtoken
+// @access  Public
+exports.verifyEmail = asyncHandler(async (req, res, next) => {
+  // Get hashed token
+  const verificationToken = crypto
+    .createHash("sha256")
+    .update(req.params.verificationtoken)
+    .digest("hex")
+
+  const user = await User.findOne({
+    emailVerificationToken: verificationToken,
+    emailVerificationExpire: { $gt: Date.now() }
+  })
+
+  if (!user) {
+    return next(new ErrorResponse("Invalid or expired verification token", 400))
+  }
+
+  // Set email as verified
+  user.emailVerified = true
+  user.emailVerificationToken = undefined
+  user.emailVerificationExpire = undefined
+  await user.save({ validateBeforeSave: false })
+
+  res.status(200).json({
+    success: true,
+    message: "Email verified successfully. You can now login."
+  })
+})
+
+// @desc    Resend verification email
+// @route   POST /api/v1/auth/resendverification
+// @access  Private
+exports.resendVerification = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.user.id)
+
+  if (user.emailVerified) {
+    return next(new ErrorResponse("Email is already verified", 400))
+  }
+
+  // Generate new verification token
+  const verificationToken = user.getEmailVerificationToken()
+  await user.save({ validateBeforeSave: false })
+
+  // Create verification URL
+  const verificationUrl = `${process.env.CLIENT_URL}/verify-email/${verificationToken}`
+
+  try {
+    await sendWelcomeEmail(user, verificationUrl)
+    
+    res.status(200).json({
+      success: true,
+      message: "Verification email sent"
+    })
+  } catch (err) {
+    user.emailVerificationToken = undefined
+    user.emailVerificationExpire = undefined
+    await user.save({ validateBeforeSave: false })
+
+    return next(new ErrorResponse("Email could not be sent", 500))
+  }
+})
 
 
 exports.subscribe = asyncHandler(async (req, res, next) => {

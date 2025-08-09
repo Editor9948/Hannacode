@@ -37,6 +37,8 @@ import Playground from "./Pages/Courses/Slug/playground";
 import Resources from "./Pages/Courses/Slug/resources";
 import ForgotPasswordPage from "./Pages/ForgotPassword";
 import ResetPasswordPage from "./Pages/ResetPassword";
+import VerifyEmailSent from "./Pages/VerifyEmailSent";
+import VerifyEmail from "./Pages/VerifyEmail";
 import CertificatePage from "./Pages/Certificates/CertificatePage";
 import Certificates from "./Pages/Certificates/Certificates";
 import VerifyCertificate from "./Pages/Certificates/VerifyCertificate";
@@ -63,6 +65,10 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/verify-email-sent" element={<VerifyEmailSent />} />
+            <Route path="/verify-email/:token" element={<VerifyEmail />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
             <Route path="/courses" element={<Courses />} />
             <Route path="/courses/:slug" element={<CourseDetail />} />
             <Route path="/courses/:slug/lessons/:lessonId" element={<LessonDetailPage />} />
@@ -103,8 +109,6 @@ export default function App() {
             <Route path="/courses/:courseId/lessons/:lessonId" element={<LessonDetailPage />} />
             <Route path="/courses/:courseId/playground" element={<Playground />} />
             <Route path="/courses/:courseId/resources" element={<Resources />} />
-            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-            <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
 
             {/* Payment Routes */}
             <Route path="/payment/verify" element={<PaymentVerification />} />

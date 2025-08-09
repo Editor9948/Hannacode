@@ -10,7 +10,7 @@ import { Input } from "../components/ui/input"
 import { Label } from "../components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../components/ui/card"
 import { Checkbox } from "../components/ui/checkbox"
-import { AlertCircle } from "lucide-react"
+import { AlertCircle, CheckCircle, XCircle } from "lucide-react"
 import { Alert, AlertDescription } from "../components/ui/alert"
 
 const API_URL = process.env.REACT_APP_API_URL 
@@ -27,10 +27,34 @@ export default function RegisterPage() {
   const [agreedToTerms, setAgreedToTerms] = useState(false)
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const [passwordValidation, setPasswordValidation] = useState({
+    minLength: false,
+    hasUppercase: false,
+    hasLowercase: false,
+    hasNumber: false,
+    hasSpecialChar: false
+  })
+
+  const validatePassword = (password) => {
+    const validation = {
+      minLength: password.length >= 8,
+      hasUppercase: /[A-Z]/.test(password),
+      hasLowercase: /[a-z]/.test(password),
+      hasNumber: /\d/.test(password),
+      hasSpecialChar: /[@$!%*?&]/.test(password)
+    }
+    setPasswordValidation(validation)
+    return Object.values(validation).every(Boolean)
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
+    
+    // Validate password when it changes
+    if (name === 'password') {
+      validatePassword(value)
+    }
   }
 
   const handleSubmit = async (e) => {
@@ -45,6 +69,11 @@ export default function RegisterPage() {
 
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match")
+      return
+    }
+
+    if (!validatePassword(formData.password)) {
+      setError("Password does not meet requirements")
       return
     }
 
@@ -70,8 +99,15 @@ export default function RegisterPage() {
       const data = await response.json();
       throw new Error(data.message || "Registration failed");
     }
-    // Registration successful
-    navigate("/login"); // or navigate("/dashboard") if you want
+    
+    const data = await response.json();
+    // Registration successful - redirect to verification page
+    navigate("/verify-email-sent", { 
+      state: { 
+        email: formData.email,
+        message: data.message || "Registration successful. Please check your email for verification link."
+      }
+    });
   } catch (err) {
     setError(err instanceof Error ? err.message : "Registration failed. Please try again.");
   } finally {
@@ -129,6 +165,48 @@ export default function RegisterPage() {
                   onChange={handleChange}
                   required
                 />
+                {formData.password && (
+                  <div className="text-sm space-y-1">
+                    <p className="text-muted-foreground mb-2">Password must contain:</p>
+                    <div className="grid grid-cols-1 gap-1">
+                      <div className={`flex items-center space-x-2 ${passwordValidation.minLength ? 'text-green-600' : 'text-red-600'}`}>
+                        {passwordValidation.minLength ? 
+                          <CheckCircle className="h-3 w-3" /> : 
+                          <XCircle className="h-3 w-3" />
+                        }
+                        <span>At least 8 characters</span>
+                      </div>
+                      <div className={`flex items-center space-x-2 ${passwordValidation.hasUppercase ? 'text-green-600' : 'text-red-600'}`}>
+                        {passwordValidation.hasUppercase ? 
+                          <CheckCircle className="h-3 w-3" /> : 
+                          <XCircle className="h-3 w-3" />
+                        }
+                        <span>One uppercase letter</span>
+                      </div>
+                      <div className={`flex items-center space-x-2 ${passwordValidation.hasLowercase ? 'text-green-600' : 'text-red-600'}`}>
+                        {passwordValidation.hasLowercase ? 
+                          <CheckCircle className="h-3 w-3" /> : 
+                          <XCircle className="h-3 w-3" />
+                        }
+                        <span>One lowercase letter</span>
+                      </div>
+                      <div className={`flex items-center space-x-2 ${passwordValidation.hasNumber ? 'text-green-600' : 'text-red-600'}`}>
+                        {passwordValidation.hasNumber ? 
+                          <CheckCircle className="h-3 w-3" /> : 
+                          <XCircle className="h-3 w-3" />
+                        }
+                        <span>One number</span>
+                      </div>
+                      <div className={`flex items-center space-x-2 ${passwordValidation.hasSpecialChar ? 'text-green-600' : 'text-red-600'}`}>
+                        {passwordValidation.hasSpecialChar ? 
+                          <CheckCircle className="h-3 w-3" /> : 
+                          <XCircle className="h-3 w-3" />
+                        }
+                        <span>One special character (@$!%*?&)</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="confirmPassword">Confirm Password</Label>
