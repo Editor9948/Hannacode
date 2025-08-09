@@ -2561,3 +2561,57 @@
 2025-08-09 01:22:29 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
 2025-08-09 01:24:28 info: Email sent: <47166f74-e360-7a8e-f327-617089ac73dd@hannacode.com>
 2025-08-09 01:33:45 info: Email sent: <e8d75d59-b8a2-81d4-82cb-47b3f8f318cf@hannacode.com>
+2025-08-09 10:35:31 info: Socket.IO initialized
+2025-08-09 10:35:31 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-09 10:35:35 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-09 10:36:28 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-09 10:36:36 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-09 10:36:49 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-09 10:45:42 info: Email sent: <334520c7-c080-6c3a-a160-2d26c6eef445@hannacode.com>
+2025-08-09 10:49:13 info: Email sent: <61b26a6a-3d6d-f785-5501-796a9cd64893@hannacode.com>
+2025-08-09 10:52:30 info: Socket.IO initialized
+2025-08-09 10:52:30 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-09 10:53:06 info: Socket.IO initialized
+2025-08-09 10:53:06 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-09 10:53:09 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-09 10:54:22 info: Email sent: <51d00ed4-7318-5f10-8296-495b902b821e@hannacode.com>
+2025-08-09 11:03:45 info: Email sent: <0bca11bb-0c65-ac76-2e87-498ed22621b8@hannacode.com>
+2025-08-09 11:07:37 info: Socket.IO initialized
+2025-08-09 11:07:37 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-09 11:10:57 info: Socket.IO initialized
+2025-08-09 11:10:57 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-09 11:11:01 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-09 11:13:55 info: Email sent: <0842f1fb-0d5b-4cb4-acb5-4235b03e6461@hannacode.com>
+2025-08-09 11:21:22 info: Socket.IO initialized
+2025-08-09 11:21:22 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-09 11:21:22 error: [31mDatabase Connection Error: queryTxt ESERVFAIL cluster0.jxpglfb.mongodb.net[39m
+2025-08-09 11:21:32 info: Socket.IO initialized
+2025-08-09 11:21:32 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-09 11:22:16 info: Socket.IO initialized
+2025-08-09 11:22:16 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-09 11:22:38 info: Socket.IO initialized
+2025-08-09 11:22:38 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-09 11:22:41 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-01.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-09 11:30:34 info: Email sent: <9855b1d5-612b-5ad9-eca6-7ced03ba1ed4@hannacode.com>
+2025-08-09 11:39:57 info: Email sent: <971032a7-455e-0ed4-b6e0-6abb1b69a52e@hannacode.com>
+2025-08-09 11:40:49 error: Error: Please verify your email before logging in. Check your email for verification link.
+2025-08-09 11:44:26 info: Email sent: <cea34263-fb80-f47a-0e52-08671ab1743c@hannacode.com>
+2025-08-09 11:45:39 error: Error: Please verify your email before logging in. Check your email for verification link.
+2025-08-09 11:47:03 error: MongoServerError: E11000 duplicate key error collection: hannacode.users index: email_1 dup key: { email: "olotuoladapoayomide@yahoo.com" }
+2025-08-09 11:52:40 info: Socket.IO initialized
+2025-08-09 11:52:40 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-09 11:52:46 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-09 11:53:14 info: Socket.IO initialized
+2025-08-09 11:53:14 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-09 11:53:35 info: Socket.IO initialized
+2025-08-09 11:53:35 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-09 11:53:40 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-01.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-09 11:59:49 info: Socket.IO initialized
+2025-08-09 11:59:49 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-09 11:59:53 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-09 12:00:54 error: Error: Please verify your email before logging in. Check your email for verification link.
+2025-08-09 12:01:11 info: Email sent: <2b28feaf-fc9a-cc45-a24d-8ff1b7888dcb@hannacode.com>
+2025-08-09 12:01:49 error: Error: Invalid or expired verification token
+2025-08-09 12:05:22 info: Email sent: <b16618dc-a302-9205-e22a-38ebaca890fe@hannacode.com>
+2025-08-09 12:10:19 info: Socket.IO initialized
+2025-08-09 12:10:19 info: [1m[33mServer running in development mode on port 5000[39m[22m

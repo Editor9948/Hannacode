@@ -246,29 +246,29 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="max-w-xl mx-auto p-6 bg-white rounded shadow mt-8">
-      <h2 className="text-2xl font-bold mb-4">Checkout</h2>
+    <div className="max-w-xl mx-auto p-6 bg-white dark:bg-gray-800 rounded shadow dark:shadow-gray-700/20 mt-8">
+      <h2 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Checkout</h2>
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Subscription Summary */}
-        <div className="border rounded p-4 mb-4 bg-gray-50">
-          <h3 className="font-semibold mb-2">Subscription Details</h3>
-          <div className="flex justify-between">
+        <div className="border border-gray-200 dark:border-gray-600 rounded p-4 mb-4 bg-gray-50 dark:bg-gray-700">
+          <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">Subscription Details</h3>
+          <div className="flex justify-between text-gray-700 dark:text-gray-300">
             <span>Plan:</span>
             <span>{subscriptionDetails.plan}</span>
           </div>
-          <div className="flex justify-between">
+          <div className="flex justify-between text-gray-700 dark:text-gray-300">
             <span>Billing Cycle:</span>
             <span>{subscriptionDetails.billingCycle}</span>
           </div>
-          <div className="flex justify-between">
+          <div className="flex justify-between text-gray-700 dark:text-gray-300">
             <span>Price:</span>
             <span>₦{subscriptionDetails.price.toLocaleString()}</span>
           </div>
-          <div className="flex justify-between">
+          <div className="flex justify-between text-gray-700 dark:text-gray-300">
             <span>Discount:</span>
             <span>₦{subscriptionDetails.discount.toLocaleString()}</span>
           </div>
-          <div className="flex justify-between font-bold">
+          <div className="flex justify-between font-bold text-gray-900 dark:text-white">
             <span>Total:</span>
             <span>₦{subscriptionDetails.total.toLocaleString()}</span>
           </div>
@@ -276,7 +276,7 @@ export default function CheckoutPage() {
 
         {/* Billing Details */}
         <div>
-          <h3 className="font-semibold mb-2">Billing Details</h3>
+          <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">Billing Details</h3>
           <div className="grid grid-cols-2 gap-4">
             <input
               type="text"
@@ -284,7 +284,7 @@ export default function CheckoutPage() {
               placeholder="First Name"
               value={billingDetails.firstName}
               onChange={handleBillingDetailsChange}
-              className="border rounded p-2"
+              className="border border-gray-300 dark:border-gray-600 rounded p-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-primary dark:focus:border-primary focus:ring-1 focus:ring-primary dark:focus:ring-primary"
             />
             <input
               type="text"
@@ -292,7 +292,7 @@ export default function CheckoutPage() {
               placeholder="Last Name"
               value={billingDetails.lastName}
               onChange={handleBillingDetailsChange}
-              className="border rounded p-2"
+              className="border border-gray-300 dark:border-gray-600 rounded p-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-primary dark:focus:border-primary focus:ring-1 focus:ring-primary dark:focus:ring-primary"
             />
             <input
               type="email"
@@ -300,7 +300,7 @@ export default function CheckoutPage() {
               placeholder="Email"
               value={billingDetails.email}
               onChange={handleBillingDetailsChange}
-              className="border rounded p-2 col-span-2"
+              className="border border-gray-300 dark:border-gray-600 rounded p-2 col-span-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-primary dark:focus:border-primary focus:ring-1 focus:ring-primary dark:focus:ring-primary"
             />
             <input
               type="text"
@@ -308,7 +308,7 @@ export default function CheckoutPage() {
               placeholder="Address"
               value={billingDetails.address}
               onChange={handleBillingDetailsChange}
-              className="border rounded p-2 col-span-2"
+              className="border border-gray-300 dark:border-gray-600 rounded p-2 col-span-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-primary dark:focus:border-primary focus:ring-1 focus:ring-primary dark:focus:ring-primary"
             />
             <input
               type="text"
@@ -316,7 +316,7 @@ export default function CheckoutPage() {
               placeholder="City"
               value={billingDetails.city}
               onChange={handleBillingDetailsChange}
-              className="border rounded p-2"
+              className="border border-gray-300 dark:border-gray-600 rounded p-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-primary dark:focus:border-primary focus:ring-1 focus:ring-primary dark:focus:ring-primary"
             />
             <input
               type="text"
@@ -324,7 +324,7 @@ export default function CheckoutPage() {
               placeholder="State"
               value={billingDetails.state}
               onChange={handleBillingDetailsChange}
-              className="border rounded p-2"
+              className="border border-gray-300 dark:border-gray-600 rounded p-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-primary dark:focus:border-primary focus:ring-1 focus:ring-primary dark:focus:ring-primary"
             />
             <input
               type="text"
@@ -332,7 +332,7 @@ export default function CheckoutPage() {
               placeholder="Zip Code"
               value={billingDetails.zipCode}
               onChange={handleBillingDetailsChange}
-              className="border rounded p-2"
+              className="border border-gray-300 dark:border-gray-600 rounded p-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-primary dark:focus:border-primary focus:ring-1 focus:ring-primary dark:focus:ring-primary"
             />
             <input
               type="text"
@@ -340,14 +340,14 @@ export default function CheckoutPage() {
               placeholder="Country"
               value={billingDetails.country}
               onChange={handleBillingDetailsChange}
-              className="border rounded p-2"
+              className="border border-gray-300 dark:border-gray-600 rounded p-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-primary dark:focus:border-primary focus:ring-1 focus:ring-primary dark:focus:ring-primary"
             />
           </div>
         </div>
 
         {/* Card Details */}
         <div>
-          <h3 className="font-semibold mb-2">Card Details</h3>
+          <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">Card Details</h3>
           <div className="space-y-4">
             <input
               type="text"
@@ -355,7 +355,7 @@ export default function CheckoutPage() {
               placeholder="Card Number (e.g., 4084084084084081)"
               value={cardDetails.cardNumber}
               onChange={handleCardDetailsChange}
-              className="border rounded p-2 w-full"
+              className="border border-gray-300 dark:border-gray-600 rounded p-2 w-full bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-primary dark:focus:border-primary focus:ring-1 focus:ring-primary dark:focus:ring-primary"
               maxLength={19}
             />
             <div className="grid grid-cols-3 gap-4">
@@ -365,7 +365,7 @@ export default function CheckoutPage() {
                 placeholder="MM"
                 value={cardDetails.expiryMonth}
                 onChange={handleCardDetailsChange}
-                className="border rounded p-2"
+                className="border border-gray-300 dark:border-gray-600 rounded p-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-primary dark:focus:border-primary focus:ring-1 focus:ring-primary dark:focus:ring-primary"
                 maxLength={2}
               />
               <input
@@ -374,7 +374,7 @@ export default function CheckoutPage() {
                 placeholder="YY"
                 value={cardDetails.expiryYear}
                 onChange={handleCardDetailsChange}
-                className="border rounded p-2"
+                className="border border-gray-300 dark:border-gray-600 rounded p-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-primary dark:focus:border-primary focus:ring-1 focus:ring-primary dark:focus:ring-primary"
                 maxLength={2}
               />
               <input
@@ -383,20 +383,20 @@ export default function CheckoutPage() {
                 placeholder="CVV"
                 value={cardDetails.cvv}
                 onChange={handleCardDetailsChange}
-                className="border rounded p-2"
+                className="border border-gray-300 dark:border-gray-600 rounded p-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:border-primary dark:focus:border-primary focus:ring-1 focus:ring-primary dark:focus:ring-primary"
                 maxLength={4}
               />
             </div>
-            <div className="text-xs text-gray-500">
-              <p>For testing, use card number: <strong>4084084084084081</strong></p>
-              <p>CVV: <strong>408</strong>, Expiry: any future date</p>
+            <div className="text-xs text-gray-500 dark:text-gray-400">
+              <p>For testing, use card number: <strong className="text-gray-700 dark:text-gray-300">4084084084084081</strong></p>
+              <p>CVV: <strong className="text-gray-700 dark:text-gray-300">408</strong>, Expiry: any future date</p>
             </div>
           </div>
         </div>
 
         {/* Payment Notice */}
-        <div className="bg-gray-50 p-4 rounded text-center">
-          <p className="text-sm text-gray-600">
+        <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded text-center border border-gray-200 dark:border-gray-600">
+          <p className="text-sm text-gray-600 dark:text-gray-300">
             Secure payment powered by Paystack. You will be redirected to our payment provider to complete your purchase.
           </p>
         </div>
@@ -404,7 +404,7 @@ export default function CheckoutPage() {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-primary text-white py-2 rounded font-semibold hover:bg-primary/80 transition"
+          className="w-full bg-primary hover:bg-primary/80 dark:bg-primary dark:hover:bg-primary/90 text-white py-2 rounded font-semibold transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50"
           disabled={isProcessing}
         >
           {isProcessing ? "Processing..." : "Pay Now"}

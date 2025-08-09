@@ -136,11 +136,19 @@ localStorage.setItem("user", JSON.stringify(data.user));
                 {isLoading ? "Signing in..." : "Sign in"}
               </Button>
             </form>
-            <div className="mt-4 text-center text-sm">
-              Don&apos;t have an account?{" "}
-              <Link to="/register" className="text-primary hover:underline">
-                Sign up
-              </Link>
+            <div className="mt-4 text-center text-sm space-y-2">
+              <div>
+                Don&apos;t have an account?{" "}
+                <Link to="/register" className="text-primary hover:underline">
+                  Sign up
+                </Link>
+              </div>
+              <div>
+                Didn&apos;t receive verification email?{" "}
+                <Link to="/resend-verification" className="text-primary hover:underline">
+                  Resend verification
+                </Link>
+              </div>
             </div>
           </CardContent>
           <CardFooter className="flex flex-col">

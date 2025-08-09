@@ -531,3 +531,12 @@
 2025-08-08 22:07:05 error: Error: User not found
 2025-08-08 22:59:53 error: Error: User not found
 2025-08-08 23:59:15 error: Error: Session not found with id of 68434ece40704b4db64e5572
+2025-08-09 10:36:28 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-09 10:36:36 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-09 10:36:49 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-09 11:21:22 error: [31mDatabase Connection Error: queryTxt ESERVFAIL cluster0.jxpglfb.mongodb.net[39m
+2025-08-09 11:40:49 error: Error: Please verify your email before logging in. Check your email for verification link.
+2025-08-09 11:45:39 error: Error: Please verify your email before logging in. Check your email for verification link.
+2025-08-09 11:47:03 error: MongoServerError: E11000 duplicate key error collection: hannacode.users index: email_1 dup key: { email: "olotuoladapoayomide@yahoo.com" }
+2025-08-09 12:00:54 error: Error: Please verify your email before logging in. Check your email for verification link.
+2025-08-09 12:01:49 error: Error: Invalid or expired verification token

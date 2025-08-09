@@ -18,6 +18,9 @@ export default function DashboardPage() {
   const [recommendedCourses, setRecommendedCourses] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
+  const [isPremium, setIsPremium] = useState(false)
+  const [premiumFeatures, setPremiumFeatures] = useState(null)
+  const [upgradeMessage, setUpgradeMessage] = useState("")
    const navigate = useNavigate();
    const location = useLocation();
    const [stats, setStats] = useState({
@@ -37,10 +40,10 @@ const role = user?.role;
       setError("");
       try {
         const token = localStorage.getItem("token");
-        console.log("Fetching progress from:", `${API_URL}/progress`);
+        console.log("Fetching progress from:", `${API_URL}/progress/overview`);
         console.log("Token exists:", !!token);
         
-        const res = await fetch(`${API_URL}/progress`, {
+        const res = await fetch(`${API_URL}/progress/overview`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         
@@ -49,17 +52,45 @@ const role = user?.role;
         console.log("Progress response data:", data);
         
         if (!data.success) throw new Error(data.message || "Failed to fetch progress");
-        setInProgressCourses(data.data.inProgress || []);
-        setCompletedCourses(data.data.completed || []);
+        
+        // Check if user has premium access
+        setIsPremium(data.data.isPremium);
+        
+        if (data.data.isPremium) {
+          // Premium user - set actual progress data
+          setInProgressCourses(data.data.inProgress || []);
+          setCompletedCourses(data.data.completed || []);
+        } else {
+          // Non-premium user - set enrolled courses with premium prompts
+          setInProgressCourses(data.data.coursesData || []);
+          setCompletedCourses([]);
+          setPremiumFeatures(data.data.premiumFeatures);
+          setUpgradeMessage(data.data.upgradeMessage);
+        }
       } catch (err) {
         console.error("Progress fetch error:", err);
-        setError(err.message || "Failed to load dashboard.");
+        
+        // Check if it's a premium access error
+        if (err.message.includes("Premium subscription required")) {
+          setIsPremium(false);
+          setUpgradeMessage("Upgrade to Premium to unlock progress tracking, certificates, and advanced learning features!");
+          // Optionally fetch basic course info for non-premium users
+          setInProgressCourses([]);
+          setCompletedCourses([]);
+        } else {
+          setError(err.message || "Failed to load dashboard.");
+        }
       } finally {
         setLoading(false);
       }
     };
 
     const fetchCertificates = async () => {
+      // Only fetch certificates for premium users
+      if (!isPremium && user?.role !== 'admin' && user?.role !== 'mentor') {
+        return;
+      }
+      
       try {
         const token = localStorage.getItem("token");
         const res = await fetch(`${API_URL}/progress/certificates`, {
@@ -284,6 +315,11 @@ if (role === "mentor") {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{inProgressCourses.length}</div>
+            {!isPremium && (
+              <p className="text-xs text-muted-foreground mt-1">
+                Progress tracking requires Premium
+              </p>
+            )}
           </CardContent>
         </Card>
         <Card>
@@ -292,28 +328,103 @@ if (role === "mentor") {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{completedCourses.length}</div>
+            {!isPremium && (
+              <p className="text-xs text-muted-foreground mt-1">
+                Completion tracking requires Premium
+              </p>
+            )}
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Learning Streak</CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Certificates Earned</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">7 days</div>
+            <div className="text-2xl font-bold">{certificates.length}</div>
+            {!isPremium && (
+              <p className="text-xs text-muted-foreground mt-1">
+                Certificates require Premium
+              </p>
+            )}
           </CardContent>
         </Card>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
+          {!isPremium && (
+            <Card className="mb-6 border-yellow-200 bg-yellow-50">
+              <CardHeader>
+                <CardTitle className="flex items-center text-yellow-800">
+                  <Award className="mr-2 h-5 w-5" />
+                  Unlock Premium Features
+                </CardTitle>
+                <CardDescription className="text-yellow-700">
+                  {upgradeMessage}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  {premiumFeatures && Object.entries(premiumFeatures).map(([key, feature]) => (
+                    <div key={key} className="flex items-start space-x-2">
+                      <CheckCircle className="h-4 w-4 text-yellow-600 mt-0.5" />
+                      <div>
+                        <p className="font-medium text-yellow-800">{feature.description}</p>
+                        <p className="text-sm text-yellow-700">{feature.benefit}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <Link to="/pricing">
+                  <Button className="w-full bg-yellow-600 hover:bg-yellow-700 text-white">
+                    Upgrade to Premium
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+          )}
+          
           <Tabs defaultValue="in-progress" className="w-full" onValueChange={setActiveTab}>
             <TabsList className="grid w-full grid-cols-3 mb-6">
-              <TabsTrigger value="in-progress">In Progress</TabsTrigger>
-              <TabsTrigger value="completed">Completed</TabsTrigger>
-              <TabsTrigger value="certificates">Certificates</TabsTrigger>
+              <TabsTrigger value="in-progress" className={!isPremium ? "opacity-50" : ""}>
+                In Progress {!isPremium && "🔒"}
+              </TabsTrigger>
+              <TabsTrigger value="completed" className={!isPremium ? "opacity-50" : ""}>
+                Completed {!isPremium && "🔒"}
+              </TabsTrigger>
+              <TabsTrigger value="certificates" className={!isPremium ? "opacity-50" : ""}>
+                Certificates {!isPremium && "🔒"}
+              </TabsTrigger>
             </TabsList>
             <TabsContent value="in-progress" className="space-y-4">
-              {loading ? (
+              {!isPremium ? (
+                <Card className="p-6 text-center border-dashed border-2 border-muted">
+                  <CardContent className="pt-6">
+                    <BookMarked className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
+                    <h3 className="text-xl font-bold mb-2">Progress Tracking Available with Premium</h3>
+                    <p className="text-muted-foreground mb-4">
+                      Upgrade to Premium to track your learning progress, see completion percentages, and get personalized recommendations.
+                    </p>
+                    <div className="space-y-2 mb-4">
+                      {inProgressCourses.map((course) => (
+                        <div key={course._id} className="flex items-center justify-between p-3 bg-muted/50 rounded-md">
+                          <div className="flex items-center space-x-3">
+                            <img src={course.image || "/placeholder.svg"} alt={course.title} className="w-10 h-10 rounded object-cover" />
+                            <div>
+                              <p className="font-medium">{course.title}</p>
+                              <p className="text-sm text-muted-foreground">Progress tracking locked</p>
+                            </div>
+                          </div>
+                          <Badge variant="secondary">Premium Required</Badge>
+                        </div>
+                      ))}
+                    </div>
+                    <Link to="/pricing">
+                      <Button className="bg-primary hover:bg-primary/90">Unlock Progress Tracking</Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              ) : loading ? (
                 <p>Loading...</p>
               ) : error ? (
                 <p className="text-red-500">{error}</p>
@@ -371,7 +482,20 @@ if (role === "mentor") {
               )}
             </TabsContent>
             <TabsContent value="completed" className="space-y-4">
-              {loading ? (
+              {!isPremium ? (
+                <Card className="p-6 text-center border-dashed border-2 border-muted">
+                  <CardContent className="pt-6">
+                    <Award className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
+                    <h3 className="text-xl font-bold mb-2">Course Completion Tracking with Premium</h3>
+                    <p className="text-muted-foreground mb-4">
+                      Mark courses as completed, track completion dates, and earn certificates with Premium.
+                    </p>
+                    <Link to="/pricing">
+                      <Button className="bg-primary hover:bg-primary/90">Unlock Completion Tracking</Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              ) : loading ? (
                 <p>Loading...</p>
               ) : error ? (
                 <p className="text-red-500">{error}</p>
@@ -460,7 +584,38 @@ if (role === "mentor") {
               )}
             </TabsContent>
             <TabsContent value="certificates" className="space-y-4">
-              {loading ? (
+              {!isPremium ? (
+                <Card className="p-6 text-center border-dashed border-2 border-muted">
+                  <CardContent className="pt-6">
+                    <Award className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
+                    <h3 className="text-xl font-bold mb-2">Professional Certificates with Premium</h3>
+                    <p className="text-muted-foreground mb-4">
+                      Earn verifiable completion certificates, download them as PDFs, and share them on LinkedIn with Premium.
+                    </p>
+                    <div className="space-y-2 mb-4 text-sm text-muted-foreground">
+                      <div className="flex items-center justify-center space-x-2">
+                        <CheckCircle className="h-4 w-4 text-primary" />
+                        <span>Professional PDF certificates</span>
+                      </div>
+                      <div className="flex items-center justify-center space-x-2">
+                        <CheckCircle className="h-4 w-4 text-primary" />
+                        <span>Unique verification codes</span>
+                      </div>
+                      <div className="flex items-center justify-center space-x-2">
+                        <CheckCircle className="h-4 w-4 text-primary" />
+                        <span>LinkedIn sharing capability</span>
+                      </div>
+                      <div className="flex items-center justify-center space-x-2">
+                        <CheckCircle className="h-4 w-4 text-primary" />
+                        <span>Master certificate for completing all courses</span>
+                      </div>
+                    </div>
+                    <Link to="/pricing">
+                      <Button className="bg-primary hover:bg-primary/90">Unlock Certificates</Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              ) : loading ? (
                 <p>Loading...</p>
               ) : certificates.length > 0 ? (
                 certificates.map((certificate) => (
@@ -690,9 +845,9 @@ if (role === "mentor") {
             </CardHeader>
             <CardContent className="space-y-3">
               <Link to="/certificates" className="block">
-                <Button variant="outline" className="w-full justify-start">
+                <Button variant="outline" className={`w-full justify-start ${!isPremium ? 'opacity-50' : ''}`} disabled={!isPremium}>
                   <Award className="mr-2 h-4 w-4" />
-                  View My Certificates ({certificates.length})
+                  View My Certificates ({certificates.length}) {!isPremium && "🔒"}
                 </Button>
               </Link>
               <Link to="/courses" className="block">
@@ -702,45 +857,88 @@ if (role === "mentor") {
                 </Button>
               </Link>
               <Link to="/mentorship" className="block">
-                <Button variant="outline" className="w-full justify-start">
+                <Button variant="outline" className={`w-full justify-start ${user?.role !== 'premium' && user?.role !== 'admin' ? 'opacity-50' : ''}`} disabled={user?.role !== 'premium' && user?.role !== 'admin'}>
                   <Clock className="mr-2 h-4 w-4" />
-                  Book Mentorship
+                  Book Mentorship {user?.role !== 'premium' && user?.role !== 'admin' && "🔒"}
                 </Button>
               </Link>
+              {!isPremium && (
+                <Link to="/pricing" className="block">
+                  <Button className="w-full bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white">
+                    <Award className="mr-2 h-4 w-4" />
+                    Upgrade to Premium
+                  </Button>
+                </Link>
+              )}
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Premium Benefits</CardTitle>
-              <CardDescription>Unlock more with Premium</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-2">
-                <li className="flex items-center">
-                  <CheckCircle className="mr-2 h-4 w-4 text-primary" />
-                  <span>1-on-1 mentorship sessions</span>
-                </li>
-                <li className="flex items-center">
-                  <CheckCircle className="mr-2 h-4 w-4 text-primary" />
-                  <span>Advanced course content</span>
-                </li>
-                <li className="flex items-center">
-                  <CheckCircle className="mr-2 h-4 w-4 text-primary" />
-                  <span>Code reviews by experts</span>
-                </li>
-                <li className="flex items-center">
-                  <CheckCircle className="mr-2 h-4 w-4 text-primary" />
-                  <span>Project-based learning</span>
-                </li>
-              </ul>
-            </CardContent>
-            <CardFooter>
-              <Link to="/pricing" className="w-full">
-                <Button className="w-full bg-primary hover:bg-primary/90">Upgrade to Premium</Button>
-              </Link>
-            </CardFooter>
-          </Card>
+          {!isPremium ? (
+            <Card>
+              <CardHeader>
+                <CardTitle>Premium Benefits</CardTitle>
+                <CardDescription>Unlock advanced learning features</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3">
+                  <li className="flex items-start">
+                    <CheckCircle className="mr-2 h-4 w-4 text-primary shrink-0 mt-0.5" />
+                    <div>
+                      <span className="font-medium">Progress Tracking</span>
+                      <p className="text-sm text-muted-foreground">Track completion percentages and learning streaks</p>
+                    </div>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="mr-2 h-4 w-4 text-primary shrink-0 mt-0.5" />
+                    <div>
+                      <span className="font-medium">Completion Certificates</span>
+                      <p className="text-sm text-muted-foreground">Earn professional certificates for completed courses</p>
+                    </div>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="mr-2 h-4 w-4 text-primary shrink-0 mt-0.5" />
+                    <div>
+                      <span className="font-medium">1-on-1 Mentorship</span>
+                      <p className="text-sm text-muted-foreground">Get personalized guidance from expert mentors</p>
+                    </div>
+                  </li>
+                  <li className="flex items-start">
+                    <CheckCircle className="mr-2 h-4 w-4 text-primary shrink-0 mt-0.5" />
+                    <div>
+                      <span className="font-medium">Master Certificate</span>
+                      <p className="text-sm text-muted-foreground">Earn prestige certification by completing all courses</p>
+                    </div>
+                  </li>
+                </ul>
+              </CardContent>
+              <CardFooter>
+                <Link to="/pricing" className="w-full">
+                  <Button className="w-full bg-primary hover:bg-primary/90">Upgrade to Premium</Button>
+                </Link>
+              </CardFooter>
+            </Card>
+          ) : (
+            <Card>
+              <CardHeader>
+                <CardTitle>Premium Status</CardTitle>
+                <CardDescription>You have access to all premium features</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex items-center space-x-2 text-green-600">
+                  <CheckCircle className="h-5 w-5" />
+                  <span className="font-medium">Premium Active</span>
+                </div>
+                <p className="text-sm text-muted-foreground mt-2">
+                  Enjoy full access to progress tracking, certificates, mentorship, and all advanced features.
+                </p>
+              </CardContent>
+              <CardFooter>
+                <Link to="/setting" className="w-full">
+                  <Button variant="outline" className="w-full">Manage Subscription</Button>
+                </Link>
+              </CardFooter>
+            </Card>
+          )}
         </div>
       </div>
     </div>

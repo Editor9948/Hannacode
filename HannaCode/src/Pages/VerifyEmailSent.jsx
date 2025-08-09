@@ -1,12 +1,76 @@
-import React from "react"
+import React, { useState } from "react"
 import { useLocation, Link } from "react-router-dom"
 import { Button } from "../components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card"
-import { Mail, ArrowLeft } from "lucide-react"
+import { Mail, ArrowLeft, RefreshCw } from "lucide-react"
+import { useToast } from "../hooks/useToast"
+
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/v1'
 
 export default function VerifyEmailSent() {
   const location = useLocation()
   const { email, message } = location.state || {}
+  const { toast } = useToast()
+  const [isResending, setIsResending] = useState(false)
+  const [resendCooldown, setResendCooldown] = useState(0)
+
+  const handleResendEmail = async () => {
+    if (!email) {
+      toast({
+        title: "Error",
+        description: "Email address not available. Please register again.",
+        variant: "error"
+      })
+      return
+    }
+
+    setIsResending(true)
+    try {
+      const response = await fetch(`${API_URL}/auth/resendverification/email`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email })
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        toast({
+          title: "Email Sent",
+          description: data.message || "Verification email sent successfully!",
+          variant: "success"
+        })
+        
+        // Start cooldown timer (60 seconds)
+        setResendCooldown(60)
+        const timer = setInterval(() => {
+          setResendCooldown(prev => {
+            if (prev <= 1) {
+              clearInterval(timer)
+              return 0
+            }
+            return prev - 1
+          })
+        }, 1000)
+      } else {
+        toast({
+          title: "Error",
+          description: data.message || "Failed to resend verification email",
+          variant: "error"
+        })
+      }
+    } catch (error) {
+      toast({
+        title: "Network Error",
+        description: "Please check your connection and try again",
+        variant: "error"
+      })
+    } finally {
+      setIsResending(false)
+    }
+  }
 
   return (
     <div className="container flex items-center justify-center min-h-[calc(100vh-4rem)] py-12">
@@ -43,7 +107,28 @@ export default function VerifyEmailSent() {
                 </Link>
               </Button>
               
-              <Button variant="outline" asChild className="w-full">
+              <Button 
+                variant="outline" 
+                className="w-full"
+                onClick={handleResendEmail}
+                disabled={isResending || resendCooldown > 0}
+              >
+                {isResending ? (
+                  <>
+                    <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
+                    Resending...
+                  </>
+                ) : resendCooldown > 0 ? (
+                  `Resend in ${resendCooldown}s`
+                ) : (
+                  <>
+                    <RefreshCw className="mr-2 h-4 w-4" />
+                    Resend Email
+                  </>
+                )}
+              </Button>
+              
+              <Button variant="ghost" asChild className="w-full">
                 <Link to="/register" className="flex items-center justify-center">
                   <ArrowLeft className="mr-2 h-4 w-4" />
                   Back to Registration
@@ -52,7 +137,7 @@ export default function VerifyEmailSent() {
             </div>
 
             <div className="text-center text-xs text-muted-foreground">
-              <p>Didn't receive the email? Contact support for assistance.</p>
+              <p>Didn't receive the email? Check your spam folder or use the resend button above.</p>
             </div>
           </CardContent>
         </Card>

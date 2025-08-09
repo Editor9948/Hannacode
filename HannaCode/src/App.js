@@ -39,6 +39,7 @@ import ForgotPasswordPage from "./Pages/ForgotPassword";
 import ResetPasswordPage from "./Pages/ResetPassword";
 import VerifyEmailSent from "./Pages/VerifyEmailSent";
 import VerifyEmail from "./Pages/VerifyEmail";
+import ResendVerification from "./Pages/ResendVerification";
 import CertificatePage from "./Pages/Certificates/CertificatePage";
 import Certificates from "./Pages/Certificates/Certificates";
 import VerifyCertificate from "./Pages/Certificates/VerifyCertificate";
@@ -67,6 +68,7 @@ export default function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/verify-email-sent" element={<VerifyEmailSent />} />
             <Route path="/verify-email/:token" element={<VerifyEmail />} />
+            <Route path="/resend-verification" element={<ResendVerification />} />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
             <Route path="/courses" element={<Courses />} />

@@ -12,6 +12,7 @@ const {
   verifyEmail,
   uploadProfileImage,
   resendVerification,
+  resendVerificationByEmail,
 } = require("../controllers/authController")
 const { protect } = require("../middleware/authMiddleware")
 
@@ -26,6 +27,7 @@ router.put("/updatepassword", protect, updatePassword)
 router.get("/verifyemail/:verificationtoken", verifyEmail)
 router.put("/uploadprofile", protect, uploadProfileImage)
 router.post("/resendverification", protect, resendVerification)
+router.post("/resendverification/email", resendVerificationByEmail)
 
 
 

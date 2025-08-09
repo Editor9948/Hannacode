@@ -3,8 +3,55 @@ const Course = require("../models/Course")
 const Lesson = require("../models/Lesson")
 const Certificate = require("../models/Certificate")
 const MasterCertificate = require("../models/MasterCertificate")
+const Subscription = require("../models/Subscription")
 const asyncHandler = require("../middleware/async")
 const ErrorResponse = require("../utils/errorResponse")
+
+// Helper function to check if user has premium access
+const checkPremiumAccess = async (userId) => {
+  const user = await require("../models/User").findById(userId)
+  
+  if (user.role === "admin" || user.role === "mentor") {
+    return true
+  }
+  
+  if (user.role === "premium") {
+    const activeSubscription = await Subscription.findOne({
+      user: userId,
+      status: { $in: ["active", "trialing"] },
+      currentPeriodEnd: { $gte: new Date() }
+    })
+    return !!activeSubscription
+  }
+  
+  return false
+}
+
+// Helper function to get premium feature info for non-premium users
+const getPremiumFeatureInfo = () => {
+  return {
+    isPremium: false,
+    features: {
+      progressTracking: {
+        available: false,
+        description: "Track your learning progress across all courses",
+        benefit: "See completion percentages, time spent, and learning streaks"
+      },
+      certificates: {
+        available: false,
+        description: "Earn completion certificates for finished courses",
+        benefit: "Download professional certificates to showcase your skills"
+      },
+      masterCertificate: {
+        available: false,
+        description: "Earn a master certificate by completing all courses",
+        benefit: "Get recognized as a HannaCode certified developer"
+      }
+    },
+    upgradeMessage: "Upgrade to Premium to unlock progress tracking, certificates, and advanced learning features!",
+    upgradeUrl: "/pricing"
+  }
+}
 
 // Helper function to generate certificate
 const generateCertificate = async (user, courseId, progress) => {
@@ -810,5 +857,148 @@ exports.generateCertificateManually = asyncHandler(async (req, res, next) => {
     success: true,
     data: certificate,
     message: "Certificate generated successfully"
+  })
+})
+
+// @desc    Get progress overview (available for all users)
+// @route   GET /api/progress/overview
+// @access  Private
+exports.getProgressOverview = asyncHandler(async (req, res, next) => {
+  // Check if user has premium access
+  const hasPremiumAccess = await checkPremiumAccess(req.user.id)
+  
+  if (!hasPremiumAccess) {
+    // Return premium feature information for non-premium users
+    const premiumInfo = getPremiumFeatureInfo()
+    
+    // Also get basic course enrollment info (without progress tracking)
+    const enrolledCourses = await Course.find({
+      _id: { $in: req.user.enrolledCourses || [] }
+    }).select('title description category level coverImage slug')
+    
+    return res.status(200).json({
+      success: true,
+      data: {
+        isPremium: false,
+        enrolledCourses: enrolledCourses.length,
+        coursesData: enrolledCourses.map(course => ({
+          _id: course._id,
+          title: course.title,
+          description: course.description,
+          category: course.category,
+          level: course.level,
+          image: course.coverImage,
+          path: `/courses/${course.slug || course._id}`,
+          progress: 0, // No progress tracking for non-premium
+          isPremiumFeature: true
+        })),
+        premiumFeatures: premiumInfo.features,
+        upgradeMessage: premiumInfo.upgradeMessage,
+        upgradeUrl: premiumInfo.upgradeUrl
+      }
+    })
+  }
+  
+  // For premium users, return full progress data
+  const progressData = await Progress.find({ user: req.user.id })
+    .populate("course", "title description category level coverImage slug")
+    .populate("lastAccessedLesson", "title")
+    .populate("completedLessons.lesson", "title")
+    .sort({ createdAt: -1 })
+
+  // Transform data similar to getUserProgress but with premium status
+  const formatCourseData = async (progressRecord) => {
+    const course = progressRecord.course
+    
+    let lastLessonName = "N/A"
+    if (progressRecord.lastAccessedLesson && progressRecord.lastAccessedLesson.title) {
+      lastLessonName = progressRecord.lastAccessedLesson.title
+    } else if (progressRecord.completedLessons && progressRecord.completedLessons.length > 0) {
+      const lastCompletedLesson = progressRecord.completedLessons[progressRecord.completedLessons.length - 1]
+      if (lastCompletedLesson.lesson && lastCompletedLesson.lesson.title) {
+        lastLessonName = lastCompletedLesson.lesson.title
+      }
+    }
+    
+    let certificateInfo = null
+    if (progressRecord.percentageCompleted === 100) {
+      const certificate = await Certificate.findOne({
+        user: progressRecord.user,
+        course: course._id
+      })
+      
+      if (certificate) {
+        certificateInfo = {
+          certificateId: certificate.certificateId,
+          issuedAt: certificate.issuedAt,
+          grade: certificate.grade,
+          verificationCode: certificate.verificationCode,
+          downloadUrl: `/api/progress/certificates/${certificate.certificateId}`
+        }
+      }
+    }
+    
+    return {
+      _id: course._id,
+      title: course.title,
+      description: course.description,
+      category: course.category,
+      level: course.level,
+      image: course.coverImage,
+      progress: progressRecord.percentageCompleted,
+      lastLesson: lastLessonName,
+      completedAt: progressRecord.completedAt,
+      completedDate: progressRecord.completedAt ? new Date(progressRecord.completedAt).toLocaleDateString() : null,
+      path: `/courses/${course.slug || course._id}`,
+      certificate: certificateInfo,
+      isCompleted: progressRecord.percentageCompleted === 100,
+      isPremiumFeature: false
+    }
+  }
+
+  const inProgressPromises = progressData
+    .filter(p => p.percentageCompleted < 100)
+    .map(formatCourseData)
+    
+  const completedPromises = progressData
+    .filter(p => p.percentageCompleted === 100)
+    .map(formatCourseData)
+
+  const inProgress = await Promise.all(inProgressPromises)
+  const completed = await Promise.all(completedPromises)
+
+  // Check for master certificate eligibility
+  let masterCertificateInfo = null
+  if (completed.length > 0) {
+    const masterCert = await MasterCertificate.findOne({ user: req.user.id })
+    if (masterCert) {
+      masterCertificateInfo = {
+        certificateId: masterCert.certificateId,
+        issuedAt: masterCert.issuedAt,
+        totalCourses: masterCert.completedCourses.length,
+        averageGrade: masterCert.overallGrade,
+        downloadUrl: `/api/progress/master-certificate/${masterCert.certificateId}`
+      }
+    }
+  }
+
+  res.status(200).json({
+    success: true,
+    data: {
+      isPremium: true,
+      inProgress,
+      completed,
+      totalCourses: progressData.length,
+      completedCount: completed.length,
+      masterCertificate: masterCertificateInfo,
+      stats: {
+        coursesInProgress: inProgress.length,
+        coursesCompleted: completed.length,
+        totalHoursStudied: progressData.reduce((total, p) => total + (p.timeSpent || 0), 0),
+        averageCompletion: progressData.length > 0 
+          ? Math.round(progressData.reduce((total, p) => total + p.percentageCompleted, 0) / progressData.length)
+          : 0
+      }
+    }
   })
 })

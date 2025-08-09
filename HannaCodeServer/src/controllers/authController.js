@@ -264,6 +264,13 @@ exports.resendVerification = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse("Email is already verified", 400))
   }
 
+  // Check if user has requested verification email recently (rate limiting)
+  const now = new Date()
+  const lastEmailSent = user.emailVerificationExpire
+  if (lastEmailSent && (now - lastEmailSent) < 60000) { // 1 minute cooldown
+    return next(new ErrorResponse("Please wait before requesting another verification email", 429))
+  }
+
   // Generate new verification token
   const verificationToken = user.getEmailVerificationToken()
   await user.save({ validateBeforeSave: false })
@@ -272,26 +279,81 @@ exports.resendVerification = asyncHandler(async (req, res, next) => {
   const verificationUrl = `${process.env.CLIENT_URL}/verify-email/${verificationToken}`
 
   try {
-    await sendEmail({
-      email: user.email,
-      subject: "Email Verification",
-      template: "emailVerification",
-      data: {
-        name: user.name,
-        verificationUrl,
-      },
-    })
+    await sendWelcomeEmail(user, verificationUrl)
 
     res.status(200).json({ 
       success: true, 
-      message: "Verification email sent" 
+      message: "Verification email sent successfully. Please check your email inbox." 
     })
   } catch (err) {
+    console.error("Error sending verification email:", err)
     user.emailVerificationToken = undefined
     user.emailVerificationExpire = undefined
     await user.save({ validateBeforeSave: false })
 
-    return next(new ErrorResponse("Email could not be sent", 500))
+    return next(new ErrorResponse("Email could not be sent. Please try again later.", 500))
+  }
+})
+
+// @desc    Resend verification email (public - using email)
+// @route   POST /api/v1/auth/resendverification/email
+// @access  Public
+exports.resendVerificationByEmail = asyncHandler(async (req, res, next) => {
+  const { email } = req.body
+
+  if (!email) {
+    return next(new ErrorResponse("Please provide an email address", 400))
+  }
+
+  const user = await User.findOne({ email })
+
+  if (!user) {
+    // Don't reveal if email exists or not for security
+    return res.status(200).json({ 
+      success: true, 
+      message: "If the email exists in our system, a verification email will be sent." 
+    })
+  }
+
+  if (user.emailVerified) {
+    return res.status(200).json({ 
+      success: true, 
+      message: "Email is already verified. You can log in now." 
+    })
+  }
+
+  // Check rate limiting
+  const now = new Date()
+  const lastEmailSent = user.emailVerificationExpire
+  if (lastEmailSent && (now - lastEmailSent) < 60000) { // 1 minute cooldown
+    return next(new ErrorResponse("Please wait before requesting another verification email", 429))
+  }
+
+  // Generate new verification token
+  const verificationToken = user.getEmailVerificationToken()
+  await user.save({ validateBeforeSave: false })
+
+  // Create verification URL
+  const verificationUrl = `${process.env.CLIENT_URL}/verify-email/${verificationToken}`
+
+  try {
+    await sendWelcomeEmail(user, verificationUrl)
+
+    res.status(200).json({ 
+      success: true, 
+      message: "If the email exists in our system, a verification email has been sent." 
+    })
+  } catch (err) {
+    console.error("Error sending verification email:", err)
+    user.emailVerificationToken = undefined
+    user.emailVerificationExpire = undefined
+    await user.save({ validateBeforeSave: false })
+
+    // Still return success to avoid revealing email existence
+    res.status(200).json({ 
+      success: true, 
+      message: "If the email exists in our system, a verification email will be sent." 
+    })
   }
 })
 

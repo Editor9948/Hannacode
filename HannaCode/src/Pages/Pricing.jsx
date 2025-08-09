@@ -13,7 +13,7 @@ export default function PricingPage() {
     { name: "Access to basic courses", included: true },
     { name: "Interactive coding exercises", included: true },
     { name: "Community forum access", included: true },
-    { name: "Progress tracking", included: true },
+    { name: "Progress tracking", included: false },
     { name: "Course completion certificates", included: false },
     { name: "Advanced courses", included: false },
     { name: "1-on-1 mentorship", included: false },
@@ -31,6 +31,7 @@ export default function PricingPage() {
     { name: "1-on-1 mentorship (2 sessions/month)", included: true },
     { name: "Code reviews by experts", included: true },
     { name: "Project-based learning", included: true },
+    { name: "Master Certificate", included: true },
   ]
 
   const faqs = [
