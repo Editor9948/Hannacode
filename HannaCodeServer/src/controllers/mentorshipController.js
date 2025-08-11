@@ -54,7 +54,11 @@ exports.getAllMentors = async (req, res) => {
 };
 
 exports.getMentorById = async (req, res) => {
+  console.log("Getting mentor by ID:", req.params.id); // Debug log
   const mentor = await User.findById(req.params.id).select("name email bio profileImage specialties status role calendlyUrl");
+  console.log("Found mentor:", mentor); // Debug log
+  console.log("Mentor calendlyUrl:", mentor?.calendlyUrl); // Debug log
+  
   if (!mentor) {
     return res.status(404).json({ success: false, message: "Mentor not found" });
   }

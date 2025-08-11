@@ -53,8 +53,13 @@ export default function BookingPage() {
     if (!user) return;
     
     const token = localStorage.getItem("token");
+    const apiUrl = `${API_URL}/mentorship/mentors/${params.id}`;
     
-    fetch(`${API_URL}/mentorship/mentors/${params.id}`, {
+    console.log("Fetching mentor data from:", apiUrl); // Debug log
+    console.log("API_URL env var:", API_URL); // Debug log
+    console.log("Mentor ID param:", params.id); // Debug log
+    
+    fetch(apiUrl, {
       headers: {
         "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json"
@@ -62,14 +67,18 @@ export default function BookingPage() {
     })
       .then(res => res.json())
       .then(data => {
+        console.log("API Response:", data); // Debug log
         if (data.success) {
+          console.log("Mentor data:", data.data || data); // Debug log
+          console.log("Calendly URL:", (data.data || data)?.calendlyUrl); // Debug log
           setMentor(data.data || data);
         } else {
           setMentor(data);
         }
         setLoading(false);
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log("API call failed, using fallback data:", error); // Debug log
         // fallback if backend fails
         setMentor({
           id: Number.parseInt(params.id),
@@ -100,6 +109,11 @@ export default function BookingPage() {
   if (loading) return <div className="container py-8"><div>Loading...</div></div>;
 
   if (!mentor) return <div className="container py-8"><div>Mentor not found</div></div>;
+
+  // Debug log to see mentor data
+  console.log("Current mentor state:", mentor);
+  console.log("Has calendlyUrl?", !!mentor.calendlyUrl);
+  console.log("CalendlyUrl value:", mentor.calendlyUrl);
 
   return (
     <div className="container py-8">
