@@ -32,8 +32,8 @@ const createEmailTemplate = (content, title = "HannaCode") => {
         <!-- Header with Logo -->
         <div class="header">
           <!-- Logo image with fallback -->
-          <div style="background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: white; padding: 25px; text-align: center; margin: 0; border-radius: 0;">
-            <img src="https://hannacode.com/hannabanner.jpg" alt="HannaCode Logo" class="logo-img" style="max-width: 200px; height: auto; margin-bottom: 10px; display: block; margin-left: auto; margin-right: auto;" />
+          <div style="color: #22c55e; padding: 25px; text-align: center; margin: 0; border-radius: 0;">
+            <img src="https://hannacode.com/hannabanner.jpg" alt="HannaCode Logo" class="logo-img" style="max-width: 450px; height: auto; margin-bottom: 10px; display: block; margin-left: auto; margin-right: auto;" />
           </div>
         </div>
         
@@ -420,8 +420,8 @@ exports.sendCourseCompletionEmail = async (user, course, certificateUrl) => {
       <p style="font-size: 18px; color: #374151;">Hi ${user.name},</p>
     </div>
     
-    <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 25px; border-radius: 12px; margin: 25px 0; border-left: 4px solid #f59e0b; text-align: center;">
-      <p style="margin: 0; font-size: 18px; color: #92400e;">
+    <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); padding: 25px; border-radius: 12px; margin: 25px 0; border-left: 4px solid #22c55e; text-align: center;">
+      <p style="margin: 0; font-size: 18px; color: #15803d;">
         🏆 <strong>Course Completed Successfully!</strong>
       </p>
       <p style="margin: 15px 0 0 0; font-size: 20px; font-weight: bold; color: #22c55e;">
@@ -603,23 +603,23 @@ exports.sendPaymentInitiationEmail = async (user, plan, amount) => {
 
   const content = `
     <div style="text-align: center; margin-bottom: 30px;">
-      <h2 style="color: #f59e0b; margin-bottom: 10px;"> Payment Processing</h2>
+      <h2 style="color: #22c55e; margin-bottom: 10px;">💳 Payment Processing</h2>
       <p style="font-size: 18px; color: #374151;">Hi ${user.name || 'there'},</p>
     </div>
     
-    <div style="background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); padding: 25px; border-radius: 12px; margin: 25px 0; border-left: 4px solid #f59e0b;">
-      <p style="margin: 0; font-size: 16px; color: #92400e; text-align: center;">
+    <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); padding: 25px; border-radius: 12px; margin: 25px 0; border-left: 4px solid #22c55e;">
+      <p style="margin: 0; font-size: 16px; color: #15803d; text-align: center;">
          <strong>Payment Initiated Successfully!</strong><br>
         Your ${planDisplayName} plan payment is being processed.
       </p>
     </div>
     
-    <div style="background-color: #ffffff; border: 2px solid #f59e0b; border-radius: 12px; padding: 25px; margin: 25px 0;">
-      <h3 style="margin: 0 0 20px 0; color: #f59e0b; text-align: center;"> Payment Details</h3>
+    <div style="background-color: #ffffff; border: 2px solid #22c55e; border-radius: 12px; padding: 25px; margin: 25px 0;">
+      <h3 style="margin: 0 0 20px 0; color: #22c55e; text-align: center;">💳 Payment Details</h3>
       <table style="width: 100%; border-collapse: collapse;">
         <tr>
           <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; font-weight: bold; color: #374151;">Plan:</td>
-          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; color: #f59e0b; font-weight: bold;">${planDisplayName}</td>
+          <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; color: #22c55e; font-weight: bold;">${planDisplayName}</td>
         </tr>
         <tr>
           <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; font-weight: bold; color: #374151;">Amount:</td>
@@ -627,7 +627,7 @@ exports.sendPaymentInitiationEmail = async (user, plan, amount) => {
         </tr>
         <tr>
           <td style="padding: 12px; font-weight: bold; color: #374151;">Status:</td>
-          <td style="padding: 12px; color: #f59e0b; font-weight: bold;">⏳ Processing</td>
+          <td style="padding: 12px; color: #22c55e; font-weight: bold;">⏳ Processing</td>
         </tr>
       </table>
     </div>

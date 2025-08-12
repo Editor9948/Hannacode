@@ -500,35 +500,6 @@ export default function BlogPage() {
             <Printer className="h-4 w-4 mr-2" />
             Print
           </Button>
-
-          {/* User Menu */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline">
-                <User className="h-4 w-4 mr-2" />
-                Account
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => navigate('/dashboard')}>
-                Dashboard
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => navigate('/setting')}>
-                Settings
-              </DropdownMenuItem>
-              <DropdownMenuItem 
-                onClick={() => {
-                  localStorage.removeItem('token');
-                  localStorage.removeItem('user');
-                  showToast('Logged out successfully', 'success');
-                  navigate('/login');
-                }}
-                className="text-red-600"
-              >
-                Sign Out
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
         </div>
       </div>
 
