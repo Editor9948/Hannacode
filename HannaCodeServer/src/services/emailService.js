@@ -612,7 +612,7 @@ exports.sendPaymentInitiationEmail = async (user, plan, amount) => {
          <strong>Payment Initiated Successfully!</strong><br>
         Your ${planDisplayName} plan payment is being processed.
       </p>
-    </div>
+    </div>  
     
     <div style="background-color: #ffffff; border: 2px solid #22c55e; border-radius: 12px; padding: 25px; margin: 25px 0;">
       <h3 style="margin: 0 0 20px 0; color: #22c55e; text-align: center;">💳 Payment Details</h3>
