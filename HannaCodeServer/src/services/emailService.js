@@ -3,8 +3,23 @@ const logger = require("../utils/logger")
 
 /**
  * Create HannaCode email template with banner
- * @param {string} content - Email content HTML
- * @param {string} title - Email title
+ * @param {string} content - Email content     <div style="text-align: center; margin-bottom: 20px;">
+      <h2 style="color: #dc2626; margin-bottom: 8px;">🔐 Reset Your Password</h2>
+      <p style="font-size: 18px; color: #000;">Hi ${user.name},</p>
+    </div>
+    
+    <div style="background: linear-gradient(135deg, #fef7f7 0%, #fee2e2 100%); padding: 20px; border-radius: 12px; margin: 20px 0; border-left: 4px solid #dc2626;">
+      <p style="margin: 0; font-size: 16px; color: #000;">
+         <strong>Password Reset Request</strong><br>
+        We received a request to reset your password for your HannaCode account.
+      </p>
+    </div>
+    
+    <p style="color: #000; line-height: 1.6; margin: 15px 0;">
+      If you requested this password reset, click the button below to create a new password:
+    </p>
+    
+    <div style="text-align: center; margin: 25px 0;">string} title - Email title
  * @returns {string} Complete HTML email template
  */
 const createEmailTemplate = (content, title = "HannaCode") => {
@@ -18,10 +33,10 @@ const createEmailTemplate = (content, title = "HannaCode") => {
       <style>
         body { margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f9fafb; }
         .email-container { max-width: 600px; margin: 0 auto; background-color: #ffffff; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
-        .header { padding: 20px; text-align: center; background-color: #ffffff; border-bottom: 1px solid #e5e7eb; }
+        .header { padding: 15px; text-align: center; background-color: #ffffff; border-bottom: 1px solid #e5e7eb; }
         .logo-img { max-width: 200px; height: auto; }
-        .content { padding: 30px; background-color: #ffffff; }
-        .footer { background-color: #f8fafc; padding: 20px; text-align: center; font-size: 12px; color: #000; border-top: 1px solid #e5e7eb; }
+        .content { padding: 20px; background-color: #ffffff; }
+        .footer { background-color: #f8fafc; padding: 15px; text-align: center; font-size: 12px; color: #000; border-top: 1px solid #e5e7eb; }
         .footer a { color: #22c55e; text-decoration: none; }
         .social-links { margin: 15px 0; }
         .social-links a { margin: 0 10px; color: #22c55e; text-decoration: none; }
@@ -32,8 +47,8 @@ const createEmailTemplate = (content, title = "HannaCode") => {
         <!-- Header with Logo -->
         <div class="header">
           <!-- Logo image with fallback -->
-          <div style="color: #22c55e; padding: 25px; text-align: center; margin: 0; border-radius: 0;">
-            <img src="https://hannacode.com/hannabanner.jpg" alt="HannaCode Logo" class="logo-img" style="max-width: 450px; height: auto; margin-bottom: 10px; display: block; margin-left: auto; margin-right: auto;" />
+          <div style="color: #22c55e; padding: 15px; text-align: center; margin: 0; border-radius: 0;">
+            <img src="https://hannacode.com/hannabanner.jpg" alt="HannaCode Logo" class="logo-img" style="max-width: 450px; height: auto; margin-bottom: 5px; display: block; margin-left: auto; margin-right: auto;" />
           </div>
         </div>
         
@@ -115,34 +130,34 @@ exports.sendEmail = async (options) => {
  */
 exports.sendWelcomeEmail = async (user, verificationUrl) => {
   const content = `
-    <div style="text-align: center; margin-bottom: 30px;">
-      <h2 style="color: #22c55e; margin-bottom: 10px;">Welcome to HannaCode!</h2>
+    <div style="text-align: center; margin-bottom: 20px;">
+      <h2 style="color: #22c55e; margin-bottom: 8px;">Welcome to HannaCode!</h2>
       <p style="font-size: 18px; color: #000;">Hi ${user.name}, 👋</p>
     </div>
     
-    <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); padding: 25px; border-radius: 12px; margin: 25px 0; border-left: 4px solid #22c55e;">
+    <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); padding: 20px; border-radius: 12px; margin: 20px 0; border-left: 4px solid #22c55e;">
       <p style="margin: 0; font-size: 16px; color: #000;">
         <strong>Congratulations!</strong> You've just joined thousands of developers who are accelerating their coding journey with HannaCode.
       </p>
     </div>
     
-    <p style="color: #000; line-height: 1.6;">
+    <p style="color: #000; line-height: 1.6; margin: 15px 0;">
       Thank you for joining our community! We're excited to have you on board and can't wait to see what amazing projects you'll build.
     </p>
     
-    <p style="color: #000; line-height: 1.6;">
+    <p style="color: #000; line-height: 1.6; margin: 15px 0;">
       To get started, please verify your email address by clicking the button below:
     </p>
     
-    <div style="text-align: center; margin: 40px 0;">
+    <div style="text-align: center; margin: 25px 0;">
       <a href="${verificationUrl}" style="display: inline-block; background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: white; padding: 15px 35px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3); transition: transform 0.2s;">
         Verify Email Address
       </a>
     </div>
     
-    <div style="background-color: #f8fafc; padding: 20px; border-radius: 8px; margin: 25px 0; border: 1px solid #e2e8f0;">
-      <p style="margin: 0 0 10px 0; color: #000; font-weight: bold;">What's next?</p>
-      <ul style="color: #000; line-height: 1.8; margin: 0; padding-left: 20px;">
+    <div style="background-color: #f8fafc; padding: 15px; border-radius: 8px; margin: 20px 0; border: 1px solid #e2e8f0;">
+      <p style="margin: 0 0 8px 0; color: #000; font-weight: bold;">What's next?</p>
+      <ul style="color: #000; line-height: 1.6; margin: 0; padding-left: 20px;">
         <li>Explore our comprehensive coding courses</li>
         <li>Join our vibrant developer community</li>
         <li>Access premium mentorship programs</li>
@@ -150,13 +165,13 @@ exports.sendWelcomeEmail = async (user, verificationUrl) => {
       </ul>
     </div>
     
-    <p style="color: #000; font-size: 14px; margin-top: 30px;">
+    <p style="color: #000; font-size: 14px; margin: 20px 0;">
       <strong>Having trouble with the button?</strong> Copy and paste this link into your browser:<br>
       <a href="${verificationUrl}" style="color: #22c55e; word-break: break-all;">${verificationUrl}</a>
     </p>
     
-    <div style="text-align: center; margin-top: 40px; padding-top: 30px; border-top: 2px solid #dcfce7;">
-      <p style="color: #000; margin-bottom: 20px; font-weight: bold;">Ready to start your coding journey?</p>
+    <div style="text-align: center; margin: 25px 0; padding-top: 20px; border-top: 2px solid #dcfce7;">
+      <p style="color: #000; margin-bottom: 15px; font-weight: bold;">Ready to start your coding journey?</p>
       <a href="${process.env.CLIENT_URL}/courses" style="display: inline-block; background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%); color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; box-shadow: 0 4px 12px rgba(132, 204, 22, 0.3);">
          Explore Courses
       </a>
@@ -203,9 +218,9 @@ exports.sendPasswordResetEmail = async (user, resetUrl) => {
       </a>
     </div>
     
-    <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); padding: 20px; border-radius: 8px; margin: 25px 0; border: 1px solid #22c55e;">
-  <p style="margin: 0 0 10px 0; color: #000; font-weight: bold;">⚠️ Security Notice:</p>
-  <ul style="color: #000; line-height: 1.6; margin: 0; padding-left: 20px;">
+    <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); padding: 15px; border-radius: 8px; margin: 20px 0; border: 1px solid #22c55e;">
+  <p style="margin: 0 0 8px 0; color: #000; font-weight: bold;">⚠️ Security Notice:</p>
+  <ul style="color: #000; line-height: 1.5; margin: 0; padding-left: 20px;">
         <li>This link will expire in 1 hour for security reasons</li>
         <li>If you didn't request this reset, please ignore this email</li>
         <li>Your password will remain unchanged if you don't click the link</li>
@@ -213,12 +228,12 @@ exports.sendPasswordResetEmail = async (user, resetUrl) => {
       </ul>
     </div>
     
-    <p style="color: #000; font-size: 14px; margin-top: 30px;">
+    <p style="color: #000; font-size: 14px; margin: 20px 0;">
       <strong>Having trouble with the button?</strong> Copy and paste this link into your browser:<br>
       <a href="${resetUrl}" style="color: #22c55e; word-break: break-all;">${resetUrl}</a>
     </p>
     
-    <div style="text-align: center; margin-top: 40px; padding-top: 30px; border-top: 2px solid #dcfce7;">
+    <div style="text-align: center; margin: 25px 0; padding-top: 20px; border-top: 2px solid #dcfce7;">
       <p style="color: #000; font-size: 14px;">
         Need help? Contact our support team at <a href="mailto:support@hannacode.com" style="color: #22c55e;">support@hannacode.com</a>
       </p>
