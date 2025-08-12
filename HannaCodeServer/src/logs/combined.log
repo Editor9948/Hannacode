@@ -2659,3 +2659,116 @@
 2025-08-11 05:29:33 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
 2025-08-11 05:31:02 info: Email sent: <b668bc67-04f2-853b-c00f-6846893c378d@hannacode.com>
 2025-08-11 05:31:48 info: Email sent: <dd2c0e43-e73f-c2f0-d28a-d2087fa888f4@hannacode.com>
+2025-08-11 19:55:33 info: Socket.IO initialized
+2025-08-11 19:55:33 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-11 19:55:40 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-11 20:15:38 info: Socket.IO initialized
+2025-08-11 20:15:38 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-11 20:15:44 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-11 20:21:31 info: Socket.IO initialized
+2025-08-11 20:21:31 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-11 20:33:06 info: Socket.IO initialized
+2025-08-11 20:33:06 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-11 20:33:15 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-11 20:33:59 error: Uncaught Exception: callback is not a function
+2025-08-11 20:36:16 info: Socket.IO initialized
+2025-08-11 20:36:16 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-11 20:36:19 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-12 13:47:22 info: Socket.IO initialized
+2025-08-12 13:47:22 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-12 13:47:39 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-12 14:23:29 info: Socket.IO initialized
+2025-08-12 14:23:29 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-12 14:23:32 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-12 14:24:14 info: Socket.IO initialized
+2025-08-12 14:24:14 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-12 14:24:14 error: [31mDatabase Connection Error: queryTxt ESERVFAIL cluster0.jxpglfb.mongodb.net[39m
+2025-08-12 14:24:26 info: Socket.IO initialized
+2025-08-12 14:24:26 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-12 14:24:28 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-01.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-12 14:39:50 info: Socket.IO initialized
+2025-08-12 14:39:50 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-12 14:39:54 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-12 14:40:09 info: Socket.IO initialized
+2025-08-12 14:40:09 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-12 14:40:12 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-12 14:40:24 info: Socket.IO initialized
+2025-08-12 14:40:24 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-12 14:40:27 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-12 14:41:12 info: Socket.IO initialized
+2025-08-12 14:41:12 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-12 14:41:16 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-12 14:41:34 info: Socket.IO initialized
+2025-08-12 14:41:34 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-12 14:41:37 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-12 15:18:21 info: Socket.IO initialized
+2025-08-12 15:18:21 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-12 15:18:25 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-12 15:20:11 info: Socket.IO initialized
+2025-08-12 15:20:11 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-12 15:20:12 error: [31mDatabase Connection Error: querySrv ESERVFAIL _mongodb._tcp.cluster0.jxpglfb.mongodb.net[39m
+2025-08-12 15:43:04 info: Socket.IO initialized
+2025-08-12 15:43:04 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-12 15:43:12 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-12 15:44:02 info: Email sent: <f41678ff-6964-e23b-ce3e-f0d5d10bcb52@hannacode.com>
+2025-08-12 15:52:01 info: Socket.IO initialized
+2025-08-12 15:52:01 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-12 15:52:07 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-01.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-12 15:52:45 info: Email sent: <16cef7d4-1033-14ba-53d1-98c95c7d12d1@hannacode.com>
+2025-08-12 15:55:34 info: Socket.IO initialized
+2025-08-12 15:55:34 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-12 15:55:46 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-12 15:55:55 info: Socket.IO initialized
+2025-08-12 15:55:55 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-12 15:55:58 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-12 15:56:29 info: Socket.IO initialized
+2025-08-12 15:56:29 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-12 15:56:30 error: [31mDatabase Connection Error: querySrv ESERVFAIL _mongodb._tcp.cluster0.jxpglfb.mongodb.net[39m
+2025-08-12 15:56:55 info: Socket.IO initialized
+2025-08-12 15:56:55 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-12 15:57:20 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-12 15:59:27 info: Socket.IO initialized
+2025-08-12 15:59:27 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-12 15:59:51 error: [31mDatabase Connection Error: queryTxt ETIMEOUT cluster0.jxpglfb.mongodb.net[39m
+2025-08-12 16:01:21 info: Socket.IO initialized
+2025-08-12 16:01:21 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-12 16:01:21 error: [31mDatabase Connection Error: querySrv ECONNREFUSED _mongodb._tcp.cluster0.jxpglfb.mongodb.net[39m
+2025-08-12 16:36:15 info: Socket.IO initialized
+2025-08-12 16:36:15 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-12 16:36:19 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-01.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-12 16:38:56 info: Socket.IO initialized
+2025-08-12 16:38:56 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-12 16:38:59 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-12 16:39:31 info: Socket.IO initialized
+2025-08-12 16:39:31 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-12 16:39:34 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-12 16:40:39 info: Socket.IO initialized
+2025-08-12 16:40:39 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-12 16:40:42 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-12 16:41:57 info: Socket.IO initialized
+2025-08-12 16:41:57 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-12 16:42:00 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-12 16:44:40 info: Socket.IO initialized
+2025-08-12 16:44:41 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-12 16:44:44 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-12 16:44:58 info: Socket.IO initialized
+2025-08-12 16:44:58 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-12 16:45:01 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-12 16:52:23 info: Socket.IO initialized
+2025-08-12 16:52:23 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-12 16:52:23 error: [31mDatabase Connection Error: querySrv ECONNREFUSED _mongodb._tcp.cluster0.jxpglfb.mongodb.net[39m
+2025-08-12 16:52:50 info: Socket.IO initialized
+2025-08-12 16:52:50 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-12 16:52:50 error: [31mDatabase Connection Error: querySrv ECONNREFUSED _mongodb._tcp.cluster0.jxpglfb.mongodb.net[39m
+2025-08-12 16:53:59 info: Socket.IO initialized
+2025-08-12 16:53:59 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-12 16:53:59 error: [31mDatabase Connection Error: querySrv ECONNREFUSED _mongodb._tcp.cluster0.jxpglfb.mongodb.net[39m
+2025-08-12 16:56:02 info: Socket.IO initialized
+2025-08-12 16:56:02 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-12 16:56:11 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-12 16:56:18 info: Socket.IO initialized
+2025-08-12 16:56:18 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-12 16:56:23 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-12 16:57:33 info: Email sent: <2f7a272c-92f3-0027-02e4-795ee7d7692a@hannacode.com>
+2025-08-12 16:57:55 info: Socket.IO initialized
+2025-08-12 16:57:55 info: [1m[33mServer running in development mode on port 5000[39m[22m

@@ -14,12 +14,18 @@ const api = axios.create({
   },
 });
 
+// Add authentication token to requests
 api.interceptors.request.use(
   (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     console.log('API Request:', {
       method: config.method,
       url: config.url,
       data: config.data,
+      headers: config.headers,
     });
     return config;
   },
@@ -46,6 +52,22 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+// Generic API call function
+export const apiCall = async (endpoint, options = {}) => {
+  try {
+    const response = await api({
+      url: endpoint,
+      method: options.method || 'GET',
+      data: options.data,
+      ...options
+    });
+    return response.data;
+  } catch (error) {
+    console.error(`API call failed for ${endpoint}:`, error);
+    throw error.response?.data || error.message;
+  }
+};
 
 // Course API calls
 export const courseApi = {

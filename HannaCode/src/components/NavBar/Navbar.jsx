@@ -37,10 +37,7 @@ export default function Navbar() {
     { name: "Courses", path: "/courses" },
     { name: "Pricing", path: "/pricing" },
     { name: "About", path: "/about" },
-
-    
-    
-    
+    ...(isLoggedIn ? [{ name: "Blog", path: "/blog" }] : []),
   ];
 
   return (

@@ -1,0 +1,166 @@
+/* Print-friendly styles for blog articles */
+@media print {
+  /* Hide navigation and interactive elements */
+  nav,
+  .tabs-list,
+  button,
+  .search-container,
+  .filter-container,
+  .newsletter-section,
+  .stats-section,
+  .dropdown-menu,
+  .social-buttons {
+    display: none !important;
+  }
+
+  /* Reset page margins and padding */
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  body {
+    font-size: 12pt;
+    line-height: 1.5;
+    color: black !important;
+    background: white !important;
+  }
+
+  /* Container adjustments */
+  .container {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Article cards for print */
+  .article-card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    margin-bottom: 20pt;
+    border: 1px solid #ccc !important;
+    padding: 15pt;
+    background: white !important;
+  }
+
+  /* Article grid adjustments */
+  .articles-grid {
+    display: block !important;
+    columns: 1 !important;
+    column-gap: 0 !important;
+  }
+
+  /* Typography for print */
+  .article-title {
+    font-size: 14pt !important;
+    font-weight: bold !important;
+    color: black !important;
+    margin-bottom: 8pt;
+    line-height: 1.3;
+  }
+
+  .article-description {
+    font-size: 11pt !important;
+    color: #333 !important;
+    margin-bottom: 8pt;
+    line-height: 1.4;
+  }
+
+  .article-meta {
+    font-size: 10pt !important;
+    color: #666 !important;
+    margin-bottom: 6pt;
+  }
+
+  .article-author {
+    font-size: 10pt !important;
+    color: #666 !important;
+  }
+
+  .article-source {
+    font-size: 10pt !important;
+    font-weight: bold !important;
+    color: black !important;
+  }
+
+  .article-url {
+    font-size: 9pt !important;
+    color: #0066cc !important;
+    word-break: break-all;
+    margin-top: 6pt;
+  }
+
+  /* Hide images in print to save space */
+  .article-image {
+    display: none !important;
+  }
+
+  /* Page headers and footers */
+  @page {
+    margin: 1in;
+    @top-center {
+      content: "HannaCode Blog Articles";
+    }
+    @bottom-center {
+      content: counter(page);
+    }
+  }
+
+  /* Page breaks */
+  .page-break {
+    page-break-before: always;
+  }
+
+  /* Ensure important text is visible */
+  .text-muted-foreground {
+    color: #666 !important;
+  }
+
+  /* Hide badges and interactive elements */
+  .badge,
+  .avatar,
+  .reactions {
+    display: none !important;
+  }
+
+  /* Title page styling */
+  .print-title {
+    text-align: center;
+    font-size: 24pt !important;
+    font-weight: bold !important;
+    margin-bottom: 20pt;
+    color: black !important;
+  }
+
+  .print-subtitle {
+    text-align: center;
+    font-size: 14pt !important;
+    margin-bottom: 30pt;
+    color: #666 !important;
+  }
+
+  /* Article count info */
+  .print-info {
+    font-size: 11pt !important;
+    text-align: center;
+    margin-bottom: 20pt;
+    color: #666 !important;
+  }
+}
+
+/* Print button specific styles */
+@media screen {
+  .print-only {
+    display: none;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-only {
+    display: block !important;
+  }
+}

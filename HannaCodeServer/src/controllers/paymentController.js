@@ -3,7 +3,7 @@ const ErrorResponse = require("../utils/errorResponse");
 const User = require("../models/User");
 const Subscription = require("../models/Subscription");
 const paystack = require("../services/paystackService");
-const { sendEmail } = require("../services/emailService");
+const { sendEmail, sendSubscriptionConfirmationEmail, sendPaymentInitiationEmail } = require("../services/emailService");
 
 // @desc    Initialize payment
 // @route   POST /api/v1/payments/initialize
@@ -57,20 +57,8 @@ exports.initializePayment = asyncHandler(async (req, res, next) => {
     try {
       const user = await User.findById(req.user.id);
       if (user) {
-        await sendEmail({
-          to: email,
-          subject: "🔒 Payment Processing - HannaCode",
-          text: `We've initiated your payment for the ${plan} plan. Please complete the payment to activate your subscription.`,
-          html: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-              <h2 style="color: #008000;">🔒 Payment Processing</h2>
-              <p>Hi ${user.name || 'there'},</p>
-              <p>We've initiated your payment for the <strong>${plan}</strong> plan (₦${(amount / 100).toLocaleString()}).</p>
-              <p>Please complete the payment process to activate your subscription.</p>
-              <p style="color: #6b7280; font-size: 14px;">If you didn't initiate this payment, please contact our support team immediately.</p>
-            </div>
-          `
-        });
+        // Use the new branded payment initiation email function
+        await sendPaymentInitiationEmail(user, plan, amount);
         console.log("Payment initiation email sent to:", email);
       }
     } catch (emailError) {
@@ -159,54 +147,8 @@ exports.verifyPayment = asyncHandler(async (req, res, next) => {
       try {
         console.log("Sending confirmation email to:", user.email);
         
-        await sendEmail({
-          to: user.email, // Use 'to' instead of 'email'
-          subject: `🎉 Subscription Confirmation - ${plan.charAt(0).toUpperCase() + plan.slice(1)} Plan`,
-          text: `Thank you for subscribing to HannaCode! Your ${plan} subscription is now active.`,
-          html: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-              <h2 style="color: #008000;">🎉 Welcome to HannaCode Premium!</h2>
-              <p>Dear ${user.name || 'Student'},</p>
-              <p>Thank you for subscribing to HannaCode! Your <strong>${plan}</strong> subscription is now active.</p>
-              
-              <div style="background-color: #f3f4f6; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                <h3 style="margin-top: 0;">Your Subscription Details:</h3>
-                <ul>
-                  <li><strong>Plan:</strong> ${plan.charAt(0).toUpperCase() + plan.slice(1)}</li>
-                  <li><strong>Amount Paid:</strong> ₦${(verification.data.amount / 100).toLocaleString()}</li>
-                  <li><strong>Start Date:</strong> ${currentPeriodStart.toDateString()}</li>
-                  <li><strong>Valid Until:</strong> ${currentPeriodEnd.toDateString()}</li>
-                  <li><strong>Payment Reference:</strong> ${reference}</li>
-                </ul>
-              </div>
-              
-              <h3>What's Next?</h3>
-              <p>You now have access to:</p>
-              <ul>
-                <li>✅ All premium courses and content</li>
-                <li>✅ 1-on-1 mentorship sessions</li>
-                <li>✅ Code reviews by experts</li>
-                <li>✅ Project-based learning resources</li>
-                <li>✅ Certification upon completion</li>
-              </ul>
-              
-              <p style="margin-top: 30px;">
-                <a href="${process.env.CLIENT_URL}/dashboard" style="background-color: #008000; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">
-                  Start Learning Now
-                </a>
-              </p>
-              
-              <p style="margin-top: 30px; color: #6b7280; font-size: 14px;">
-                If you have any questions, feel free to contact our support team.
-              </p>
-              
-              <hr style="margin: 30px 0; border: none; border-top: 1px solid #e5e7eb;">
-              <p style="color: #6b7280; font-size: 12px;">
-                This email was sent automatically. Please do not reply to this email.
-              </p>
-            </div>
-          `
-        });
+        // Use the new branded subscription confirmation email
+        await sendSubscriptionConfirmationEmail(user, subscription);
         
         console.log("✅ Confirmation email sent successfully to:", user.email);
       } catch (err) {
