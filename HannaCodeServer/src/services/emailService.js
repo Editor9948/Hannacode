@@ -182,11 +182,11 @@ exports.sendWelcomeEmail = async (user, verificationUrl) => {
 exports.sendPasswordResetEmail = async (user, resetUrl) => {
   const content = `
     <div style="text-align: center; margin-bottom: 30px;">
-      <h2 style="color: #dc2626; margin-bottom: 10px;"> Reset Your Password</h2>
+      <h2 style="color: #22c55e; margin-bottom: 10px;"> Reset Your Password</h2>
       <p style="font-size: 18px; color: #000;">Hi ${user.name},</p>
     </div>
     
-    <div style="background: linear-gradient(135deg, #fef7f7 0%, #fee2e2 100%); padding: 25px; border-radius: 12px; margin: 25px 0; border-left: 4px solid #dc2626;">
+    <div style="background: linear-gradient(135deg, #e7feef 0%, #dcfce7 100%); padding: 25px; border-radius: 12px; margin: 25px 0; border-left: 4px solid #22c55e;">
       <p style="margin: 0; font-size: 16px; color: #000;">
          <strong>Password Reset Request</strong><br>
         We received a request to reset your password for your HannaCode account.
