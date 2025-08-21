@@ -404,38 +404,41 @@ const getJSLessonConcepts = (lessonTitle) => {
 
 const getJSCodeExample = (lessonTitle) => {
   const examples = {
-    "Introduction to JavaScript": `// Inline JavaScript example
+    "Introduction to JavaScript": `
+// Example 1: Inline JavaScript example
 <script>
-  // Your first JavaScript program
+  //Your first JavaScript program
   console.log('Hello, JavaScript!');
   
-  // Using the browser's alert
+  //Using the browser's alert
   alert('Welcome to JavaScript!');
   
-  // Basic arithmetic
+  //Basic arithmetic
   console.log(2 + 2); // 4
 </script>`,
 
-    "JavaScript Syntax and Basics": `// Comments and documentation
+    "JavaScript Syntax and Basics": `
+// Example 1: Comments and documentation
 /*
   This is a multi-line comment
   It's good for documenting functions
  */
 
-// Single-line comment
+   //Single-line comment
 let x = 5; // This is an inline comment
 
-// Statements and expressions
+// Example 2: Statements and expressions
 console.log('x =', x); // Statement
 x + 2; // Expression
 
-// Code formatting
+// Example 3: Code formatting
 if (x > 0) {
     console.log('Positive number');
 } else {
     console.log('Non-positive number');
 }`,
-    "Variables and Data Types": `// Variable declarations
+    "Variables and Data Types": `
+// Example 1: Variable Declarations
 let name = "Alice"; // string
 const age = 30; // number
 let isStudent = true; // boolean
@@ -444,7 +447,7 @@ let data; // undefined
 const id = Symbol('id'); // symbol
 const bigNum = 9007199254740991n; // bigint
 
-// Type checking
+// Example 2: Type Checking
 console.log(typeof name); // "string"
 console.log(typeof age); // "number"
 console.log(typeof isStudent); // "boolean"
@@ -453,12 +456,13 @@ console.log(typeof data); // "undefined"
 console.log(typeof id); // "symbol"
 console.log(typeof bigNum); // "bigint"
 
-// Type conversion
+// Example 3: Type Conversion
 console.log(String(age)); // "30"
 console.log(Number("123")); // 123
 console.log(Boolean(1)); // true`,
 
-    "Operators and Expressions": `// Arithmetic operators
+    "Operators and Expressions": `
+// Example 1: Arithmetic operators
 let a = 10, b = 3;
 console.log(a + b); // 13
 console.log(a - b); // 7
@@ -467,28 +471,37 @@ console.log(a / b); // 3.333...
 console.log(a % b); // 1
 console.log(a ** b); // 1000
 
-// Assignment operators
+// Example 2: Assignment operators
 a += 5; // a = a + 5
 console.log(a); // 15
 
-// Comparison operators
+let value = 10;
+value += 5; // value is now 15
+console.log(value); // Output: 15
+value *= 2; // value is now 30
+console.log(value); // Output: 30
+
+// Example 3: Comparison operators
 console.log(a > b); // true
 console.log(a === 15); // true
 console.log(a !== b); // true
+console.log(1 == "1"); // Output: true (string "1" is coerced to number 1)
+console.log(1 === "1"); // Output: false (different types)
 
-// Logical operators
+// Example 4: Logical operators
 console.log(true && false); // false
 console.log(true || false); // true
 console.log(!true); // false
 
-// String operators
+// Example 5: String operators
 let str = "Hello" + " " + "World";
 console.log(str); // "Hello World"
 
-// String concatenation
+// Example 6: String concatenation
 console.log("The sum of " + a + " and " + b + " is " + (a + b));`,
 
-    "Control Flow: if, else, switch": `// if-else statements
+    "Control Flow: if, else, switch": `
+// Example 1: if-else statements
 let temp = 25;
 if (temp > 30) {
     console.log("Hot");
@@ -498,7 +511,7 @@ if (temp > 30) {
     console.log("Cold");
 }
 
-// switch statement
+// Example 2: switch statement
 let color = "red";
 switch (color) {
     case "red":
@@ -511,69 +524,82 @@ switch (color) {
         console.log("Caution");
 }
 
-// Ternary operator
+// Example 3: Ternary operator
 let age = 20;
 let canVote = age >= 18 ? "Yes" : "No";
 console.log(canVote); // "Yes"
 
-// Nullish coalescing
+// Example 4: Nullish coalescing
 let name = null;
 console.log(name ?? "Anonymous"); // "Anonymous"`,
 
-    "Loops: for, while, do...while": `// for loop
+    "Loops: for, while, do...while": `
+// Example 1: for loop
 for (let i = 0; i < 3; i++) {
-    console.log("for loop:", i);
+    console.log(i);
 }
 
-// while loop
+// Example 2: while loop
 let j = 0;
 while (j < 3) {
-    console.log("while loop:", j);
+    console.log(j);
     j++;
 }
 
-// do...while loop
+    //Counting down from 5
+let count = 5;
+while (count > 0) {
+console.log(count);
+count--;
+}
+
+// Example 3: do...while loop
 let k = 0;
 do {
-    console.log("do...while loop:", k);
+    console.log(k);
     k++;
 } while (k < 3);
 
-// for...of loop
+// Example 4: for...of loop
 const arr = [1, 2, 3];
 for (const num of arr) {
     console.log(num);
 }
 
-// for...in loop
+// Example 5: for...in loop
 const obj = { a: 1, b: 2 };
 for (const key in obj) {
     console.log(key, obj[key]);
 }`,
-    "Functions and Scope": `// Function declaration
-function greet(name) {
-    return "Hello, " + name + "!";
-}
 
-// Function expression
+    "Functions and Scope":`
+// Example 1: Function declaration
+function greet(name) {
+    return \`Hello, \${name}!\`
+}
+console.log(greet("Alice")); // Output: Hello, Alice!
+
+// Example 2: Function expression
 const add = function(a, b) {
     return a + b;
 };
 
-// Arrow function
+// Example 3: Arrow function
 const multiply = (a, b) => a * b;
 
-// Function with default parameters
-function createUser(name, age = 20) {
-    return { name, age };
+// Example 4: Function with default parameters
+function multiply(x, y) { // x and y are parameters
+return x * y;
 }
+const result = multiply(4, 3); // 4 and 6 are arguments
+console.log(result); //Output 12
 
-// Function with rest parameters
+//Example 5: Function with rest parameters
 function sum(...numbers) {
     return numbers.reduce((total, num) => total + num, 0);
 }
 
-// Scope example
+// Example 6: Scope example
 let globalVar = "I'm global";
 function scopeTest() {
     let localVar = "I'm local";
@@ -582,23 +608,25 @@ function scopeTest() {
 }
 console.log(globalVar); // Accessible
 console.log(localVar); // Not accessible`,
-    "Arrow Functions and ES6 Syntax": `// Basic arrow function
+
+    "Arrow Functions and ES6 Syntax": `
+// Example 1: Basic arrow function
 const add = (a, b) => a + b;
 console.log(add(5, 7)); // 12
 
-// Arrow function with block body
+// Example 2: Arrow function with block body
 const greet = name => {
     const message = "Hello, " + name + "!";
     return message;
 };
 console.log(greet("Alice")); // "Hello, Alice!"
 
-// Arrow function in array methods
+// Example 3: Arrow function in array methods
 const numbers = [1, 2, 3, 4, 5];
 const doubled = numbers.map(num => num * 2);
 console.log(doubled); // [2, 4, 6, 8, 10]
 
-// Arrow function with object
+// Example 4: Arrow function with object
 const person = {
     name: "Bob",
     greet: function() {
@@ -609,28 +637,30 @@ const person = {
 };
 person.greet(); // "Hi, I'm Bob"`,
 
-    "Objects and Object Literals": `// Object literal
+    "Objects and Object Literals": `
+// Example 1: Object literal
 const person = {
-    name: "Alice",
-    age: 28,
-    greet: function() {
-        console.log("Hi, I'm " + this.name);
-    }
+firstName: "John",
+lastName: "Doe",
+age: 30,
+isStudent: false,
+hobbies: ["reading", "hiking", "coding"]
 };
+console.log(person);
 
-// Object methods
-console.log(Object.keys(person)); // ["name", "age", "greet"]
-console.log(Object.values(person)); // ["Alice", 28, [Function: greet]]
+// Example 2: Object methods
+console.log(Object.keys(person)); // ['firstName', 'lastName', 'age', 'isStudent', 'hobbies']
+console.log(Object.values(person)); // ['John', 'Doe', 30, false, Array(3)]
 
-// Object destructuring
-const { name, age } = person;
-console.log(name, age); // "Alice" 28
+// Example 3: Object destructuring
+const { firstName, age } = person;
+console.log(firstName, age); // "John" 30
 
-// Object spread
-const updatedPerson = { ...person, age: 29 };
-console.log(updatedPerson); // { name: "Alice", age: 29, greet: [Function: greet] }
+//Example 4: Object spread
+const updatedPerson = { ...person, age: 25 };
+console.log(updatedPerson); // {firstName: 'John', lastName: 'Doe', age: 29, isStudent: false, hobbies: Array(3)}
 
-// Computed property names
+//Example 5: Computed property names
 const prop = "color";
 const obj = {
     [prop]: "red",
@@ -638,23 +668,37 @@ const obj = {
 };
 console.log(obj); // { color: "red", colorCode: "#FF0000" }`,
 
-    "Arrays and Array Methods": `// Array creation and manipulation
+    "Arrays and Array Methods": `
+// Example 1:  Array creation and manipulation
 let fruits = ["apple", "banana", "cherry"];
 fruits.push("date");
 console.log(fruits); // ["apple", "banana", "cherry", "date"]
 
-// Array methods
+// Example 2: Array methods
 const numbers = [1, 2, 3, 4, 5];
 
-// map - transforms each element
+  //map - transforms each element
 const doubled = numbers.map(num => num * 2);
 console.log(doubled); // [2, 4, 6, 8, 10]
+   
+     //push() - adds one or more elements to the end of an array
+numbers.push(6, 7);
+console.log(numbers); // Output: [1, 2, 3, 4, 5, 6, 7]
 
-// filter - returns elements that pass a test
+    //pop() - removes the last element from an array
+const lastElement = numbers.pop(); console.log(numbers); // Output: [1, 2, 3, 4]
+console.log(lastElement); // Output: 5
+ 
+  //shift() - removes the first element from an array
+const firstElement =
+numbers.shift(); console.log(numbers); // Output: [2, 3, 4, 5]
+console.log(firstElement);
+
+  //filter - returns elements that pass a test
 const evenNumbers = numbers.filter(num => num % 2 === 0);
 console.log(evenNumbers); // [2, 4]
 
-// reduce - combines all elements into a single value
+  //reduce - combines all elements into a single value
 const sum = numbers.reduce((total, num) => total + num, 0);
 console.log(sum); // 15
 
@@ -663,38 +707,39 @@ numbers.forEach((num, index) => {
     console.log(\`Number \${index}: \${num}\`);
 });
 
-// find - returns the first element that passes a test
+  //find - returns the first element that passes a test
 const firstEven = numbers.find(num => num % 2 === 0);
 console.log(firstEven); // 2
 
-// some - checks if at least one element passes a test
+  //some - checks if at least one element passes a test
 const hasEven = numbers.some(num => num % 2 === 0);
 console.log(hasEven); // true
 
-// every - checks if all elements pass a test
+  //every - checks if all elements pass a test
 const allPositive = numbers.every(num => num > 0);
 console.log(allPositive); // true
 
-// Array destructuring
+// Example 3: Array destructuring
 const [first, second, ...rest] = numbers;
 console.log(first, second, rest); // 1 2 [3, 4, 5]
 
-// Array spread
+// Example 4: Array spread
 const newNumbers = [...numbers, 6, 7];
 console.log(newNumbers); // [1, 2, 3, 4, 5, 6, 7]
 
-// Method chaining
+// Example 5: Method chaining
 const result = numbers
     .filter(num => num > 2)
     .map(num => num * 2)
     .reduce((sum, num) => sum + num, 0);
 console.log(result); // 24 (3*2 + 4*2 + 5*2)`,
 
-    "Strings and String Methods": `// String creation and manipulation
+    "Strings and String Methods": `
+// Example 1: String creation and manipulation
 const str = "Hello, JavaScript!";
 console.log(str.length); // 18
 
-// String methods
+// Example 2: String methods
 console.log(str.toUpperCase()); // "HELLO, JAVASCRIPT!"
 console.log(str.toLowerCase()); // "hello, javascript!"
 console.log(str.indexOf("JavaScript")); // 7
@@ -702,18 +747,18 @@ console.log(str.includes("Hello")); // true
 console.log(str.startsWith("Hello")); // true
 console.log(str.endsWith("!")); // true
 
-// String slicing and substring
+// Example 3: String slicing and substring
 console.log(str.slice(0, 5)); // "Hello"
 console.log(str.substring(7, 17)); // "JavaScript"
 console.log(str.replace("JavaScript", "World")); // "Hello, World!"
 
-// Template literals
+// Example 4: Template literals
 const name = "Alice";
 const age = 25;
 const greeting = \`Hello, my name is \${name} and I am \${age} years old.\`;
 console.log(greeting); // "Hello, my name is Alice and I am 25 years old."
 
-// Multi-line strings
+   //Multi-line strings
 const multiLine = \`
     This is a
     multi-line string
@@ -721,20 +766,21 @@ const multiLine = \`
 \`;
 console.log(multiLine);
 
-// String splitting and joining
+// Example 5: String splitting and joining
 const words = str.split(" ");
 console.log(words); // ["Hello,", "JavaScript!"]
 
 const sentence = words.join(" ");
 console.log(sentence); // "Hello, JavaScript!"
 
-// String trimming
+// Example 6: String trimming
 const padded = "   Hello World   ";
 console.log(padded.trim()); // "Hello World"
 console.log(padded.trimStart()); // "Hello World   "
 console.log(padded.trimEnd()); // "   Hello World"`,
 
-    "Numbers and Math": `// Number types and representation
+    "Numbers and Math": `
+// Example 1: Number types and representation
 const integer = 42;
 const float = 3.14159;
 const scientific = 1.23e6; // 1230000
@@ -745,7 +791,7 @@ const hex = 0xFF; // 255
 console.log(Number.MAX_SAFE_INTEGER); // 9007199254740991
 console.log(Number.MIN_SAFE_INTEGER); // -9007199254740991
 
-// Math object methods
+// Example 2: Math object methods
 console.log(Math.PI); // 3.141592653589793
 console.log(Math.round(3.6)); // 4
 console.log(Math.floor(3.6)); // 3
@@ -755,7 +801,7 @@ console.log(Math.pow(2, 3)); // 8
 console.log(Math.sqrt(16)); // 4
 console.log(Math.random()); // Random number between 0 and 1
 
-// Number methods
+// Example 3: Number methods
 const num = 123.456;
 console.log(num.toFixed(2)); // "123.46"
 console.log(num.toPrecision(4)); // "123.5"
@@ -763,20 +809,21 @@ console.log(num.toString()); // "123.456"
 console.log(parseInt("123.456")); // 123
 console.log(parseFloat("123.456")); // 123.456
 
-// Random number generation
+// Example 4: Random number generation
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 console.log(getRandomInt(1, 10)); // Random integer between 1 and 10
 
-// Currency formatting
+// Example 5: Currency formatting
 const price = 1234.56;
 console.log(price.toLocaleString('en-US', {
     style: 'currency',
     currency: 'USD'
 })); // "$1,234.56"`,
 
-    "Date and Time Handling": `// Date object creation
+    "Date and Time Handling": `
+// Example 1: Date object creation
 const now = new Date(); 
 
 console.log(now); 
@@ -787,7 +834,7 @@ console.log(specificDate);
 const dateFromString = new Date("2023-12-25T10:30:00");
 console.log(dateFromString);
 
-// Date methods
+// Example 2: Date methods
 console.log(now.getFullYear()); 
 console.log(now.getMonth()); // 0-11 (0 = January)
 console.log(now.getDate()); // Day of month (1-31)
@@ -797,7 +844,7 @@ console.log(now.getMinutes()); // Minutes (0-59)
 console.log(now.getSeconds()); // Seconds (0-59)
 console.log(now.getMilliseconds()); // Milliseconds (0-999)
 
-// Date formatting
+// Example 3: Date formatting
 const date = new Date(2023, 11, 25, 10, 30, 0);
 console.log(date.toDateString()); // "Mon Dec 25 2023"
 console.log(date.toTimeString()); // "10:30:00 GMT+0000"
@@ -805,7 +852,7 @@ console.log(date.toISOString()); // "2023-12-25T10:30:00.000Z"
 console.log(date.toLocaleDateString()); // Localized date string
 console.log(date.toLocaleTimeString()); // Localized time string
 
-// Date arithmetic
+// Example 4: Date arithmetic
 const tomorrow = new Date(now);
 tomorrow.setDate(now.getDate() + 1);
 console.log(tomorrow);
@@ -814,7 +861,7 @@ const diffInMs = tomorrow - now;
 const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
 console.log(diffInDays); // 1
 
-// Timers
+// Example 5: Timers
 setTimeout(() => {
     console.log("This runs after 2 seconds");
 }, 2000);
@@ -823,13 +870,14 @@ const interval = setInterval(() => {
     console.log("This runs every second");
 }, 1000);
 
-// Clear interval after 5 seconds
+// Example 6: Clear interval after 5 seconds
 setTimeout(() => {
     clearInterval(interval);
     console.log("Interval cleared");
 }, 5000);`,
 
-    "Error Handling and Debugging": `// Try-catch-finally blocks
+    "Error Handling and Debugging": `
+// Example 1: Try-catch-finally blocks
 function divideNumbers(a, b) {
     try {
         if (b === 0) {
@@ -847,7 +895,7 @@ function divideNumbers(a, b) {
 console.log(divideNumbers(10, 2)); // 5
 console.log(divideNumbers(10, 0)); // null
 
-// Custom error types
+// Example 2: Custom error types
 class ValidationError extends Error {
     constructor(message, field) {
         super(message);
@@ -876,13 +924,13 @@ try {
     }
 }
 
-// Console debugging methods
+// Example 3: Console debugging methods
 console.log("Regular log message");
 console.warn("Warning message");
 console.error("Error message");
 console.info("Information message");
 
-// Console table for objects
+// Example 4: Console table for objects
 const users = [
     { name: "Alice", age: 25, city: "New York" },
     { name: "Bob", age: 30, city: "London" },
@@ -890,35 +938,36 @@ const users = [
 ];
 console.table(users);
 
-// Console group for organized output
+// Example 5: Console group for organized output
 console.group("User Information");
 console.log("Name: Alice");
 console.log("Age: 25");
 console.groupEnd();
 
-// Performance measurement
+// Example 6: Performance measurement
 console.time("Array operation");
 const largeArray = Array.from({ length: 1000000 }, (_, i) => i);
 const doubled = largeArray.map(x => x * 2);
 console.timeEnd("Array operation");`,
 
-    "DOM Manipulation Basics": `// Selecting elements
+    "DOM Manipulation Basics": `
+// Example 1: Selecting elements
 const elementById = document.getElementById('myId');
 const elementsByClass = document.getElementsByClassName('myClass');
 const elementsByTag = document.getElementsByTagName('div');
 const querySelector = document.querySelector('.myClass');
 const querySelectorAll = document.querySelectorAll('.myClass');
 
-// Creating elements
+// Example 2: Creating elements
 const newDiv = document.createElement('div');
 newDiv.textContent = 'Hello, World!';
 newDiv.className = 'new-element';
 newDiv.id = 'newDiv';
 
-// Adding elements to DOM
+ //Adding elements to DOM
 document.body.appendChild(newDiv);
 
-// Modifying elements
+// Example 3: Modifying elements
 const element = document.getElementById('myElement');
 element.textContent = 'Updated text';
 element.innerHTML = '<strong>Bold text</strong>';
@@ -928,15 +977,15 @@ element.classList.add('highlight');
 element.classList.remove('old-class');
 element.classList.toggle('active');
 
-// Removing elements
+//Example 4: Removing elements
 const parent = document.getElementById('parent');
 const child = document.getElementById('child');
 parent.removeChild(child);
 
-// Alternative modern way
+//Alternative modern way
 child.remove();
 
-// DOM traversal
+// Example 5: DOM traversal
 const parent = document.getElementById('parent');
 const children = parent.children;
 const firstChild = parent.firstElementChild;
@@ -944,7 +993,7 @@ const lastChild = parent.lastElementChild;
 const nextSibling = element.nextElementSibling;
 const previousSibling = element.previousElementSibling;
 
-// Performance optimization
+// Example 6: Performance optimization
 // Use documentFragment for multiple DOM operations
 const fragment = document.createDocumentFragment();
 for (let i = 0; i < 1000; i++) {
@@ -954,7 +1003,8 @@ for (let i = 0; i < 1000; i++) {
 }
 document.body.appendChild(fragment);`,
 
-    "DOM Events and Listeners": `// Basic event listener
+    "DOM Events and Listeners": `
+// Example 1: Basic event listener
 const button = document.getElementById('myButton');
 button.addEventListener('click', function(event) {
     console.log('Button clicked!');
@@ -962,7 +1012,7 @@ button.addEventListener('click', function(event) {
     console.log('Target:', event.target);
 });
 
-// Event object properties
+// Example 2: Event object properties
 function handleClick(event) {
     event.preventDefault(); // Prevent default behavior
     event.stopPropagation(); // Stop event bubbling
@@ -971,7 +1021,7 @@ function handleClick(event) {
     console.log('Event phase:', event.eventPhase);
 }
 
-// Multiple event listeners
+// Example 3: Multiple event listeners
 const element = document.getElementById('myElement');
 element.addEventListener('click', handleClick);
 element.addEventListener('mouseenter', function() {
@@ -981,7 +1031,7 @@ element.addEventListener('mouseleave', function() {
     console.log('Mouse left');
 });
 
-// Event delegation
+// Example 4: Event delegation
 document.addEventListener('click', function(event) {
     if (event.target.matches('.delete-button')) {
         console.log('Delete button clicked');
@@ -993,7 +1043,7 @@ document.addEventListener('click', function(event) {
     }
 });
 
-// Custom events
+// Example 5: Custom events
 const customEvent = new CustomEvent('myCustomEvent', {
     detail: { message: 'Hello from custom event' }
 });
@@ -1004,11 +1054,11 @@ element.addEventListener('myCustomEvent', function(event) {
 
 element.dispatchEvent(customEvent);
 
-// Event phases (capturing and bubbling)
+// Example 6: Event phases (capturing and bubbling)
 const parent = document.getElementById('parent');
 const child = document.getElementById('child');
 
-// Capturing phase (true = capture, false = bubble)
+// Example 7: Capturing phase (true = capture, false = bubble)
 parent.addEventListener('click', function() {
     console.log('Parent clicked (capturing)');
 }, true);
@@ -1021,20 +1071,21 @@ child.addEventListener('click', function() {
     console.log('Child clicked');
 });
 
-// Removing event listeners
+//Example 8: Removing event listeners
 function handleMouseMove(event) {
     console.log('Mouse moved:', event.clientX, event.clientY);
 }
 
 document.addEventListener('mousemove', handleMouseMove);
 
-// Remove after 5 seconds
+//Example 9: Remove after 5 seconds
 setTimeout(() => {
     document.removeEventListener('mousemove', handleMouseMove);
     console.log('Mouse move listener removed');
 }, 5000);`,
 
-    "Forms and User Input": `// Form element selection
+    "Forms and User Input": `
+// Example 1: Form element selection
 const form = document.getElementById('myForm');
 const input = document.getElementById('myInput');
 const select = document.getElementById('mySelect');
@@ -1042,26 +1093,26 @@ const textarea = document.getElementById('myTextarea');
 const checkbox = document.getElementById('myCheckbox');
 const radio = document.querySelector('input[name="gender"]:checked');
 
-// Form validation
+// Example 2: Form validation
 function validateForm(event) {
     event.preventDefault();
     
     const formData = new FormData(form);
     const errors = [];
     
-    // Required field validation
+  //Required field validation
     if (!formData.get('name').trim()) {
         errors.push('Name is required');
     }
     
-    // Email validation
+   //Email validation
     const email = formData.get('email');
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
         errors.push('Valid email is required');
     }
     
-    // Password validation
+    //Password validation
     const password = formData.get('password');
     if (password.length < 8) {
         errors.push('Password must be at least 8 characters');
@@ -1072,7 +1123,7 @@ function validateForm(event) {
         return false;
     }
     
-    // Form is valid, submit
+// Example 3: Form is valid, submit
     submitForm(formData);
     return true;
 }
@@ -1100,7 +1151,7 @@ function submitForm(formData) {
     .catch(error => console.error('Error:', error));
 }
 
-// Input event handling
+// Example 4: Input event handling
 input.addEventListener('input', function(event) {
     console.log('Input value:', event.target.value);
 });
@@ -1113,7 +1164,7 @@ input.addEventListener('blur', function() {
     console.log('Input lost focus');
 });
 
-// File upload handling
+// Example 5: File upload handling
 const fileInput = document.getElementById('fileInput');
 fileInput.addEventListener('change', function(event) {
     const files = event.target.files;
@@ -1126,10 +1177,10 @@ fileInput.addEventListener('change', function(event) {
     }
 });
 
-// Form submission
+//Example 6: Form submission
 form.addEventListener('submit', validateForm);
 
-// Real-time validation
+//Example 7: Real-time validation
 input.addEventListener('blur', function() {
     const value = this.value.trim();
     if (value.length < 3) {
@@ -1141,23 +1192,24 @@ input.addEventListener('blur', function() {
     }
 });`,
 
-    "Timers and Asynchronous Operations": `// setTimeout - executes once after delay
+    "Timers and Asynchronous Operations": `
+// Example 1: setTimeout - executes once after delay
 setTimeout(() => {
     console.log('This runs after 2 seconds');
 }, 2000);
 
-// setInterval - executes repeatedly
+   //setInterval - executes repeatedly
 const interval = setInterval(() => {
     console.log('This runs every second');
 }, 1000);
 
-// Clear interval after 5 seconds
+    //Clear interval after 5 seconds
 setTimeout(() => {
     clearInterval(interval);
     console.log('Interval stopped');
 }, 5000);
 
-// requestAnimationFrame - for smooth animations
+// Example 2: requestAnimationFrame - for smooth animations
 function animate() {
     const element = document.getElementById('animated');
     let position = 0;
@@ -1174,7 +1226,7 @@ function animate() {
     requestAnimationFrame(step);
 }
 
-// Promise-based timing
+// Example 3: Promise-based timing
 function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -1187,7 +1239,7 @@ async function delayedOperation() {
 
 delayedOperation();
 
-// Event loop demonstration
+//Example 4: Event loop demonstration
 console.log('1. Start');
 
 setTimeout(() => {
@@ -1200,9 +1252,9 @@ Promise.resolve().then(() => {
 
 console.log('4. End');
 
-// Output order: 1, 4, 3, 2
+    //Output order: 1, 4, 3, 2
 
-// Async operations with error handling
+// Example 5: Async operations with error handling
 async function fetchWithTimeout(url, timeout = 5000) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), timeout);
@@ -1222,7 +1274,7 @@ async function fetchWithTimeout(url, timeout = 5000) {
     }
 }
 
-// Debouncing function
+// Example 6: Debouncing function
 function debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
@@ -1240,7 +1292,7 @@ const debouncedSearch = debounce((searchTerm) => {
     // Perform search operation
 }, 300);
 
-// Throttling function
+// Example 7: Throttling function
 function throttle(func, limit) {
     let inThrottle;
     return function() {
@@ -1258,7 +1310,8 @@ const throttledScroll = throttle(() => {
     console.log('Scroll event throttled');
 }, 100);`,
 
-    "JSON and Data Handling": `// JSON parsing and stringifying
+    "JSON and Data Handling": `
+// Example 1: JSON parsing and stringifying
 const jsonString = '{"name": "Alice", "age": 25, "city": "New York"}';
 const parsedData = JSON.parse(jsonString);
 console.log(parsedData); // { name: "Alice", age: 25, city: "New York" }
@@ -1287,7 +1340,7 @@ console.log(jsonOutput);
 }
 */
 
-// JSON with custom replacer function
+// Example 2: JSON with custom replacer function
 const customJson = JSON.stringify(dataObject, (key, value) => {
     if (key === 'age') {
         return value + ' years old';
@@ -1296,7 +1349,7 @@ const customJson = JSON.stringify(dataObject, (key, value) => {
 });
 console.log(customJson);
 
-// Working with APIs
+// Example 3: Working with APIs
 async function fetchUserData(userId) {
     try {
         const response = await fetch(\`https://api.example.com/users/\${userId}\`);
@@ -1313,7 +1366,7 @@ async function fetchUserData(userId) {
     }
 }
 
-// Data validation
+// Example 4: Data validation
 function validateUserData(data) {
     const required = ['name', 'email', 'age'];
     const errors = [];
@@ -1338,7 +1391,7 @@ function validateUserData(data) {
     };
 }
 
-// Deep cloning with JSON
+//Example 5: Deep cloning with JSON
 function deepClone(obj) {
     return JSON.parse(JSON.stringify(obj));
 }
@@ -1349,7 +1402,7 @@ cloned.b.c = 3;
 console.log(original.b.c); // 2 (unchanged)
 console.log(cloned.b.c); // 3
 
-// Local storage with JSON
+// Example 6: Local storage with JSON
 function saveToStorage(key, data) {
     try {
         localStorage.setItem(key, JSON.stringify(data));
@@ -1370,7 +1423,7 @@ function loadFromStorage(key) {
     }
 }
 
-// Usage
+//Example 7: Usage
 const userSettings = {
     theme: 'dark',
     language: 'en',
@@ -1381,8 +1434,9 @@ saveToStorage('userSettings', userSettings);
 const loadedSettings = loadFromStorage('userSettings');
 console.log(loadedSettings);`,
 
-    "Local Storage and Session Storage": `// Web Storage API
-// Local Storage - persists until explicitly cleared
+    "Local Storage and Session Storage": `
+// Example 1: Web Storage API
+  //Local Storage - persists until explicitly cleared
 localStorage.setItem('username', 'alice');
 localStorage.setItem('theme', 'dark');
 localStorage.setItem('preferences', JSON.stringify({
@@ -1390,11 +1444,11 @@ localStorage.setItem('preferences', JSON.stringify({
     notifications: true
 }));
 
-// Session Storage - persists only for the session
+// Example 2: Session Storage - persists only for the session
 sessionStorage.setItem('sessionId', 'abc123');
 sessionStorage.setItem('tempData', 'some temporary data');
 
-// Reading data
+// Example 3: Reading data
 const username = localStorage.getItem('username');
 const theme = localStorage.getItem('theme');
 const preferences = JSON.parse(localStorage.getItem('preferences') || '{}');
@@ -1403,20 +1457,20 @@ console.log(username); // "alice"
 console.log(theme); // "dark"
 console.log(preferences); // { language: "en", notifications: true }
 
-// Checking if key exists
+  //Checking if key exists
 if (localStorage.getItem('username')) {
     console.log('Username exists');
 }
 
-// Removing items
+   //Removing items
 localStorage.removeItem('username');
 sessionStorage.removeItem('tempData');
 
-// Clearing all storage
-// localStorage.clear(); // Be careful with this!
-// sessionStorage.clear();
+   // Clearing all storage
+  // localStorage.clear(); // Be careful with this!
+  // sessionStorage.clear();
 
-// Storage event listener (for cross-tab communication)
+//Example 4: Storage event listener (for cross-tab communication)
 window.addEventListener('storage', function(event) {
     console.log('Storage changed:', event);
     console.log('Key:', event.key);
@@ -1425,7 +1479,7 @@ window.addEventListener('storage', function(event) {
     console.log('URL:', event.url);
 });
 
-// Storage utility functions
+//Example 5: Storage utility functions
 class StorageManager {
     constructor(prefix = 'app_') {
         this.prefix = prefix;
@@ -1491,7 +1545,7 @@ class StorageManager {
     }
 }
 
-// Usage
+  //Usage
 const storage = new StorageManager('myapp_');
 storage.set('user', { name: 'Alice', id: 123 });
 storage.set('settings', { theme: 'dark', language: 'en' });
@@ -1500,7 +1554,7 @@ const user = storage.get('user');
 const settings = storage.get('settings');
 console.log(user, settings);
 
-// Storage limits and quota management
+// Example 6: Storage limits and quota management
 function checkStorageQuota() {
     let total = 0;
     const keys = Object.keys(localStorage);
@@ -1515,7 +1569,7 @@ function checkStorageQuota() {
     return total;
 }
 
-// Secure storage (basic encryption)
+// Example 7: Secure storage (basic encryption)
 function encryptData(data, key) {
     // This is a simple example - use proper encryption in production
     return btoa(JSON.stringify(data));
@@ -1529,7 +1583,7 @@ function decryptData(encryptedData, key) {
     }
 }
 
-// Usage
+   //Usage
 const sensitiveData = { password: 'secret123' };
 const encrypted = encryptData(sensitiveData, 'mykey');
 localStorage.setItem('encryptedData', encrypted);
@@ -1537,33 +1591,34 @@ localStorage.setItem('encryptedData', encrypted);
 const decrypted = decryptData(localStorage.getItem('encryptedData'), 'mykey');
 console.log(decrypted);`,
 
- "ES6+ Features Overview": `// Let and const
+ "ES6+ Features Overview": `
+// Example 1: Let and const
 let variable = "I can be reassigned";
 const constant = "I cannot be reassigned";
 
-// Template literals
+// Example 2: Template literals
 const name = "Alice";
 const greeting = \`Hello, \${name}! How are you today?\`;
 
-// Destructuring
+// Example 3: Destructuring
 const person = { name: "Bob", age: 30, city: "London" };
 const { name: personName, age } = person;
 const [first, second, ...rest] = [1, 2, 3, 4, 5];
 
-// Spread and rest operators
+// Example 4: Spread and rest operators
 const arr1 = [1, 2, 3];
 const arr2 = [...arr1, 4, 5];
 const obj1 = { a: 1, b: 2 };
 const obj2 = { ...obj1, c: 3 };
 
-// Arrow functions
+// Example 5: Arrow functions
 const add = (a, b) => a + b;
 const multiply = (a, b) => {
     const result = a * b;
     return result;
 };
 
-// Classes
+// Example 6: Classes
 class Person {
     constructor(name, age) {
         this.name = name;
@@ -1575,36 +1630,37 @@ class Person {
     }
 }
 
-// Modules
-// export default function() { }
-// export { function1, function2 };
-// import defaultFunction from './module';
-// import { function1, function2 } from './module';
+// Example 7: Modules
+  //export default function() { }
+  //export { function1, function2 };
+   //import defaultFunction from './module';
+  //import { function1, function2 } from './module';
 
-// New built-in methods
+// Example 8: New built-in methods
 const array = [1, 2, 3, 4, 5];
 console.log(array.includes(3)); // true
 console.log(Array.from('hello')); // ['h', 'e', 'l', 'l', 'o']
 console.log(Array.of(1, 2, 3)); // [1, 2, 3]`,
 
-    "Template Literals and String Interpolation": `// Basic template literals
+    "Template Literals and String Interpolation": `
+// Example 1: Basic template literals
 const name = "Alice";
 const age = 25;
 const greeting = \`Hello, my name is \${name} and I am \${age} years old.\`;
 
-// Multi-line strings
+// Example 2: Multi-line strings
 const multiLine = \`
     This is a
     multi-line string
     that preserves formatting
 \`;
 
-// Expression interpolation
+// Example 3: Expression interpolation
 const price = 19.99;
 const quantity = 3;
 const total = \`Total: $\${(price * quantity).toFixed(2)}\`;
 
-// Tagged templates
+// Example 4: Tagged templates
 function highlight(strings, ...values) {
     let result = '';
     strings.forEach((string, i) => {
@@ -1618,7 +1674,7 @@ function highlight(strings, ...values) {
 
 const highlighted = highlight\`Hello \${name}, you are \${age} years old.\`;
 
-// Raw strings
+// Example 5: Raw strings
 function raw(strings, ...values) {
     return strings.raw.reduce((result, str, i) => {
         return result + str + (values[i] || '');
@@ -1627,7 +1683,7 @@ function raw(strings, ...values) {
 
 const rawString = raw\`This is a raw string with \${name}.\`;
 
-// Performance considerations
+// Example 6: Performance considerations
 const largeTemplate = \`This is a very long string with \${name} and \${age} and many more interpolations.\`;
 
 // Use cases
@@ -1639,37 +1695,38 @@ const htmlTemplate = \`
     </div>
 \`;
 
-// Best practices
+// Example 7: Best practices
 const user = { name: "Bob", age: 30 };
 const userInfo = \`Name: \${user.name || 'Unknown'}, Age: \${user.age || 'Unknown'}\`;`,
 
-    "Destructuring Assignment": `// Array destructuring
+    "Destructuring Assignment": `
+// Example 1: Array destructuring
 const numbers = [1, 2, 3, 4, 5];
 const [first, second, third] = numbers;
 console.log(first, second, third); // 1 2 3
 
-// Skipping elements
+// Example 2: Skipping elements
 const [a, , c, , e] = numbers;
 console.log(a, c, e); // 1 3 5
 
-// Rest operator
+  //Rest operator
 const [head, ...tail] = numbers;
 console.log(head, tail); // 1 [2, 3, 4, 5]
 
-// Default values
+// Example 3: Default values
 const [x = 0, y = 0, z = 0] = [1, 2];
 console.log(x, y, z); // 1 2 0
 
-// Object destructuring
+// Example 4: Object destructuring
 const person = { name: "Alice", age: 25, city: "New York" };
 const { name, age, city } = person;
 console.log(name, age, city); // "Alice" 25 "New York"
 
-// Renaming variables
+  //Renaming variables
 const { name: personName, age: personAge } = person;
 console.log(personName, personAge); // "Alice" 25
 
-// Nested destructuring
+   //Nested destructuring
 const user = {
     name: "Bob",
     address: {
@@ -1680,14 +1737,14 @@ const user = {
 const { name: userName, address: { street, city } } = user;
 console.log(userName, street, city); // "Bob" "123 Main St" "London"
 
-// Function parameters
+// Example 5: Function parameters
 function processUser({ name, age, email = "unknown@example.com" }) {
     console.log(\`Processing \${name} (age: \${age}, email: \${email})\`);
 }
 
 processUser({ name: "Charlie", age: 30 });
 
-// Return values
+   //Return values
 function getUser() {
     return { name: "David", age: 35, city: "Paris" };
 }
@@ -1695,7 +1752,7 @@ function getUser() {
 const { name: returnedName, age: returnedAge } = getUser();
 console.log(returnedName, returnedAge); // "David" 35
 
-// Use cases
+  //Use cases
 const config = {
     apiUrl: "https://api.example.com",
     timeout: 5000,
@@ -1704,75 +1761,77 @@ const config = {
 
 const { apiUrl, timeout, retries } = config;
 
-// Performance considerations
-// Destructuring is generally fast, but avoid in tight loops
+// Example 6:  Performance considerations
+   // Destructuring is generally fast, but avoid in tight loops
 for (let i = 0; i < 1000000; i++) {
     // Avoid: const { a, b, c } = someObject;
     // Use: const a = someObject.a; const b = someObject.b; const c = someObject.c;
 }
 
-// Best practices
-// Use meaningful variable names
+  // Best practices
+  // Use meaningful variable names
 const { firstName, lastName } = user; // Good
 const { f, l } = user; // Bad
 
-// Provide default values for optional properties
+  // Provide default values for optional properties
 const { theme = "light", language = "en" } = settings;`,
 
-    "Spread and Rest Operators": `// Array spread
+    "Spread and Rest Operators": `
+// Example 1: Array spread
 const arr1 = [1, 2, 3];
 const arr2 = [4, 5, 6];
 const combined = [...arr1, ...arr2];
 console.log(combined); // [1, 2, 3, 4, 5, 6]
 
-// Object spread
+   //Object spread
 const obj1 = { a: 1, b: 2 };
 const obj2 = { c: 3, d: 4 };
 const merged = { ...obj1, ...obj2 };
 console.log(merged); // { a: 1, b: 2, c: 3, d: 4 }
 
-// Rest parameters
+// Example 2: Rest parameters
 function sum(...numbers) {
     return numbers.reduce((total, num) => total + num, 0);
 }
 console.log(sum(1, 2, 3, 4, 5)); // 15
 
-// Rest in destructuring
+// Example 3: Rest in destructuring
 const [first, second, ...rest] = [1, 2, 3, 4, 5];
 console.log(first, second, rest); // 1 2 [3,4, 5]
 
 const { name, ...otherProps } = { name: "Bob", age: 30, city: "NYC" };
 console.log(name, otherProps); // "Bob" { age: 30, city: "NYC" }
 
-// Spread in function calls
+// Example 4: Spread in function calls
 const numbers = [1, 2, 3];
 const max = Math.max(...numbers);
 console.log(max); // 3
 
-// Creating arrays with spread
+   //Creating arrays with spread
 const chars = [..."Hello"];
 console.log(chars); // ["H", "e", "l", "l", "o"]
 
-// Spread with objects (shallow copy)
+// Example 5: Spread with objects (shallow copy)
 const originalObj = { a: 1, b: { c: 2 } };
 const copyObj = { ...originalObj };
 copyObj.b.c = 3;
 console.log(originalObj.b.c); // 3 (shallow copy)
 
-// Deep copy with JSON (for simple objects)
+  //Deep copy with JSON (for simple objects)
 const deepCopy = JSON.parse(JSON.stringify(originalObj));
 deepCopy.b.c = 4;
 console.log(originalObj.b.c); // 3 (unchanged)`,
 
 
 
-    "Modules and Imports": `// Named exports (math.js)
+    "Modules and Imports": `
+// Example 1: Named exports (math.js)
 export const add = (a, b) => a + b;
 export const subtract = (a, b) => a - b;
 export const multiply = (a, b) => a * b;
 export const divide = (a, b) => a / b;
 
-// Default export (config.js)
+  //Default export (config.js)
 const API_KEY = "abc123";
 const BASE_URL = "https://api.example.com";
 
@@ -1782,25 +1841,25 @@ export default {
     timeout: 5000
 };
 
-// Named imports
+   //Named imports
 import { add, subtract, multiply } from './math.js';
 import { add as sum, subtract as minus } from './math.js';
 
 console.log(add(5, 3)); // 8
 console.log(sum(5, 3)); // 8
 
-// Default import
+// Example 2: Default import
 import config from './config.js';
 console.log(config.API_KEY); // "abc123"
 
-// Mixed imports
+  //Mixed imports
 import config, { add, subtract } from './math.js';
 
-// Import all as namespace
+  // Import all as namespace
 import * as MathUtils from './math.js';
 console.log(MathUtils.add(5, 3)); // 8
 
-// Dynamic imports
+// Example 3: Dynamic imports
 async function loadModule() {
     try {
         const module = await import('./math.js');
@@ -1810,17 +1869,17 @@ async function loadModule() {
     }
 }
 
-// Conditional imports
+ //Conditional imports
 if (condition) {
     const { add } = await import('./math.js');
     console.log(add(5, 3));
 }
 
-// Re-exporting
+// Example 4: Re-exporting
 export { add, subtract } from './math.js';
 export { default as Config } from './config.js';
 
-// Module pattern (before ES6)
+// Example 5: Module pattern (before ES6)
 const Calculator = (function() {
     // Private variables
     let result = 0;
@@ -1830,7 +1889,7 @@ const Calculator = (function() {
         return typeof num === 'number' && !isNaN(num);
     }
     
-    // Public methods
+//  Example 5: Public methods
     return {
         add: function(num) {
             if (validateNumber(num)) {
@@ -1856,7 +1915,8 @@ const Calculator = (function() {
 
 console.log(Calculator.add(5).subtract(2).getResult()); // 3`,
 
-    "Closures and Lexical Scope": `// Basic closure
+    "Closures and Lexical Scope": `
+// Example 1: Basic closure
 function createCounter() {
     let count = 0;
     
@@ -1884,7 +1944,7 @@ const triple = createMultiplier(3);
 console.log(double(5)); // 10
 console.log(triple(5)); // 15
 
-// Private variables with closure
+// Example 2: Private variables with closure
 function createBankAccount(initialBalance) {
     let balance = initialBalance;
     
@@ -1916,7 +1976,7 @@ console.log(account.getBalance()); // 150
 account.withdraw(30);
 console.log(account.getBalance()); // 120
 
-// Module pattern with closure
+// Example 3: Module pattern with closure
 const Calculator = (function() {
     // Private variables
     let history = [];
@@ -1951,7 +2011,7 @@ console.log(Calculator.add(5, 3)); // 8
 console.log(Calculator.subtract(10, 4)); // 6
 console.log(Calculator.getHistory()); // Array of operations
 
-// Closure in loops (common pitfall)
+// Example 4: Closure in loops (common pitfall)
 function createFunctions() {
     const functions = [];
     
@@ -1969,7 +2029,7 @@ console.log(funcs[0]()); // 3 (not 0!)
 console.log(funcs[1]()); // 3 (not 1!)
 console.log(funcs[2]()); // 3 (not 2!)
 
-// Fix with let
+// Example 5: Fix with let
 function createFunctionsFixed() {
     const functions = [];
     
@@ -1987,7 +2047,7 @@ console.log(funcsFixed[0]()); // 0
 console.log(funcsFixed[1]()); // 1
 console.log(funcsFixed[2]()); // 2
 
-// Fix with IIFE
+// Example 6: Fix with IIFE
 function createFunctionsIIFE() {
     const functions = [];
     
@@ -2007,7 +2067,8 @@ console.log(funcsIIFE[0]()); // 0
 console.log(funcsIIFE[1]()); // 1
 console.log(funcsIIFE[2]()); // 2`,
 
-    "Callbacks and Higher-Order Functions": `// Basic callback
+    "Callbacks and Higher-Order Functions": `
+// Example 1: Basic callback
 function greet(name, callback) {
     const message = \`Hello, \${name}!\`;
     callback(message);
@@ -2017,7 +2078,7 @@ greet("Alice", function(message) {
     console.log(message); // "Hello, Alice!"
 });
 
-// Higher-order function
+// Example 2: Higher-order function
 function createMultiplier(factor) {
     return function(number) {
         return number * factor;
@@ -2030,33 +2091,33 @@ const triple = createMultiplier(3);
 console.log(double(5)); // 10
 console.log(triple(5)); // 15
 
-// Array methods with callbacks
+// Example 3: Array methods with callbacks
 const numbers = [1, 2, 3, 4, 5];
 
-// forEach
+  //forEach
 numbers.forEach(function(num, index) {
     console.log(\`Number \${index}: \${num}\`);
 });
 
-// map
+  // map
 const doubled = numbers.map(function(num) {
     return num * 2;
 });
 console.log(doubled); // [2, 4, 6, 8, 10]
 
-// filter
+ // filter
 const evenNumbers = numbers.filter(function(num) {
     return num % 2 === 0;
 });
 console.log(evenNumbers); // [2, 4]
 
-// reduce
+   // reduce
 const sum = numbers.reduce(function(total, num) {
     return total + num;
 }, 0);
 console.log(sum); // 15
 
-// Function composition
+// Example 4: Function composition
 function compose(...functions) {
     return function(value) {
         return functions.reduceRight(function(result, func) {
@@ -2072,7 +2133,7 @@ const square = x => x * x;
 const composed = compose(square, multiplyByTwo, addOne);
 console.log(composed(3)); // 64 ((3+1)*2)^2
 
-// Error handling with callbacks
+// Example 5: Error handling with callbacks
 function fetchData(url, successCallback, errorCallback) {
     // Simulate async operation
     setTimeout(function() {
@@ -2095,7 +2156,7 @@ fetchData(
     }
 );
 
-// Callback hell example
+// Example 6: Callback hell example
 fetchData("https://api.example.com/user", function(user) {
     fetchData(\`https://api.example.com/posts/\${user.id}\`, function(posts) {
         fetchData(\`https://api.example.com/comments/\${posts[0].id}\`, function(comments) {
@@ -2110,7 +2171,7 @@ fetchData("https://api.example.com/user", function(user) {
     console.error("Error fetching user:", error);
 });
 
-// Promise-based solution (better)
+// Example 6: Promise-based solution (better)
 function fetchDataPromise(url) {
     return new Promise(function(resolve, reject) {
         setTimeout(function() {
@@ -2138,7 +2199,8 @@ fetchDataPromise("https://api.example.com/user")
         console.error("Error:", error.message);
     });`,
 
-    "Promises and Async Programming": `// Creating a Promise
+    "Promises and Async Programming": `
+// Example 1: Creating a Promise
 const myPromise = new Promise(function(resolve, reject) {
     // Simulate async operation
     setTimeout(function() {
@@ -2151,7 +2213,7 @@ const myPromise = new Promise(function(resolve, reject) {
     }, 1000);
 });
 
-// Using the Promise
+  //Using the Promise
 myPromise
     .then(function(result) {
         console.log("Success:", result);
@@ -2160,7 +2222,7 @@ myPromise
         console.error("Error:", error.message);
     });
 
-// Promise with async operation
+  //Promise with async operation
 function fetchUserData(userId) {
     return new Promise(function(resolve, reject) {
         setTimeout(function() {
@@ -2182,7 +2244,7 @@ fetchUserData(123)
         console.error("Error:", error);
     });
 
-// Promise chaining
+// Example 2: Promise chaining
 function fetchUserPosts(userId) {
     return new Promise(function(resolve, reject) {
         setTimeout(function() {
@@ -2207,7 +2269,7 @@ fetchUserData(123)
         console.error("Error:", error);
     });
 
-// Promise.all - wait for all promises
+// Example 3: Promise.all - wait for all promises
 const promise1 = fetchUserData(1);
 const promise2 = fetchUserData(2);
 const promise3 = fetchUserData(3);
@@ -2220,7 +2282,7 @@ Promise.all([promise1, promise2, promise3])
         console.error("Error:", error);
     });
 
-// Promise.race - wait for first promise to complete
+// Example 4: Promise.race - wait for first promise to complete
 Promise.race([promise1, promise2, promise3])
     .then(function(firstUser) {
         console.log("First user:", firstUser);
@@ -2229,7 +2291,7 @@ Promise.race([promise1, promise2, promise3])
         console.error("Error:", error);
     });
 
-// Promise.allSettled - wait for all promises to settle
+// Example 5: Promise.allSettled - wait for all promises to settle
 Promise.allSettled([promise1, promise2, promise3])
     .then(function(results) {
         results.forEach(function(result, index) {
@@ -2241,7 +2303,7 @@ Promise.allSettled([promise1, promise2, promise3])
         });
     });
 
-// Converting callback to Promise
+// Example 6: Converting callback to Promise
 function readFileAsync(filename) {
     return new Promise(function(resolve, reject) {
         // Simulate file reading
@@ -2260,7 +2322,7 @@ readFileAsync("example.txt")
         console.error("Error reading file:", error);
     });
 
-// Error handling in promises
+// Example 7: Error handling in promises
 function riskyOperation() {
     return new Promise(function(resolve, reject) {
         setTimeout(function() {
@@ -2291,7 +2353,8 @@ riskyOperation()
         console.log("Operation completed");
     });`,
 
-    "Async/Await Syntax": `// Basic async/await
+    "Async/Await Syntax": `
+// Example 1: Basic async/await
 async function fetchUserData(userId) {
     try {
         const response = await fetch(\`https://api.example.com/users/\${userId}\`);
@@ -2303,7 +2366,7 @@ async function fetchUserData(userId) {
     }
 }
 
-// Using async function
+// Example 2: Using async function
 async function displayUser(userId) {
     try {
         const user = await fetchUserData(userId);
@@ -2313,14 +2376,14 @@ async function displayUser(userId) {
     }
 }
 
-// Parallel execution
+// Example 3: Parallel execution
 async function fetchMultipleUsers(userIds) {
     const promises = userIds.map(id => fetchUserData(id));
     const users = await Promise.all(promises);
     return users;
 }
 
-// Sequential vs parallel
+// Example 4: Sequential vs parallel
 async function fetchSequential(userIds) {
     const users = [];
     for (const id of userIds) {
@@ -2335,7 +2398,7 @@ async function fetchParallel(userIds) {
     return await Promise.all(promises);
 }
 
-// Error handling with async/await
+// Example 5: Error handling with async/await
 async function handleErrors() {
     try {
         const result = await riskyOperation();
@@ -2353,13 +2416,13 @@ async function handleErrors() {
     }
 }
 
-// Async arrow functions
+// Example 6: Async arrow functions
 const fetchData = async (url) => {
     const response = await fetch(url);
     return response.json();
 };
 
-// Async in loops
+// Example 7: Async in loops
 async function processItems(items) {
     const results = [];
     
@@ -2376,7 +2439,7 @@ async function processItems(items) {
     return { sequential: results, parallel: parallelResults };
 }
 
-// Async with Promise.race
+// Example 8: Async with Promise.race
 async function fetchWithTimeout(url, timeout = 5000) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), timeout);
@@ -2396,7 +2459,7 @@ async function fetchWithTimeout(url, timeout = 5000) {
     }
 }
 
-// Async function returning Promise
+// Example 9: Async function returning Promise
 async function delayedOperation(ms) {
     return new Promise(resolve => {
         setTimeout(() => {
@@ -2405,7 +2468,7 @@ async function delayedOperation(ms) {
     });
 }
 
-// Using async/await with existing Promise-based code
+// Example 10: Using async/await with existing Promise-based code
 async function legacyWrapper() {
     return new Promise((resolve, reject) => {
         // Legacy callback-based code
@@ -2420,7 +2483,7 @@ async function modernFunction() {
     console.log("Modern function result:", result);
 }
 
-// Async generators
+// Example 11: Async generators
 async function* asyncGenerator() {
     yield await fetchUserData(1);
     yield await fetchUserData(2);
@@ -2433,7 +2496,8 @@ async function consumeGenerator() {
     }
 }`,
 
-    "Fetch API and AJAX": `// Basic GET request
+    "Fetch API and AJAX": `
+// Example 1: Basic GET request
 async function fetchUser(userId) {
     try {
         const response = await fetch(\`https://api.example.com/users/\${userId}\`);
@@ -2450,7 +2514,7 @@ async function fetchUser(userId) {
     }
 }
 
-// POST request with JSON
+// Example 2: POST request with JSON
 async function createUser(userData) {
     try {
         const response = await fetch('https://api.example.com/users', {
@@ -2474,7 +2538,7 @@ async function createUser(userData) {
     }
 }
 
-// PUT request for updating
+// Example 3: PUT request for updating
 async function updateUser(userId, userData) {
     try {
         const response = await fetch(\`https://api.example.com/users/\${userId}\`, {
@@ -2497,7 +2561,7 @@ async function updateUser(userId, userData) {
     }
 }
 
-// DELETE request
+// Example 4: DELETE request
 async function deleteUser(userId) {
     try {
         const response = await fetch(\`https://api.example.com/users/\${userId}\`, {
@@ -2518,7 +2582,7 @@ async function deleteUser(userId) {
     }
 }
 
-// File upload
+// Example 5: File upload
 async function uploadFile(file) {
     try {
         const formData = new FormData();
@@ -2541,7 +2605,7 @@ async function uploadFile(file) {
     }
 }
 
-// Request with query parameters
+// Example 6: Request with query parameters
 async function searchUsers(query, page = 1, limit = 10) {
     try {
         const params = new URLSearchParams({
@@ -2564,7 +2628,7 @@ async function searchUsers(query, page = 1, limit = 10) {
     }
 }
 
-// Request with custom headers
+// Example 7: Request with custom headers
 async function authenticatedRequest(url, options = {}) {
     const token = localStorage.getItem('authToken');
     
@@ -2597,7 +2661,7 @@ async function authenticatedRequest(url, options = {}) {
     }
 }
 
-// Request with timeout
+// Example 8: Request with timeout
 async function fetchWithTimeout(url, timeout = 5000) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), timeout);
@@ -2625,7 +2689,7 @@ async function fetchWithTimeout(url, timeout = 5000) {
     }
 }
 
-// CORS handling
+// Example 9: CORS handling
 async function crossOriginRequest(url) {
     try {
         const response = await fetch(url, {
@@ -2647,7 +2711,7 @@ async function crossOriginRequest(url) {
     }
 }
 
-// Response handling
+// Example 10: Response handling
 async function handleResponse(response) {
     const contentType = response.headers.get('content-type');
     
@@ -2660,7 +2724,7 @@ async function handleResponse(response) {
     }
 }
 
-// Error handling with retry
+// Example 11: Error handling with retry
 async function fetchWithRetry(url, maxRetries = 3) {
     for (let i = 0; i < maxRetries; i++) {
         try {
@@ -2682,7 +2746,8 @@ async function fetchWithRetry(url, maxRetries = 3) {
     }
 }`,
 
-    "Error Handling in Async Code": `// Try-catch with async/await
+    "Error Handling in Async Code": `
+// Example 1: Try-catch with async/await
 async function fetchUserData(userId) {
     try {
         const response = await fetch(\`https://api.example.com/users/\${userId}\`);
@@ -2699,7 +2764,7 @@ async function fetchUserData(userId) {
     }
 }
 
-// Promise error handling
+// Example 2: Promise error handling
 function riskyOperation() {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -2730,7 +2795,7 @@ riskyOperation()
         console.log("Operation completed");
     });
 
-// Error propagation
+// Example 3: Error propagation
 async function processUser(userId) {
     try {
         const user = await fetchUserData(userId);
@@ -2744,7 +2809,7 @@ async function processUser(userId) {
     }
 }
 
-// Custom error types
+// Example 4: Custom error types
 class NetworkError extends Error {
     constructor(message, statusCode) {
         super(message);
@@ -2761,7 +2826,7 @@ class ValidationError extends Error {
     }
 }
 
-// Error handling with custom errors
+// Example 5: Error handling with custom errors
 async function validateAndFetchUser(userId) {
     try {
         if (!userId || typeof userId !== 'number') {
@@ -2792,7 +2857,7 @@ async function validateAndFetchUser(userId) {
     }
 }
 
-// Error logging
+// Example 6: Error logging
 class ErrorLogger {
     static log(error, context = {}) {
         const errorInfo = {
@@ -2814,7 +2879,7 @@ class ErrorLogger {
     }
 }
 
-// Error handling with logging
+// Example 7: Error handling with logging
 async function safeOperation() {
     try {
         const result = await riskyOperation();
@@ -2828,7 +2893,7 @@ async function safeOperation() {
     }
 }
 
-// Error recovery
+// Example 8: Error recovery
 async function fetchWithFallback(url, fallbackUrl) {
     try {
         const response = await fetch(url);
@@ -2846,7 +2911,7 @@ async function fetchWithFallback(url, fallbackUrl) {
     }
 }
 
-// Error boundaries (React-like pattern)
+// Example 9: Error boundaries (React-like pattern)
 class ErrorBoundary {
     constructor() {
         this.hasError = false;
@@ -2880,7 +2945,7 @@ boundary.execute(async () => {
     console.log("Error handled by boundary");
 });
 
-// Error handling in loops
+// Example 10: Error handling in loops
 async function processItems(items) {
     const results = [];
     const errors = [];
@@ -2898,7 +2963,7 @@ async function processItems(items) {
     return { results, errors };
 }
 
-// Error handling with Promise.allSettled
+// Example 11: Error handling with Promise.allSettled
 async function processItemsParallel(items) {
     const promises = items.map(async (item) => {
         try {
@@ -2917,14 +2982,15 @@ async function processItemsParallel(items) {
     return { successful, failed };
 }`,
 
-    "Array Iteration Methods": `// forEach - executes function for each element
+    "Array Iteration Methods": `
+// Example 1: forEach - executes function for each element
 const numbers = [1, 2, 3, 4, 5];
 
 numbers.forEach((num, index, array) => {
     console.log(\`Number \${index}: \${num}\`);
 });
 
-// map - transforms each element
+// Example 2: map - transforms each element
 const doubled = numbers.map(num => num * 2);
 console.log(doubled); // [2, 4, 6, 8, 10]
 
@@ -2937,56 +3003,56 @@ const users = [
 const names = users.map(user => user.name);
 console.log(names); // ["Alice", "Bob", "Charlie"]
 
-// filter - returns elements that pass a test
+// Example 3: filter - returns elements that pass a test
 const evenNumbers = numbers.filter(num => num % 2 === 0);
 console.log(evenNumbers); // [2, 4]
 
 const adults = users.filter(user => user.age >= 30);
 console.log(adults); // [{ name: "Bob", age: 30 }, { name: "Charlie", age: 35 }]
 
-// reduce - combines all elements into a single value
+// Example 4: reduce - combines all elements into a single value
 const sum = numbers.reduce((total, num) => total + num, 0);
 console.log(sum); // 15
 
 const totalAge = users.reduce((total, user) => total + user.age, 0);
 console.log(totalAge); // 90
 
-// find - returns first element that passes a test
+// Example 5: find - returns first element that passes a test
 const firstEven = numbers.find(num => num % 2 === 0);
 console.log(firstEven); // 2
 
 const bob = users.find(user => user.name === "Bob");
 console.log(bob); // { name: "Bob", age: 30 }
 
-// findIndex - returns index of first element that passes a test
+// Example 6: findIndex - returns index of first element that passes a test
 const firstEvenIndex = numbers.findIndex(num => num % 2 === 0);
 console.log(firstEvenIndex); // 1
 
 const bobIndex = users.findIndex(user => user.name === "Bob");
 console.log(bobIndex); // 1
 
-// some - checks if at least one element passes a test
+// Example 7: some - checks if at least one element passes a test
 const hasEven = numbers.some(num => num % 2 === 0);
 console.log(hasEven); // true
 
 const hasAdult = users.some(user => user.age >= 30);
 console.log(hasAdult); // true
 
-// every - checks if all elements pass a test
+// Example 8: every - checks if all elements pass a test
 const allPositive = numbers.every(num => num > 0);
 console.log(allPositive); // true
 
 const allAdults = users.every(user => user.age >= 18);
 console.log(allAdults); // true
 
-// Method chaining
+// Example 9: Method chaining
 const result = numbers
     .filter(num => num > 2)
     .map(num => num * 2)
     .reduce((sum, num) => sum + num, 0);
 console.log(result); // 24 (3*2 + 4*2 + 5*2)
 
-// Complex example with objects
+// Example 10: Complex example with objects
 const products = [
     { name: "Laptop", price: 999, category: "Electronics" },
     { name: "Book", price: 15, category: "Books" },
@@ -2994,36 +3060,37 @@ const products = [
     { name: "Pen", price: 2, category: "Office" }
 ];
 
-// Get total price of electronics
+// Example 11: Get total price of electronics
 const electronicsTotal = products
     .filter(product => product.category === "Electronics")
     .reduce((total, product) => total + product.price, 0);
 console.log(electronicsTotal); // 1698
 `,
 
-    "Functional Programming Concepts": `// Pure function
+    "Functional Programming Concepts": `
+// Example 1: Pure function
 function add(a, b) {
     return a + b;
 }
 
-// Immutability
+// Example 2: Immutability
 const arr = [1, 2, 3];
 const newArr = [...arr, 4]; // arr is not changed
 console.log(arr, newArr); // [1,2,3] [1,2,3,4]
 
-// Function composition
+// Example 3: Function composition
 const double = x => x * 2;
 const increment = x => x + 1;
 const doubleThenIncrement = x => increment(double(x));
 console.log(doubleThenIncrement(3)); // 7
 
-// Higher-order function
+// Example 4: Higher-order function
 function applyOperation(arr, operation) {
     return arr.map(operation);
 }
 console.log(applyOperation([1,2,3], x => x * 3)); // [3,6,9]
 
-// Currying
+// Example 5: Currying
 function multiply(a) {
     return function(b) {
         return a * b;
@@ -3032,7 +3099,7 @@ function multiply(a) {
 const triple = multiply(3);
 console.log(triple(5)); // 15
 
-// Using map/filter/reduce for functional style
+// Example 6: Using map/filter/reduce for functional style
 const numbers = [1,2,3,4,5];
 const evenSquares = numbers
     .filter(n => n % 2 === 0)
@@ -3040,7 +3107,8 @@ const evenSquares = numbers
 console.log(evenSquares); // [4, 16]
 `,
 
-    "Event Delegation": `// Event delegation example
+    "Event Delegation": `
+// Example 1: Event delegation example
 
 const list = document.getElementById('myList');
 
@@ -3051,7 +3119,7 @@ if (list) {
         }
     });
 
-    // Dynamically add items
+// Example 2: Dynamically add items
     const newItem = document.createElement('li');
     newItem.textContent = 'New Item';
     list.appendChild(newItem);
@@ -3059,47 +3127,50 @@ if (list) {
     console.error('Element with ID "myList" not found.');
 }
 
-// This click will also be handled by the same event listener
+   // This click will also be handled by the same event listener
 `,
 
-    "Custom Events": `// Creating and dispatching a custom event
+    "Custom Events": `
+// Example 1: Creating and dispatching a custom event
 const button = document.getElementById('myButton');
 
-// Create custom event
+  //Create custom event
 const myEvent = new CustomEvent('myCustomEvent', {
     detail: { message: 'Hello from custom event!' }
 });
 
-// Listen for custom event
+// Example 2: Listen for custom event
 button.addEventListener('myCustomEvent', function(event) {
     console.log('Custom event received:', event.detail.message);
 });
 
-// Dispatch custom event
+// Example 3: Dispatch custom event
 button.dispatchEvent(myEvent);
 `,
 
-    "Regular Expressions": `// Basic regex pattern
+    "Regular Expressions": `
+// Example 1: Basic regex pattern
 const pattern = /hello/i; // case-insensitive
 console.log(pattern.test('Hello world')); // true
 
-// Match all digits
+// Example 2: Match all digits
 const str = 'My phone is 123-456-7890';
 const digits = str.match(/\d+/g);
 console.log(digits); // ["123", "456", "7890"]
 
-// Replace all whitespace
+// Example 3: Replace all whitespace
 const messy = 'Hello   world!';
 const clean = messy.replace(/\s+/g, ' ');
 console.log(clean); // "Hello world!"
 
-// Extract email from text
+// Example 4: Extract email from text
 const text = 'Contact: user@example.com';
 const email = text.match(/[\w.-]+@[\w.-]+/)[0];
 console.log(email); // "user@example.com"
 `,
 
-    "Prototypes and Inheritance": `// Constructor function
+    "Prototypes and Inheritance": `
+// Example 1: Constructor function
 function Animal(name) {
     this.name = name;
 }
@@ -3110,7 +3181,7 @@ Animal.prototype.speak = function() {
 const dog = new Animal('Dog');
 dog.speak(); // Dog makes a noise.
 
-// Inheritance
+// Example 2: Inheritance
 function Dog(name) {
     Animal.call(this, name);
 }
@@ -3125,7 +3196,8 @@ rex.speak(); // Rex makes a noise.
 rex.bark(); // Rex barks.
 `,
 
-    "Classes and OOP in JavaScript": `// ES6 class syntax
+    "Classes and OOP in JavaScript": `
+// Example 1: ES6 class syntax
 class Animal {
     constructor(name) {
         this.name = name;
@@ -3151,7 +3223,7 @@ const dog = new Dog('Buddy');
 dog.speak(); // Buddy barks.
 console.log(Dog.info());
 
-// Private fields (ES2022+)
+// Example 2: Private fields (ES2022+)
 class Secret {
     #secret = 'hidden';
     reveal() {
@@ -3162,10 +3234,11 @@ const s = new Secret();
 console.log(s.reveal()); // 'hidden'
 `,
 
-    "Project: Interactive Web App": `// Project outline (pseudo-code)
-// 1. Plan features: e.g., To-Do List
-// 2. Design UI: HTML/CSS/JS
-// 3. Implement core logic
+    "Project: Interactive Web App": `
+// Example 1: Project outline (pseudo-code)
+    // Plan features: e.g., To-Do List
+   //  Design UI: HTML/CSS/JS
+   //  Implement core logic
 
 const todos = [];
 
@@ -3202,16 +3275,17 @@ function renderTodos() {
     });
 }
 
-// Example: add some initial todos
+  // add some initial todos
 addTodo("Buy milk");
 addTodo("Walk dog");
 
 
-// 4. Add event listeners, persist data, etc.
-// 5. Test, debug, deploy
+   // 4. Add event listeners, persist data, etc.
+   // 5. Test, debug, deploy
 `,
 
-    "Best Practices and Code Style": `// Code organization
+    "Best Practices and Code Style": `
+// Example 1: Code organization
 function calculateArea(radius) {
     if (typeof radius !== 'number' || radius <= 0) {
         throw new Error('Invalid radius');
@@ -3219,10 +3293,10 @@ function calculateArea(radius) {
     return Math.PI * radius * radius;
 }
 
-// Naming conventions
+// Example 2: Naming conventions
 const userName = 'Alice'; // camelCase for variables
 
-// Documentation
+// Example 3: Documentation
 /**
  * Adds two numbers
  * @param {number} a
@@ -3233,30 +3307,30 @@ function add(a, b) {
     return a + b;
 }
 
-// Testing
+// Example 4: Testing
 console.assert(add(2, 3) === 5, 'Addition failed');
 
-// Performance
+// Example 5: Performance
 const arr = Array.from({ length: 10000 }, (_, i) => i);
 console.time('sum');
 const sum = arr.reduce((a, b) => a + b, 0);
 console.timeEnd('sum');
 
-// Security
+// Example 6: Security
 const userInput = '<script>alert(1)</script>';
 const safeInput = userInput.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 console.log(safeInput); // '&lt;script&gt;alert(1)&lt;/script&gt;'
 
-// Accessibility
+// Example 7: Accessibility
 const button = document.createElement('button');
 button.textContent = 'Click me';
 button.setAttribute('aria-label', 'Click to perform action');
 document.body.appendChild(button);
 
-// Maintenance
-// Keep functions small, modular, and well-documented
-// Use version control and code reviews
-// Regularly refactor and update dependencies
+// Example 8: Maintenance
+  //Keep functions small, modular, and well-documented
+  //Use version control and code reviews
+  //Regularly refactor and update dependencies
 `,
 
 
@@ -3267,8 +3341,8 @@ document.body.appendChild(button);
 const getJSCodeExplanation = (lessonTitle) => {
     const explanations = {
        "Introduction to JavaScript": `
+### Example 1
 **What is JavaScript and its role in web development**
-
 JavaScript is a high-level, dynamic, and interpreted programming language that
 is primarily used for client-side scripting on the web. It was created
  by Brendan Eich in 1995 while he was working at Netscape Communications.
@@ -3340,17 +3414,13 @@ with a large and active community of developers, frameworks, and libraries.
 
 **Code Explanation:**
 This example demonstrates the fundamental ways to run JavaScript in a web browser:
-
-1. **Script Tag**: The \`<script>\` tag tells the browser to interpret the code inside as JavaScript
+- **Script Tag**: The \`<script>\` tag tells the browser to interpret the code inside as JavaScript
  rather than HTML.
-
-2. **Console Output**: \`console.log('Hello, JavaScript!')\` prints text to the browser's developer console, 
+- **Console Output**: \`console.log('Hello, JavaScript!')\` prints text to the browser's developer console, 
 which is essential for debugging and development.
-
-3. **Alert Dialog**: \`alert('Welcome to JavaScript!')\` displays a popup dialog box to the user,
+- **Alert Dialog**: \`alert('Welcome to JavaScript!')\` displays a popup dialog box to the user,
  useful for simple user interactions.
-
-4. **Basic Arithmetic**: \`console.log(2 + 2)\` demonstrates that JavaScript can perform mathematical
+- **Basic Arithmetic**: \`console.log(2 + 2)\` demonstrates that JavaScript can perform mathematical
  calculations and display results.
 
 **Why This Matters:**
@@ -3362,21 +3432,19 @@ which is essential for debugging and development.
 and use basic output methods.`,
 
        "JavaScript Syntax and Basics": `
-**Code Explanation:**
-This example demonstrates essential JavaScript syntax and coding practices:
+### Example 1
+The fundamental rules, structure, and concepts that define how JavaScript code 
+is written and executed, including variables, data types, operators, and basic statements.
 
-1. **Comments**: 
 - \`//\` creates single-line comments for brief explanations
 - \`/* */\` creates multi-line comments for detailed documentation (JSDoc style)
 
-2. **Statements vs Expressions**:
+### Example 2
 - \`console.log('x =', x)\` is a statement that performs an action
 - \`x + 2\` is an expression that produces a value but doesn't perform an action
 
-3. **Code Formatting**:
+### Example 3
 Proper indentation and spacing make code readable and maintainable.
-
-4. **Conditional Structure**: 
 The if-else block shows proper code organization with consistent formatting.
 
 **Why This Matters:**
@@ -3387,160 +3455,242 @@ The if-else block shows proper code organization with consistent formatting.
 **Learning Outcome:** Understanding JavaScript syntax rules, commenting practices, 
 and code organization principles.`,
 
-       "Variables and Data Types": `
-**Code Explanation:**
-This example demonstrates JavaScript's variable system and type system:
+    "Variables and Data Types": `
+### Example 1
+- **variables** act like labeled storage boxes that hold data so it can be used, 
+updated, and referenced throughout a program. They have names (identifiers) and values, 
+and their contents can change during execution.
+This block shows how to declare variables using different primitive data types. Key points:
+- Use \`let\` for reassignable block-scoped variables
+- Use \`const\` for values that should not be reassigned
+- \`var\` : Avoid using var in modern JavaScript development due to its confusing
+scoping rules and hoisting behavior. \`let\` and \`const\` offer more predictable and
+safer variable declarations
 
-1. **Variable Declarations**:
-- \`let\` declares a block-scoped variable that can be reassigned
-- \`const\` declares a block-scoped variable that cannot be reassigned
-- \`var\` declares a function-scoped variable (older syntax)
+### Example 2
+- **Data types** specify the kind of data a variable can hold, which determines what operations 
+can be performed on it. In JavaScript, data types are divided into:
 
-2. **Primitive Data Types**:
-- **String**: Text data enclosed in quotes("" or '')
-- **Number**: Numeric values (integers and decimals)
-- **Boolean**: Logical values (true/false)
-- **Null**: Intentional absence of value
-- **Undefined**: Variable declared but not assigned
-- **Symbol**: Unique identifier
-- **BigInt**: Large integers beyond Number limits
+**Primitive types demonstrated**: 
+- \`string\` - text values (\`"Hello"\`)
+- \`number\` - numeric values (\`42, 3.14\`)
+- \`boolean\` - logical values (\`true\` or \`false\`)
+- \`null\` - intentional absence of any value
+- \`undefined\` - variable declared but not assigned
+- \`symbol\` - unique and immutable identifier
+- \`bigint\` - large integers beyond number limits
 
-3. **Type Checking**: \`typeof\` operator returns the data type of a value.
+Here we inspect the types of the previously declared variables using \`typeof\`. Notes:
+- \`typeof null\` is historically "object" (a known JavaScript quirk)
+- Symbols and BigInts each have their own distinct type labels
 
-4. **Type Conversion**: Functions like \`String()\`, \`Number()\`, \`Boolean()\` convert between types.
+### Example 3
+Shows explicit type conversion:
+- \`String(value)\` converts to string
+- \`Number(value)\` parses numeric strings
+- \`Boolean(value)\` follows truthy / falsy rules (1 -> true)
 
-**Why This Matters:**
-- Understanding data types is fundamental to programming
-- Type checking helps debug and validate data
-- Type conversion is essential for working with different data sources
+*Why This Matters*
+Understanding declarations, inspection, and conversion lets you control data reliably and avoid subtle bugs.
 
-**Learning Outcome:** Understanding JavaScript's type system, variable declarations, and type manipulation.`,
+*Learning Outcome*
+Ability to declare, inspect, and convert primitive values correctly.`,
 
        "Operators and Expressions": `
-**Code Explanation:**
-This example demonstrates JavaScript's operator system:
+### Example 1
+**Arithmetic Operators** are special symbols or keywords that perform operations on values (operands). 
+They are used to manipulate data, perform calculations, compare values, and combine logical conditions.
 
-1. **Arithmetic Operators**:
-- \`+\` (addition), \`-\` (subtraction), \`*\` (multiplication)
-- \`/\` (division), \`%\` (modulus/remainder), \`**\` (exponentiation)
+**Arithmetic Operators**
+| Operator | Description           | Example     | Result |
+| :------- | :-------------------- | :---------- | :----- |
+| \`+\`      | Addition              | \`4 + 5\`     | \`9\`    |
+| \`-\`      | Subtraction           | \`7 - 4\`     | \`3\`    |
+| \`*\`      | Multiplication        | \`3 * 4\`     |\`12\`   |
+| \`/\`      | Division              | \`15 / 3\`    | \`5\`    |
+| \`%\`      | Modulus (remainder)   | \`10 % 3\`    | \`1\`    |
+| \`**\`     | Exponentiation (ES2016) | \`2**3\`    | \`8\`    |
+| \`++\`     | Increment             | \`let x = 5; x++;\`    | \`x is now 6\`    |
+| \`--\`      | Decrement               | \`let y = 8; y--;\`    | \`y is now 7\`    |
 
-2. **Assignment Operators**:
-- \`+=\` is a compound assignment that adds and assigns in one step
-- \`a += 5\` is equivalent to \`a = a + 5\`
 
-3. **Comparison Operators**:
-- \`>\` (greater than), \`===\` (strict equality), \`!==\` (strict inequality)
-- \`===\` checks both value and type, while \`==\` only checks value
+### Example 2 
+**Assignment Operator** are used to assign values to variables.
 
-4. **Logical Operators**:
-- \`&&\` (AND), \`||\` (OR), \`!\` (NOT)
-- Used for combining conditions and boolean logic
+**Assignment Operators**
+| Operator | Description                                    | Example        | Result  |
+| :------- | :--------------------------------------------- | :------------- | :------ |
+| \`=\`      | Assigns value from right to left                | \`x = 5\`        | \`x = 5\` |
+| \`+=\`     | Adds right operand to left operand and assigns  | \`x = 3; x += 2\`| \`x = 5\` |
+| \`-=\`     | Subtracts right operand and assigns             | \`x = 5; x -= 2\`| \`x = 3\` |
+| \`*=\`     | Multiplies right operand and assigns            | \`x = 4; x *= 3\`| \`x = 12\`|
+| \`/=\`     | Divides left operand by right operand and assigns| \`x = 10; x /= 2\`| \`x = 5.0\`|
+| \`%=\`     | Takes modulus and assigns                       | \`x = 7; x %= 3\`| \`x = 1\` |
+| \`**=\`    | Performs exponentiation and assigns             | \`x = 2; x **= 3\`| \`x = 8\` |
+| \`//=\`    | Performs floor division and assigns             | \`x = 7; x //= 2\`| \`x = 3\` |
 
-5. **String Operators**:
+
+### Example 3
+Comparison Operators compare two values and return a boolean ( true or false ).
+
+### Comparison Operators
+| Operator | Description                                   | Example       | Result  |
+| :------- | :-------------------------------------------- | :------------ | :------ |
+| \`==\`     | Checks if two values are equal                 | \`5 == 5\`      | \`True\`  |
+| \`!=\`     | Checks if two values are not equal             | \`5 != 3\`      | \`True\`  |
+| \`>\`      | Checks if left value is greater than right     | \`7 > 4\`       | \`True\`  |
+| \`<\`      | Checks if left value is less than right        | \`3 < 5\`       | \`True\`  |
+| \`>=\`     | Checks if left value is greater or equal       | \`5 >= 5\`      | \`True\`  |
+| \`<=\`     | Checks if left value is less or equal          | \`4 <= 6\`      | \`True\`  |
+| \`===\`    | Checks if two values are strictly equal        | \`4 === "4"\`     | \`False\`  |
+| \`!==\`    | Checks if two values are strictly not equal    | \`5 !== 5\`     | \`False\`  |
+
+Loose (\`==\` , \`!= \`) vs. Strict ( \`===\` , \`!==\` ) Equality:
+- **Loose equality ( \`==\` )** performs type coercion before comparison. This means it
+tries to convert the operands to the same type before checking their values. This
+can lead to unexpected results.
+- **Strict equality ( \`===\` )** compares both the value and the type without any type
+coercion. This is generally recommended for more predictable and safer
+comparisons.
+
+### Example 4
+Logical operators are Used for combining conditions and boolean logic.
+
+**Logical Operators (Truth Table Style)**
+| Operator | Description | Example             | Result  |
+| :------- | :---------- | :------------------ | :------ |
+| \`AND\`    | AND         | \`True and False\`    | \`False\` |
+| \`OR\`     | OR          | \`True or False\`     | \`True\`  |
+| \`NOT\`    | NOT         | \`not True\`          | \`False\` |
+
+### Example 5
 - \`+\` concatenates strings
 - Template literals provide more flexible string creation
 
-**Why This Matters:**
+**Why This Matters**:
 - Operators are the building blocks of expressions and calculations
 - Understanding operator precedence prevents unexpected results
 - String manipulation is essential for text processing
 
-**Learning Outcome:** Mastering JavaScript operators for calculations, comparisons, and string manipulation.`,
+**Learning Outcome**: Mastering JavaScript operators for calculations, comparisons, and string manipulation.`,
 
        "Control Flow: if, else, switch": `
-**Code Explanation:**
+### Example 1 
+Code Explanation:
 This example demonstrates JavaScript's control flow structures:
-
-1. **If-Else Statements**:
+If-Else Statements:
 - \`if\` checks a condition and executes code if true
 - \`else if\` provides additional conditions to check
 - \`else\` executes when no conditions are met
 
-2. **Switch Statement**:
+### Example 2
+Switch Statement:
 - Compares a value against multiple cases
 - \`break\` prevents fall-through to next case
 - \`default\` handles unmatched values
 
-3. **Ternary Operator**:
+### Example 3
+Ternary Operator:
 - \`condition ? value1 : value2\` provides a concise conditional expression
 - Useful for simple conditional assignments
 
-4. **Nullish Coalescing**:
+### Example 4
+Nullish Coalescin:
 - \`??\` returns the right operand when the left is null or undefined
 - More precise than logical OR (\`||\`) for null/undefined checks
 
-**Why This Matters:**
+**Why This Matters**:
 - Control flow determines program execution path
 - Different structures are appropriate for different scenarios
 - Understanding these patterns is essential for decision-making logic
 
-**Learning Outcome:** Understanding how to create conditional logic and control program
+**Learning Outcome**:Understanding how to create conditional logic and control program
 flow based on different conditions.`,
 
        "Loops: for, while, do...while": `
-**Code Explanation:**
-This example demonstrates JavaScript's loop structures:
+### Example 1
+**For Loop**:
+- The for loop is made up of three parts (initialization; condition; afterthought)
+- **Initialization**: is where we declare a variable and set it equalto a starting value. 
+In this case, we set \`i\` equal to \`0\`.
+- **Condition**: is a boolean expression that determines the numberof times a loop 
+will run and when it will stop
+- **final expression**: is where we increment or decrement the variable. 
+In our example, we increment \`i\` by 1 in each loop iteration.
+The loopwill continue to run until the condition is no longer met.
+*NOTE*: Iteration means repeatedly executing  a block of code, often to process each
+element in a sequence (like an array, object properties or numbers in a range).
 
-1. **For Loop**:
-- \`for (initialization; condition; increment)\` structure
-- Executes a block of code a specific number of times
-- Most common loop for known iteration counts
-
-2. **While Loop**:
+### Example 2
+While Loop:
 - Continues while a condition is true
 - Condition is checked before each iteration
 - Useful when iteration count is unknown
 
-3. **Do...While Loop**:
+### Example 3
+Do...While Loop:
 - Similar to while but condition is checked after execution
 - Always executes at least once
 - Useful when you need guaranteed execution
 
-4. **For...Of Loop**:
+### Example 4
+For...Of Loop:
 - Iterates over iterable objects (arrays, strings)
 - Provides direct access to values
 - Modern, clean syntax for array iteration
 
-5. **For...In Loop**:
+### Example 5
+For...In Loop:
 - Iterates over object properties
 - Returns property names (keys)
 - Useful for object enumeration
 
-**Why This Matters:**
+**Why This Matters**:
 - Loops are essential for processing collections of data
 - Different loops are optimized for different scenarios
 - Understanding loop control prevents infinite loops
 
-**Learning Outcome:** Understanding how to repeat code execution and iterate over data structures efficiently.`,
+**Learning Outcome**: Understanding how to repeat code execution and iterate over data structures efficiently.`,
 
        "Functions and Scope": `
-**Code Explanation:**
-This example demonstrates JavaScript's function system and scope rules:
+### Example 1
+**Functions** are one of the most fundamental building blocks in JavaScript. They are
+reusable blocks of code that perform a specific task. By organizing your code into
+functions, you can make it more modular, readable, and maintainable. Functions
+allow you to avoid repeating the same code multiple times (the DRY principle: Don't
+Repeat Yourself)
 
-1. **Function Declaration**:
-- \`function\` keyword creates a named function
-- Hoisted to the top of scope (can be called before definition)
-- Traditional function syntax
+**Function Declaration**:
+A function declaration (also known as a function statement) defines a named function.
+It is hoisted, meaning you can call the function before it is defined in the code.
 
-2. **Function Expression**:
+### Example 2
+**Function Expression**:
 - Function assigned to a variable
 - Not hoisted (must be defined before use)
 - More flexible than declarations
 
-3. **Arrow Function**:
+### Example 3
+Arrow Function:
 - \`=>\` syntax for concise function creation
 - Inherits \`this\` from surrounding scope
 - Modern ES6 syntax
 
-4. **Default Parameters**:
-- \`age = 20\` provides fallback value
-- Prevents undefined parameter errors
+### Example 4
+Parameters are placeholders for the values that will be passed into the function when
+it is called. You define parameters in the parentheses after the function name.
+**Arguments**: The actual values passed to the function when it is called are called
+arguments.
+**Default Parameters (ES6 )**: You can provide default values for parameters. If an
+argument is not provided for that parameter, the default value will be used.
 
-5. **Rest Parameters**:
+### Example 5
+Rest Parameters:
 - \`...numbers\` collects all arguments into an array
 - Flexible parameter handling
 
-6. **Scope**:
+### Example 6
+Scope:
 - Variables declared with \`let/const\` are block-scoped
 - Variables declared with \`var\` are function-scoped
 - Global variables are accessible everywhere
@@ -3553,25 +3703,26 @@ This example demonstrates JavaScript's function system and scope rules:
 **Learning Outcome:** Understanding how to create reusable code blocks and manage variable scope effectively.`,
 
        "Arrow Functions and ES6 Syntax": `
-**Code Explanation:**
-This example demonstrates modern JavaScript's arrow function syntax:
-
+### Example 1 
 1. **Basic Arrow Function**:
 - \`(a, b) => a + b\` creates a concise function
 - Implicit return when no curly braces are used
 - No \`function\` keyword needed
 
-2. **Arrow Function with Block Body**:
+### Example 2
+**Arrow Function with Block Body**:
 - \`name => { ... }\` uses curly braces for multiple statements
 - Explicit \`return\` statement required
 - More control over function body
 
-3. **Arrow Functions in Array Methods**:
+### Example 3
+**Arrow Functions in Array Methods**:
 - \`map()\` transforms each array element
 - Arrow functions provide clean callback syntax
 - Functional programming approach
 
-4. **Lexical This Binding**:
+### Example 4
+**Lexical This Binding**:
 - Arrow functions inherit \`this\` from surrounding scope
 - Solves common \`this\` context issues
 - Particularly useful in callbacks and event handlers
@@ -3585,30 +3736,40 @@ This example demonstrates modern JavaScript's arrow function syntax:
 improve code readability and solve context issues.`,
 
        "Objects and Object Literals": `
-**Code Explanation:**
-This example demonstrates JavaScript's object system:
+### Example 1
+**Objects** are fundamental to JavaScript and are used to store collections of related data
+and functionality. Unlike arrays, which store ordered lists of values, objects store data
+in key-value pairs. This makes objects ideal for representing real-world entities with
+various properties and behaviors.
 
-1. **Object Literal**:
-- \`{ key: value }\` syntax creates objects directly
-- Properties can be any data type
-- Methods are functions stored as properties
+ **Object Literal**:
+- **Keys (or Property Names)**: These are usually strings (or Symbols in ES6 ) that
+uniquely identify a property within the object. If the key is a valid JavaScript
+identifier (no spaces, special characters, or starting with a number), you don't
+need to put it in quotes.
+- **Values**: These can be any JavaScript data type, including other objects, arrays,
+functions, numbers, strings, booleans, etc.
 
-2. **Object Methods**:
+### Example 2 
+**Object Methods**:
 - \`Object.keys()\` returns array of property names
 - \`Object.values()\` returns array of property values
 - Useful for object inspection and manipulation
 
-3. **Object Destructuring**:
+### Example 3
+**Object Destructuring**:
 - \`const { name, age } = person\` extracts properties into variables
 - Cleaner than individual property access
 - Modern ES6 syntax
 
-4. **Object Spread**:
+### Example 4
+**Object Spread**:
 - \`{ ...person, age: 29 }\` creates new object with modifications
 - Non-destructive object manipulation
 - Immutable programming pattern
 
-5. **Computed Property Names**:
+### Example 5
+**Computed Property Names**:
 - \`[prop]: "red"\` uses variable as property name
 - Dynamic property creation
 - Useful for flexible object construction
@@ -3621,26 +3782,36 @@ This example demonstrates JavaScript's object system:
 **Learning Outcome:** Understanding how to create, manipulate, and work with JavaScript objects using modern syntax.`,
 
        "Arrays and Array Methods": `
-**Code Explanation:**
-This example demonstrates JavaScript's array system and functional methods:
+### Example 1
+**Arrays** are ordered collections of data. They are incredibly versatile and are used to
+store multiple values in a single variable. In JavaScript, arrays are dynamic, meaning
+their size can change, and they can hold elements of different data types. Arrays are
+zero-indexed, meaning the first element is at index 0 , the second at index 1 , and so on.
 
-1. **Array Creation and Manipulation**:
+**Array Creation and Manipulation**:
+The simplest and most common way to create an array is using square brackets \`[]\` .
 - \`push()\` adds elements to the end of an array
 - Arrays are dynamic and can grow/shrink
 - Zero-based indexing
 
-2. **Array Methods**:
+### Example 2
+**Array Methods**:
 - **map()**: Transforms each element and returns new array
+- **push()** : Adds one or more elements to the end of an array and returns the new length
 - **filter()**: Returns new array with elements that pass a test
 - **reduce()**: Combines all elements into a single value
+- **pop()**: Removes the last element from an array and returns that element.
+- **shift()** : Removes the first element from an array and returns that element.
 - These methods enable functional programming patterns
 
-3. **Array Destructuring**:
+### Example 3
+**Array Destructuring**:
 - \`const [first, second, ...rest] = numbers\` extracts elements
 - \`...rest\` collects remaining elements into new array
 - Clean way to extract specific elements
 
-4. **Array Spread**:
+### Example 4
+**Array Spread**:
 - \`[...numbers, 6, 7]\` creates new array with additional elements
 - Non-destructive array manipulation
 - Useful for combining arrays
@@ -3654,20 +3825,31 @@ This example demonstrates JavaScript's array system and functional methods:
 functional programming methods.`,
 
  "Strings and String Methods": `
+### Example 1  
 **Code Explanation:**
 This example demonstrates how to work with strings in JavaScript:
 
-1. **String Creation and Properties**: Shows how to create strings and use properties like
+**String Creation and Properties**: Shows how to create strings and use properties like
  \`.length\` to get the number of characters.
-2. **String Methods**: Methods like \`.toUpperCase()\`, \`.toLowerCase()\`,
+
+### Example 2
+**String Methods**: Methods like \`.toUpperCase()\`, \`.toLowerCase()\`,
  \`.indexOf()\`, \`.includes()\`, \`.startsWith()\`, and \`.endsWith()\` are used for searching and manipulating text.
-3. **Slicing and Substrings**: \`.slice()\` and \`.substring()\` 
+
+### Example 3
+**Slicing and Substrings**: \`.slice()\` and \`.substring()\` 
 extract parts of a string. \`.replace()\` swaps out text.
-4. **Template Literals**: Backtick syntax allows embedding variables 
+
+### Example 4
+**Template Literals**: Backtick syntax allows embedding variables 
 and expressions directly in strings, and supports multi-line strings.
-5. **Splitting and Joining**: \`.split()\` turns a string into an array, 
+
+### Example 5
+**Splitting and Joining**: \`.split()\` turns a string into an array, 
 and \`.join()\` combines array elements into a string.
-6. **Trimming**: \`.trim()\`, \`.trimStart()\`, and \`.trimEnd()\` remove whitespace from strings.
+
+### Example 6
+**Trimming**: \`.trim()\`, \`.trimStart()\`, and \`.trimEnd()\` remove whitespace from strings.
 
 **Why This Matters:**  
 - String manipulation is essential for user input, data processing, and UI rendering.
@@ -3677,17 +3859,26 @@ and \`.join()\` combines array elements into a string.
 Ability to create, manipulate, and format strings effectively in JavaScript.`,
 
 "Numbers and Math": `
+### Example 1
 **Code Explanation:**
 This example covers working with numbers and mathematical operations in JavaScript:
 
-1. **Number Types**: Demonstrates integers, floats, scientific notation, binary, octal, and hexadecimal numbers.
-2. **Math Object**: Provides constants and methods for calculations, such as \`Math.PI\`,
+**Number Types**: Demonstrates integers, floats, scientific notation, binary, octal, and hexadecimal numbers.
+
+### Example 2
+**Math Object**: Provides constants and methods for calculations, such as \`Math.PI\`,
  \`Math.round()\`, \`Math.floor()\`, \`Math.ceil()\`, \`Math.abs()\`, \`Math.pow()\`, \`Math.sqrt()\`, 
 and \`Math.random()\`.
-3. **Number Methods**: Methods like \`.toFixed()\`, \`.toPrecision()\`, \`.toString()\`, \`parseInt()\`,
+
+### Example 3
+**Number Methods**: Methods like \`.toFixed()\`, \`.toPrecision()\`, \`.toString()\`, \`parseInt()\`,
  and \`parseFloat()\` are used for formatting and converting numbers.
-4. **Random Numbers**: Shows how to generate random integers within a range.
-5. **Currency Formatting**: Uses \`.toLocaleString()\` to format numbers as currency.
+
+### Example 4
+**Random Numbers**: Shows how to generate random integers within a range.
+
+### Example 5
+**Currency Formatting**: Uses \`.toLocaleString()\` to format numbers as currency.
 
 **Why This Matters:**  
 - Numerical operations are fundamental for calculations, data analysis, and financial applications.
@@ -3697,17 +3888,24 @@ and \`Math.random()\`.
 Mastery of number handling, mathematical operations, and formatting in JavaScript.`,
 
 "Date and Time Handling": `
+### Example 1
 **Code Explanation:**
 This example demonstrates how to work with dates and times in JavaScript:
+**Date Creation**: Shows how to create Date objects for the real time, specific dates, and from strings.
 
-1. **Date Creation**: Shows how to create Date objects for the real time, specific dates, and from strings.
-2. **Date Methods**: Methods like \`.getFullYear()\`, \`.getMonth()\`, \`.getDate()\`, \`.getDay()\`,
+### Example 2
+**Date Methods**: Methods like \`.getFullYear()\`, \`.getMonth()\`, \`.getDate()\`, \`.getDay()\`,
  \`.getHours()\`, \`.getMinutes()\`, \`.getSeconds()\`, and \`.getMilliseconds()\` extract date 
 and time components.
-3. **Date Formatting**: Methods like \`.toDateString()\`, \`.toTimeString()\`, \`.toISOString()\`,
+
+### Example 3
+**Date Formatting**: Methods like \`.toDateString()\`, \`.toTimeString()\`, \`.toISOString()\`,
  \`.toLocaleDateString()\`, and \`.toLocaleTimeString()\` format dates for display.
-4. **Date Arithmetic**: Demonstrates adding days and calculating differences between dates.
-5. **Timers**: Shows how to use \`setTimeout\` and \`setInterval\` for scheduling code execution.
+
+### Example 4
+**Date Arithmetic**: Demonstrates adding days and calculating differences between dates.
+### Example 5
+**Timers**: Shows how to use \`setTimeout\` and \`setInterval\` for scheduling code execution.
 
 **Why This Matters:**  
 - Date and time handling is essential for scheduling, logging, and user interfaces.
@@ -3717,15 +3915,23 @@ and time components.
 Ability to create, manipulate, and format dates and times, and use timers in JavaScript.`,
 
  "Error Handling and Debugging": `
-**Code Explanation:**
-This example covers error handling and debugging techniques in JavaScript:
+### Example 1 
+In programming, errors are inevitable. They can occur due to various reasons:
+incorrect syntax, logical flaws, unexpected user input, network issues, or problems
+with external resources. Effective error handling is crucial for building robust and user-friendly applications. It allows your program to gracefully recover from errors, prevent
+crashes, and provide meaningful feedback to users or developers.
 
-1. **Try-Catch-Finally**: Handles errors gracefully and ensures cleanup code runs.
-2. **Custom Error Types**: Shows how to create and use custom error classes for more precise error handling.
-3. **Console Methods**: Uses \`console.log\`, \`console.warn\`, \`console.error\`, \`console.info\`,
+- **Try-Catch-Finally**: Handles errors gracefully and ensures cleanup code runs.
+### Example 2
+**Custom Error Types**: Shows how to create and use custom error classes for more precise error handling.
+
+### Example 3
+**Console Methods**: Uses \`console.log\`, \`console.warn\`, \`console.error\`, \`console.info\`,
  and \`console.table\` for debugging and data visualization.
-4. **Console Groups and Timers**: Organizes output and measures performance.
-5. **Error Propagation**: Demonstrates how errors can be caught and handled at different levels.
+### Example 4
+ **Console Groups and Timers**: Organizes output and measures performance.
+### Example 5
+**Error Propagation**: Demonstrates how errors can be caught and handled at different levels.
 
 **Why This Matters:**  
 - Robust error handling improves user experience and application reliability.
@@ -3735,19 +3941,39 @@ This example covers error handling and debugging techniques in JavaScript:
 Ability to handle errors, debug code, and use the console effectively in JavaScript.`,
 
  "DOM Manipulation Basics": `
-**Code Explanation:**
-This example demonstrates how to interact with the Document Object Model (DOM):
-
-1. **Selecting Elements**: Methods like \`getElementById\`, \`getElementsByClassName\`, \`getElementsByTagName\`,
+### Example 1
+The Document Object Model (DOM) is a programming interface for web documents. It
+represents the page so that programs can change the document structure, style, and
+content. The DOM represents the document as nodes and objects. That way,
+programming languages can connect to the page. It's essentially a tree-like structure
+where each HTML element, attribute, and text is a node.
+When a web page is loaded, the browser creates a DOM of the page. With the DOM,
+JavaScript can:
+- Change all the HTML elements in the page
+- Change all the HTML attributes in the page
+- Change all the CSS styles in the page
+- Remove existing HTML elements and attributes
+- Add new HTML elements and attributes
+- React to all existing HTML events in the page
+- Create new HTML events
+**Selecting Elements**: Methods like \`getElementById\`, \`getElementsByClassName\`, \`getElementsByTagName\`,
  \`querySelector\`, and \`querySelectorAll\` are used to find elements in the DOM.
-2. **Creating and Modifying Elements**: Shows how to create new elements, set their properties, 
-and add them to the DOM.
-3. **Modifying Content and Attributes**: Demonstrates changing text, HTML, attributes, and styles.
-4. **Class Manipulation**: Uses \`classList\` to add, remove, or toggle CSS classes.
-5. **Removing Elements**: Shows how to remove elements from the DOM.
-6. **DOM Traversal**: Accesses parent, child, and sibling elements.
-7. **Performance Optimization**: Uses \`documentFragment\` for efficient bulk DOM updates.
 
+ ### Example 2
+**Creating and Modifying Elements**: Shows how to create new elements, set their properties, 
+and add them to the DOM.
+
+### Example 3
+**Modifying Content and Attributes**: Demonstrates changing text, HTML, attributes, and styles.
+**Class Manipulation**: Uses \`classList\` to add, remove, or toggle CSS classes.
+### Example 4
+**Removing Elements**: Shows how to remove elements from the DOM.
+
+### Example 5
+**DOM Traversal**: Accesses parent, child, and sibling elements.
+
+### Example 6
+**Performance Optimization**: Uses \`documentFragment\` for efficient bulk DOM updates.
 **Why This Matters:**  
 - DOM manipulation is the foundation of dynamic web applications.
 - Efficient DOM operations improve performance and user experience.
@@ -3756,16 +3982,28 @@ and add them to the DOM.
 Ability to select, create, modify, and remove DOM elements in JavaScript.`,
 
  "DOM Events and Listeners": `
-**Code Explanation:**
-This example covers event handling in the browser:
+### Example 1
+Events are actions or occurrences that happen in the system you are programming,
+which the system tells you about so you can respond to them. In web development,
+events are crucial for creating interactive user experiences. They allow JavaScript to
+react to user actions (like clicks, key presses, form submissions) and browser actions
+(like page loading, image loading)
 
-1. **Adding Event Listeners**: Shows how to listen for user actions like clicks and mouse movements.
-2. **Event Object**: Demonstrates how to access event properties and control event behavior.
-3. **Multiple Listeners**: Shows how to attach different handlers to the same element.
-4. **Event Delegation**: Uses a single listener for multiple elements, improving efficiency.
-5. **Custom Events**: Demonstrates creating and dispatching custom events for component communication.
-6. **Event Phases**: Explains capturing and bubbling phases for advanced event handling.
-7. **Removing Listeners**: Shows how to remove event listeners to prevent memory leaks.
+### Example 2
+**Event Object**: Demonstrates how to access event properties and control event behavior.
+### Example 3
+**Multiple Listeners**: Shows how to attach different handlers to the same element.
+### Example 4
+**Event Delegation**: Uses a single listener for multiple elements, improving efficiency.
+### Example 5
+**Custom Events**: Demonstrates creating and dispatching custom events for component communication.
+### Example 6
+**Event Phases**: Explains capturing and bubbling phases for advanced event handling.
+
+### Example 7
+It's good practice to remove event listeners when they are no longer needed,
+especially in single-page applications, to prevent memory leaks. You must pass the
+same event type and the same function reference that was used to add the listener.
 
 **Why This Matters:**  
 - Event handling is essential for interactive web applications.
@@ -3775,16 +4013,20 @@ This example covers event handling in the browser:
 Mastery of event handling, delegation, and custom events in JavaScript.`,
 
     "Forms and User Input": `
-**Code Explanation:**
-This example demonstrates handling forms and user input in JavaScript:
-
-1. **Selecting Form Elements**: Shows how to access form fields and controls.
-2. **Form Validation**: Validates required fields, email format, and password strength before submission.
-3. **Error Display**: Provides user feedback for validation errors.
-4. **Form Submission**: Handles form data, converts it to an object, and sends it to a server using \`fetch\`.
-5. **Input Events**: Listens for input, focus, and blur events for real-time validation and feedback.
-6. **File Uploads**: Handles file input and displays file information.
-7. **Accessibility**: Ensures forms are accessible and user-friendly.
+### Example 1
+**Selecting Form Elements**: Shows how to access form fields and controls.
+### Example 2
+**Form Validation**: Validates required fields, email format, and password strength before submission.
+### Example 3
+**Error Display**: Provides user feedback for validation errors.
+### Example 3### Example 3
+**Form Submission**: Handles form data, converts it to an object, and sends it to a server using \`fetch\`.
+### Example 4
+**Input Events**: Listens for input, focus, and blur events for real-time validation and feedback.
+### Example 5
+**File Uploads**: Handles file input and displays file information.
+### Example 7
+**Accessibility**: Ensures forms are accessible and user-friendly.
 
 **Why This Matters:**  
 - Proper form handling is crucial for data collection and user experience.
@@ -3794,15 +4036,23 @@ This example demonstrates handling forms and user input in JavaScript:
 Ability to build, validate, and process forms and user input securely and accessibly.`,
 
     "Timers and Asynchronous Operations": `
+### Example 1
 **Code Explanation:**
 This example covers timers and asynchronous programming in JavaScript:
+**setTimeout and setInterval**: Schedules code to run after a delay or repeatedly at intervals.
 
-1. **setTimeout and setInterval**: Schedules code to run after a delay or repeatedly at intervals.
-2. **requestAnimationFrame**: Optimizes animations for smooth rendering.
-3. **Promise-based Timing**: Uses Promises and async/await for more readable asynchronous code.
-4. **Event Loop**: Demonstrates the order of synchronous, microtask, and macrotask execution.
-5. **Async Operations with Error Handling**: Shows how to handle errors in async code.
-6. **Debouncing and Throttling**: Implements techniques to control the rate of function execution 
+### Example 2
+**requestAnimationFrame**: Optimizes animations for smooth rendering.
+### Example 3
+**Promise-based Timing**: Uses Promises and async/await for more readable asynchronous code.
+
+### Example 4
+**Event Loop**: Demonstrates the order of synchronous, microtask, and macrotask execution.
+
+### Example 5
+**Async Operations with Error Handling**: Shows how to handle errors in async code.
+### Example 6
+**Debouncing and Throttling**: Implements techniques to control the rate of function execution 
 for performance.
 
 **Why This Matters:**  
@@ -3813,16 +4063,23 @@ for performance.
 Mastery of timers, async/await, and performance optimization techniques in JavaScript.`,
 
     "JSON and Data Handling": `
+### Example 1
 **Code Explanation:**
 This example demonstrates working with JSON and data in JavaScript:
-
-1. **Parsing and Stringifying**: Converts between JSON strings and JavaScript objects
+**Parsing and Stringifying**: Converts between JSON strings and JavaScript objects
 using \`JSON.parse\` and \`JSON.stringify\`.
-2. **Custom Serialization**: Uses replacer functions to customize JSON output.
-3. **API Requests**: Fetches data from APIs using async/await and handles errors.
-4. **Data Validation**: Checks for required fields and valid formats.
-5. **Deep Cloning**: Uses JSON methods for deep copying simple objects.
-6. **Local Storage**: Saves and loads data in the browser's local storage.
+
+### Example 2
+**Custom Serialization**: Uses replacer functions to customize JSON output.
+### Example 3
+**API Requests**: Fetches data from APIs using async/await and handles errors.
+
+### Example 4
+**Data Validation**: Checks for required fields and valid formats.
+### Example 5
+**Deep Cloning**: Uses JSON methods for deep copying simple objects.
+### Example 6
+**Local Storage**: Saves and loads data in the browser's local storage.
 
 **Why This Matters:**  
 - JSON is the standard for data exchange in web applications.
@@ -3832,17 +4089,24 @@ using \`JSON.parse\` and \`JSON.stringify\`.
 Ability to parse, validate, and persist data using JSON and local storage in JavaScript.`,
 
     "Local Storage and Session Storage": `
+### Example 1
 **Code Explanation:**
 This example covers browser storage options:
-
-1. **Local Storage**: Persists data across sessions until explicitly cleared. Useful for user 
+**Local Storage**: Persists data across sessions until explicitly cleared. Useful for user 
 preferences and offline data.
-2. **Session Storage**: Stores data for the duration of the page session. Useful for temporary state.
-3. **Reading and Removing Data**: Shows how to get, remove, and clear stored data.
-4. **Storage Events**: Listens for changes to storage across browser tabs.
-5. **Utility Class**: Implements a \`StorageManager\` for organized, prefixed storage operations.
-6. **Quota Management**: Checks storage usage and limits.
-7. **Basic Encryption**: Demonstrates simple (not secure for production) data encryption for 
+
+### Example 2
+**Session Storage**: Stores data for the duration of the page session. Useful for temporary state.
+### Example 3
+**Reading and Removing Data**: Shows how to get, remove, and clear stored data.
+### Example 4
+**Storage Events**: Listens for changes to storage across browser tabs.
+### Example 5
+**Utility Class**: Implements a \`StorageManager\` for organized, prefixed storage operations.
+### Example 6
+**Quota Management**: Checks storage usage and limits.
+### Example 7
+**Basic Encryption**: Demonstrates simple (not secure for production) data encryption for 
 sensitive information.
 
 **Why This Matters:**  
@@ -3853,18 +4117,27 @@ sensitive information.
 Mastery of local and session storage, including best practices for security and data management.`,
 
     "ES6+ Features Overview": `
+### Example 1
 **Code Explanation:**
 This example highlights key ES6+ (modern JavaScript) features:
+**let and const**: Block-scoped variable declarations for safer, more predictable code.
 
-1. **let and const**: Block-scoped variable declarations for safer, more predictable code.
-2. **Template Literals**: Backtick syntax for multi-line strings and embedded expressions.
-3. **Destructuring**: Extracts values from arrays and objects into variables.
-4. **Spread and Rest Operators**: Expands or collects elements/props for flexible function 
+### Example 2
+**Template Literals**: Backtick syntax for multi-line strings and embedded expressions.
+
+### Example 3
+**Destructuring**: Extracts values from arrays and objects into variables.
+### Example 4
+**Spread and Rest Operators**: Expands or collects elements/props for flexible function 
 calls and object/array manipulation.
-5. **Arrow Functions**: Concise syntax and lexical \`this\` binding for cleaner callbacks and methods.
-6. **Classes**: Modern syntax for object-oriented programming.
-7. **Modules**: Organize code into reusable files with import/export.
-8. **New Built-in Methods**: Adds powerful utilities to arrays and objects.
+### Example 5
+**Arrow Functions**: Concise syntax and lexical \`this\` binding for cleaner callbacks and methods.
+### Example 6
+**Classes**: Modern syntax for object-oriented programming.
+### Example 7
+**Modules**: Organize code into reusable files with import/export.
+### Example 8
+**New Built-in Methods**: Adds powerful utilities to arrays and objects.
 
 **Why This Matters:**  
 - Modern JavaScript features improve code readability, maintainability, and performance.
@@ -3874,15 +4147,20 @@ calls and object/array manipulation.
 Ability to use modern JavaScript syntax and features for cleaner, more efficient code.`,
 
     "Template Literals and String Interpolation": `
+### Example 1
 **Code Explanation:**
 This example demonstrates template literals and string interpolation:
-
-1. **Basic Template Literals**: Use backticks for strings, allowing embedded variables and expressions.
-2. **Multi-line Strings**: Easily create strings that span multiple lines.
-3. **Expression Interpolation**: Embed calculations and function calls directly in strings.
-4. **Tagged Templates**: Advanced feature for custom string processing.
-5. **Raw Strings**: Access the raw content of template literals.
-6. **Performance and Use Cases**: Template literals are ideal for dynamic content, HTML generation, 
+**Basic Template Literals**: Use backticks for strings, allowing embedded variables and expressions.
+### Example 2
+**Multi-line Strings**: Easily create strings that span multiple lines.
+### Example 3
+**Expression Interpolation**: Embed calculations and function calls directly in strings.
+### Example 4
+**Tagged Templates**: Advanced feature for custom string processing.
+### Example 5
+**Raw Strings**: Access the raw content of template literals.
+### Example 6
+**Performance and Use Cases**: Template literals are ideal for dynamic content, HTML generation, 
 and readable code.
 
 **Why This Matters:**  
@@ -3893,15 +4171,20 @@ and readable code.
 Mastery of template literals for dynamic, readable, and maintainable string handling.`,
 
     "Destructuring Assignment": `
+### Example 1
 **Code Explanation:**
 This example covers destructuring assignment for arrays and objects:
-
-1. **Array Destructuring**: Extracts elements into variables in a single line.
-2. **Skipping and Rest Operator**: Skip elements or collect the rest into an array.
-3. **Default Values**: Provide fallback values for missing data.
-4. **Object Destructuring**: Extracts properties into variables, with support for renaming and nested structures.
-5. **Function Parameters**: Use destructuring for cleaner, more flexible function signatures.
-6. **Performance and Best Practices**: Use destructuring for clarity, but avoid in tight loops for performance.
+**Array Destructuring**: Extracts elements into variables in a single line.
+### Example 2
+**Skipping and Rest Operator**: Skip elements or collect the rest into an array.
+### Example 3
+**Default Values**: Provide fallback values for missing data.
+### Example 4
+**Object Destructuring**: Extracts properties into variables, with support for renaming and nested structures.
+### Example 5
+**Function Parameters**: Use destructuring for cleaner, more flexible function signatures.
+### Example 6
+**Performance and Best Practices**: Use destructuring for clarity, but avoid in tight loops for performance.
 
 **Why This Matters:**  
 - Destructuring simplifies code and reduces boilerplate.
@@ -3911,15 +4194,18 @@ This example covers destructuring assignment for arrays and objects:
 Ability to extract and use data from arrays and objects efficiently.`,
 
     "Spread and Rest Operators": `
+### Example 1
 **Code Explanation:**
-
 This example demonstrates the spread (\`...\`) and rest (\`...\`) operators:
-
-1. **Array and Object Spread**: Copy or merge arrays and objects in a concise way.
-2. **Rest Parameters**: Collect multiple arguments into an array for flexible function definitions.
-3. **Destructuring with Rest**: Gather remaining elements or properties.
-4. **Function Calls**: Spread arrays into function arguments.
-5. **Shallow vs. Deep Copy**: Spread creates shallow copies; use JSON methods for deep copies.
+**Array and Object Spread**: Copy or merge arrays and objects in a concise way.
+### Example 2
+**Rest Parameters**: Collect multiple arguments into an array for flexible function definitions.
+### Example 3
+**Destructuring with Rest**: Gather remaining elements or properties.
+### Example 4
+**Function Calls**: Spread arrays into function arguments.
+### Example 5
+**Shallow vs. Deep Copy**: Spread creates shallow copies; use JSON methods for deep copies.
 
 **Why This Matters:**  
 - Spread and rest operators make code more flexible and expressive.
@@ -3929,14 +4215,18 @@ This example demonstrates the spread (\`...\`) and rest (\`...\`) operators:
 Mastery of spread and rest operators for modern, concise JavaScript code.`,
 
     "Modules and Imports": `
+### Example 1
 **Code Explanation:**
 This example covers JavaScript modules and import/export syntax:
-
-1. **Named and Default Exports**: Share functions, objects, or values between files.
-2. **Import Syntax**: Use \`import\` to bring in code from other modules.
-3. **Dynamic Imports**: Load modules on demand for performance.
-4. **Module Pattern**: Organize code for encapsulation and reuse.
-5. **Re-exporting**: Aggregate exports from multiple files.
+**Named and Default Exports**: Share functions, objects, or values between files.
+### Example 2
+**Import Syntax**: Use \`import\` to bring in code from other modules.
+### Example 3
+**Dynamic Imports**: Load modules on demand for performance.
+### Example 5
+**Module Pattern**: Organize code for encapsulation and reuse.
+### Example 4
+**Re-exporting**: Aggregate exports from multiple files.
 
 **Why This Matters:**  
 - Modules enable code organization, reuse, and maintainability.
@@ -3946,13 +4236,16 @@ This example covers JavaScript modules and import/export syntax:
 Ability to structure projects using modules and imports.`,
 
     "Closures and Lexical Scope": `
+### Example 1
 **Code Explanation:**
 This example demonstrates closures and lexical scope:
-
-1. **Closure Basics**: Functions retain access to variables from their creation context.
-2. **Private Variables**: Use closures to encapsulate data and create private state.
-3. **Module Pattern**: Encapsulate logic and expose only necessary methods.
-4. **Common Pitfalls**: Shows issues with closures in loops and how to fix them with \`let\` or IIFE.
+**Closure Basics**: Functions retain access to variables from their creation context.
+### Example 2
+**Private Variables**: Use closures to encapsulate data and create private state.
+### Example 3
+**Module Pattern**: Encapsulate logic and expose only necessary methods.
+### Example 4
+**Common Pitfalls**: Shows issues with closures in loops and how to fix them with \`let\` or IIFE.
 
 **Why This Matters:**  
 - Closures are fundamental for data privacy, callbacks, and asynchronous code.
@@ -3962,31 +4255,39 @@ This example demonstrates closures and lexical scope:
 Ability to use closures for encapsulation and advanced JavaScript techniques.`,
 
     "Callbacks and Higher-Order Functions": `
+### Example 1 
 **Code Explanation:**
 This example covers callbacks and higher-order functions:
-
-1. **Callbacks**: Pass functions as arguments for flexible, asynchronous code.
-2. **Higher-Order Functions**: Functions that return or accept other functions.
-3. **Array Methods**: Use callbacks with \`forEach\`, \`map\`, \`filter\`, and \`reduce\`.
-4. **Function Composition**: Combine functions for powerful data processing.
-5. **Error Handling**: Handle errors in callbacks and avoid callback hell.
-6. **Promises**: Shows how to refactor callbacks into Promises for cleaner code.
+**Callbacks**: Pass fusnctions as arguments for flexible, asynchronous code.
+### Example 2
+**Higher-Order Functions**: Functions that return or accept other functions.
+### Example 3
+**Array Methods**: Use callbacks with \`forEach\`, \`map\`, \`filter\`, and \`reduce\`.
+### Example 4
+**Function Composition**: Combine functions for powerful data processing.
+### Example 5
+**Error Handling**: Handle errors in callbacks and avoid callback hell.
+### Example 6
+**Promises**: Shows how to refactor callbacks into Promises for cleaner code.
 
 **Why This Matters:**  
 - Callbacks and higher-order functions are the backbone of functional and asynchronous programming in JavaScript.
-
 **Learning Outcome:**  
 Mastery of callbacks, higher-order functions, and functional programming patterns.`,
 
     "Promises and Async Programming": `
+### Example 1
 **Code Explanation:**
 This example demonstrates Promises and async programming:
-
-1. **Creating and Using Promises**: Handle asynchronous operations with \`.then()\` and \`.catch()\`.
-2. **Promise Chaining**: Sequence async operations for readable code.
-3. **Promise.all, .race, .allSettled**: Manage multiple async tasks in parallel.
-4. **Converting Callbacks to Promises**: Modernize legacy code.
-5. **Error Handling**: Catch and handle errors in async flows.
+**Creating and Using Promises**: Handle asynchronous operations with \`.then()\` and \`.catch()\`.
+### Example 2
+**Promise Chaining**: Sequence async operations for readable code.
+### Example 3
+**Promise.all, .race, .allSettled**: Manage multiple async tasks in parallel.
+### Example 6
+**Converting Callbacks to Promises**: Modernize legacy code.
+### Example 7
+**Error Handling**: Catch and handle errors in async flows.
 
 **Why This Matters:**  
 - Promises are essential for modern, maintainable async code.
@@ -3996,14 +4297,25 @@ This example demonstrates Promises and async programming:
 Ability to write robust, readable async code using Promises.`,
 
     "Async/Await Syntax": `
-**Code Explanation:**
-This example covers async/await syntax for asynchronous code:
+### Example 1
+The async and await keywords were introduced in ES2017 to make
+working with Promises easier. For example, we can simplify the
+Fetch request in the fetchExample.js file by using the async and
+await keywords:
 
-1. **Async Functions**: Use \`async\` to declare functions that return Promises.
-2. **Await Operator**: Pause execution until a Promise resolves.
-3. **Error Handling**: Use try/catch for synchronous-style error handling in async code.
-4. **Parallel vs. Sequential Execution**: Optimize performance by running tasks in parallel.
-5. **Async Generators**: Advanced pattern for streaming async data.
+### Example 2
+The \`async\` keyword is used to define an asynchronous function,
+while the await keyword is used to wait for a Promise to resolve,
+and can only be used inside an async function. In our example,
+we started by defining an asynchronous arrow function called
+\`displayUsers()\`.
+
+### Example 5
+**Error Handling**: Use try/catch for synchronous-style error handling in async code.
+### Example 4
+**Parallel vs. Sequential Execution**: Optimize performance by running tasks in parallel.
+### Example 6
+**Async Generators**: Advanced pattern for streaming async data.
 
 **Why This Matters:**  
 - Async/await makes async code easier to read, write, and debug.
@@ -4013,15 +4325,20 @@ This example covers async/await syntax for asynchronous code:
 Mastery of async/await for clean, efficient asynchronous programming.`,
 
     "Fetch API and AJAX": `
+### Example 1
 **Code Explanation:**
 This example demonstrates the Fetch API for AJAX requests:
-
-1. **GET, POST, PUT, DELETE**: Perform all major HTTP operations.
-2. **Error Handling**: Check response status and handle errors.
-3. **File Uploads**: Use FormData for uploading files.
-4. **Query Parameters and Headers**: Customize requests for APIs.
-5. **CORS and Security**: Handle cross-origin requests and authentication.
-6. **Retries and Timeouts**: Make robust, user-friendly network requests.
+**GET, POST, PUT, DELETE**: Perform all major HTTP operations.
+### Example 11
+**Error Handling**: Check response status and handle errors.
+### Example 5
+**File Uploads**: Use FormData for uploading files.
+### Example 6
+**Query Parameters and Headers**: Customize requests for APIs.
+### Example 9
+**CORS and Security**: Handle cross-origin requests and authentication.
+### Example 8
+**Retries and Timeouts**: Make robust, user-friendly network requests.
 
 **Why This Matters:**  
 - Fetch API is the modern standard for web requests.
@@ -4031,14 +4348,18 @@ This example demonstrates the Fetch API for AJAX requests:
 Ability to interact with APIs and handle network requests in JavaScript.`,
 
     "Error Handling in Async Code": `
+### Example 1
 **Code Explanation:**
 This example covers error handling in asynchronous code:
-
-1. **Try-Catch with Async/Await**: Catch errors in async functions.
-2. **Promise Error Handling**: Use \`.catch()\` for rejected Promises.
-3. **Custom Error Types**: Create and use custom error classes.
-4. **Error Logging and Recovery**: Log errors and provide fallback strategies.
-5. **Error Boundaries**: Pattern for containing errors in UI components.
+**Try-Catch with Async/Await**: Catch errors in async functions.
+### Example 2
+**Promise Error Handling**: Use \`.catch()\` for rejected Promises.
+### Example 4
+**Custom Error Types**: Create and use custom error classes.
+### Example 6
+**Error Logging and Recovery**: Log errors and provide fallback strategies.
+### Example 8
+**Error Boundaries**: Pattern for containing errors in UI components.
 
 **Why This Matters:**  
 - Proper error handling is critical for reliability and user experience in async code.
@@ -4047,18 +4368,26 @@ This example covers error handling in asynchronous code:
 Ability to handle, log, and recover from errors in asynchronous JavaScript.`,
 
     "Array Iteration Methods": `
+### Example 1 
 **Code Explanation:**
 This example demonstrates the most common ways to iterate and process arrays in JavaScript:
-
-1. **forEach**: Executes a function for each array element. Used for side effects (like logging), 
+**forEach**: Executes a function for each array element. Used for side effects (like logging), 
 but does not return a new array.
-2. **map**: Transforms each element and returns a new array. Ideal for data transformation.
-3. **filter**: Returns a new array with elements that pass a test. Used for extracting subsets.
-4. **reduce**: Combines all elements into a single value (e.g., sum, product, object aggregation).
-5. **find/findIndex**: Finds the first element (or its index) that matches a condition.
-6. **some/every**: Checks if at least one (some) or all (every) elements pass a test.
-7. **Method chaining**: Combines multiple methods for powerful, readable data processing.
-8. **Complex example**: Shows how to filter and sum properties of objects in an array.
+
+### Example 2
+**map**: Transforms each element and returns a new array. Ideal for data transformation.
+### Example 3
+**filter**: Returns a new array with elements that pass a test. Used for extracting subsets.
+### Example 4
+**reduce**: Combines all elements into a single value (e.g., sum, product, object aggregation).
+### Example 5
+**find/findIndex**: Finds the first element (or its index) that matches a condition.
+### Example 7
+**some/every**: Checks if at least one (some) or all (every) elements pass a test.
+### Example 9
+**Method chaining**: Combines multiple methods for powerful, readable data processing.
+### Example 10
+**Complex example**: Shows how to filter and sum properties of objects in an array.
 
 **Why This Matters:**  
 - These methods are the foundation of modern, functional JavaScript.
@@ -4068,16 +4397,22 @@ but does not return a new array.
 Mastery of array iteration and transformation using modern JavaScript methods.`,
 
     "Functional Programming Concepts": `
+### Example 1 
 **Code Explanation:**
 This example introduces key functional programming ideas in JavaScript:
-
-1. **Pure Functions**: Functions like \`add(a, b)\` always return the same output for the same
+**Pure Functions**: Functions like \`add(a, b)\` always return the same output for the same
 input and have no side effects.
-2. **Immutability**: Instead of changing the original array, \`[...arr, 4]\` creates a new array.
-3. **Function Composition**: Combining simple functions to build more complex operations.
-4. **Higher-Order Functions**: Functions that take other functions as arguments or return them.
-5. **Currying**: Transforming a function so it can be called with fewer arguments at a time.
-6. **Functional Array Methods**: Using \`map\`, \`filter\`, and \`reduce\` to process data in a 
+
+### Example 2
+**Immutability**: Instead of changing the original array, \`[...arr, 4]\` creates a new array.
+### Example 3
+**Function Composition**: Combining simple functions to build more complex operations.
+### Example 4
+**Higher-Order Functions**: Functions that take other functions as arguments or return them.
+### Example 5
+**Currying**: Transforming a function so it can be called with fewer arguments at a time.
+### Example 6
+**Functional Array Methods**: Using \`map\`, \`filter\`, and \`reduce\` to process data in a 
 declarative, readable way.
 
 **Why This Matters:**  
@@ -4088,13 +4423,14 @@ declarative, readable way.
 Ability to write modular, predictable, and reusable code using functional programming principles.`,
 
     "Event Delegation": `
+### Example 1
 **Code Explanation:**
 This example demonstrates the event delegation pattern in the DOM:
-
-1. **Single Listener for Many Elements**: Instead of adding a click listener to every \`<li>\`,
+**Single Listener for Many Elements**: Instead of adding a click listener to every \`<li>\`,
 a single listener is added to the parent.
-2. **Event Targeting**: Checks if the clicked element is a list item.
-3. **Dynamic Elements**: New list items added after the listener is set up are automatically handled.
+**Event Targeting**: Checks if the clicked element is a list item.
+### Example 2
+**Dynamic Elements**: New list items added after the listener is set up are automatically handled.
 
 **Why This Matters:**  
 - Event delegation improves performance and memory usage, especially for large or dynamic lists.
@@ -4103,12 +4439,14 @@ a single listener is added to the parent.
 Understanding how to efficiently manage events for many elements using event delegation.`,
 
     "Custom Events": `
+### Example 1 
 **Code Explanation:**
 This example shows how to create and use custom events in the browser:
-
-1. **Creating a Custom Event**: Use \`CustomEvent\` with a \`detail\` property.
-2. **Listening for Custom Events**: Use \`addEventListener\` for custom event types.
-3. **Dispatching Events**: Use \`dispatchEvent\` to trigger the event.
+**Creating a Custom Event**: Use \`CustomEvent\` with a \`detail\` property.
+### Example 2
+**Listening for Custom Events**: Use \`addEventListener\` for custom event types.
+### Example 3
+**Dispatching Events**: Use \`dispatchEvent\` to trigger the event.
 
 **Why This Matters:**  
 - Custom events enable decoupled, modular code by allowing components to communicate without direct references.
@@ -4117,14 +4455,18 @@ This example shows how to create and use custom events in the browser:
 Ability to create, dispatch, and handle custom events for flexible component communication.`,
 
     "Regular Expressions": `
+### Example 1 
 **Code Explanation:**
 This example demonstrates how to use regular expressions (regex) in JavaScript:
 
-1. **Pattern Creation**: Create patterns for matching text.
-2. **Testing Strings**: Use \`.test()\` to check for matches.
-3. **Extracting Data**: Use \`.match()\` to find matches.
-4. **Replacing Text**: Use \`.replace()\` for substitutions.
-5. **Email Extraction**: Use regex to extract emails from text.
+**Pattern Creation**: Create patterns for matching text.
+**Testing Strings**: Use \`.test()\` to check for matches.
+### Example 2
+**Extracting Data**: Use \`.match()\` to find matches.
+### Example 3
+**Replacing Text**: Use \`.replace()\` for substitutions.
+### Example 4
+**Email Extraction**: Use regex to extract emails from text.
 
 **Why This Matters:**  
 - Regex is a powerful tool for searching, validating, and manipulating text.
@@ -4133,14 +4475,15 @@ This example demonstrates how to use regular expressions (regex) in JavaScript:
 Understanding how to use regular expressions for pattern matching and text manipulation in JavaScript.`,
 
     "Prototypes and Inheritance": `
+### Example 1 
 **Code Explanation:**
-
 This example covers JavaScript's prototype-based inheritance:
+**Constructor Functions**: Create objects with shared properties and methods.
+**Prototypes**: Add methods to the prototype for shared behavior.
 
-1. **Constructor Functions**: Create objects with shared properties and methods.
-2. **Prototypes**: Add methods to the prototype for shared behavior.
-3. **Inheritance**: Use \`Object.create\` and \`call\` for inheritance.
-4. **Instance Methods**: Add methods specific to child objects.
+### Example 2
+**Inheritance**: Use \`Object.create\` and \`call\` for inheritance.
+**Instance Methods**: Add methods specific to child objects.
 
 **Why This Matters:**  
 - Prototypal inheritance is the foundation of JavaScript's object system.
@@ -4149,14 +4492,15 @@ This example covers JavaScript's prototype-based inheritance:
 Ability to use and extend prototypes for code reuse and inheritance in JavaScript.`,
 
     "Classes and OOP in JavaScript": `
+### Example 1 
 **Code Explanation:**
 This example demonstrates modern object-oriented programming (OOP) in JavaScript using classes:
-
-1. **Class Syntax**: Use \`class\` for clear, concise object definitions.
-2. **Inheritance**: Use \`extends\` for subclassing.
-3. **Method Overriding**: Override parent methods for specialized behavior.
-4. **Static Methods**: Use static methods for class-level functionality.
-5. **Private Fields**: Use \`#\` for encapsulation.
+- **Class Syntax**: Use \`class\` for clear, concise object definitions.
+- **Inheritance**: Use \`extends\` for subclassing.
+- **Method Overriding**: Override parent methods for specialized behavior.
+- **Static Methods**: Use static methods for class-level functionality.
+### Example 2
+**Private Fields**: Use \`#\` for encapsulation.
 
 **Why This Matters:**  
 - Classes make code more organized, modular, and maintainable.
@@ -4165,18 +4509,17 @@ This example demonstrates modern object-oriented programming (OOP) in JavaScript
 Mastery of class-based OOP, inheritance, and encapsulation in modern JavaScript.`,
 
     "Project: Interactive Web App": `
+### Example 1 
 **Code Explanation:**
-
 This example outlines the steps to build a simple interactive web app (like a To-Do List):
-
-1. **Planning**: Decide on features and UI design.
-2. **Data Structure**: Use arrays and objects to store tasks.
-3. **Core Logic**: Functions manage the app's state and UI.
-4. **DOM Manipulation**: Dynamically update the UI.
-5. **Event Handling**: Use event listeners for user actions.
-6. **Persistence**: Save data to local storage or a backend.
-7. **Testing & Debugging**: Ensure the app works as expected.
-8. **Deployment**: Make the app available to users.
+**Planning**: Decide on features and UI design.
+**Data Structure**: Use arrays and objects to store tasks
+**Core Logic**: Functions manage the app's state and UI.
+**DOM Manipulation**: Dynamically update the UI.
+**Event Handling**: Use event listeners for user actions.
+**Persistence**: Save data to local storage or a backend.
+**Testing & Debugging**: Ensure the app works as expected.
+**Deployment**: Make the app available to users.
 
 **Why This Matters:**  
 - Building projects reinforces all core JavaScript concepts.
@@ -4185,17 +4528,24 @@ This example outlines the steps to build a simple interactive web app (like a To
 Ability to plan, build, and deploy interactive web apps using JavaScript.`,
 
     "Best Practices and Code Style": `
+### Example 1 
 **Code Explanation:**
 This example highlights best practices for writing professional JavaScript:
-
-1. **Code Organization**: Use functions and modules for maintainability.
-2. **Naming Conventions**: Use descriptive, consistent names.
-3. **Documentation**: Comment code and use JSDoc.
-4. **Testing**: Use assertions and tests to catch bugs.
-5. **Performance**: Measure and optimize code.
-6. **Security**: Sanitize user input to prevent attacks.
-7. **Accessibility**: Add ARIA labels and ensure UI elements are accessible.
-8. **Maintenance**: Refactor code, use version control, and keep dependencies up to date.
+ **Code Organization**: Use functions and modules for maintainability.
+### Example 2
+**Naming Conventions**: Use descriptive, consistent names.
+### Example 3
+**Documentation**: Comment code and use JSDoc.
+### Example 4
+**Testing**: Use assertions and tests to catch bugs.
+### Example 5
+**Performance**: Measure and optimize code.
+### Example 6
+**Security**: Sanitize user input to prevent attacks.
+### Example 7
+**Accessibility**: Add ARIA labels and ensure UI elements are accessible.
+### Example 8
+**Maintenance**: Refactor code, use version control, and keep dependencies up to date.
 
 **Why This Matters:**  
 - Following best practices leads to safer, faster, and more maintainable code.

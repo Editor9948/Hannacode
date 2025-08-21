@@ -213,6 +213,7 @@ const getAdvancedPHPLessonConcepts = (lessonTitle) => {
 const getAdvancedPHPCodeExample = (lessonTitle) => {
   const examples = {
     "Advanced PHP Syntax": `
+// Example 1: 
     <?php
     namespace App;
     use App\Traits\Loggable;

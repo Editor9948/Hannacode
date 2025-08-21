@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { safeCopy } from '../../lib/utils';
 import { Link, useParams } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
 import { Badge } from '../../components/ui/badge';
@@ -49,8 +50,7 @@ export default function MasterCertificatePage() {
         url: window.location.href,
       });
     } else {
-      navigator.clipboard.writeText(window.location.href);
-      alert('Master certificate link copied to clipboard!');
+  safeCopy(window.location.href).then(ok=>alert(ok?'Master certificate link copied to clipboard!':'Copy failed'));
     }
   };
 

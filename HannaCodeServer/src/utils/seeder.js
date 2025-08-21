@@ -16,6 +16,7 @@ const accessibilityContent = require("./courseContent/accessibility")
 const cppContent = require("./courseContent/cpp")
 const advancedcssContent = require('./courseContent/advancedcss')
 const pythonContent = require('./courseContent/python')
+const dartContent = require('./courseContent/dart')
 
 
 
@@ -237,7 +238,7 @@ const createCourses = async () => {
       scholarshipsAvailable: true,
       user: "60d21b4667d0d8992e610c85",
       slug: slugify("C++ Essentials", { lower: true }),
-      lessonCount: 14,
+      lessonCount: 15,
       category: "backend",
       duration: 720, // 12 weeks * 60 minutes
       language: "cpp",
@@ -267,6 +268,27 @@ const createCourses = async () => {
       createdAt: getRandomDate(),
       updatedAt: getRandomDate(),
        coverImage: "/images/courses/python.jpg"
+    }, 
+
+    {
+      title: "Dart Fundamentals",
+      description: "Master modern Dart programming from scratch. Learn variables, control flow, functions,  and prepare for Flutter development.",
+      shortDescription: "Learn Dart programming from scratch.",
+      weeks: 8,
+      tuition: 79,
+      level: "intermediate",
+      scholarshipsAvailable: true,
+      user: "60d21b4667d0d8992e610c85",
+      slug: slugify("Dart Fundamentals", { lower: true }),
+      lessonCount: 20,
+      category: "Mobile Development",
+      duration: 480, // 8 weeks * 60 minutes
+      language: "dart",
+      isPremium: false,
+       isPublished: true,
+      createdAt: getRandomDate(),
+      updatedAt: getRandomDate(),
+       coverImage: "/images/courses/dart.png"
     }
   ]
 
@@ -286,8 +308,9 @@ const createLessons = async (courses) => {
     "PHP & MySQL Basics": 36,
     "Advanced PHP & MySQL Development": 30,
     "Web Accessibility": 15,
-     "C++ Essentials": 14,
-      "Python Basic":20,
+     "C++ Essentials": 15,
+    "Python Basic":20,
+   "Dart Fundamentals":20,
 
 
   }
@@ -552,7 +575,8 @@ const createLessons = async (courses) => {
        "Functions",
        "Arrays and Strings",
        "Pointers and References",
-       "Object-Oriented Programming",
+       "Foundational Object-Oriented Programming Concepts",
+       "Advanced bObject-Oriented Programming Concepts",
        "STL Containers",
        "File Handling",
        "Exception Handling",
@@ -581,7 +605,31 @@ const createLessons = async (courses) => {
          "Object-Oriented Programming-Classes and Objects",
          "Inheritance and Method Overriding",
          "Encapsulation and Property Decorators",
-     ]
+     ], 
+       "Dart Fundamentals":[
+        "Introduction to Dart & Setup", 
+        "Variables and Data Types",
+        "String interpolation and manipulation",
+        "Operators in Dart",
+        "Conditional Statements in Dart",
+        "Loops and Loop Control in Dart",
+         "Functions in Dart",
+        "Function Parameters and Scope in Dart",
+        "Collections (Lists and Sets)", 
+         "Maps and Iterable Methods in Dart",
+        "Object-Oriented Programming in Dart",
+         "Encapsulation and Polymorphism",
+        "Inheritance,  Abstract classes",
+         "Interfaces, Mixins, and Method Overriding",
+        "Null Safety & Type System", 
+        "Error Handling & Exceptions",
+        "Asynchronous Programming (Future, async/await, Streams)", 
+         "Generics in Dart", 
+        "Dart Packages & Pub.dev", 
+        "Mini Project: CLI Tool or Simple API Consumer"
+
+       ]
+
     
   }
 
@@ -904,7 +952,7 @@ This lesson covers the fundamental concepts of ${lessonTitle.toLowerCase()}. You
 ${cppContent.getCppLessonConcepts(lessonTitle)}
 
 ### Code Examples
-\`\`\`html
+\`\`\`cpp
 ${cppContent.getCppCodeExamples(lessonTitle)}
 \`\`\`
 
@@ -958,7 +1006,7 @@ ${advancedcssContent.getAdvancedCSSExercises(lessonTitle)}
 - CodePen Examples
 - Browser Compatibility Guide`
       },
-       "Python Basic": {
+  "Python Basic": {
         content: `# ${lessonTitle}
 
 ## Overview
@@ -975,7 +1023,7 @@ This lesson covers python basic and patterns. You'll learn how to write more mai
 ${pythonContent.getPythonLessonConcepts(lessonTitle)}
 
 ### Code Examples
-\`\`\`javascript
+\`\`\`python
 ${pythonContent.getPythonCodeExample(lessonTitle)}
 \`\`\`
 
@@ -995,11 +1043,118 @@ ${pythonContent.getPythonExercises(lessonTitle)}
 ## Quiz
 Test your understanding of ${lessonTitle.toLowerCase()}.`,
         quiz: pythonContent.getPythonQuiz(lessonTitle)
+      },
+
+  "Dart Fundamentals": {
+        content: `# ${lessonTitle}
+
+## Overview
+This lesson covers Dart Fundamentals and patterns. You'll learn how to write more maintainable and scalable code.
+
+## Learning Objectives
+- Understand Dart Fundamentals and patterns
+- Master design patterns implementation
+- Apply best practices
+- Complete hands-on exercises
+
+## Detailed Content
+### Key Concepts
+${dartContent.getDartLessonConcepts(lessonTitle)}
+
+### Code Examples
+\`\`\`dart
+${dartContent.getDartCodeExample(lessonTitle)}
+\`\`\`
+
+### Explanation
+${dartContent.getDartCodeExplanation(lessonTitle)}
+
+
+### Practice Exercises
+${dartContent.getDartExercises(lessonTitle)}
+
+## Additional Resources
+- MDN Web Docs: ${lessonTitle}
+- JavaScript Design Patterns
+- Advanced JavaScript Patterns
+- Code Examples Repository `,
+
       }
       
     };
      return contentTemplates[courseTitle];
   }
+
+  // Extract structured code example & explanation from generated markdown to populate schema codeExamples
+  const extractStructured = (markdown, fallbackLanguage) => {
+    if (!markdown) return { codeExamples: [] };
+    const allowedLangs = ['javascript','css','html','python','php','dart','cpp','java','csharp','go','rust','plaintext'];
+    const exampleMatch = markdown.match(/### Code Examples[\s\S]*?```(\w+)?\s*\n([\s\S]*?)```/i);
+    if (!exampleMatch) return { codeExamples: [] };
+    let lang = (exampleMatch[1] || '').toLowerCase().trim();
+    if (!allowedLangs.includes(lang)) {
+      if (lang === 'js') lang = 'javascript';
+      else if (lang === 'c++') lang = 'cpp';
+      else if (lang === 'py') lang = 'python';
+    }
+    if (!allowedLangs.includes(lang)) lang = allowedLangs.includes(fallbackLanguage) ? fallbackLanguage : 'plaintext';
+    const rawCode = exampleMatch[2].trim();
+
+    // Split multiple examples inside code block by markers (// Example n, # Example n, <!-- Example n -->) or blank lines with 'Example n:'
+    const segments = [];
+    const lines = rawCode.split(/\r?\n/);
+    let current = { title: 'Example 1', code: [] };
+    let count = 1;
+    const markerRegex = /^(?:\/\/|#|<!--)\s*Example\s+(\d+)(?:\s*[-.:]|\s*)(.*?)(?:-->)?$/i;
+    lines.forEach(line => {
+      const m = line.match(markerRegex);
+      if (m) {
+        // push previous if has content
+        if (current.code.length) segments.push({ ...current, code: current.code.join('\n').trim() });
+        count = parseInt(m[1],10) || (segments.length+1);
+        const maybeTitle = m[2].trim();
+        current = { title: maybeTitle ? maybeTitle : `Example ${count}`, code: [] };
+      } else {
+        current.code.push(line);
+      }
+    });
+    if (current.code.length) segments.push({ ...current, code: current.code.join('\n').trim() });
+    if (!segments.length) segments.push({ title: 'Example 1', code: rawCode });
+
+    // Grab explanation section(s)
+    const explanationBlock = markdown.match(/### Explanation[s]?\n([\s\S]*?)(?:\n### Practice Exercises|\n## Additional Resources|$)/i);
+    let explanationText = explanationBlock ? explanationBlock[1].trim() : '';
+
+    // Split explanations by '### Example n' or '#### Example n' (global, non-greedy between matches)
+    const perExample = {};
+    if (explanationText) {
+      const exRegex = /(?:^|\n)#{3,4}\s+Example\s+(\d+)\s*\n([\s\S]*?)(?=(?:\n#{3,4}\s+Example\s+\d+)|$)/g;
+      let m2; let matchedAny = false;
+      while ((m2 = exRegex.exec(explanationText)) !== null) {
+        matchedAny = true;
+        const num = m2[1];
+        const body = (m2[2] || '').trim();
+        perExample[num] = body;
+      }
+      if (!matchedAny) {
+        explanationText = explanationText.trim(); // general fallback
+      }
+    }
+
+    // Filter out segments with no actual code content (after trimming) to avoid empty required fields
+    const nonEmptySegments = segments.filter(s => (s.code || '').trim().length > 0);
+    if (!nonEmptySegments.length) {
+      return { codeExamples: [] };
+    }
+    const codeExamples = nonEmptySegments.map((seg, idx) => ({
+      title: seg.title || `Example ${idx+1}`,
+      language: lang,
+      code: (seg.code || '').trim(),
+      explanation: perExample[idx+1] ? perExample[idx+1] : (explanationText || 'Explanation coming soon.')
+    }));
+
+    return { codeExamples };
+  };
 
   for (const course of courses) {
   const lessonCount = lessonCounts[course.title];
@@ -1030,7 +1185,10 @@ Test your understanding of ${lessonTitle.toLowerCase()}.`,
     }
   }
 
-    const lesson = await Lesson.create({
+  // Sanitize quiz: ensure array of objects; if not, default to []
+  const safeQuiz = Array.isArray(lessonContent.quiz) ? lessonContent.quiz : [];
+
+  const lesson = await Lesson.create({
       title: lessonTitle,
       description: `Learn ${lessonTitle.toLowerCase()} with practical examples and exercises.`,
       content: lessonContent.content,
@@ -1039,6 +1197,7 @@ Test your understanding of ${lessonTitle.toLowerCase()}.`,
       module: moduleDoc._id, // associate lesson with module
       order: i + 1,
       duration: 30,
+  codeExamples: extractStructured(lessonContent.content, course.language).codeExamples,
       resources: [
         {
           title: `${lessonTitle} Guide`,
@@ -1056,7 +1215,7 @@ Test your understanding of ${lessonTitle.toLowerCase()}.`,
           url: `https://example.com/resources/${course._id}/lesson-${i + 1}-exercises.pdf`,
         }
       ],
-      quiz: lessonContent.quiz,
+  quiz: safeQuiz,
       createdAt: getRandomDate(),
       updatedAt: getRandomDate(),
     });

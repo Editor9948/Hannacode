@@ -2772,3 +2772,121 @@
 2025-08-12 16:57:33 info: Email sent: <2f7a272c-92f3-0027-02e4-795ee7d7692a@hannacode.com>
 2025-08-12 16:57:55 info: Socket.IO initialized
 2025-08-12 16:57:55 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-13 23:03:01 info: Socket.IO initialized
+2025-08-13 23:03:01 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-13 23:03:04 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-01.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-13 23:18:30 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-13 23:18:35 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-13 23:18:47 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-13 23:19:05 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-13 23:24:23 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-13 23:29:32 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-13 23:30:23 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-13 23:36:18 info: Socket.IO initialized
+2025-08-13 23:36:18 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-13 23:45:11 info: Socket.IO initialized
+2025-08-13 23:45:11 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-13 23:45:15 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-13 23:47:06 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-13 23:47:12 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-13 23:47:47 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-13 23:48:11 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-13 23:49:55 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-13 23:52:28 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-13 23:53:19 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-13 23:57:13 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 00:02:13 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 00:14:16 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 00:14:41 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 00:16:23 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 00:16:31 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 00:16:45 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 00:16:51 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 00:18:54 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 00:19:28 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 00:20:24 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 00:21:33 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 00:22:12 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 00:26:41 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 00:28:57 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 00:31:02 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 00:31:16 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 00:33:57 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 00:34:10 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 00:35:54 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 00:38:19 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 00:38:47 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 00:42:47 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 00:45:01 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 00:49:35 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 00:54:59 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 01:00:19 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 01:02:46 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 01:03:12 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 01:03:18 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 01:03:28 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 01:04:04 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 01:12:12 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 01:12:17 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 01:12:53 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 01:13:11 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 01:13:21 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 01:13:34 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 01:13:43 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 01:13:51 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 01:13:59 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 01:14:08 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 01:14:23 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 01:14:26 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 01:14:33 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 01:14:48 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 01:14:53 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 01:14:58 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 01:15:21 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 01:15:28 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 01:15:32 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 01:15:39 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 01:15:53 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-08-14 08:55:57 info: Socket.IO initialized
+2025-08-14 08:55:57 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-14 08:56:01 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-14 09:16:25 info: Socket.IO initialized
+2025-08-14 09:16:25 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-14 09:16:30 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-14 11:23:27 info: Socket.IO initialized
+2025-08-14 11:23:27 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-14 11:23:31 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-14 12:04:16 info: Socket.IO initialized
+2025-08-14 12:04:16 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-14 12:04:19 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-14 12:45:42 info: Socket.IO initialized
+2025-08-14 12:45:42 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-14 12:45:47 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-01.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-14 12:46:08 error: Error: Not authorized to access this route
+2025-08-14 21:14:25 info: Socket.IO initialized
+2025-08-14 21:14:25 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-14 21:14:28 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-01.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-14 23:22:27 info: Socket.IO initialized
+2025-08-14 23:22:27 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-14 23:22:30 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-21 00:20:04 info: Socket.IO initialized
+2025-08-21 00:20:04 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-21 00:20:06 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-01.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-21 00:22:01 error: TypeError: Cannot read properties of null (reading '_id')
+2025-08-21 00:27:02 info: Socket.IO initialized
+2025-08-21 00:27:02 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-21 00:27:06 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-01.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-21 00:33:07 info: Socket.IO initialized
+2025-08-21 00:33:07 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-21 00:33:10 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-21 00:36:56 info: Socket.IO initialized
+2025-08-21 00:36:56 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-21 00:36:59 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-21 00:37:11 info: Socket.IO initialized
+2025-08-21 00:37:11 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-21 00:37:14 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-21 00:45:15 info: Socket.IO initialized
+2025-08-21 00:45:15 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-21 01:20:30 info: Socket.IO initialized
+2025-08-21 01:20:30 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-21 01:20:33 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m

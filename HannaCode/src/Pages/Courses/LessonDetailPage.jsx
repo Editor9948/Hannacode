@@ -5,11 +5,18 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import axios from "axios";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { dracula } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { okaidia } from "react-syntax-highlighter/dist/esm/styles/prism";
 import "react-syntax-highlighter/dist/esm/languages/prism/javascript";
 import "react-syntax-highlighter/dist/esm/languages/prism/css";
 import "react-syntax-highlighter/dist/esm/languages/prism/markup"; 
 import "react-syntax-highlighter/dist/esm/languages/prism/cpp"; 
+import "react-syntax-highlighter/dist/esm/languages/prism/python";
+import "react-syntax-highlighter/dist/esm/languages/prism/php";
+import "react-syntax-highlighter/dist/esm/languages/prism/java";
+import "react-syntax-highlighter/dist/esm/languages/prism/csharp";
+import "react-syntax-highlighter/dist/esm/languages/prism/go";
+import "react-syntax-highlighter/dist/esm/languages/prism/rust";
+import "react-syntax-highlighter/dist/esm/languages/prism/dart";
 
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/v1'; 
@@ -400,44 +407,166 @@ const LessonDetailPage = () => {
     );
   }
 
+  // Multi-section parser: handles multiple repeating Code Examples + Explanation pairs
+  const parseLessonSections = (raw) => {
+    if (!raw) return null;
+    const pairRegex = /###\s+Code Examples?[\r\n]+([\s\S]*?)###\s+Explanation[s]?[\r\n]+([\s\S]*?)(?=(?:\n###\s+Code Examples?|\n###\s+Practice|\n##\s+Additional|$))/gi;
+  let match; const sections = []; let firstStart = null; let lastEnd = 0;
+    while ((match = pairRegex.exec(raw)) !== null) {
+      const [full, codePart, explanationPart] = match;
+      if (firstStart === null) firstStart = match.index;
+      lastEnd = match.index + full.length;
+      // Extract first code fence (or treat entire codePart)
+      let fenceMatch = codePart.match(/```(\w+)?\r?\n([\s\S]*?)```/);
+      let codeLang = fenceMatch ? (fenceMatch[1] || 'text').trim() : 'text';
+      let codeBody = fenceMatch ? fenceMatch[2] : codePart.trim();
+      if (!fenceMatch && codeBody.trim().startsWith('```')) {
+        codeBody = codeBody.trim().replace(/^```(\w+)?\r?\n/, '').replace(/\r?\n```$/, '');
+      }
+      sections.push({ codeLang, codeBody, explanationMd: explanationPart.trim() });
+  // advance regex automatically; no need to store lastIndex
+    }
+    if (!sections.length) return null;
+    const beforeAll = raw.slice(0, firstStart);
+    const afterAll = raw.slice(lastEnd);
+    return { beforeAll, sections, afterAll };
+  };
+  const multi = parseLessonSections(lesson.content);
+
+  // Map short language names to what prism expects
+  // Map possible shorthand or enum language values to Prism identifiers
+  const languageMapFull = {
+    js: 'javascript', javascript: 'javascript',
+    html: 'markup', xml: 'markup',
+    c: 'cpp', cpp: 'cpp', cplusplus: 'cpp',
+    css: 'css',
+    php: 'php',
+    py: 'python', python: 'python',
+    dart: 'dart',
+    java: 'java',
+    csharp: 'csharp', cs: 'csharp',
+    go: 'go', golang: 'go',
+    rust: 'rust',
+    plaintext: 'text', text: 'text'
+  };
+
+  // Split a combined codeBody into multiple example objects based on comment markers
+  const splitExamples = (codeBody) => {
+    if (!codeBody) return [];
+    const lines = codeBody.split('\n');
+    const examples = [];
+    let current = null;
+    lines.forEach(line => {
+      const exMatch = /^\s*(?:\/\/|#)\s*Example\s+(\d+)(?::|-)?\s*(.*)$/i.exec(line);
+      if (exMatch) {
+        if (current) examples.push(current);
+        const num = exMatch[1];
+        const titleRest = exMatch[2].trim();
+        current = { number: parseInt(num,10), title: `Example ${num}${titleRest?': '+titleRest:''}`, code: [] };
+      } else if (current) {
+        current.code.push(line);
+      } else {
+        // If no explicit Example marker yet, start implicit Example 1
+        if (line.trim().length) {
+          current = { number: 1, title: 'Example 1', code: [line] };
+        }
+      }
+    });
+    if (current) examples.push(current);
+    // Fallback single block if regex didn't find markers
+    if (examples.length === 1 && examples[0].title === 'Example 1' && !/^\s*(?:\/\/|#)\s*Example/i.test(codeBody)) {
+      examples[0].title = 'Code Example';
+    }
+    return examples.map(e => ({ ...e, code: e.code.join('\n').trim() }));
+  };
+
+  const splitExplanations = (explanationMd) => {
+    if (!explanationMd) return { general: '' };
+    const map = {};
+    const regex = /(?:^|\n)\s*(?:###|####)?\s*Example\s+(\d+).*?\n([\s\S]*?)(?=(?:\n(?:###|####)?\s*Example\s+\d+)|$)/gi;
+    let m; let foundSpecific = false;
+    while ((m = regex.exec(explanationMd))) {
+      foundSpecific = true;
+      map[parseInt(m[1],10)] = m[2].trim();
+    }
+    if (!foundSpecific) map.general = explanationMd.trim();
+    return map;
+  };
+
+  const buildSectionExamples = (section) => {
+    const examples = splitExamples(section.codeBody);
+    const explanationsMap = splitExplanations(section.explanationMd);
+    return { examples, explanationsMap };
+  };
+  const sectionData = multi ? multi.sections.map(buildSectionExamples) : [];
+
+  const CodeExampleBlock = ({ language, example }) => {
+    const lang = languageMapFull[language.toLowerCase()] || language.toLowerCase();
+    const handleCopy = () => { navigator.clipboard.writeText(example.code).catch(()=>{}); };
+    return (
+      <div className="my-6 rounded-lg overflow-hidden bg-neutral-900 border border-green-700 shadow-sm">
+        <div className="flex items-center justify-between px-4 py-2 bg-green-800 text-green-100 text-sm font-medium">
+          <span className="font-semibold">{example.title}</span>
+          <div className="flex gap-2">
+            <button onClick={handleCopy} className="px-2 py-1 rounded bg-green-900 hover:bg-green-700 text-xs">Copy</button>
+            <button onClick={() => window.open('/playground','_blank')} className="px-2 py-1 rounded bg-green-600 hover:bg-green-500 text-xs">Play</button>
+          </div>
+        </div>
+  <SyntaxHighlighter style={okaidia} language={lang} PreTag="div" showLineNumbers className="!m-0" customStyle={{ padding: '1.25rem', fontSize: 14 }}>
+          {example.code}
+        </SyntaxHighlighter>
+      </div>
+    );
+  };
+  const ExplanationBlock = ({ markdown }) => (
+    <div className="-mt-2 mb-8 p-4 rounded-md bg-green-50 dark:bg-emerald-900/40 border-l-4 border-green-500 text-sm leading-relaxed explanation-block">
+      <ReactMarkdown components={markdownComponents} remarkPlugins={[remarkGfm]}>{markdown}</ReactMarkdown>
+    </div>
+  );
+
   // Custom Markdown renderers for headings, lists, and code blocks
   const markdownComponents = {
-    h2: ({ node, ...props }) => <h2 className="text-lg font-bold mt-6 mb-2 text-primary dark:text-primary" {...props} />,
-    h3: ({ node, ...props }) => <h3 className="text-base font-semibold mt-4 mb-2 text-primary dark:text-primary" {...props} />,
+  h2: ({ node, children, ...props }) => <h2 className="text-lg font-bold mt-6 mb-2 text-primary dark:text-primary" {...props}>{children}</h2>,
+  h3: ({ node, children, ...props }) => <h3 className="text-base font-semibold mt-4 mb-2 text-primary dark:text-primary" {...props}>{children}</h3>,
     ul: ({ node, ...props }) => <ul className="list-disc ml-6 mb-4" {...props} />,
     ol: ({ node, ...props }) => <ol className="list-decimal ml-6 mb-4" {...props} />,
     li: ({ node, ...props }) => <li className="mb-1" {...props} />,
-     table: ({ node, ...props }) => (
-      <div className="overflow-x-auto my-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700" {...props} />
+    table: ({ node, ...props }) => (
+      <div className="overflow-x-auto my-3 rounded-md border border-gray-200 dark:border-gray-700">
+        <table className="w-full text-sm divide-y divide-gray-200 dark:divide-gray-700" {...props} />
       </div>
     ),
-    thead: ({ node, ...props }) => <thead className="bg-red-100 dark:bg-gray-800 " {...props} />,
-    tbody: ({ node, ...props }) => <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700" {...props} />,
-    tr: ({ node, ...props }) => <tr {...props} />,
-    th: ({ node, ...props }) => <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-black dark:text-white uppercase tracking-wider" {...props} />,
-    td: ({ node, ...props }) => <td className="px-6 py-4 whitespace-nowrap text-sm text-black dark:text-white" {...props} />,
+    thead: ({ node, ...props }) => <thead className="bg-gray-100 dark:bg-gray-800" {...props} />,
+    tbody: ({ node, ...props }) => <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-100 dark:divide-gray-800" {...props} />,
+    tr: ({ node, ...props }) => <tr className="hover:bg-gray-50 dark:hover:bg-gray-800/60 transition-colors" {...props} />,
+    th: ({ node, ...props }) => <th scope="col" className="px-3 py-2 text-left text-[11px] font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wide" {...props} />,
+    td: ({ node, ...props }) => <td className="px-3 py-1.5 whitespace-nowrap text-xs text-gray-800 dark:text-gray-100 align-top" {...props} />,
     
 
     
-    code({ node, inline, className, children, ...props }) {
+  code({ node, inline, className, children, ...props }) {
       const match = /language-(\w+)/.exec(className || "");
       const languageMap = {
-    js: "javascript",
-    javascript: "javascript",
-    html: "markup",
-    xml: "markup",
-    c: "cpp", 
-    cpp: "cpp",
-    cplusplus: "cpp", 
-    css: "css",
-  };
+        js: 'javascript', javascript: 'javascript',
+        html: 'markup', xml: 'markup',
+        c: 'cpp', cpp: 'cpp', cplusplus: 'cpp',
+        css: 'css',
+        php: 'php',
+        py: 'python', python: 'python',
+        dart: 'dart',
+        java: 'java',
+        csharp: 'csharp', cs: 'csharp',
+        go: 'go', golang: 'go',
+        rust: 'rust',
+        plaintext: 'text', text: 'text'
+      };
+
   const language = match ? languageMap[match[1].toLowerCase()] || match[1].toLowerCase() : null;
 
       return !inline && match ? (
         <div className="relative">
           <SyntaxHighlighter
-            style={dracula}
+            style={okaidia}
             language={language}
             PreTag="div"
             className="rounded-lg my-4"
@@ -516,9 +645,42 @@ const LessonDetailPage = () => {
               <h2 className="text-xl font-bold">Lesson Content</h2>
             </div>
             <div className="markdown-content bg-green-100 dark:bg-slate-800 rounded p-4 mb-4">
-              <ReactMarkdown components={markdownComponents}remarkPlugins={[remarkGfm]}>
-                {lesson.content}
-              </ReactMarkdown>
+              {lesson.codeExamples && lesson.codeExamples.length ? (
+                <>
+                  {lesson.codeExamples.map((ex, i) => (
+                    <div key={i} className="mb-8">
+                      <CodeExampleBlock language={ex.language || 'javascript'} example={{ number: i+1, title: ex.title, code: ex.code }} />
+                      <ExplanationBlock markdown={ex.explanation} />
+                    </div>
+                  ))}
+                </>
+              ) : multi ? (
+                <>
+                  <ReactMarkdown components={markdownComponents} remarkPlugins={[remarkGfm]}>
+                    {multi.beforeAll}
+                  </ReactMarkdown>
+                  {multi.sections.map((section, idx) => {
+                    const { examples, explanationsMap } = sectionData[idx];
+                    return (
+                      <div key={idx} className="mb-6">
+                        {examples.map(ex => (
+                          <div key={ex.number}>
+                            <CodeExampleBlock language={section.codeLang} example={ex} />
+                            <ExplanationBlock markdown={explanationsMap[ex.number] || explanationsMap.general || ''} />
+                          </div>
+                        ))}
+                      </div>
+                    );
+                  })}
+                  <ReactMarkdown components={markdownComponents} remarkPlugins={[remarkGfm]}>
+                    {multi.afterAll}
+                  </ReactMarkdown>
+                </>
+              ) : (
+                <ReactMarkdown components={markdownComponents} remarkPlugins={[remarkGfm]}>
+                  {lesson.content}
+                </ReactMarkdown>
+              )}
             </div>
             {/* Quiz */}
             {renderQuizInteractive(lesson)}

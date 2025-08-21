@@ -64,10 +64,12 @@ const getCppLessonConcepts= (lessonTitle) => {
 - Smart pointers (unique_ptr, shared_ptr)
 - Pointer pitfalls and best practices
     `,
-    "Object-Oriented Programming": `
+    "Foundational Object-Oriented Programming Concepts": `
 - Classes and objects
 - Constructors and destructors
-- Encapsulation (access specifiers)
+- Encapsulation (access specifiers)`,
+
+   "Advanced bObject-Oriented Programming Concepts": `
 - Inheritance (single, multiple, multilevel)
 - Polymorphism (virtual functions)
 - Abstract classes and interfaces
@@ -136,7 +138,7 @@ const getCppCodeExamples = (lessonTitle) => {
   const examples = { 
 
       "Introduction to C++": `
-      // Hello World Program
+// Example 1: Hello World Program
       #include <iostream>
       using namespace std;
       int main() {
@@ -144,14 +146,15 @@ const getCppCodeExamples = (lessonTitle) => {
         return 0;
       }
 
-      // This is a single-line comment
+// Example 2: Comments
+   // This is a single-line comment
 
        /*
          This is a multi-line comment
          that spans multiple lines
          */
 
-        //Input/Output Operations 
+// Example 3: Input/Output Operations 
         int x;
          std::cout << "Enter a number: "; // output a prompt
          std::cin >> x; // input a number
@@ -159,7 +162,7 @@ const getCppCodeExamples = (lessonTitle) => {
 `,
    
      "Variables and Data Types": `
-      // Example 1: Primitive Data Types
+// Example 1: Primitive Data Types
 #include <iostream>
 using namespace std;
 
@@ -360,7 +363,7 @@ int main() {
 }`, 
 
     "Control Flow": `
-    // Example 1: If-Else Statement
+// Example 1: If-Else Statement
 #include <iostream>
 using namespace std;
 
@@ -511,11 +514,11 @@ int main() {
 }`,
 
     "Functions": `
-    // Example 1: Simple Function
+// Example 1: Simple Function
 #include <iostream>
 using namespace std;
 
-// Function to print a message
+  //Function to print a message
 void printMessage() {
   cout << "Hello, World!" << endl;
 }
@@ -529,7 +532,7 @@ int main() {
 #include <iostream>
 using namespace std;
 
-// Function to add two numbers
+ //Function to add two numbers
 int addNumbers(int num1, int num2) {
   return num1 + num2;
 }
@@ -544,7 +547,7 @@ int main() {
 #include <iostream>
 using namespace std;
 
-// Function to calculate the area of a rectangle
+ //Function to calculate the area of a rectangle
 double calculateArea(double length, double width) {
   return length * width;
 }
@@ -559,7 +562,7 @@ int main() {
 #include <iostream>
 using namespace std;
 
-// Function to print a message with default parameters
+  //Function to print a message with default parameters
 void printMessage(string message = "Hello, World!", int times = 1) {
   for (int i = 0; i < times; i++) {
     cout << message << endl;
@@ -576,12 +579,12 @@ int main() {
 #include <iostream>
 using namespace std;
 
-// Function to add two integers
+   // Function to add two integers
 int add(int num1, int num2) {
   return num1 + num2;
 }
 
-// Function to add two doubles
+   // Function to add two doubles
 double add(double num1, double num2) {
   return num1 + num2;
 }
@@ -616,7 +619,7 @@ int main() {
 }`, 
 
     "Arrays and Strings": `
-    // Example 1: Declaring and Initializing Arrays
+// Example 1: Declaring and Initializing Arrays
 #include <iostream>
 using namespace std;
 
@@ -721,7 +724,7 @@ int main() {
 }`,
 
     "Pointers and References": `
-    // Example 1: Declaring and Initializing Pointers
+// Example 1: Declaring and Initializing Pointers
 #include <iostream>
 using namespace std;
 
@@ -837,351 +840,277 @@ int main() {
   return 0;
 }`,
 
-    "Object-Oriented Programming": `
-    // Example 1: Classes and Objects
-#include <iostream>
-using namespace std;
+     "Foundational Object-Oriented Programming Concepts": `
+// Example 1: Classes and Objects
+ #include <iostream>
+#include <string>
 
+// Define a Class named 'Car'
 class Car {
-  private:
-    string brand;
-    string model;
+public:
+    // Member variables (attributes)
+    std::string brand;
+    std::string model;
     int year;
 
-  public:
-    Car(string b, string m, int y) {
-      brand = b;
-      model = m;
-      year = y;
-    }
-
-    void displayInfo() {
-      cout << "Brand: " << brand << endl;
-      cout << "Model: " << model << endl;
-      cout << "Year: " << year << endl;
+    // Member function (behavior)
+    void displayDetails() {
+        std::cout << "Brand: " << brand << ", Model: " << model << ", Year: " << year << std::endl;
     }
 };
 
 int main() {
-  Car myCar("Toyota", "Corolla", 2015);
-  myCar.displayInfo();
-  return 0;
+    // Create an Object (instance) of the 'Car' class
+    Car myCar;
+    myCar.brand = "Toyota";
+    myCar.model = "Camry";
+    myCar.year = 2022;
+
+    // Call the member function
+    myCar.displayDetails();
+
+    return 0;
 }
 
-// Example 2: Inheritance
-#include <iostream>
-using namespace std;
 
-class Animal {
-  protected:
-    string name;
+// Example 2: Constructors and Destructors
+  #include <iostream>
 
-  public:
-    Animal(string n) {
-      name = n;
+class Student {
+public:
+    std::string name;
+
+    // Constructor: Initializes the object when it's created
+    Student(std::string n) {
+        name = n;
+        std::cout << "Student " << name << " created." << std::endl;
     }
 
-    void eat() {
-      cout << name << " is eating." << endl;
-    }
-};
-
-class Dog : public Animal {
-  public:
-    Dog(string n) : Animal(n) {}
-
-    void bark() {
-      cout << name << " is barking." << endl;
+    // Destructor: Cleans up resources when the object is destroyed
+    ~Student() {
+        std::cout << "Student " << name << " destroyed." << std::endl;
     }
 };
 
 int main() {
-  Dog myDog("Fido");
-  myDog.eat();
-  myDog.bark();
-  return 0;
-}
+    Student s1("Alice"); // Constructor is called
+    {
+        Student s2("Bob"); // Another object, constructor called
+    } // s2 is destroyed here, destructor is called
+    return 0;
+} // s1 is destroyed here, destructor is called
 
-// Example 3: Polymorphism
-#include <iostream>
-using namespace std;
-
-class Shape {
-  public:
-    virtual void draw() = 0;
-};
-
-class Circle : public Shape {
-  private:
-    int radius;
-
-  public:
-    Circle(int r) {
-      radius = r;
-    }
-
-    void draw() {
-      cout << "Drawing a circle with radius " << radius << endl;
-    }
-};
-
-class Rectangle : public Shape {
-  private:
-    int width;
-    int height;
-
-  public:
-    Rectangle(int w, int h) {
-      width = w;
-      height = h;
-    }
-
-    void draw() {
-      cout << "Drawing a rectangle with width " << width << " and height " << height << endl;
-    }
-};
-
-int main() {
-  Shape* shapes[2];
-  shapes[0] = new Circle(5);
-  shapes[1] = new Rectangle(3, 4);
-
-  for (int i = 0; i < 2; i++) {
-    shapes[i]->draw();
-  }
-
-  return 0;
-}
-
-// Example 4: Encapsulation
-#include <iostream>
-using namespace std;
+// Example 3: Encapsulation (Access Specifiers)
+  #include <iostream>
 
 class BankAccount {
-  private:
-    double balance;
+private:
+    double balance; // private member variable
 
-  public:
-    BankAccount(double b) {
-      balance = b;
+public:
+    // Public constructor
+    BankAccount(double initialBalance) {
+        if (initialBalance >= 0) {
+            balance = initialBalance;
+        } else {
+            balance = 0;
+        }
     }
 
+    // Public member function to deposit
     void deposit(double amount) {
-      balance += amount;
+        if (amount > 0) {
+            balance += amount;
+        }
     }
 
-    void withdraw(double amount) {
-      if (balance >= amount) {
-        balance -= amount;
-      } else {
-        cout << "Insufficient funds." << endl;
-      }
-    }
-
+    // Public member function to get the balance
     double getBalance() {
-      return balance;
+        return balance;
     }
 };
 
 int main() {
-  BankAccount myAccount(1000);
-  myAccount.deposit(500);
-  myAccount.withdraw(200);
-  cout << "Balance: " << myAccount.getBalance() << endl;
-  return 0;
-}
+    BankAccount account(100.0);
+    // account.balance = -50; // This would cause a compile-time error!
+    account.deposit(200.0);
+    std::cout << "Current balance: " << account.getBalance() << std::endl;
+    return 0;
+} `,
 
-// Example 5: Abstraction
-#include <iostream>
-using namespace std;
+"Advanced bObject-Oriented Programming Concepts": `
+// Example 1: Inheritance (Single, Multiple, Multilevel)
+  #include <iostream>
 
-class CoffeeMachine {
-  private:
-    int waterLevel;
-    int coffeeBeans;
-
-  public:
-    CoffeeMachine(int w, int c) {
-      waterLevel = w;
-      coffeeBeans = c;
-    }
-
-    void makeCoffee() {
-      if (waterLevel >= 100 && coffeeBeans >= 10) {
-        cout << "Making coffee..." << endl;
-        waterLevel -= 100;
-        coffeeBeans -= 10;
-      } else {
-        cout << "Not enough water or coffee beans." << endl;
-      }
-    }
-
-    void refillWater(int amount) {
-      waterLevel += amount;
-    }
-
-    void refillCoffeeBeans(int amount) {
-      coffeeBeans += amount;
+  // Base Class
+class Vehicle {
+public:
+    void honk() {
+        std::cout << "Honk!" << std::endl;
     }
 };
 
-int main() {
-  CoffeeMachine myMachine(500, 50);
-  myMachine.makeCoffee();
-  myMachine.refillWater(200);
-  myMachine.refillCoffeeBeans(20);
-  myMachine.makeCoffee();
-  return 0;
-}
-
-// Example 6: Advanced Example - Using Templates and Operator Overloading
-#include <iostream>
-using namespace std;
-
-template <typename T>
-class Vector {
-  private:
-    T* data;
-    int size;
-
-  public:
-    Vector(int s) {
-      size = s;
-      data = new T[s];
-    }
-
-    ~Vector() {
-      delete[] data;
-    }
-
-    T& operator[](int index) {
-      return data[index];
-    }
-
-    friend ostream& operator<<(ostream& os, const Vector<T>& v) {
-      for (int i = 0; i < v.size; i++) {
-        os << v.data[i] << " ";
-      }
-      return os;
+  // Single Inheritance: Car inherits from Vehicle
+class Car : public Vehicle {
+public:
+    void drive() {
+        std::cout << "Driving a car." << std::endl;
     }
 };
 
+  // Multilevel Inheritance: ElectricCar inherits from Car
+class ElectricCar : public Car {
+public:
+    void charge() {
+        std::cout << "Charging the electric car." << std::endl;
+    }
+};
+
+ // Multiple Inheritance: AmphibiousCar inherits from both Car and Boat
+class Boat {
+public:
+    void floatOnWater() {
+        std::cout << "Floating on water." << std::endl;
+    }
+};
+class AmphibiousCar : public Car, public Boat {
+};
+
 int main() {
-  Vector<int> myVector(5);
-  myVector[0] = 10;
-  myVector[1] = 20;
-  myVector[2] = 30;
-  myVector[3] = 40;
-  myVector[4] = 50;
+    ElectricCar tesla;
+    tesla.honk(); // Inherited from Vehicle
+    tesla.drive(); // Inherited from Car
+    tesla.charge(); // Its own function
 
-  cout << myVector << endl;
+    AmphibiousCar aquaCar;
+    aquaCar.drive();
+    aquaCar.floatOnWater();
 
-  return 0;
+    return 0;
 }
 
-// Example 7: Advanced Example - Using Inheritance and Polymorphism
-#include <iostream>
-using namespace std;
+
+// Example 2: Polymorphism (Virtual Functions)
+   #include <iostream>
 
 class Animal {
-  public:
-    virtual void sound() = 0;
+public:
+    // Virtual function
+    virtual void makeSound() {
+        std::cout << "The animal makes a sound." << std::endl;
+    }
 };
 
 class Dog : public Animal {
-  public:
-    void sound() {
-      cout << "Woof!" << endl;
+public:
+    void makeSound() override {
+        std::cout << "Woof! Woof!" << std::endl;
     }
 };
 
 class Cat : public Animal {
-  public:
-    void sound() {
-      cout << "Meow!" << endl;
+public:
+    void makeSound() override {
+        std::cout << "Meow! Meow!" << std::endl;
     }
 };
 
 int main() {
-  Animal* animals[2];
-  animals[0] = new Dog();
-  animals[1] = new Cat();
+    Animal* myAnimal;
 
-  for (int i = 0; i < 2; i++) {
-    animals[i]->sound();
-  }
+    Dog myDog;
+    myAnimal = &myDog;
+    myAnimal->makeSound(); // Calls Dog's makeSound()
 
-  return 0;
+    Cat myCat;
+    myAnimal = &myCat;
+    myAnimal->makeSound(); // Calls Cat's makeSound()
+
+    return 0;
 }
 
-// Example 8: Advanced Example - Using Composition
+// Example 3: Abstract Classes and Interfaces
+   #include <iostream>
+
+  // Abstract Class
+class Shape {
+public:
+    // Pure virtual function
+    virtual double getArea() = 0;
+    virtual ~Shape() {}
+};
+
+  // Concrete class inheriting from Shape
+class Circle : public Shape {
+private:
+    double radius;
+public:
+    Circle(double r) : radius(r) {}
+    double getArea() override {
+        return 3.14 * radius * radius;
+    }
+};
+
+int main() {
+    // Shape s; // This would cause a compile-time error!
+    Circle c(5.0);
+    std::cout << "Area of circle: " << c.getArea() << std::endl;
+    return 0;
+}
+
+// Exmple 4: Static
 #include <iostream>
-using namespace std;
 
-class Engine {
-  public:
-    void start() {
-      cout << "Engine started." << endl;
-    }
+class Employee {
+public:
+    // Static member variable
+    static int count;
+    std::string name;
 
-    void stop() {
-      cout << "Engine stopped." << endl;
-    }
-};
-
-class Car {
-  private:
-    Engine engine;
-
-  public:
-    void startCar() {
-      engine.start();
-    }
-
-    void stopCar() {
-      engine.stop();
+    Employee(std::string n) {
+        name = n;
+        count++; // Increment count each time an object is created
     }
 };
+
+ // Initialize static member variable outside the class definition
+int Employee::count = 0;
 
 int main() {
-  Car myCar;
-  myCar.startCar();
-  myCar.stopCar();
-
-  return 0;
+    Employee e1("Dave");
+    Employee e2("Eve");
+    std::cout << "Total number of employees: " << Employee::count << std::endl;
+    return 0;
 }
 
-// Example 9: Advanced Example - Using Exception Handling
-#include <iostream>
-using namespace std;
 
-class DivideByZeroError : public exception {
-  public:
-    const char* what() const throw() {
-      return "Error: Division by zero is not allowed.";
-    }
+// Example 5: Friend functions and classes
+   #include <iostream>
+
+class Student {
+private:
+    std::string name;
+    int id;
+public:
+    Student(std::string n, int i) : name(n), id(i) {}
+
+    // Friend function declaration
+    friend void displayDetails(const Student& s);
 };
 
-int divide(int a, int b) {
-  if (b == 0) {
-    throw DivideByZeroError();
-  }
-  return a / b;
+// Friend function definition
+void displayDetails(const Student& s) {
+    std::cout << "Name: " << s.name << ", ID: " << s.id << std::endl;
 }
 
 int main() {
-  try {
-    int result = divide(10, 0);
-    cout << "Result: " << result << endl;
-  } catch (DivideByZeroError& e) {
-    cout << e.what() << endl;
-  }
-
-  return 0;
-}`,
+    Student s1("Frank", 101);
+    displayDetails(s1);
+    return 0;
+}`, 
 
       "STL Containers": `
-      // Example 1: Using Vectors
+// Example 1: Using Vectors
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -1471,576 +1400,217 @@ int main() {
 }`,
 
     "File Handling": `
-    // Example 1: Reading from a File
+// Example 1: File Streams (ifstream, ofstream, fstream)
 #include <iostream>
+#include <fstream> // Required for file streams
+using namespace std;
+
+int main() {
+    ofstream outFile("example.txt"); // Create and open a file for writing
+    outFile << "Hello, File Handling in C++!"; // Write to the file
+    outFile.close(); // Always close after writing
+
+    ifstream inFile("example.txt"); // Open the same file for reading
+    string content;
+    getline(inFile, content); // Read a line from file
+    cout << "File content: " << content << endl;
+    inFile.close();
+
+    return 0;
+}
+
+// Example 2: Opening and Closing Files
+  #include <iostream>
 #include <fstream>
 using namespace std;
 
 int main() {
-  ifstream file("example.txt");
-  string line;
+    fstream file;
+    file.open("data.txt", ios::out); // Open for writing
+    file << "This is a test file." << endl;
+    file.close();
 
-  if (file.is_open()) {
-    while (getline(file, line)) {
-      cout << line << endl;
+    file.open("data.txt", ios::in); // Open for reading
+    string line;
+    getline(file, line);
+    cout << "Read from file: " << line << endl;
+    file.close();
+
+    return 0;
+}
+
+
+// Example 3: Writing and Reading a text File
+  #include <iostream>
+#include <fstream>
+#include <string>
+
+int main() {
+    // 1. Writing to a text file using ofstream
+    std::ofstream outFile("example.txt");
+
+    if (!outFile.is_open()) {
+        std::cerr << "Error: Could not open file for writing." << std::endl;
+        return 1;
     }
-    file.close();
-  } else {
-    cout << "Unable to open file";
-  }
 
-  return 0;
+    outFile << "Hello, File Handling!" << std::endl;
+    outFile << "This is a new line." << std::endl;
+    outFile.close();
+    std::cout << "Data written to example.txt" << std::endl;
+
+    // 2. Reading from a text file using ifstream
+    std::ifstream inFile("example.txt");
+
+    if (!inFile.is_open()) {
+        std::cerr << "Error: Could not open file for reading." << std::endl;
+        return 1;
+    }
+
+    std::string line;
+    std::cout << "\nReading from example.txt:" << std::endl;
+    while (std::getline(inFile, line)) {
+        std::cout << line << std::endl;
+    }
+
+    inFile.close();
+    return 0;
 }
 
-// Example 2: Writing to a File
-#include <iostream>
+// Example 4: Reading/Writing Binary Files
+  #include <iostream>
 #include <fstream>
-using namespace std;
+
+struct Point {
+    int x;
+    int y;
+};
 
 int main() {
-  ofstream file("example.txt");
-  string line = "Hello, World!";
+    // Writing binary data
+    Point p1 = {10, 20};
+    std::ofstream binOut("point.dat", std::ios::binary);
+    binOut.write(reinterpret_cast<char*>(&p1), sizeof(Point));
+    binOut.close();
 
-  if (file.is_open()) {
-    file << line << endl;
-    file.close();
-  } else {
-    cout << "Unable to open file";
-  }
+    // Reading binary data
+    Point p2;
+    std::ifstream binIn("point.dat", std::ios::binary);
+    binIn.read(reinterpret_cast<char*>(&p2), sizeof(Point));
+    binIn.close();
 
-  return 0;
+    std::cout << "Read from binary file: x = " << p2.x << ", y = " << p2.y << std::endl;
+
+    return 0;
 }
 
-// Example 3: Appending to a File
-#include <iostream>
+// Example 5: File Position Pointers
+  #include <iostream>
 #include <fstream>
-using namespace std;
+#include <string>
 
 int main() {
-  ofstream file("example.txt", ios_base::app);
-  string line = "Hello, World!";
-
-  if (file.is_open()) {
-    file << line << endl;
-    file.close();
-  } else {
-    cout << "Unable to open file";
-  }
-
-  return 0;
-}
-
-// Example 4: Reading and Writing to a Binary File
-#include <iostream>
-#include <fstream>
-using namespace std;
-
-int main() {
-  int data = 10;
-
-  // Write to binary file
-  ofstream file("example.bin", ios_base::binary);
-  if (file.is_open()) {
-    file.write((char*)&data, sizeof(data));
-    file.close();
-  } else {
-    cout << "Unable to open file";
-  }
-
-  // Read from binary file
-  ifstream file2("example.bin", ios_base::binary);
-  if (file2.is_open()) {
-    file2.read((char*)&data, sizeof(data));
-    cout << data << endl;
-    file2.close();
-  } else {
-    cout << "Unable to open file";
-  }
-
-  return 0;
-}
-
-// Example 5: Using fstream for Reading and Writing
-#include <iostream>
-#include <fstream>
-using namespace std;
-
-int main() {
-  fstream file("example.txt", ios_base::in | ios_base::out);
-
-  if (file.is_open()) {
-    string line;
-    getline(file, line);
-    cout << line << endl;
-
-    file << "Hello, World!" << endl;
-    file.close();
-  } else {
-    cout << "Unable to open file";
-  }
-
-  return 0;
-}
-
-// Example 6: Using seekg and seekp for Random Access
-#include <iostream>
-#include <fstream>
-using namespace std;
-
-int main() {
-  fstream file("example.txt", ios_base::in | ios_base::out);
-
-  if (file.is_open()) {
-    string line;
-    getline(file, line);
-    cout << line << endl;
-
-    file.seekp(0, ios_base::beg);
-    file << "Hello, World!" << endl;
-    file.close();
-  } else {
-    cout << "Unable to open file";
-  }
-
-  return 0;
-}
-
-// Example 7: Using tellg and tellp for Getting the Current Position
-#include <iostream>
-#include <fstream>
-using namespace std;
-
-int main() {
-  fstream file("example.txt", ios_base::in | ios_base::out);
-
-  if (file.is_open()) {
-    string line;
-    getline(file, line);
-    cout << line << endl;
-
-    cout << "Current position: " << file.tellg() << endl;
-    file.close();
-  } else {
-    cout << "Unable to open file";
-  }
-
-  return 0;
-}
-
-// Example 8: Using flush for Flushing the Buffer
-#include <iostream>
-#include <fstream>
-using namespace std;
-
-int main() {
-  fstream file("example.txt", ios_base::in | ios_base::out);
-
-  if (file.is_open()) {
-    string line;
-    getline(file, line);
-    cout << line << endl;
-
-    file << "Hello, World!" << endl;
-    file.flush();
-    file.close();
-  } else {
-    cout << "Unable to open file";
-  }
-
-  return 0;
-}
-
-// Example 9: Using sync_with_stdio for Synchronizing with C Streams
-#include <iostream>
-#include <fstream>
-using namespace std;
-
-int main() {
-  fstream file("example.txt", ios_base::in | ios_base::out);
-
-  if (file.is_open()) {
-    string line;
-    getline(file, line);
-    cout << line << endl;
-
-    file << "Hello, World!" << endl;
-    file.sync_with_stdio(false);
-    file.close();
-  } else {
-    cout << "Unable to open file";
-  }
-
-  return 0;
-}
-
-// Example 10: Using rdbuf for Getting the File Buffer
-#include <iostream>
-#include <fstream>
-using namespace std;
-
-int main() {
-  fstream file("example.txt", ios_base::in | ios_base::out);
-
-  if (file.is_open()) {
-    string line;
-    getline(file, line);
-    cout << line << endl;
-
-    file.rdbuf()->pubsetbuf(0, 0);
-    file.close();
-  } else {
-    cout << "Unable to open file";
-  }
-
-  return 0;
-}
-
-// Example 11: Using get for Getting a Character
-#include <iostream>
-#include <fstream>
-using namespace std;
-
-int main() {
-  fstream file("example.txt", ios_base::in | ios_base::out);
-
-  if (file.is_open()) {
+    std::fstream file("seek_example.txt", std::ios::out | std::ios::in | std::ios::trunc);
+    file << "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    file.seekg(10); // Move get pointer to the 10th character (index 10)
+    
     char c;
-    file.get(c);
-    cout << c << endl;
-    file.close();
-  } else {
-    cout << "Unable to open file";
-  }
+    file.get(c); // Read the character at the new position
+    std::cout << "Character at position 10: " << c << std::endl;
 
-  return 0;
+    file.seekp(10); // Move put pointer to the 10th character
+    file << 'X'; // Overwrite the character at that position
+    file.seekg(0); // Go back to the beginning to read the whole file
+
+    std::string content;
+    std::getline(file, content);
+    std::cout << "Content after modification: " << content << std::endl;
+
+    file.close();
+    return 0;
 }
 
-// Example 12: Using getline for Getting a Line
-#include <iostream>
+// Example 6: Error Handling in File Operations
+   #include <iostream>
 #include <fstream>
-using namespace std;
+#include <string>
 
 int main() {
-  fstream file("example.txt", ios_base::in | ios_base::out);
+    std::ifstream inFile("non_existent_file.txt");
 
-  if (file.is_open()) {
-    string line;
-    getline(file, line);
-    cout << line << endl;
-    file.close();
-  } else {
-    cout << "Unable to open file";
-  }
-
-  return 0;
-}
-
-// Example 13: Using read for Reading a Block of Data
-#include <iostream>
-#include <fstream>
-using namespace std;
-
-int main() {
-  fstream file("example.txt", ios_base::in | ios_base::out);
-
-  if (file.is_open()) {
-    char buffer[10];
-    file.read(buffer, 10);
-    cout << buffer << endl;
-    file.close();
-  } else {
-    cout << "Unable to open file";
-  }
-
-  return 0;
-}
-
-// Example 14: Using write for Writing a Block of Data
-#include <iostream>
-#include <fstream>
-using namespace std;
-
-int main() {
-  fstream file("example.txt", ios_base::in | ios_base::out);
-
-  if (file.is_open()) {
-    char buffer[] = "Hello, World!";
-    file.write(buffer, 13);
-    file.close();
-  } else {
-    cout << "Unable to open file";
-  }
-
-  return 0;
-}
-
-// Example 15: Using put for Putting a Character
-#include <iostream>
-#include <fstream>
-using namespace std;
-
-int main() {
-  fstream file("example.txt", ios_base::in | ios_base::out);
-
-  if (file.is_open()) {
-    file.put('A');
-    file.close();
-  } else {
-    cout << "Unable to open file";
-  }
-
-  return 0;
-}
-
-// Example 16: Using seekg for Seeking to a Position
-#include <iostream>
-#include <fstream>
-using namespace std;
-
-int main() {
-  fstream file("example.txt", ios_base::in | ios_base::out);
-
-  if (file.is_open()) {
-    file.seekg(10, ios_base::beg);
-    file.close();
-  } else {
-    cout << "Unable to open file";
-  }
-
-  return 0;
-}
-
-// Example 17: Using seekp for Seeking to a Position
-#include <iostream>
-#include <fstream>
-using namespace std;
-
-int main() {
-  fstream file("example.txt", ios_base::in | ios_base::out);
-
-  if (file.is_open()) {
-    file.seekp(10, ios_base::beg);
-    file.close();
-  } else {
-    cout << "Unable to open file";
-  }
-
-  return 0;
-}
-
-// Example 18: Using tellg for Getting the Current Position
-#include <iostream>
-#include <fstream>
-using namespace std;
-
-int main() {
-  fstream file("example.txt", ios_base::in | ios_base::out);
-
-  if (file.is_open()) {
-    cout << file.tellg() << endl;
-    file.close();
-  } else {
-    cout << "Unable to open file";
-  }
-
-  return 0;
-}
-
-// Example 19: Using tellp for Getting the Current Position
-#include <iostream>
-#include <fstream>
-using namespace std;
-
-int main() {
-  fstream file("example.txt", ios_base::in | ios_base::out);
-
-  if (file.is_open()) {
-    cout << file.tellp() << endl;
-    file.close();
-  } else {
-    cout << "Unable to open file";
-  }
-
-  return 0;
-}
-
-// Example 20: Using good for Checking the State
-#include <iostream>
-#include <fstream>
-using namespace std;
-
-int main() {
-  fstream file("example.txt", ios_base::in | ios_base::out);
-
-  if (file.is_open()) {
-    if (file.good()) {
-      cout << "File is good" << endl;
-    } else {
-      cout << "File is not good" << endl;
+    if (inFile.fail()) {
+        std::cerr << "Error: File 'non_existent_file.txt' not found or could not be opened." << std::endl;
+        return 1;
     }
-    file.close();
-  } else {
-    cout << "Unable to open file";
-  }
 
-  return 0;
-}
-
-// Example 21: Using fail for Checking the State
-#include <iostream>
-#include <fstream>
-using namespace std;
-
-int main() {
-  fstream file("example.txt", ios_base::in | ios_base::out);
-
-  if (file.is_open()) {
-    if (file.fail()) {
-      cout << "File has failed" << endl;
-    } else {
-      cout << "File has not failed" << endl;
+    std::string data;
+    while (std::getline(inFile, data)) {
+        // ... process data
     }
-    file.close();
-  } else {
-    cout << "Unable to open file";
-  }
 
-  return 0;
-}
-
-// Example 22: Using bad for Checking the State
-#include <iostream>
-#include <fstream>
-using namespace std;
-
-int main() {
-  fstream file("example.txt", ios_base::in | ios_base::out);
-
-  if (file.is_open()) {
-    if (file.bad()) {
-      cout << "File is bad" << endl;
-    } else {
-      cout << "File is not bad" << endl;
+    if (inFile.eof()) {
+        std::cout << "End of file reached." << std::endl;
+    } else if (inFile.fail()) {
+        std::cerr << "An error occurred during reading." << std::endl;
     }
-    file.close();
-  } else {
-    cout << "Unable to open file";
-  }
 
-  return 0;
+    inFile.close();
+    return 0;
 }
 
-// Example 23: Using eof for Checking the End of File
+// Example 7: Serialization Basics
 #include <iostream>
 #include <fstream>
-using namespace std;
+#include <string>
 
-int main() {
-  fstream file("example.txt", ios_base::in | ios_base::out);
+class Student {
+public:
+    std::string name;
+    int id;
 
-  if (file.is_open()) {
-    if (file.eof()) {
-      cout << "End of file reached" << endl;
-    } else {
-      cout << "End of file not reached" << endl;
+    // Default constructor for deserialization
+    Student() : name(""), id(0) {}
+    Student(std::string n, int i) : name(n), id(i) {}
+
+    // Method to serialize the object to a file
+    void serialize(std::ofstream& ofs) const {
+        // Write the size of the name string, then the string itself
+        size_t nameSize = name.length();
+        ofs.write(reinterpret_cast<const char*>(&nameSize), sizeof(nameSize));
+        ofs.write(name.c_str(), nameSize);
+        // Write the integer id
+        ofs.write(reinterpret_cast<const char*>(&id), sizeof(id));
     }
-    file.close();
-  } else {
-    cout << "Unable to open file";
-  }
 
-  return 0;
-}
+    // Method to deserialize the object from a file
+    void deserialize(std::ifstream& ifs) {
+        size_t nameSize;
+        ifs.read(reinterpret_cast<char*>(&nameSize), sizeof(nameSize));
+        
+        name.resize(nameSize);
+        ifs.read(const_cast<char*>(name.data()), nameSize);
 
-// Example 24: Using clear for Clearing the State
-#include <iostream>
-#include <fstream>
-using namespace std;
-
-int main() {
-  fstream file("example.txt", ios_base::in | ios_base::out);
-
-  if (file.is_open()) {
-    file.clear();
-    file.close();
-  } else {
-    cout << "Unable to open file";
-  }
-
-  return 0;
-}
-
-// Example 25: Using ignore for Ignoring Characters
-#include <iostream>
-#include <fstream>
-using namespace std;
+        ifs.read(reinterpret_cast<char*>(&id), sizeof(id));
+    }
+};
 
 int main() {
-  fstream file("example.txt", ios_base::in | ios_base::out);
+    Student s1("Alice", 123);
 
-  if (file.is_open()) {
-    file.ignore(10, ' ');
-    file.close();
-  } else {
-    cout << "Unable to open file";
-  }
+    // Serialize object to file
+    std::ofstream outFile("student.bin", std::ios::binary);
+    s1.serialize(outFile);
+    outFile.close();
 
-  return 0;
-}
+    // Deserialize object from file
+    Student s2;
+    std::ifstream inFile("student.bin", std::ios::binary);
+    s2.deserialize(inFile);
+    inFile.close();
 
-// Example 26: Using peek for Peeking at the Next Character
-#include <iostream>
-#include <fstream>
-using namespace std;
+    std::cout << "Deserialized student: " << s2.name << ", ID: " << s2.id << std::endl;
 
-int main() {
-  fstream file("example.txt", ios_base::in | ios_base::out);
-
-  if (file.is_open()) {
-    char c = file.peek();
-    cout << c << endl;
-    file.close();
-  } else {
-    cout << "Unable to open file";
-  }
-
-  return 0;
-}
-
-// Example 27: Using unget for Ungetting a Character
-#include <iostream>
-#include <fstream>
-using namespace std;
-
-int main() {
-  fstream file("example.txt", ios_base::in | ios_base::out);
-
-  if (file.is_open()) {
-    file.unget();
-    file.close();
-  } else {
-    cout << "Unable to open file";
-  }
-
-  return 0;
-}
-
-// Example 28: Using sync_with_stdio for Synchronizing with C Streams
-#include <iostream>
-#include <fstream>
-using namespace std;
-
-int main() {
-  fstream file("example.txt", ios_base::in | ios_base::out);
-
-  if (file.is_open()) {
-    file.sync_with_stdio(false);
-    file.close();
-  } else {
-    cout << "Unable to open file";
-  }
-
-  return 0;
+    return 0;
 }`,
 
     "Exception Handling": `
@@ -2797,6 +2367,7 @@ int main() {
 const getCppCodeExplanations = (lessonTitle) => {
     const explanations = { 
     "Introduction to C++": `
+### Example 1
 **What is C++?**
 C++ is a high-performance, compiled, general-purpose programming language
 that was developed by Bjarne Stroustrup at Bell Labs in the 1980s. 
@@ -2818,6 +2389,7 @@ function, including the function name, return type, parameters, and body.
 5. **Variable Declarations**: These are statements that declare the existence and 
 properties of variables, including their name, data type, and initial value.
 
+### Example 2
 **Comments and Documentation**
 
 Comments are used to add notes and explanations to the code, making it easier for
@@ -2826,19 +2398,8 @@ humans to understand. There are two types of comments in C++:
 the end of the line.
 - **Multi-Line Comments**: These start with the \`/*\` symbol and end with the \`*/\` symbol.
 
-**Variables and Data Types**
-
-Variables are used to store and manipulate data in a program. In C++, 
-variables have a data type that determines the type of value they can hold. 
-Here are some common data types in C++:
-- \`Int\`: A whole number, such as 1, 2, or 3.
-- \`Double\`: A decimal number, such as 3.14 or -0.5.
-- \`Char\`: A single character, such as 'a' or 'Z'.
-- \`Bool\`: A boolean value, such as true or false.
-- \`String\`: A sequence of characters, such as "hello" or "goodbye".
-
+### Example 3
  **Input/Output Operations**
-
 Input/output operations are used to interact with the user or other programs. 
 In C++, the \`std::cin\` and \`std::cout\` objects are used for input and output 
 operations, respectively.
@@ -2847,6 +2408,7 @@ C++ Standard Library, and must be included using the \`#include\` \`<iostream>\`
 `,
 
     "Variables and Data Types": `
+### Example 1
     **Variables and Data Types**
 In C++, a variable is a name given to a memory location that stores a value. 
 Variables have a data type that determines the type of value they can hold.
@@ -2867,8 +2429,8 @@ In the example, we declare and initialize variables of different primitive data 
 \`int\`, \`float\`, \`char\`, and \`bool\`. We then print the values 
 of these variables using \`cout\`. 
 
+### Example 2
 **Type Modifiers**
-
 Type modifiers are used to modify the behavior of primitive data types.
 They can be used to specify the size of the data type, its sign, or its precision. 
 The following code example 2 above demonstrates the use of type modifiers
@@ -2881,8 +2443,8 @@ In the example, we declare and initialize variables with variables with type mod
 - \`double\`:Used to declare floating-point numbers with double precision.
 We then print the values of these variables using \`cout\`.
 
+### Example 3
 **Variable Declaration and Initialization**
-
 Variable declaration and initialization are two separate steps in C++. 
 Declaration involves specifying the type and name of the variable, 
 while initialization involves assigning a value to the variable. 
@@ -2895,8 +2457,8 @@ Constants are values that cannot be changed once they are declared. In C++,
 constants can be declared using the \`const\` keyword or the \`#define\` directive.
 The follow code example 4 above demonstrates the use of constants
 
+### Example 4
 **Type Conversion**
-
 Type conversion involves converting a value from one data type to another. 
 In C++, type conversion can be implicit or explicit.
 - \`static_cast<Type>()\`: A safe way to convert one type to another.
@@ -2905,57 +2467,84 @@ In C++, type conversion can be implicit or explicit.
 `,
 
     "Operators":`
+### Example 1
     **Arithmetic Operators**
 Arithmetic operators are used to perform mathematical operations on variables. 
 The follow code example 1 above demonstrates the use of constants
 In the example, we use the arithmetic operators \`+\`, \`-\`, \`*\`, \`/\`, and \`%\` to perform
 mathematical operations on the variables \`a\` and \`b\`.
 
-**Relational Operators**
-Relational operators are used to compare variables.
-The follow code example 2 above demonstrates the use of relational operators
+**Arithmetic Operators**
+| Operator | Description           | Example     | Result |
+| :------- | :-------------------- | :---------- | :----- |
+| \`+\`      | Addition            | \`4 + 5\`   | \`9\`  |
+| \`-\`      | Subtraction         | \`7 - 4\`   | \`3\`  |
+| \`*\`      | Multiplication      | \`3 * 4\`   |\`12\`  |
+| \`/\`      | Division            | \`15 / 3\`  | \`5\`  |
+| \`%\`      | Modulus (remainder) | \`10 % 3\`  | \`1\`  |
+
+
+### Example 2
+**Assignment Operator**are used to assign values to variables.
+we use the assignment operator to assign values to the variable \`num\`.
+
+**Assignment Operators**
+| Operator | Description                                    | Example        | Result  |
+| :------- | :--------------------------------------------- | :------------- | :------ |
+| \`=\`      | Assigns value from right to left                | \`x = 5\`        | \`x = 5\` |
+| \`+=\`     | Adds right operand to left operand and assigns  | \`x = 3; x += 2\`| \`x = 5\` |
+| \`-=\`     | Subtracts right operand and assigns             | \`x = 5; x -= 2\`| \`x = 3\` |
+| \`*=\`     | Multiplies right operand and assigns            | \`x = 4; x *= 3\`| \`x = 12\`|
+| \`/=\`     | Divides left operand by right operand and assigns| \`x = 10; x /= 2\`| \`x = 5.0\`|
+| \`%=\`     | Takes modulus and assigns                       | \`x = 7; x %= 3\`| \`x = 1\` |
+
+### Example 3 
+**Comparison Operators**
+Comparison operators are used to compare variables.
+The follow code example above demonstrates the use of relational operators
 In the example, we use the relational operators \`==\`, \`!=\`, \`<\`, \`>\`, \`<=\`, and \`>=\`
 to compare the variables \`a\` and \`b\`.
-- \`==\`: Equal to
-- \`!=\`: Not equal to
-- \`<\`: Less than
-- \`>\`: Greater than
-- \`<=\`: Less than or equal to
-- \`>=\`: Greater than or equal to. 
 
+**Comparison Operators**
+| Operator | Description                                   | Example       | Result  |
+| :------- | :-------------------------------------------- | :------------ | :------ |
+| \`==\`     | Checks if two values are equal                 | \`5 == 5\`      | \`True\`  |
+| \`!=\`     | Checks if two values are not equal             | \`5 != 3\`      | \`True\`  |
+| \`>\`      | Checks if left value is greater than right     | \`7 > 4\`       | \`True\`  |
+| \`<\`      | Checks if left value is less than right        | \`3 < 5\`       | \`True\`  |
+| \`>=\`     | Checks if left value is greater or equal       | \`5 >= 5\`      | \`True\`  |
+| \`<=\`     | Checks if left value is less or equal          | \`4 <= 6\`      | \`True\`  |
+
+### Example 4
 **Logical Operators**
 Logical operators are used to combine or invert boolean expressions.
 The follow code example 3 above demonstrates the use of logical operators
 In the example, we use the logical operators \`&&\`, \`||\`, and \`!\`
 to combine or invert boolean expressions.
-- \`&&\`: Logical AND
-- \`||\`: Logical OR
-- \`!\`: Logical NOT
 
+ **Logical Operators (Truth Table Style)**
+| Operator | Description | Example             | Result  |
+| :------- | :---------- | :------------------ | :------ |
+| \`AND\`    | AND         | \`True and False\`    | \`False\` |
+| \`OR\`     | OR          | \`True or False\`     | \`True\`  |
+| \`NOT\`    | NOT         | \`not True\`          | \`False\` |
+
+### Example 5
 **Bitwise Operators**
 Bitwise operators are used to perform operations on individual bits of variables.
 The follow code example 4 above demonstrates the use of bitwise operators
-In the example, we use the bitwise operators \`&\`, \`|\`, \`^\`, \`~\`, \`<<\`, and \`>>\`
+In the example, we use the bitwise operators
 to perform operations on the bits of the variables \`a\` and \`b\`.
-- \`&\`: Bitwise AND
-- \`|\`: Bitwise OR
-- \`^\`: Bitwise XOR
-- \`~\`: Bitwise NOT
-- \`<<\`: Shift left
-- \`>>\`: Shift right 
 
-**Assignment Operators**
-Assignment operators are used to assign values to variables.
-The follow code example 5 above demonstrates the use of assignment operators
-In the example, we use the assignment operator \`=\`, \`+=\`, \`-=\`, \`*=\`,\`%=\`, and \`/=\`, 
-to assign values to the variable \`a\`.
+ Operator | Description                          | Example     | Result |
+| :------- | :----------------------------------- | :---------- | :----- |
+| \`&\`      | AND :Sets each bit to 1 if both are 1 | \`6 & 3\`     | \`2\`    |
+| \`|\`      | OR :Sets each bit to 1 if one is 1   | \`6 | 3\`     | \`7\`    |
+| \`^\`      | XOR : Sets each bit to 1 if only one is 1 | \`6 ^ 3\` | \`5\`    |
+| \`~\`      | NOT : Inverts all the bits            | \`~6\`        | \`-7\`   |
+| \`<<\`     | Left Shift : Shifts bits to the left  | \`3 << 2\`    | \`12\`   |
+| \`>>\`     | Right Shift : Shifts bits to the right| \`8 >> 2\`    | \`2\`    |
 
-- \`=\`: Assigns the value \`5\` to the variable \`a\`.
-- \`+=\`: Adds 5 to the current value of \`a\`, then stores the result in \`a\`.
-- \`-=\`: Subtracts 3 from the current value of \`a\`, then stores the result in\`a\`.
-- \`*=\`: Multiplies the current value of \`a\` by 2, then stores the result in \`a\`.
-- \`/=\`: Divides the current value of a by 2, then stores the result in \`a\`.
-- \`%=\`: Takes the remainder when a is divided by 3, and stores it in \`a\`.
 
 **Ternary Operator**
 The ternary operator is a shorthand way of writing a simple if-else statement. 
@@ -2965,131 +2554,157 @@ In the example, we use the ternary operator \`?\`, and \`:\`
 `,
 
    "Control Flow":`
+### Example 1
 Control flow statements are used to control the flow of a program's execution.
-
-1. **if-else Statements**:
+**if-else Statements**:
 - Executes code based on condition
 - \`if (condition)\` checks if true, then runs a block
 - \`else\` runs if the condition is false
 - Useful for making decisions in code
 
-2. **switch-case Statements**:
+### Example 2
+**If-Else If-Else Statement**
+- The \`if-else if-else\` statement is used when you want to check multiple conditions in sequence.
+- The program tests each condition from top to bottom:
+If the first condition (\`if\`) is \`true\`, the block executes and the rest is skipped.
+If the first is \`false\`, it moves to the \`else if\` condition.
+If none of the conditions are \`true\`, the \`else\` block executes (as a “default case”).
+- This prevents checking all conditions unnecessarily, saving time and keeping code clean.
+
+### Example 3
+**switch-case Statements**:
 - Used for selecting one of many code blocks
 - More readable than multiple \`if-else\` when checking a single variable
 - Each \`case\` matches a value; \`break\` exits the switch
 - \`default\` handles unmatched cases
 
-3. **For Loop**:
+### Example 4
+**For Loop**:
 - \`for (initialization; condition; increment)\` structure
 - Executes a block of code a specific number of times
 - Most common loop for known iteration counts
 
-4. **While Loop**:
+### Example 5
+**While Loop**:
 - Continues while a condition is true
 - Condition is checked before each iteration
 - Useful when the number of iterations is unknown
 
-5. **Do...While Loop**:
+### Example 6
+**Do...While Loop**:
 - Similar to while, but checks the condition after the loop body
 - Always executes the loop body at least once
 - Useful when you need guaranteed one-time execution
 
-6. **break, continue, goto**:
+### Example 7
+**break, continue, goto**:
 - \`break\`: exits the current loop immediately
 - \`continue\`: skips current iteration and proceeds to next
 - \`goto\`: jumps to a labeled part of the code (not recommended; reduces readability)
 
-7. **Nested Control Structures**:
+**Nested Control Structures**:
 - Combining loops and conditionals inside one another
 - Useful for solving complex problems like grids, games, or multiple condition checks
 - Must be careful to avoid confusion and too many levels of nesting
       `,
 
       "Functions":`
-1. **Function Declaration and Definition**:
+  ### Example 1
+**Function Declaration and Definition**:
 - Declaration tells the compiler about the function's name, return type, and parameters
 - Definition provides the actual implementation (code block)
 - Allows modularity and reusability of code
 
-2. **Parameters and Arguments**:
+### Example 2
+**Parameters and Arguments**:
 - Parameters are variables in function definitions
 - Arguments are actual values passed during function calls
 - Helps pass data into functions for dynamic behavior
 
-3. **Return Types and Values**:
+### Example 3
+**Return Types and Values**:
 - Specifies the type of value the function will return
 - Use \`void\` if the function returns nothing
 - Return values are sent back to the caller using \`return\` keyword
 
-4. **Function Overloading**:
+### Example 5
+**Function Overloading**:
 - Defining multiple functions with the same name but different parameters
 - Allows functions to handle different data types or argument counts
 - Improves readability and flexibility
 
-5. **Default Arguments**:
+### Example 4
+**Default Arguments**:
 - Allows assigning default values to parameters
 - Used when a parameter value may or may not be passed
 - Must appear at the end of the parameter list
 
-6. **Pass by Value vs Pass by Reference**:
+### Example 6
+**Pass by Value vs Pass by Reference**:
 - Pass by Value: Function gets a copy of the argument (original unchanged)
 - Pass by Reference: Function accesses the actual variable (original can be changed)
 - Use reference when you want to modify original or avoid copying large data
 
-7. **Inline Functions**:
+**Inline Functions**:
 - Defined with \`inline\` keyword
 - Suggests compiler to insert the function code directly at the call site
 - Can improve speed for small, frequently called functions
 
-8. \`Recursion\`:
+ \`Recursion\`:
 - Function calls itself directly or indirectly
 - Useful for problems that can be broken into smaller sub-problems (e.g., factorial, Fibonacci)
 - Must have a base condition to stop recursion `,
 
       "Arrays and Strings": `
-1. **Array Declaration and Initialization**:
+### Example 1
+**Array Declaration and Initialization**:
 Arrays are used to store multiple values of the same data type in a single variable. 
 - Declares a fixed-size sequence of elements of the same type
 - Can be initialized during declaration: \`int scores[] = {90, 80, 70, 60};\`
 - Indexing starts from 0
 
-2. **Multi-dimensional Arrays**:
-Multi-dimensional arrays are used to store data in a table-like structure.
-- Arrays with more than one dimension (e.g., matrix)
-- Syntax: \`int matrix[2][3];\`
-- Accessed using multiple indices: \`matrix[0][1]\`
-
-3. **C-style Strings**:
-C-style strings are used to store character arrays.
-- Arrays of characters ending with a null character (\`0\`)
-- Stored in \`char[]\` arrays
-- Handled manually using functions like \`strcpy, strlen\`
-
-4. **std::string Class**:
-The std::string class is used to store and manipulate strings in C++.
-- C++ Standard Library string type
-- More flexible, safer than C-style strings
--Provides functions like \`.length()\`, \`.substr()\`, \`.find()\`
-
-4. **Array Manipulation**:
+### Example 2
+**Array Manipulation**:
 Arrays can be manipulated using various techniques such as indexing, slicing, and concatenation. 
 - Access elements via index, loop through with loops
 - Can update, insert, or delete manually (not dynamic)
 - Careful with bounds to avoid undefined behavior
 
-5. **Common Array Algorithms**:
+
+### Example 3
+**Multi-dimensional Arrays**:
+Multi-dimensional arrays are used to store data in a table-like structure.
+- Arrays with more than one dimension (e.g., matrix)
+- Syntax: \`int matrix[2][3];\`
+- Accessed using multiple indices: \`matrix[0][1]\`
+
+### Example 4
+**C-style Strings**:
+C-style strings are used to store character arrays.
+- Arrays of characters ending with a null character (\`0\`)
+- Stored in \`char[]\` arrays
+- Handled manually using functions like \`strcpy, strlen\`
+
+### Example 5
+**std::string Class**:
+The std::string class is used to store and manipulate strings in C++.
+- C++ Standard Library string type
+- More flexible, safer than C-style strings
+-Provides functions like \`.length()\`, \`.substr()\`, \`.find()\`
+
+**Common Array Algorithms**:
 Arrays can be searched, sorted, and manipulated using various algorithms.
 - **Searching**: Linear Search, Binary Search
 - **Sorting**: Bubble Sort, Selection Sort, or use \`std::sort()\`
 - Efficient algorithms improve performance for large arrays
 
-6. **Array Limitations and Alternatives**:
+**Array Limitations and Alternatives**:
 Arrays have several limitations, including fixed size, lack of 
 dynamic memory allocation, and limited functionality
 - **Fixed size**; size must be known at compile time
 - Manual memory and bound management
 
-7. **Alternatives**: 
+**Alternatives**: 
 There are several alternatives to arrays in C++, including:
 - **Vectors**: dynamic arrays that can grow or shrink in size
 - **Lists**: dynamic collections of elements that can be inserted or removed
@@ -3097,27 +2712,30 @@ There are several alternatives to arrays in C++, including:
 - **Sets**: unordered collections of unique elements`, 
 
     "Pointers and References": `
-
-1. **Pointer Declaration and Initialization**:
+### Example 1
+**Pointer Declaration and Initialization**:
 - Pointers are variables that store the memory address of another variable.
 In the example, we declare a variable \`x\` and a pointer \`px\`. We then initialize
 the pointer \`px\` to point to the variable \`x\`. Finally, we print the value of the 
 pointer \`px\` and the value of the variable pointed to by the pointer.
 - Must be initialized before use
 
-2. **Pointer Arithmetic**:
+### Example 2
+**Pointer Arithmetic**:
 Pointers can be used to perform arithmetic operations, such as 
 incrementing or decrementing the pointer. 
 - Supports operations like increment (next memory location)
 - Mainly used in array traversal
 - Risky if used incorrectly (can lead to memory corruption)
 
-3. **Pointers and Arrays**:
+### Example 3
+**Pointers and Arrays**:
 - Array name is a pointer to its first element
 - Pointers can iterate over arrays
 - Use with care to avoid accessing out-of-bound memory
 
-4. **References vs Pointers**:
+### Example 4
+**References vs Pointers**:
 References and pointers are both used to access variables indirectly, 
 but they have some key differences.
 - **References**: alias to an existing variable, must be initialized
@@ -3128,13 +2746,14 @@ to point to the variable \`x\`. We print the value of the reference, the value o
 pointer, and the value of the variable pointed to by the pointer.
 **Note**: References are safer and easier to use
 
-5. **Dynamic Memory Allocation (new/delete)**:
+### Example 5
+**Dynamic Memory Allocation (new/delete)**:
 Dynamic memory allocation is used to allocate memory at runtime. 
 - Allocates memory during runtime using \`new\`
 - Must be released using \`delete\`
 **Note**: Useful when size is unknown at compile time
 
-6. **Smart Pointers (unique_ptr, shared_ptr)**:
+**Smart Pointers (unique_ptr, shared_ptr)**:
 Smart pointers are used to automatically manage dynamic memory allocation 
 and deallocation.
 - Prevent memory leaks and dangling pointers
@@ -3145,7 +2764,7 @@ their values. The \`unique_ptr\` will automatically deallocate the memory when
 it goes out of scope, while the \`shared_ptr\` will automatically deallocate 
 the memory when the last shared pointer to it goes out of scope.
 
-7. **Pointer Pitfalls and Best Practices**:
+**Pointer Pitfalls and Best Practices**:
 Pointers can be tricky to use and can lead to common pitfalls such as:
 - **Dangling pointers**: pointers that point to memory that has already been deallocated.
 - **Wild pointers**: pointers that point to arbitrary locations in memory.
@@ -3159,188 +2778,180 @@ To avoid these pitfalls, it's best to follow best practices such as:
 By following these best practices, you can write safer and more efficient code that 
 avoids common pointer pitfalls.`,
 
-     "Object-Oriented Programming": `
-1. **Classes and Objects**:
-- Classes are user-defined data types that encapsulate data and functions
-that operate on that data.
-- A class is a blueprint for creating objects (instances)
-- Defines attributes (variables) and behaviors (functions)
-- Objects are instances of classes
+     "Foundational Object-Oriented Programming Concepts": `
+### Example 1
+OOP (Object-Oriented Programming) in C++ is a programming paradigm that organizes code into objects rather than just functions and data.
+- An object represents a real-world entity (like a student, car, bank account).
+- A class is the blueprint for creating objects.
+The main idea is to make programs more modular, reusable, and easier to maintain by modeling them around real-world concepts.
 
-2. **Constructors and Destructors**:
-- **Constructor**: special function that initializes objects automatically
-Same name as class, can be overloaded
-- **Destructor**: cleans up when object goes out of scope OR
-Destructors are special member functions that are called when an object is destroyed.
-- Begins with a tilde (~), no parameters or return type
-In the example 2 above , we declare a class \`Car\` with a constructor and destructor. 
-The constructor is called when the object \`myCar\` is created, and the destructor is
-called when the object \`myCar\` is destroyed.
+**Classes and Objects**:
+A class is a blueprint or a template for creating objects. In the example above, 
+\`Car\` is a class that defines a set of attributes (brand, model, year) and behaviors (\`displayDetails()\`). 
+An object is an instance of a class. \`myCar\` is an object of the \`Car\` class. We can access its member variables 
+and functions using the dot operator (\`.\`) to set its state and invoke its behaviors.
 
-3. **Encapsulation (Access Specifiers)**:
-Encapsulation is the concept of hiding the implementation details of 
-an object from the outside world using using \`private\`, \`protected\`, and \`public\`
-- Access specifiers are used to control access to the members of a class.
-- Promotes security and control over class members
-- Only expose what’s necessary
-In the example 3 above, we declare a class \`Car\` with private data members and public
-and private member functions. The public member function \`display\` can be accessed 
-from outside the class, while the private member function \`accelerate\` cannot be 
-accessed from outside the class.
+### Example 2
+**Constructors and Destructors**:
+A constructor is a special member function that's automatically called when an object is created. 
+It's used to initialize an object's state. It has the same name as the class and no return type. 
+A destructor is also a special member function, prefixed with a tilde (~), that is automatically called 
+when an object is about to be destroyed. It's used for cleanup, such as releasing dynamically allocated memory.
 
+### Example 3
+**Encapsulation (Access Specifiers)**:
+Encapsulation is the process of bundling data (member variables) and the methods that operate on that data (member functions) 
+into a single unit, the class. It allows for data hiding. Access specifiers (\`public\`, \`private\`, \`protected\`) control the visibility of class members. 
+\`private\` members, like \`balance\`, are only accessible within the class itself, protecting the data from direct, unauthorized modification. 
+\`public\` members, like \`deposit()\` and \`getBalance()\`, provide the controlled interface for interacting with the object.`,
 
-4. **Inheritance**:
-Inheritance is the concept of creating a new class based on an existing class.
-- **Single**: one base class
-- **Multiple**: multiple base classes
-- **Multileve**: inheritance across more than one level
-- Promotes code reuse
-In the example 4 above, we declare a class \`Car\` with private data members 
-and public member functions. We then declare a class \`SportsCar\` that inherits
-from the \`Car\` class using the public keyword. The \`SportsCar\` class has its own 
-private data member and public member function, which can access the members 
-of the \`Car\` class using the scope resolution operator \`::\`.
+  "Advanced bObject-Oriented Programming Concepts": `
+### Example 1 
+This part delves into the more powerful and flexible features of OOP that enable code reuse and dynamic behavior. 
+These topics are crucial for building complex, scalable, and maintainable applications.
 
-5. **Polymorphism (Virtual Functions)**:
-- Polymorphism is a fundamental OOP concept where objects of different types 
-can be treated as objects of a common base type and respond differently to 
-the same function call.
+**Inheritance (Single, Multiple, Multilevel)**:
+Inheritance allows a new class (derived class) to reuse and extend the functionality of an existing class (base class). This promotes code reuse and a hierarchical structure.
+- **Single inheritance**: is when a class inherits from one base class. 
+- **Multilevel inheritance**: is a chain, where a class inherits from a class that already inherited from another.
+- **Multiple inheritance**: is when a class inherits from more than one base class.
 
-**Key Characteristics**:
-- **Multiple Forms**: Enables a single interface (function name) to have multiple implementations
-- **Runtime Binding**: The specific implementation called is determined at runtime based on the actual object type (dynamic polymorphism)
-- **Base-Class Interface**: Accessed through pointers/references to a base class
-In the example 5 above, we declare a class Shape with a virtual function \`draw()\`. 
-We then declare classes \`Circle\` and \`Rectangle\` that inherit from the \`Shape\` class and 
-override the \`draw()\` function. We create objects of the \`Circle\` and \`Rectangle\` classes
-and a pointer to the Shape class. We then assign the address of the Circle object 
-to the pointer and call the \`draw()\` function using the pointer. We repeat the process
-with the Rectangle object.
+### Example 2
+**Polymorphism (Virtual Functions)**:
+Polymorphism means "many forms." In C++, it allows objects of different classes to be treated as objects of a common base class. 
+Virtual functions enable this runtime polymorphism. By declaring \`makeSound()\` as \`virtual\` in the base class \`Animal\`, 
+the program determines which version of the function to call based on the actual type of the object pointed to by \`myAnimal\` at runtime, 
+rather than its declared type. The \`override\` keyword is a good practice to ensure the function is indeed overriding a virtual function from the base class.
 
-6. **Abstract Classes and Interfaces**:
-- Abstract class has at least one pure virtual function
-- Cannot be instantiated directly
-- Enforces a contract for derived classes to implement
-In the examples 6 above, we declare an abstract class AbstractClass 
-with a pure virtual function \`pureVirtualFunction()\`. 
-We then declare an \`interface\` Interface with a pure virtual function 
-\`pureVirtualFunction()\`. We also declare a concrete class \`ConcreteClass\` that 
-inherits from the \`AbstractClass\` and implements the pure virtual function
+### Example 3
+**Abstract Classes and Interfaces**:
+An abstract class is a class that cannot be instantiated on its own because it contains at least one pure virtual function. 
+A pure virtual function is declared by assigning \`= 0\` to its declaration (\`virtual double getArea() = 0;\`). 
+It forces derived classes to provide their own implementation for that function, ensuring a common interface. An interface is a class that contains only pure virtual functions and no data members. 
+It serves as a contract for derived classes.
 
-7 **Static Members**:
-- Belong to the class, not objects
-- Shared across all instances
-- Accessed using \`ClassName::member\`
-- Friend Functions and Classes:
-- Can access private and protected members of a class
-- Declared using the \`friend\` keyword
-- Useful for operator overloading and external helper functions
+### Example 4
+**Static**:
+Static members (variables and functions) belong to the class itself, not to any specific object. A static member variable is shared by all objects of the class; there is only one copy of it, regardless of how many objects are created. 
+A static member function can only access other static members of the class. They are useful for tracking global state related to the class, such as the number of objects created.
 
-8. **Friend functions and classes**
-Friend functions and classes are functions and classes that 
-have access to the private and protected members of a class.
-In the example 8 above, we declare a class \`MyClass\` with a private member
-variable \`myPrivateVariable\` and a friend function \`myFriendFunction()\`. 
-We then define the friend function outside the class and call it in the \`main()\`
-function. The friend function has access to the private member variable of the class.
+### Example 5
+**Friend functions and classes**
+A friend function or friend class is a non-member function or a class that is granted special access to the \`private\` and \`protected\` members of another class. 
+This breaks encapsulation but can be necessary in certain design patterns, such as operator overloading. In the example, \`displayDetails()\` is a standalone function that is not a member of the \`Student\` class, 
+but because it is declared as a friend, it can directly access the \`private\` members \`name\` and \`id\` of the \`Student\` object.
 
-I hope this explanation helps you understand the concepts of 
-object-oriented programming in C++
+*I hope this explanation helps you understand the concepts of 
+object-oriented programming in C++*
 `,
  
         "STL Containers": `
-1. **Vector**
+### Example 1
+**Vector**
 - Dynamic array implementation that automatically resizes
 - Provides constant-time random access to elements using index
 - Efficient insertion and deletion at the end only
 - Memory is allocated contiguously for optimal cache performance
 - Best choice when you need array-like behavior with dynamic sizing
 
-2. **List** 
+### Example 2
+**List** 
 - Doubly-linked list implementation allowing bidirectional traversal
 - Efficient insertion and deletion at any position in constant time
 - No random access - elements must be accessed sequentially through iterators
 - Memory is not contiguous, each element can be anywhere in memory
 - Ideal when frequent insertion/deletion in middle is required
 
-3. **Deque (Double-ended Queue)**
-- Combines benefits of vector and list
-- Efficient insertion and deletion at both front and back
-- Provides random access like vector but with more complex memory structure
-- Better than vector when you need frequent front insertions
-- Internally uses multiple memory blocks for flexibility
-
-4. **Stack**
+### Example 3
+**Stack**
 - LIFO (Last In, First Out) container adapter
 - Built on top of underlying container (deque by default)
 - Only allows access to the top element
 - Essential for recursive algorithms, expression parsing, and undo operations
 - No iterators provided - access is restricted to maintain LIFO behavior
 
-5. **Queue**
+### Example 4
+**Queue**
 - FIFO (First In, First Out) container adapter  
 - Elements enter at back and leave from front
 - Perfect for scheduling tasks, breadth-first search, and buffering
 - Maintains order of insertion unlike stack
 - Built on deque by default for efficient front and back operations
 
-6. **Set**
+### Example 5
+**Set**
 - Stores unique elements in automatically sorted order
 - Implemented as balanced binary search tree (usually Red-Black tree)
 - Duplicate insertions are silently ignored
 - Logarithmic time complexity for search, insertion, and deletion
 - Excellent for membership testing and maintaining sorted unique collections
 
-7. **Map**
+### Example 6
+**Map**
 - Key-value pair container with unique, sorted keys
 - Fast lookup by key with logarithmic complexity
 - Keys are automatically sorted, enabling range queries
 - Values can be accessed and modified using bracket notation
 - Essential for implementing dictionaries and lookup tables
 
-8. **Multimap**
+### Example 7
+**Multimap**
 - Similar to map but allows duplicate keys
 - Multiple values can be associated with the same key
 - Maintains sorted order of keys
 - Useful when one-to-many relationships need to be stored
 - Requires special handling for accessing multiple values per key
 
-9. **Multiset**
+### Example 8
+**Multiset**
 - Like set but permits duplicate values
 - All elements are stored in sorted order including duplicates
 - Count operations can determine frequency of elements
 - Useful for frequency counting and maintaining sorted collections with repetitions
 - Supports all set operations but with duplicate awareness
 
-10. **Priority Queue**
+### Example 9
+**Priority Queue**
 - Max-heap implementation by default (largest element at top)
 - Elements are automatically ordered by priority, not insertion order
 - Built on vector and uses heap algorithms internally
 - Only top element is accessible - no iterators provided
 - Perfect for implementing scheduling algorithms and finding extremes efficiently
 
-11. **Bitset**
+### Example 10
+**Deque (Double-ended Queue)**
+- Combines benefits of vector and list
+- Efficient insertion and deletion at both front and back
+- Provides random access like vector but with more complex memory structure
+- Better than vector when you need frequent front insertions
+- Internally uses multiple memory blocks for flexibility
+
+### Example 11
+**Bitset**
 - Fixed-size sequence of bits with efficient space usage
 - Each bit can be individually set, cleared, or tested
 - Provides bitwise operations and easy conversion to strings
 - Memory efficient - uses only one bit per boolean value
 - Ideal for flags, boolean arrays, and bit manipulation algorithms
 
-12. **Array**
+### Example 12
+**Array**
 - Fixed-size container that wraps traditional C arrays
 - Provides STL container interface with bounds checking options
 - Size is determined at compile time and cannot be changed
 - More efficient than vector for fixed-size data
 - Offers modern C++ features while maintaining array performance
 
-13. **Tuple**
+### Example 13
+**Tuple**
 - Heterogeneous container that can hold different types together
 - Elements accessed by index using \`get()\` function
 - Size and types are fixed at compile time
 - Perfect for returning multiple values from functions
 - Can be unpacked using structured bindings in modern C++
 
-14. **Unordered Set**
+### Example 14
+**Unordered Set**
 - Hash table implementation providing average \`O(1)\` operations
 - No guaranteed order of elements unlike regular set
 - Faster than set for simple membership testing
@@ -3348,99 +2959,124 @@ object-oriented programming in C++
 - Best choice when ordering is not important but speed is critical`,
 
     "File Handling": `
-1. **File Streams Overview**
-- File streams are specialized iostream objects for file operations
-- Three main types: ifstream (input), ofstream (output), and fstream (bidirectional)
-- Automatically handle file opening/closing through constructors/destructors
-- Provide type-safe, formatted I/O operations
-- Support both text and binary file operations
+### Example 1
+**File Streams (ifstream, ofstream, fstream)**
+File handling in C++ is managed through the \`<fstream>\` library, which provides classes to link your program to files on the disk. 
+The primary classes are \`ofstream\` for writing, \`ifstream\` for reading, and \`fstream\` for both.
 
-2. **Opening and Closing Files**
-- Files can be opened in constructor or with explicit \`open()\` call
-- Always check if file opened successfully using \`is_open()\`
-- Multiple opening modes can be combined using bitwise OR
-- Explicit closing ensures data is flushed and resources are freed
-- File streams automatically close in destructor if still open
+File Streams (\`ifstream\`, \`ofstream\`, \`fstream\`): These classes manage the connection between your program and the file.
+- \`ofstream\`: Output file stream, used for writing data to a file.
+- \`ifstream\`: Input file stream, used for reading data from a file.
+- \`fstream\`: File stream, used for both reading and writing.
 
-3. **Reading Text Files**
-- Use \`getline()\` for reading complete lines including spaces
-- Stream extraction operator (\`>>\`) reads formatted data, skips whitespace
-- Always check for end-of-file conditions to avoid infinite loops
-- Text mode handles platform-specific newline conversions automatically
-- Multiple reading methods available for different data formats
+**Code Explanation**
+- \`ofstream outFile("example.txt");\` → Opens (or creates) a file for writing.
+- \`outFile << ...\` → Writes data into the file.
+- \`ifstream inFile("example.txt");\` → Opens the file for reading.
+- \`getline()\` → Reads a line from the file into \`content\`.
+- Always use \`.close()\` to release resources.
 
-4. **Writing Text Files**
-- Stream insertion operator (\`<<\`) provides formatted output
-- Data is automatically converted to text representation
-- Use endl or flush to ensure data is written to disk immediately
-- Append mode allows adding to existing files without overwriting
-- Text files are human-readable and platform-portable
+### Example 2 
+**Opening and Closing Files**: 
+A file stream object is opened by calling its \`open()\` method or by passing the filename directly to the constructor. 
+It's crucial to check if the file opened successfully. The \`is_open()\` method returns \`true\` if the file is successfully opened. 
+Files are automatically closed when the file stream object goes out of scope, but you can also explicitly close them using the \`close()\` method.
 
-5. **Binary File Operations**
-- \`read()\` and \`write()\` methods handle raw byte data
-- No text formatting or newline conversion performed
-- More efficient for structured data and non-text information
-- Requires careful handling of data types and byte ordering
-- Platform-dependent issues may arise with different architectures
+**Code Explanation**
+- \`ios::out\` → Open file for writing.
+- \`ios::in\` → Open file for reading.
+- Other modes include \`ios::app\` (append), \`ios::binary\` (binary mode), \`ios::ate\` (open at end).
 
-6. **File Position Management**
-- \`tellg()\` and \`tellp()\` return current read and write positions
-- \`seekg()\` and \`seekp()\` allow random access to file positions
-- Separate position pointers for input and output operations
-- Three reference points: beginning, current position, and end
-- Essential for implementing random access file operations
 
-7. **Error Handling**
-- Multiple error states: \`good()\`, \`bad()\`, \`fail()\`, and \`eof()\`
-- Always check file opening success before performing operations
-- Stream state flags provide detailed information about errors
-- Exception handling can be enabled for automatic error detection
-- Clear error states when recovering from error conditions
+### Example 3
+**Writing and Reading a text File**
+The example first creates an \`ofstream\` object named \`outFile\` to write to \`example.txt\`. 
+The \`<<\` operator works similarly to \`std::cout\`, writing data to the file. We then create an \`ifstream\` 
+object named \`inFile\` to read from the same file. The \`std::getline\` function is used to read a full 
+line of text, including spaces, into the \`line\` string until the end of the file is reached. Both streams are closed using \`.close()\` after their operations are complete.
 
-8. **Advanced File Operations**
-- \`flush()\` forces immediate writing of buffered data to disk
-- Buffer management affects performance and data persistence
-- Synchronization with C streams can be controlled
-- Character-level operations provide fine-grained control
-- Position manipulation enables sophisticated file processing`, 
+### Example 4 
+Binary file operations deal with raw data, byte by byte. This is crucial for storing things like images, executable files, or structured data without text formatting.
+
+**Code Explanation**
+When working with binary files, we must open the stream in binary mode using \`std::ios::binary\`. To write, we use the \`.write()\` method, which takes a pointer to the data 
+and the number of bytes to write. The \`reinterpret_cast<char*>\` is necessary to convert the \`Point\` object's address to a generic byte pointer. Similarly, to read, we use the \`.read()\` 
+method with the address of a \`Point\` object.
+
+### Example 5 
+**File Position Pointers**
+File streams have internal pointers that keep track of the current position for reading (\`g\` for get) and writing (\`p\` for put).
+- \`seekg()\`: Moves the get (reading) pointer to a specific position.
+- \`seekp()\`: Moves the put (writing) pointer to a specific position.
+- \`tellg()\`: Returns the current position of the get pointer.
+- \`tellp()\`: Returns the current position of the put pointer.
+
+**Code Explanation**
+The \`fstream\` is opened in both output and input mode (\`std::ios::out | std::ios::in\`) and truncates any existing content (\`std::ios::trunc\`). 
+We write the alphabet. Then, we use \`seekg(10)\` to move the read pointer to the 10th index to read the character 'K'. 
+Then, \`seekp(10)\` moves the write pointer to the same spot to overwrite it with 'X'. Reading the file again from the beginning (\`seekg(0)\`) shows the change.
+
+### Example 6
+**Error Handling in File Operations**
+Proper error handling is crucial for robust programs. The C++ streams provide several ways to check for errors.
+
+- \`is_open()\`: Checks if the file stream was successfully opened.
+- \`good()\`: Returns true if the stream is in a good state (no errors).
+- \`eof()\`: Returns true if the end of the file has been reached.
+- \`fail()\`: Returns true if an I/O operation failed.
+- \`bad()\`: Returns true if a serious I/O error occurred.
+- \`exceptions()\`: Allows you to configure the stream to throw exceptions on errors.
+
+**Code Explanation**
+The example demonstrates checking for common errors. We attempt to open a file that doesn't exist, 
+which causes \`inFile.fail()\` to return \`true\`. The program then prints an error message and exits. 
+Inside the \`while\` loop for reading, the loop condition itself handles checking the stream's state. 
+After the loop, we can check for \`eof()\` to confirm that we reached the end of the file naturally, or \`fail()\` to see if a different error occurred.
+
+### Example 7
+**Serialization Basics**
+Serialization is the process of converting an object's state into a format that can be stored (e.g., in a file) or transmitted. Deserialization is the reverse process.
+
+**Code Explanation**
+This example shows a manual approach to serialization. The \`serialize\` method of the \`Student\` class writes its data members to a binary file. For the string, we first write 
+its length and then the actual string data to ensure we know how many characters to read back. The \`deserialize\` method performs the reverse process, reading the size of the string first, 
+then resizing the string to the correct size before reading the data. This technique is more reliable than simply writing the object directly, especially for objects containing dynamic data like strings.
+`,
 
    "Exception Handling": `
-1. **try, catch, throw Mechanism**
+### Example 1
+**try, catch, throw Mechanism**
 - try block contains code that might throw exceptions
 - catch blocks handle specific exception types
 - throw statement raises exceptions and transfers control
 - Stack unwinding automatically cleans up local objects
 - Exception handling separates error handling from normal program flow
 
-2. **Standard Exception Hierarchy**
-- \`std::exception\` is the base class for all standard exceptions
-- Derived classes provide specific error categories
-- \`what()\` method returns descriptive error messages
-- Standard exceptions cover common error conditions
-- Consistent interface enables polymorphic exception handling
-
-3. **Custom Exception Classes**
+### Example 2
+**Custom Exception Classes**
 - Inherit from \`std::exception\` or its derived classes
 - Override \`what()\` method to provide meaningful error messages
 - Include relevant context information in exception objects
 - Design lightweight exception classes for performance
 - Enable domain-specific error handling strategies
 
-4. **Exception Safety Guarantees**
+### Example 3
+**Exception Safety Guarantees**
 - Basic guarantee: no resource leaks, objects remain valid
 - Strong guarantee: operation succeeds completely or has no effect
 - No-throw guarantee: operation never throws exceptions
 - RAII (Resource Acquisition Is Initialization) ensures exception safety
 - Design functions with appropriate safety levels for robustness
 
-5. **noexcept Specification**
+### Example 4
+**noexcept Specification**
 - Indicates functions that guarantee not to throw exceptions
 - Enables compiler optimizations and better performance
 - Required for move constructors and destructors
 - Part of function signature in modern C++
 - Helps with template instantiation and overload resolution
 
-6. **Best Practices**
+**Best Practices**
 - Use exceptions for exceptional conditions, not normal control flow
 - Throw by value, catch by const reference to avoid slicing
 - Design exception-safe code from the beginning
@@ -3448,42 +3084,46 @@ object-oriented programming in C++
 - Document exception specifications for library interfaces`,
 
         "Templates": `  
-1. **Function Templates**
+### Example 1
+**Function Templates**
 - Generic functions that work with multiple types
 - Template parameters are deduced from function arguments
 - Compiler generates separate instances for each type used
 - Enable code reuse without sacrificing type safety
 - Template argument deduction reduces the need for explicit specification
 
-2. **Class Templates**
+### Example 2
+**Class Templates**
 - Generic classes parameterized by types or values
 - Template arguments must be explicitly specified when instantiating
 - Member functions are instantiated only when called
 - Enable creation of type-safe generic containers and algorithms
 - Template parameters can have default arguments
 
-3. **Template Specialization**
+### Example 3
+**Template Specialization**
 - Full specialization provides complete alternative implementation
 - Partial specialization allows specialization for type categories
 - Enables optimization for specific types or type patterns
 - Specializations are selected automatically by compiler
 - Essential for handling special cases in generic code
 
-4. **Variadic Templates**
+### Example 4
+**Variadic Templates**
 - Accept variable number of template arguments
 - Parameter packs represent zero or more arguments
 - Recursive processing is common pattern for parameter pack expansion
 - Enable implementation of flexible generic functions
 - Foundation for modern C++ features like std::tuple and std::function
 
-5. **Template Metaprogramming**
+**Template Metaprogramming**
 - Computation performed at compile time using templates
 - Type traits provide information about types at compile time
 - SFINAE (Substitution Failure Is Not An Error) enables conditional compilation
 - Template metaprogramming can generate optimized code
 - Advanced technique requiring careful design and testing
 
-6. **STL Template Design**
+**STL Template Design**
 - Separation of algorithms from data structures through iterators
 - Generic programming principles maximize code reuse
 - Template specialization handles special cases efficiently
@@ -3492,56 +3132,56 @@ object-oriented programming in C++
 
 
         "Modern C++ Features": `  
-1. **auto Type Deduction**
+### Example 1
+**auto Type Deduction**
 - Compiler automatically deduces variable types from initializers
 - Reduces verbosity especially with complex template types
 - Improves maintainability when types change
 - Must be initialized when declared
 - Works with functions, lambdas, and range-based for loops
 
-2. **Range-based for Loops**
+### Example 2
+**Range-based for Loops**
 - Simplified syntax for iterating over containers
 - Automatically calls \`begin()\` and \`end()\` on containers
 - Supports const auto& for read-only access
 - Works with arrays, containers, and initializer lists
 - Eliminates iterator management and reduces errors
 
-3. **nullptr**
-- Type-safe null pointer literal replacing NULL
-- Has distinct type \`std::nullptr_t\`
-- Cannot be converted to integer types
-- Resolves function overload ambiguities
-- Standard practice in modern C++ code
-
-4. **Lambda Expressions**
+### Example 3
+**Lambda Expressions**
 - Anonymous function objects defined inline
 - Capture variables from enclosing scope by value or reference
 - Perfect for STL algorithms and callback functions
 - Can be mutable to modify captured values
 - Enable functional programming patterns in C++
 
-5. **Move Semantics**
-- Rvalue references (\`&&\`) enable efficient resource transfer
-- Move constructors and assignment operators transfer ownership
-- Eliminates unnecessary copying of expensive objects
-- Automatic move semantics for temporary objects
-- Fundamental for efficient modern C++ code
-
-6. **Smart Pointers**
+### Example 4
+**Smart Pointers**
 - Automatic memory management through RAII
 - \`unique_ptr\` provides exclusive ownership with zero overhead
 - \`shared_ptr\` enables shared ownership with reference counting
 - \`weak_ptr\` breaks circular references in shared_ptr chains
 - Eliminate manual memory management and prevent leaks
 
-7. **constexpr**
+
+### Example 5
+**Move Semantics**
+- Rvalue references (\`&&\`) enable efficient resource transfer
+- Move constructors and assignment operators transfer ownership
+- Eliminates unnecessary copying of expensive objects
+- Automatic move semantics for temporary objects
+- Fundamental for efficient modern C++ code
+
+### Example 6
+**constexpr**
 - Enables compile-time evaluation of expressions and functions
 - Values computed at compile time improve runtime performance
 - Functions can be called at both compile time and runtime
 - Essential for template metaprogramming and constant expressions
 - Enables more powerful generic programming techniques
 
-8. **Structured Bindings**
+**Structured Bindings**
 - Unpacks multiple values from functions or objects into named variables
 - Works with tuples, pairs, arrays, and custom types
 - Improves readability for functions returning multiple values
@@ -3549,56 +3189,55 @@ object-oriented programming in C++
 - Makes working with structured data more convenient,`,
 
         "Multithreading": `
-1. **Thread Creation and Management**
+### Example 1
+**Thread Creation and Management**
 - \`std::thread\` represents individual threads of execution
 - Threads execute concurrently with main program
 - Must be joined or detached before thread object destruction
 - Thread functions can accept arguments passed during construction
 - Provides unique thread identification for debugging
 
-2. **Mutex and Synchronization**
+### Example 2
+**Mutex and Synchronization**
 - \`std::mutex\` provides mutual exclusion for shared resources
 - lock_guard provides RAII-based automatic lock management
 - Prevents data races and ensures thread-safe access
 - Different mutex types available for specific use cases
 - Essential for protecting shared data in multithreaded programs
 
-3. **Condition Variables**
+### Example 3
+**Condition Variables**
 - Enable threads to wait for specific conditions
 - Coordinate between producer and consumer threads
 - Must be used with unique_lock for flexibility
 - \`notify_one()\` and \`notify_all()\` wake waiting threads
 - Prevent busy waiting and improve efficienc
 
-4. **Atomic Operations**
-- Lock-free operations on primitive types
-- Guaranteed to be indivisible across threads
-- Memory ordering options control synchronization behavior
-- Compare-and-swap operations enable lock-free algorithms
-- Higher performance than mutex-based synchronization for simple operations
-
-5. **Future and Promise**
+### Example 4
+**Future and Promise**
 - Type-safe communication channel between threads
 - future represents value that will be available later
 - promise provides the value to corresponding future
 - Exception propagation across thread boundaries
 - One-time communication mechanism
 
-6. **Async Tasks**
-- High-level interface for asynchronous execution
-- std::async automatically manages thread creation
-- Returns future for accessing results
-- Launch policies control execution timing
-- Simplifies concurrent programming
+### Example 5
+**Atomic Operations**
+- Lock-free operations on primitive types
+- Guaranteed to be indivisible across threads
+- Memory ordering options control synchronization behavior
+- Compare-and-swap operations enable lock-free algorithms
+- Higher performance than mutex-based synchronization for simple operations
 
-7. **Thread Pools**
+### Example 6
+**Thread Pools**
 - Reuse worker threads for multiple tasks
 - Reduces thread creation and destruction overhead
 - Task queue distributes work among available threads
 - Controlled concurrency level prevents resource exhaustion
 - Essential pattern for server applications
 
-8. **Deadlock Prevention**
+**Deadlock Prevention**
 - Lock ordering prevents circular wait conditions
 - Timeout-based locking allows deadlock recovery
 - \`std::lock()\` acquires multiple locks atomically
@@ -4137,7 +3776,8 @@ const  getCppQuiz = (lessonTitle) => {
 
      };
    
-    return quizzes[lessonTitle] || "This code example demonstrates the main concepts of this lesson. Read the comments in the code for details.";
+  // Ensure we always return an array of quiz question objects; never a string fallback
+  return Array.isArray(quizzes[lessonTitle]) ? quizzes[lessonTitle] : [];
 };
 
 

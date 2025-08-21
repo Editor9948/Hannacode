@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { safeCopy } from '../../lib/utils';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
 import { Badge } from '../../components/ui/badge';
@@ -60,8 +61,9 @@ export default function Certificates() {
         url: certificateUrl,
       });
     } else {
-      navigator.clipboard.writeText(certificateUrl);
-      alert('Certificate link copied to clipboard!');
+      safeCopy(certificateUrl).then(ok=>{
+        alert(ok ? 'Certificate link copied to clipboard!' : 'Copy failed');
+      });
     }
   };
 

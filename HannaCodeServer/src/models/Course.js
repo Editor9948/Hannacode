@@ -32,7 +32,7 @@ const CourseSchema = new mongoose.Schema(
     language: {
       type: String,
       required: [true, "Please add a programming language"],
-      enum: ["javascript", "python", "java", "csharp", "css", "html", "ruby", "go", "rust", "php", "cpp","other"],
+      enum: ["javascript", "python", "java", "csharp", "css", "html", "ruby", "go", "rust", "php", "cpp","dart","other"],
     },
     category: {
       type: String,

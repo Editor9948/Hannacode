@@ -248,7 +248,7 @@ const getCSSLessonConcepts = (lessonTitle) => {
 const getCSSCodeExample = (lessonTitle) => {
   const examples = {
     "Introduction to CSS": `
-    //Example 1
+// Example 1: What is CSS and why is it used
     <!-- Without CSS - Plain HTML -->
 <h1>Welcome to My Website</h1>
 <p>This is a paragraph with no styling.</p>
@@ -270,7 +270,7 @@ p {
 }
 </style>
 
-//Ways to include CSS (Inline) Example 2
+// Example 2: Ways to include CSS (Inline) 
 <h1 style="color: red; font-size: 24px; text-decoration: underline;">
     This heading uses inline CSS
 </h1>
@@ -391,7 +391,7 @@ a:hover {
     text-decoration: underline;
 }
 
-//Example 4:The Cascade and Specificity Basics
+// Example 4: The Cascade and Specificity Basics
 <!DOCTYPE html>
 <html>
 <head>
@@ -458,20 +458,20 @@ a:hover {
 </html>
 
 
-//Best Practices for Managing Cascade:
-/* 1. Use classes over IDs for styling */
+// Example 5: Best Practices for Managing Cascade:
+/*  Use classes over IDs for styling */
 .primary-button {
     background-color: #3498db;
     color: white;
     padding: 10px 20px;
 }
 
-/* 2. Avoid !important unless absolutely necessary */
+/* Avoid !important unless absolutely necessary */
 .emergency-only {
     color: red !important; /* Use sparingly */
 }
 
-/* 3. Organize CSS by specificity (low to high) */
+/* Organize CSS by specificity (low to high) */
 /* Base styles */
 button { font-family: inherit; }
 
@@ -484,24 +484,25 @@ button { font-family: inherit; }
 /* State styles */
 .btn:hover { opacity: 0.8; }`,
 
-    "CSS Fundamentals and Selectors": `/* Basic Selectors */
+    "CSS Fundamentals and Selectors": `
+// Example 1: Basic Selectors 
 .element { /* Type selector */ }
 .class-name { /* Class selector */ }
 #id-name { /* ID selector */ }
 
-/* Attribute Selectors */
+// Example 2: Attribute Selectors 
 [type="text"] { /* Exact match */ }
 [class*="btn"] { /* Contains */ }
 [href^="https"] { /* Starts with */ }
 [src$=".jpg"] { /* Ends with */ }
 
-/* Combinators */
+// Example 3: Combinators 
 .parent > .child { /* Direct child */ }
 .ancestor .descendant { /* Descendant */ }
 .element + .sibling { /* Adjacent sibling */ }
 .element ~ .sibling { /* General sibling */ }
 
-/* Pseudo-classes */
+// Example 4: Pseudo-classes 
 .button:hover { /* Hover state */ }
 .input:focus { /* Focus state */ }
 .list-item:first-child { /* First child */ }
@@ -531,7 +532,8 @@ nav > ul > li:first-child > a {
   color: #d35400;
 }`,
 
-    "CSS Box Model and Layout": `/* Box Model */
+    "CSS Box Model and Layout": `
+// Example 1: Box Model 
 .box {
     margin: 20px;
     border: 2px solid #333;
@@ -541,7 +543,7 @@ nav > ul > li:first-child > a {
     box-sizing: border-box;
 }
 
-/* Margin Collapse */
+/*] Margin Collapse */
 .parent {
     margin-bottom: 20px;
 }
@@ -3042,7 +3044,8 @@ input:focus-visible {
 const getCSSCodeExplanation = (lessonTitle) => {
   const explanations = {
        "Introduction to CSS": `
-1. **What is CSS and why is it used**
+### Example 1 
+**What is CSS and why is it used**
 CSS (Cascading Style Sheets) is a styling language used to control the layout 
 and appearance of web pages written in HTML or XML. It is used to separate the 
 presentation of a document from its structure, making it easier to maintain and 
@@ -3055,15 +3058,17 @@ update the layout and design of a website.
 - Reduces code duplication and improves maintainability
 - Provides better user experience through visual hierarchy
 
-2. **Ways to Include CSS (Inline, Internal, External)**
-**Code Explanation for Example 3**
+### Example 2
+**Ways to Include CSS (Inline, Internal, External)**
+**Code Explanation**
 CSS can be applied to HTML documents in three different ways, each with 
 specific use cases and priority levels:
 - **Inline CSS**: Applied directly to HTML elements using the \`style\` attribute
 - **Internal CSS**: Defined within \`<style>\` tags in the HTML document's \`<head>\` section
 - **External CSS**: Written in separate \`.css\` files and linked to HTML documents
-       
-3. **CSS Syntax and Rules**
+
+### Example 3
+**CSS Syntax and Rules**
 **Code Explanation**
 CSS follows a specific syntax structure consisting of selectors, properties, 
 and values. Understanding this syntax is fundamental to writing effective CSS.
@@ -3074,7 +3079,7 @@ and values. Understanding this syntax is fundamental to writing effective CSS.
 - **Property**: The style attribute you want to change
 - **Value**: The setting for the property
 
-4. **How Browsers Apply CSS to HTML**
+**How Browsers Apply CSS to HTML**
 When a browser loads an HTML document, it reads the CSS styles and applies 
 them to the corresponding elements on the page.
 
@@ -3086,7 +3091,8 @@ Browsers follow a systematic process to apply CSS styling to HTML elements:
 - **Paint**: Browser renders the visual elements on screen
 The browser applies styles in order of specificity and source order.
 
-5. **The Cascade and Specificity Basics**
+### Example 4
+**The Cascade and Specificity Basics**
 **Code Explanation**
 The "cascade" in CSS refers to how conflicting styles are resolved. 
 When multiple CSS rules target the same element, the browser uses specificity, 
@@ -3102,25 +3108,28 @@ Specificity Hierarchy (from lowest to highest):
 
 
     "CSS Fundamentals and Selectors": `
+### Example 1 
 **Code Explanation:**
 This example demonstrates the core ways to select and style HTML elements using CSS:
-
-1. **Type, Class, and ID Selectors:**  
+**Type, Class, and ID Selectors:**  
 - \`h1\` targets all <h1> elements.  
 - \`.button\` targets elements with class \`button\`.  
 - \`#main-header\` targets the element with id \`main-header\`.  
 These are the most common selectors for applying styles to specific elements.
 
-2. **Attribute Selectors:**  
+### Example 2 
+**Attribute Selectors:**  
 - \`input[type="email"]\` targets input fields of type email.  
 Attribute selectors allow you to style elements based on their attributes.
 
-3. **Combinators:**  
+### Example 3
+**Combinators:**  
 - \`nav > ul li a\` targets anchor tags inside list items that are direct children of a \`nav\` \`ul\`.  
 - \`.card .title\` targets elements with class \`title\` inside elements with class \`card\`.  
 Combinators let you target elements based on their relationship in the DOM.
 
-4. **Pseudo-classes and Pseudo-elements:**  
+### Example 4
+**Pseudo-classes and Pseudo-elements:**  
 - \`a:hover\` styles links when hovered.  
 - \`input:focus\` styles inputs when focused.  
 - \`p::first-line\` styles only the first line of a paragraph.  
@@ -3130,18 +3139,18 @@ These selectors enable interactive and fine-grained styling.
 Selectors are the foundation of CSS. Mastering them allows you to target and style any element, create interactive effects, and write maintainable stylesheets.
 `,
     "CSS Box Model and Layout": `
+### Example 1
 **Code Explanation:**
 This example illustrates how the CSS box model works and how it affects layout:
-
-1. **Box Model Properties:**  
+**Box Model Properties:**  
 - \`width\`, \`padding\`, \`border\`, and \`margin\` define the size and spacing of the element.  
 - \`box-sizing: border-box\` ensures that padding and border are included in the element’s total width and height,
     making layouts more predictable.
 
-2. **Block vs Inline:**  
+**Block vs Inline:**  
 - \`div\` is block-level (takes full width), \`span\` is inline (flows with text).
 
-3. **Margin Collapse:**  
+**Margin Collapse:**  
 - When a parent and child both have vertical margins, they may collapse into a single margin, affecting spacing.
 
 **Why This Matters:**  

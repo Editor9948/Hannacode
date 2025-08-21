@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import { safeCopy } from '../lib/utils'
 import { useNavigate } from "react-router-dom"
 import { Button } from "../components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../components/ui/card"
@@ -105,26 +106,16 @@ export default function BlogPage() {
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    
     setIsSearching(true);
-    
     const searchParams = {
       query: searchQuery.trim(),
-      source: selectedSource && selectedSource !== "all" ? selectedSource : undefined,
-      category: selectedCategory && selectedCategory !== "all" ? selectedCategory : undefined,
-      readingTime: selectedReadingTime && selectedReadingTime !== "all" ? selectedReadingTime : undefined,
-      sortBy: sortBy || 'date',
-      limit: 50
+      source: selectedSource && selectedSource !== 'all' ? selectedSource : undefined,
+      category: selectedCategory && selectedCategory !== 'all' ? selectedCategory : undefined,
     };
-    
-    // Remove empty params
-    Object.keys(searchParams).forEach(key => 
-      searchParams[key] === undefined && delete searchParams[key]
-    );
-    
+    Object.keys(searchParams).forEach(k => searchParams[k] === undefined && delete searchParams[k]);
     const results = await searchArticles(searchParams);
     setSearchResults(results);
-    setActiveTab("search");
+    setActiveTab('search');
     setIsSearching(false);
   };
 
@@ -140,6 +131,11 @@ export default function BlogPage() {
     setActiveTab("source");
     const articles = await getArticlesBySource(source);
     setSourceArticles(articles);
+  };
+
+  const copyArticleLink = async (article) => {
+    const ok = await safeCopy(article.url);
+    showToast(ok ? 'Article link copied to clipboard!' : 'Copy failed. Select and copy manually.', ok ? 'success' : 'error');
   };
 
   const clearFilters = () => {
@@ -163,15 +159,7 @@ export default function BlogPage() {
     window.open(url, '_blank', 'width=600,height=400');
   };
 
-  const copyArticleLink = async (article) => {
-    try {
-      await navigator.clipboard.writeText(article.url);
-      showToast('Article link copied to clipboard!', 'success');
-    } catch (err) {
-      console.error('Failed to copy link:', err);
-      showToast('Failed to copy link. Please try again.', 'error');
-    }
-  };
+  // (legacy duplicate copyArticleLink removed)
 
   // Export functions
   const exportToMarkdown = (articles) => {

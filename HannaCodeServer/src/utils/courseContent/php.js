@@ -28,7 +28,7 @@ const getPHPLessonConcepts = (lessonTitle) => {
 - Logical operators
 - Increment/Decrement operators`,
 
-    "PHP Control Structures": `
+   "PHP Control Structures": `
 - if, else, elseif statements
 - switch statements
 - while, do-while loops
@@ -44,7 +44,7 @@ const getPHPLessonConcepts = (lessonTitle) => {
 
     "PHP Arrays": `
 - Indexed arrays
-- Associative arrays
+- Associative arrays 
 - Multidimensional arrays
 - Array functions
 - Array iteration`,
@@ -258,166 +258,961 @@ const getPHPLessonConcepts = (lessonTitle) => {
 const getPHPCodeExample = (lessonTitle) => {
   const examples = {
     "Introduction to PHP": `
-    <?php
-    echo \"Hello, World!\";
-    ?>`,
+// Example 1: What is PHP and its Role in Web Development
     
-    "PHP Syntax and Variables": `
+// Example 2: Basic PHP Syntax and Structure
+   <!DOCTYPE html>
+<html>
+<head>
+ <title>My First PHP Page</title>
+</head>
+<body>
+ <h1>Welcome to my website!</h1>
+ <?php
+ // This is a single-line comment in PHP
+ /*
+ * This is a multi-line comment
+ * in PHP
+ */
+ echo "<p>Hello from PHP!</p>";
+ ?>
+ <p>This is regular HTML content.</p>
+</body>
+</html>
+
+// Example 3: Writing Your First PHP Script
+ <?php
+    echo "This is my first PHP script!";
+    echo "<br>"; // An HTML line break
+    echo "It's running on a web server.";
+?>
+ 
+// Example 4: PHP Tags and Output Statements
+  <?php
+$username = "Dave";
+?>
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>
+    Welcome, <?= $username ?>!
+</p>
+
+<?php
+    echo "Using echo, I can output multiple strings:", " ", "like this.";
+    print "<br>";
+    print "Using print, I can only output one string.";
+?>
+
+</body>
+</html>`,
+    
+    "PHP Syntax and Variables": ` 
+// Example 1: PHP Syntax Rules and Conventions
+  <!DOCTYPE html>
+<html>
+<body>
+
+<h1>My First PHP Page</h1>
+
+<?php
+// A variable to store a string
+$message = "Hello, World!"; 
+
+// Echoing the variable to the HTML output
+echo $message;
+?>
+
+<p>This is standard HTML.</p>
+
+</body>
+</html>
+
+// Example 2: Variable Declaration and Naming
     <?php
-    $greeting = \"Hello\";\
-    $number = 42;
-    const PI = 3.14;
-    echo $greeting . \" World\";
-    ?>`,
+  // Valid variable names
+$name = "John Doe";
+$_age = 30;
+$user_id = 12345;
+$firstName = "Jane";
+
+  // Invalid variable names (would cause an error)
+  // $123 = "Test";
+  // $my-variable = "Invalid";
+
+echo "Name: " . $name . "<br>";
+echo "Age: " . $_age;
+?>
+
+// Example 3: Data Type Basics
+    <?php
+$stringVar = "Hello!"; // String
+$intVar = 100;         // Integer
+$floatVar = 10.5;      // Float
+$boolVar = true;       // Boolean
+
+echo gettype($stringVar) . "<br>";
+echo gettype($intVar) . "<br>";
+echo gettype($floatVar) . "<br>";
+echo gettype($boolVar) . "<br>";
+
+$arrayVar = array("apple", "banana");
+var_dump($arrayVar);
+?>
+
+// Example 4: Variable Scope
+<?php
+$globalVar = "I am a global variable."; // Global scope
+
+function testScope() {
+    $localVar = "I am a local variable."; // Local scope
+    echo $localVar . "<br>";
+
+    // Trying to access globalVar without 'global' keyword will fail
+    // echo $globalVar; 
+    
+    global $globalVar;
+    echo $globalVar . "<br>";
+}
+
+testScope();
+
+function staticCounter() {
+    static $count = 0; // Static variable
+    $count++;
+    echo $count . "<br>";
+}
+
+staticCounter(); // Outputs 1
+staticCounter(); // Outputs 2
+?> 
+
+// Example 5: Constants and Magic Constants
+   <?php
+  // Declaring a constant
+define("PI", 3.14159);
+define("GREETING", "Welcome to my website!");
+
+echo PI . "<br>";
+echo GREETING . "<br>";
+
+  // Trying to reassign a constant will cause an error
+  // PI = 3.0; // This is not allowed
+
+echo "This line is " . _ _LINE_ _ . " of the script.<br>";
+echo "The full path of this file is " . _ _FILE_ _ . "<br>";
+echo "The current function name is " . _ _FUNCTION_ _ . ".";
+?>`,
 
     "PHP Data Types": `
+// Example 1: Scalar Types
     <?php
-    $string = \"Hello\";
-    $int = 42;
-    $float = 3.14;
-    $bool = true;
-    ?>`,
+$name = "Alice";      // String
+$age = 25;            // Integer
+$price = 19.99;       // Float
+$is_active = true;    // Boolean
 
-    "PHP Operators": `
-    <?php
-    $a = 5;
-    $b = 3;
-    echo $a + $b; // output is 8 
-    echo $a - $b; // output is 2
-    echo $a * $b; // output is 15
-    echo $a / $b; // output is  1.6666666666667
-    ?>`,
+echo "Name: " . $name . "<br>";
+echo "Age: " . $age . "<br>";
+echo "Price: " . $price . "<br>";
+echo "Is active: " . ($is_active ? 'Yes' : 'No') . "<br>";
 
-    "PHP Control Structures": `
-    <?php
-    $age = 20;
-    if ($age >= 18) {
-    echo \"Adult\";
-    } else {
-        echo \"Minor\";
-      }
-        ?>`,
-
-    "PHP Functions": `
-    <?php
-    function greet($name) {
-     return \"Hello, \" . $name;
-     }
-     echo greet(\"John\");
-     ?>`,
-
-    "PHP Arrays": `
-    <?php
-    $fruits = [\"Apple\", \"Banana\", \"Cherry\"];\nforeach ($fruits as $fruit) {
-       echo $fruit . \"\\n\";
-       }
-       ?>
-
-       Another Examples 
-       <?php
-// Indexed array
-$fruits = ["Apple", "Banana", "Cherry"];
-
-// Associative array
-$person = [
-    "name" => "John",
+echo gettype($name) . "<br>";
+echo gettype($age) . "<br>";
+echo gettype($price) . "<br>";
+echo gettype($is_active) . "<br>";
+?>
+    
+// Example 2: Compound Types
+   <?php
+  // An associative array
+$person = array(
+    "name" => "Bob",
     "age" => 30,
     "city" => "New York"
-];
+);
 
-// Multidimensional array
-$students = [
-    ["name" => "Alice", "grade" => 85],
-    ["name" => "Bob", "grade" => 92],
-    ["name" => "Charlie", "grade" => 78]
-];
+echo "Name: " . $person["name"] . "<br>";
+echo "Age: " . $person["age"] . "<br>";
+echo "City: " . $person["city"] . "<br>";
 
-// Loop through associative array
-foreach ($person as $key => $value) {
-    echo "$key: $value<br>";
+  // An object
+class Car {
+    public $brand;
+    public $model;
+
+    public function __construct($brand, $model) {
+        $this->brand = $brand;
+        $this->model = $model;
+    }
 }
-    / Array functions demonstration
-$numbers = [3, 1, 4, 1, 5, 9, 2, 6];
 
-// Sorting
-sort($numbers);
-echo "Sorted: " . implode(", ", $numbers) . "<br>";
+$myCar = new Car("Toyota", "Camry");
+echo "Car: " . $myCar->brand . " " . $myCar->model . "<br>";
 
-// Array filtering
-$evenNumbers = array_filter($numbers, function($n) { return $n % 2 == 0; });
-echo "Even numbers: " . implode(", ", $evenNumbers) . "<br>";
+var_dump($person);
+var_dump($myCar);
+?>
+    
+// Example 3: Special Types 
+  <?php
+$x = "Hello";
+unset($x); // Unsets the variable, making it NULL
+var_dump($x);
 
-// Array mapping
-$doubled = array_map(function($n) { return $n * 2; }, $numbers);
-echo "Doubled: " . implode(", ", $doubled) . "<br>";
+$file = fopen("test.txt", "w");
+echo "The file handle is a: " . gettype($file) . "<br>";
+fclose($file);
 
-// Array reduction
-$sum = array_reduce($numbers, function($carry, $item) { return $carry + $item; });
-echo "Sum: " . $sum;
+$y = null;
+var_dump($y);
+?>
+
+
+// Example 4: Type Juggling and Type Casting
+    <?php
+  // Type Juggling
+$sum = 10 + "20";
+echo "10 + '20' = " . $sum . ", Type: " . gettype($sum) . "<br>"; // Output: 30, integer
+
+  // Type Casting
+$str_num = "50.5";
+$int_num = (int)$str_num;
+$float_num = (float)$str_num;
+
+echo "Original string: " . $str_num . ", Type: " . gettype($str_num) . "<br>";
+echo "Casted to integer: " . $int_num . ", Type: " . gettype($int_num) . "<br>";
+echo "Casted to float: " . $float_num . ", Type: " . gettype($float_num) . "<br>";
+?>
+
+// Example 5: Type Checking Functions
+   <?php
+$val = "PHP";
+
+if (is_string($val)) {
+    echo "$val is a string.<br>";
+} else {
+    echo "$val is not a string.<br>";
+}
+
+$num = 100;
+if (is_int($num)) {
+    echo "$num is an integer.<br>";
+}
+
+$array_data = [1, 2, 3];
+if (is_array($array_data)) {
+    echo "The variable is an array.<br>";
+}
+?>`,
+
+    "PHP Operators": `
+// Example 1: Arithmetic Operators  
+    <?php
+$a = 15;
+$b = 4;
+
+echo "Addition: " . ($a + $b) . "\n";      // 19
+echo "Subtraction: " . ($a - $b) . "\n";   // 11
+echo "Multiplication: " . ($a * $b) . "\n";// 60
+echo "Division: " . ($a / $b) . "\n";      // 3.75
+echo "Modulus: " . ($a % $b) . "\n";       // 3 (remainder)
+echo "Exponentiation: " . ($a ** $b) . "\n"; // 15^4 = 50625
+?>
+
+// Example 2: Assignment Operators
+    <?php
+$x = 10;
+echo "Initial x = $x\n";
+
+$x += 5;  // $x = $x + 5
+echo "After += : $x\n";
+
+$x -= 3;  // $x = $x - 3
+echo "After -= : $x\n";
+
+$x *= 2;  // $x = $x * 2
+echo "After *= : $x\n";
+
+$x /= 4;  // $x = $x / 4
+echo "After /= : $x\n";
+
+$x %= 3;  // $x = $x % 3
+echo "After %= : $x\n";
+?>
+ 
+// Example 3: Comparison Operators
+    <?php
+$a = 10;
+$b = "10";
+
+var_dump($a == $b);   // true (values equal, type not checked)
+var_dump($a === $b);  // false (type checked: int vs string)
+var_dump($a != $b);   // false (they are equal)
+var_dump($a !== $b);  // true (different type)
+var_dump($a > 5);     // true
+var_dump($a < 5);     // false
+var_dump($a >= 10);   // true
+var_dump($a <= 9);    // false
+?>
+
+// Example 4: Logical Operators
+<?php
+$x = true;
+$y = false;
+
+var_dump($x && $y); // false (AND)
+var_dump($x || $y); // true  (OR)
+var_dump(!$x);      // false (NOT)
+var_dump($x xor $y); // true (XOR: true if only one is true)
+?>
+
+// Example 5: Increment/Decrement Operators
+   <?php
+$num = 5;
+
+echo "Initial: $num\n";
+
+echo "Post-increment: " . $num++ . "\n"; // prints 5, then num = 6
+echo "After post-increment: $num\n";
+
+echo "Pre-increment: " . ++$num . "\n"; // increments first, then prints 7
+
+echo "Post-decrement: " . $num-- . "\n"; // prints 7, then num = 6
+echo "After post-decrement: $num\n";
+
+echo "Pre-decrement: " . --$num . "\n"; // decrements first, then prints 5
+?>`,
+
+    "PHP Control Structures": `
+// Example 1: if, else, elseif statements
+<?php
+$score = 78;          // try values like 101, -5, "80", 49
+$isMakeUp = false;    // did the student take a make-up test?
+
+if (!is_numeric($score)) {
+    echo "Invalid input: score must be a number.\n";
+} elseif ($score < 0 || $score > 100) {
+    echo "Score out of range. Please enter 0–100.\n";
+} elseif ($score >= 70) {
+    // Distinction path with a small rule tweak
+    if ($isMakeUp && $score == 70) {
+        echo "Grade: B (capped due to make-up policy)\n";
+    } else {
+        echo "Grade: A\n";
+    }
+} elseif ($score >= 60) {
+    echo "Grade: B\n";
+} elseif ($score >= 50) {
+    echo "Grade: C\n";
+} elseif ($score >= 45) {
+    echo "Grade: D\n";
+} else {
+    echo "Grade: F — remediation required.\n";
+}
+
+// Example 2: switch statements
+  <?php
+$day = 3; // try 1..7, "3", 0, or "sun"
+
+switch ($day) {
+    case 1:
+        echo "Monday\n";
+        break;
+    case 2:
+        echo "Tuesday\n";
+        break;
+    case 3:
+        echo "Wednesday\n";
+        break;
+    case 4:
+        echo "Thursday\n";
+        break;
+    case 5:
+        echo "Friday\n";
+        break;
+    case 6:
+    case 7:
+        // fall-through groups weekends together
+        echo "Weekend\n";
+        break;
+    default:
+        echo "Unknown day\n";
+}
+
+// Example 3: while and do…while loops
+    <?php
+// WHILE: pre-check loop (may run zero times)
+$i = 1;
+$sum = 0;
+while ($i <= 5) {
+    $sum += $i;  // accumulate
+    $i++;        // update to avoid infinite loop
+}
+echo "Sum of 1..5 (while): $sum\n";
+
+// DO-WHILE: post-check loop (runs at least once)
+$attempts = 0;
+$maxAttempts = 3;
+$connected = false;
+
+do {
+    $attempts++;
+    // Simulate a flaky connection that succeeds on the 2nd attempt
+    $connected = ($attempts === 2);
+    echo "Attempt $attempts: " . ($connected ? "Connected\n" : "Failed\n");
+} while (!$connected && $attempts < $maxAttempts);
+
+echo $connected ? "Proceed with download.\n" : "Could not connect after $attempts attempts.\n";
+
+// Example 4: for and foreach loops
+  <?php
+  // FOR: classic counter loop (index-based)
+$total = 0;
+for ($i = 1; $i <= 10; $i++) {
+    if ($i % 2 === 0) {
+        $total += $i; // sum even numbers
+    }
+}
+echo "Sum of even numbers 1..10 (for): $total\n";
+
+ // FOREACH: iterate arrays (values and keys)
+$prices = [ "apple" => 300, "banana" => 150, "cherry" => 450 ]; // prices in Naira (₦)
+foreach ($prices as $item => $naira) {
+    echo ucfirst($item) . " costs ₦$naira\n";
+}
+
+ // FOREACH by reference: mutate array values
+$discounts = [1000, 2000, 3000]; // ₦
+foreach ($discounts as &$d) {
+    $d = (int)($d * 0.9); // apply 10% discount
+}
+unset($d); // IMPORTANT: break the reference
+echo "Discounted: " . implode(", ", $discounts) . "\n";
+ 
+// Example 5: break and continue statements
+   <?php
+$nums = [12, -3, 7, 0, 25, -8, 4];
+$positives = [];
+
+foreach ($nums as $n) {
+    if ($n < 0) {
+        continue;        // skip negatives
+    }
+    if ($n === 0) {
+        break;           // stop processing entirely at first zero
+    }
+    $positives[] = $n;   // collect positives until zero
+}
+
+echo "Collected positives (until zero): " . implode(", ", $positives) . "\n";`,
+
+    "PHP Functions": `
+// Example 1: Function declaration and calling
+  <?php
+ function sayHello() {
+ echo "Hello, World!<br>";
+ }
+   // Calling the function
+ sayHello();
+ function greet($name) {
+ echo "Hello, " . $name . "!<br>";
+ }
+   // Calling the function with an argument
+ greet("Alice");
+ greet("Bob");
+?>   
+
+// Example 2: Parameters and return values
+  <?php
+  // Function with parameters
+function addNumbers($a, $b) {
+    return $a + $b; // return result instead of echo
+}
+
+$sum1 = addNumbers(10, 5);
+$sum2 = addNumbers(7, 3);
+
+echo "10 + 5 = $sum1\n";
+echo "7 + 3 = $sum2\n";
+
+  // Function with default parameter
+function greetUser($name = "Guest") {
+    echo "Hello, $name!\n";
+}
+
+greetUser("Alice");  // Hello, Alice!
+greetUser();         // Hello, Guest!
+?>
+
+// Example 3: Variable scope in functions
+<?php
+ $globalMessage = "This is a global message.";
+ function displayMessage() {
+  // echo $globalMessage; // This would cause an error (undefined 
+variable)
+ global $globalMessage; // Accessing the global variable
+ echo $globalMessage . "<br>";
+ $localMessage = "This is a local message.";
+ echo $localMessage . "<br>";
+ }
+ displayMessage();
+  // echo $localMessage; // This would cause an error (undefined variable)
+ echo $globalMessage . "<br>";
+  // Using $GLOBALS superglobal
+ function displayGlobalUsingGlobals() {
+ echo $GLOBALS["globalMessage"] . " (using $GLOBALS)<br>";
+ }
+ displayGlobalUsingGlobals();
+?>
+
+// Example 4: Anonymous functions
+  <?php
+ $greet = function($name) {
+ echo "Hello, " . $name . " from an anonymous function!<br>";
+ };
+ $greet("Charlie");
+   // Anonymous function as a callback
+ $numbers = [1, 2, 3, 4, 5];
+ $squaredNumbers = array_map(function($number) {
+ return $number * $number;
+ }, $numbers);
+ echo "Squared numbers: " . implode(", ", $squaredNumbers) . "<br>";
+   // Anonymous function using 'use' to inherit variables from parent scope
+ $factor = 10;
+ $multiplyByFactor = function($num) use ($factor) {
+ return $num * $factor;
+ };
+ echo "5 multiplied by factor: " . $multiplyByFactor(5) . "<br>";
+?>
+
+// Example 5: Built-in functions
+ <?php
+ // String functions
+ $text = "Hello, PHP World!";
+ echo "Length of text: " . strlen($text) . "<br>";
+ echo "Replaced text: " . str_replace("PHP", "Awesome", $text) . "<br>";
+ echo "Uppercase: " . strtoupper($text) . "<br>";
+ // Array functions
+ $numbers = [10, 20, 30];
+ echo "Number of elements: " . count($numbers) . "<br>";
+ array_push($numbers, 40);
+ echo "Array after push: " . implode(", ", $numbers) . "<br>";
+ echo "Does 20 exist in array? " . (in_array(20, $numbers) ? "Yes" : 
+"No") . "<br>";
+ // Mathematical functions
+ echo "Random number (1-100): " . rand(1, 100) . "<br>";
+ echo "Square root of 64: " . sqrt(64) . "<br>";
+ // Date and Time functions
+ echo "Current date: " . date("Y-m-d H:i:s") . "<br>";
+?>
+`,
+
+    "PHP Arrays": `
+// Example 1: Indexed arrays
+    <?php
+  // Method 1: Assigning values directly (index starts from 0)
+ $fruits[0] = "Apple";
+ $fruits[1] = "Banana";
+ $fruits[2] = "Cherry";
+ echo "Fruit at index 0: " . $fruits[0] . "<br>";
+
+  // Method 2: Using array() constructor
+ $cars = array("Volvo", "BMW", "Toyota");
+ echo "Car at index 1: " . $cars[1] . "<br>";
+
+  // Method 3: Using short array syntax (PHP 5.4+)
+ $animals = ["Dog", "Cat", "Bird"];
+ echo "Animal at index 2: " . $animals[2] . "<br>";
+
+  // Adding elements to an indexed array (automatically assigns next 
+available index)
+ $animals[] = "Fish";
+ echo "New animal: " . $animals[3] . "<br>";
+
+ // Looping through an indexed array
+ echo "<p>All fruits:</p>";
+ for ($i = 0; $i < count($fruits); $i++) {
+ echo $fruits[$i] . "<br>";
+ }
+?>
+
+// Example 2: Associative arrays
+    <?php
+   // Method 1: Using array() constructor with key-value pairs
+ $student = array(
+ "name" => "Alice",
+ "age" => 20,
+ "major" => "Computer Science"
+ );
+ echo "Student Name: " . $student["name"] . "<br>";
+ echo "Student Age: " . $student["age"] . "<br>";
+   // Method 2: Using short array syntax (PHP 5.4+)
+ $person = [
+ "firstName" => "Bob",
+ "lastName" => "Smith",
+ "email" => "bob.smith@example.com"
+ ];
+ echo "Person Email: " . $person["email"] . "<br>";
+    // Adding/modifying elements
+ $person["phone"] = "123-456-7890";
+ echo "Person Phone: " . $person["phone"] . "<br>";
+   // Looping through an associative array
+ echo "<p>Student Details:</p>";
+ foreach ($student as $key => $value) {
+ echo $key . ": " . $value . "<br>";
+ }
+?>
+
+
+// Example 3: Multidimensional arrays
+ <?php
+  // A 2-dimensional array (array of arrays)
+ $studentsGrades = [
+ "John" => [
+ "Math" => 90,
+ "Science" => 85,
+ "English" => 92
+ ],
+ "Jane" => [
+ "Math" => 95,
+ "Science" => 88,
+ "English" => 90
+ ],
+ "Mike" => [
+ "Math" => 78,
+ "Science" => 80,
+ "English" => 82
+ ]
+ ];
+ echo "John's Math grade: " . $studentsGrades["John"]["Math"] . "<br>";
+ echo "Jane's English grade: " . $studentsGrades["Jane"]["English"] . "
+<br>";
+  // Looping through a 2D array
+ echo "<p>All Students' Grades:</p>";
+ foreach ($studentsGrades as $studentName => $subjects) {
+ echo "<h3>" . $studentName . "</h3>";
+ foreach ($subjects as $subjectName => $grade) {
+ echo $subjectName . ": " . $grade . "<br>";
+ }
+ }
+ // A 3-dimensional array (e.g., storing city temperatures for different 
+days)
+ $cityTemperatures = [
+ "New York" => [
+ "Monday" => ["morning" => 15, "afternoon" => 20],
+ "Tuesday" => ["morning" => 12, "afternoon" => 18]
+ ],
+ "London" => [
+ "Monday" => ["morning" => 10, "afternoon" => 14],
+ "Tuesday" => ["morning" => 8, "afternoon" => 12]
+ ]
+ ];
+ echo "New York Monday Afternoon Temperature: " . $cityTemperatures["New 
+York"]["Monday"]["afternoon"] . "°C<br>";
+?>
+
+// Example 4: Array functions
+ <?php
+ $numbers = [4, 2, 8, 1, 5];
+ echo "Original numbers: " . implode(", ", $numbers) . "<br>";
+ sort($numbers);
+ echo "Sorted numbers (asc): " . implode(", ", $numbers) . "<br>";
+ $ages = ["Peter" => 35, "Ben" => 37, "Joe" => 43];
+ asort($ages); // Sort by value
+ echo "Sorted ages (by value): ";
+ foreach ($ages as $name => $age) {
+ echo $name . ": " . $age . " ";
+ }
+ echo "<br>";
+ array_push($numbers, 9, 7);
+ echo "Numbers after push: " . implode(", ", $numbers) . "<br>";
+ $lastElement = array_pop($numbers);
+ echo "Popped element: " . $lastElement . ", Array now: " . implode(", ", 
+$numbers) . "<br>";
+ $moreNumbers = [10, 1, 20];
+ $mergedArray = array_merge($numbers, $moreNumbers);
+ echo "Merged array: " . implode(", ", $mergedArray) . "<br>";
+ echo "Is 8 in merged array? " . (in_array(8, $mergedArray) ? "Yes" : 
+"No") . "<br>";
+ $uniqueArray = array_unique([1, 2, 2, 3, 1, 4]);
+ echo "Unique array: " . implode(", ", $uniqueArray) . "<br>";
+?>
+
+// Example 5: Array iteration (Iterating Indexed Arrays)
+<?php
+ $fruits = ["Apple", "Banana", "Orange"];
+ echo "<p>Iterating Indexed Array with foreach:</p>";
+ foreach ($fruits as $fruit) {
+ echo $fruit . "<br>";
+ }
+ echo "<p>Iterating Indexed Array with for loop (using index):</p>";
+ for ($i = 0; $i < count($fruits); $i++) {
+ echo $fruits[$i] . "<br>";
+ }
+?>
+
+// Example 6: Iterating Associative Arrays
+<?php
+ $student = [
+ "name" => "David",
+ "age" => 21,
+ "course" => "Physics"
+ ];
+ echo "<p>Iterating Associative Array with foreach:</p>";
+ foreach ($student as $key => $value) {
+ echo ucfirst($key) . ": " . $value . "<br>"; // ucfirst() 
+capitalizes the first letter
+ }
 ?> `,
 
     "PHP Strings": `
+// Example 1: String creation 
     <?php
-    $str = \"Hello, World!\";
-    echo strlen($str); // 13
-    echo strtoupper($str); // HELLO, WORLD!
-    ?>
-    
-    Another Examples
-    <?php
-$text = "  Hello, World!  ";
+ $name = "Alice";
+ $singleQuoteString = 'Hello, $name!'; // Output: Hello, $name!
+ $doubleQuoteString = "Hello, $name!"; // Output: Hello, Alice!
+ echo $singleQuoteString . "<br>";
+ echo $doubleQuoteString . "<br>";
+ $multilineString = "This is a
+ multi-line string.";
+ echo nl2br($multilineString) . "<br>"; // nl2br converts newlines to 
+<br> for browser display
+?>
+   
+// Example 2: manipulation
+  <?php
+ $text = " Hello PHP World! ";
+ echo "Original: '" . $text . "'<br>";
+ echo "Length: " . strlen($text) . "<br>";
+ echo "Trimmed: '" . trim($text) . "'<br>"; // Removes whitespace from 
+beginning and end
+ echo "Uppercase: " . strtoupper($text) . "<br>";
+ echo "Lowercase: " . strtolower($text) . "<br>";
+ $substring = substr($text, 5, 3); // Start at index 5, get 3 characters
+ echo "Substring (PHP): '" . $substring . "'<br>";
+ $replacedText = str_replace("PHP", "Awesome", $text);
+ echo "Replaced: '" . $replacedText . "'<br>";
+ $position = strpos($text, "PHP");
+ echo "Position of 'PHP': " . ($position !== false ? $position : "Not 
+found") . "<br>";
+?>
 
-// String trimming
-echo "Original: '" . $text . "'<br>";
-echo "Trimmed: '" . trim($text) . "'<br>";
+// Example 3: Strings Function 
+  <?php
+ $sentence = "PHP is a powerful scripting language.";
+ echo "Original: " . $sentence . "<br>";
+ echo "Word count: " . str_word_count($sentence) . "<br>";
+ echo "Reversed: " . strrev($sentence) . "<br>";
+ $email = " test@example.com ";
+ echo "Trimmed email: '" . trim($email) . "'<br>";
+ $csvData = "apple,banana,cherry";
+ $fruitsArray = explode(",", $csvData);
+ echo "Exploded array: " . implode(" | ", $fruitsArray) . "<br>";
+ $formattedName = "john doe";
+ echo "Formatted Name: " . ucwords($formattedName) . "<br>";
+?>
 
-// String replacement
-$newText = str_replace("World", "PHP", $text);
-echo "Replaced: " . $newText . "<br>";
+// Example 4: String concatenation
+  <?php
+ $firstName = "Alice";
+ $lastName = "Smith";
+ $fullName = $firstName . " " . $lastName; // Concatenating strings with 
+a space
+ echo "Full Name: " . $fullName . "<br>";
+ $greeting = "Hello";
+ $greeting .= " World!"; // Using the concatenation assignment operator 
+(.=)
+ echo $greeting . "<br>";
+ $age = 30;
+ $info = "Name: " . $fullName . ", Age: " . $age . "."; // Concatenating 
+strings and numbers
+ echo $info . "<br>";
+?>
 
-// String splitting
-$words = explode(" ", trim($text));
-echo "Words: " . implode(", ", $words) . "<br>";
+// Example 5: String formatting
+ <?php
+ $name = "Bob";
+ $amount = 123.456;
+ $quantity = 5;
+ $formattedString = sprintf("Hello, %s! Your total is $%.2f for %d 
+items.", $name, $amount, $quantity);
+ echo $formattedString . "<br>";
+ printf("The temperature is %.1f degrees Celsius.<br>", 25.78);
+ $product = "Laptop";
+ $price = 999.99;
+ $stock = 10;
+ printf("Product: %-10s | Price: $%8.2f | Stock: %d<br>", $product, 
+$price, $stock);
+ // %-10s: left-align string in a field of 10 characters
+ // %8.2f: float with 2 decimal places, right-aligned in a field of 8 
+characters
+?>
 
-// String position
-$position = strpos($text, "World");
-echo "Position of 'World': " . $position . "<br>";
-
-// String case functions
-echo "Lowercase: " . strtolower($text) . "<br>";
-echo "Uppercase: " . strtoupper($text) . "<br>";
-echo "Title case: " . ucwords(strtolower($text)) . "<br>";
+// Example 6: Regular expressions
+ <?php
+ $text = "The quick brown fox jumps over the lazy dog.";
+ // Check if string contains "fox"
+ if (preg_match("/fox/", $text)) {
+ echo "'fox' found in the text.<br>";
+ }
+ // Replace all occurrences of "the" (case-insensitive)
+ $newText = preg_replace("/the/i", "a", $text);
+ echo "Replaced text: " . $newText . "<br>";
+ // Extract all numbers from a string
+ $data = "Item1: 123, Item2: 45, Item3: 6789";
+ preg_match_all("/\d+/", $data, $matches);
+ echo "Numbers found: " . implode(", ", $matches[0]) . "<br>";
+ // Validate email format (simple example)
+ $email = "test@example.com";
+ if (preg_match("/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/", 
+$email)) {
+ echo "Valid email format.<br>";
+ } else {
+ echo "Invalid email format.<br>";
+ }
 ?>`,
 
     "PHP Forms and User Input": `
-    <?php
-    if ($_SERVER[\"REQUEST_METHOD\"] == \"POST\") {
-    $name = $_POST[\"name\"];
-    echo \"Hello, \" . $name;
-    }
-    ?>
+// Example 1: Basic HTML Form ( index.html or index.php )
+<!DOCTYPE html>
+<html>
+<head>
+ <title>User Registration</title>
+</head>
+<body>
+ <h2>Register Here</h2>
+ <form action="process.php" method="post">
+ <label for="name">Name:</label><br>
+ <input type="text" id="name" name="username" required><br><br>
+ <label for="email">Email:</label><br>
+ <input type="email" id="email" name="email" required><br><br>
+ <input type="submit" value="Submit">
+ </form>
+</body>
+</html>
    
-   Anoother Examples
-    <?php
-// HTML form example
-echo '<form method="POST" action="">';
-echo '<input type="text" name="username" placeholder="Enter username">';
-echo '<input type="password" name="password" placeholder="Enter password">';
-echo '<input type="submit" value="Login">';
-echo '</form>';
-
-// Process form data
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST["username"];
-    $password = $_POST["password"];
-    echo "Username: " . $username . "<br>";
-    echo "Password: " . $password;
-}
+// Example 2: Form submission methods (process.php (to handle POST data))
+  <?php
+ if ($_SERVER["REQUEST_METHOD"] == "POST") {
+ $username = $_POST["username"];
+ $email = $_POST["email"];
+ echo "<h2>Registration Successful!</h2>";
+ echo "<p>Welcome, " . htmlspecialchars($username) . "!</p>";
+ echo "<p>Your email: " . htmlspecialchars($email) . "</p>";
+ } else {
+ echo "<p>Form not submitted via POST method.</p>";
+ }
 ?>
-    
-    `,
+
+// Example 3: Handling form data
+ Handling form data
+PHP provides superglobal arrays to access form data: $_GET , $_POST , and $_REQUEST .
+• $_GET : An associative array of variables passed to the current script via the URL
+parameters.
+• $_POST : An associative array of variables passed to the current script via the HTTP
+POST method.
+• $_REQUEST : An associative array that by default contains the contents of $_GET ,
+$_POST , and $_COOKIE .
+It's crucial to always check if form fields are set and not empty before using them, typically
+using isset() and empty() .
+
+// Example 4: Input validation
+ <?php
+ $nameErr = $emailErr = $websiteErr = "";
+ $name = $email = $website = "";
+ if ($_SERVER["REQUEST_METHOD"] == "POST") {
+   // Validate Name
+ if (empty($_POST["name"])) {
+ $nameErr = "Name is required";
+ } else {
+ $name = test_input($_POST["name"]);
+   // Check if name contains only letters and whitespace
+ if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
+ $nameErr = "Only letters and white space allowed";
+ }
+ }
+ // Validate Email
+ if (empty($_POST["email"])) {
+ $emailErr = "Email is required";
+ } else {
+ $email = test_input($_POST["email"]);
+   // Check if email address is well-formed
+ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+ $emailErr = "Invalid email format";
+ }
+ }
+ // Validate Website (optional field)
+ if (!empty($_POST["website"])) {
+ $website = test_input($_POST["website"]);
+ // Check if URL address syntax is valid
+ if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?
+=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i", $website)) {
+ $websiteErr = "Invalid URL";
+ }
+ }
+ }
+ function test_input($data) {
+ $data = trim($data);
+ $data = stripslashes($data);
+ $data = htmlspecialchars($data);
+ return $data;
+ }
+?>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+ <title>Form Validation</title>
+ <style>
+ .error {color: #FF0000;}
+ </style>
+</head>
+<body>
+ <h2>PHP Form Validation Example</h2>
+ <p><span class="error">* required field</span></p>
+ <form method="post" action="<?php echo 
+htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+ Name: <input type="text" name="name" value="<?php echo $name;?>">
+ <span class="error">* <?php echo $nameErr;?></span>
+ <br><br>
+ E-mail: <input type="text" name="email" value="<?php echo $email;?>">
+ <span class="error">* <?php echo $emailErr;?></span>
+ <br><br>
+ Website: <input type="text" name="website" value="<?php echo 
+$website;?>">
+ <span class="error"><?php echo $websiteErr;?></span>
+ <br><br>
+ <input type="submit" name="submit" value="Submit">
+ </form>
+ <?php
+ if ($_SERVER["REQUEST_METHOD"] == "POST" && empty($nameErr) && 
+empty($emailErr) && empty($websiteErr)) {
+ echo "<h2>Your Input:</h2>";
+ echo "Name: " . $name . "<br>";
+ echo "Email: " . $email . "<br>";
+ echo "Website: " . $website . "<br>";
+ }
+ ?>
+</body>
+</html>
+
+// Example 5: : Basic XSS Prevention with htmlspecialchars()
+   <?php
+ $userInput = "<script>alert('XSS Attack!');</script><h1>Malicious 
+Title</h1>";
+ // Without htmlspecialchars() - vulnerable to XSS
+ echo "<h2>Unsafe Output:</h2>";
+ echo $userInput;
+ // With htmlspecialchars() - safe output
+ echo "<h2>Safe Output:</h2>";
+ echo htmlspecialchars($userInput);
+?>`,
 
     "PHP Form Validation": `
+// Example 1: Client-side vs server-side validation
     <?php
     $name = \"\";
     $nameErr = \"\";
@@ -429,109 +1224,344 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
       }
         ?>
-        
-      Another Examples 
-       <?php
-$name = "";
-$email = "";
-$nameErr = "";
-$emailErr = "";
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Validate name
-    if (empty($_POST["name"])) {
-        $nameErr = "Name is required";
-    } else {
-        $name = test_input($_POST["name"]);
-        if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
-            $nameErr = "Only letters and white space allowed";
-        }
-    }
-    
-    // Validate email
-    if (empty($_POST["email"])) {
-        $emailErr = "Email is required";
-    } else {
-        $email = test_input($_POST["email"]);
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $emailErr = "Invalid email format";
-        }
-    }
-}
-
-function test_input($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-    ?>
-   
-    <?php
-// Complete form processing example
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $errors = [];
-    $data = [];
-    
-    // Validate and sanitize name
-    if (empty($_POST["name"])) {
-        $errors["name"] = "Name is required";
-    } else {
-        $data["name"] = htmlspecialchars(trim($_POST["name"]));
-    }
-    
-    // Validate email
-    if (empty($_POST["email"])) {
-        $errors["email"] = "Email is required";
-    } elseif (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
-        $errors["email"] = "Invalid email format";
-    } else {
-        $data["email"] = htmlspecialchars(trim($_POST["email"]));
-    }
-    
-    // Validate age
-    if (empty($_POST["age"])) {
-        $errors["age"] = "Age is required";
-    } elseif (!is_numeric($_POST["age"]) || $_POST["age"] < 1) {
-        $errors["age"] = "Age must be a positive number";
-    } else {
-        $data["age"] = (int)$_POST["age"];
-    }
-    
-    // Process if no errors
-    if (empty($errors)) {
-        echo "<h3>Form submitted successfully!</h3>";
-        foreach ($data as $key => $value) {
-            echo ucfirst($key) . ": " . $value . "<br>";
-        }
-    } else {
-        echo "<h3>Please correct the following errors:</h3>";
-        foreach ($errors as $field => $error) {
-            echo ucfirst($field) . ": " . $error . "<br>";
-        }
-    }
-}
+     
+// Example 2: Required fields
+<?php
+ $name = $email = "";
+ $nameErr = $emailErr = "";
+ if ($_SERVER["REQUEST_METHOD"] == "POST") {
+ if (empty($_POST["name"])) {
+ $nameErr = "Name is required";
+ } else {
+ $name = htmlspecialchars(trim($_POST["name"]));
+ }
+ if (empty($_POST["email"])) {
+ $emailErr = "Email is required";
+ } else {
+ $email = htmlspecialchars(trim($_POST["email"]));
+ }
+ if (empty($nameErr) && empty($emailErr)) {
+ echo "<p>All required fields are filled!</p>";
+ echo "Name: " . $name . "<br>";
+ echo "Email: " . $email . "<br>";
+ } else {
+ echo "<p>Please correct the errors below.</p>";
+ }
+ }
 ?>
 
-<!-- HTML Form -->
-<form method="POST" action="">
-    <label>Name: <input type="text" name="name" value="<?php echo isset($_POST['name']) ?
-     htmlspecialchars($_POST['name']) : ''; ?>"></label><br>
-    <label>Email: <input type="email" name="email" value="<?php echo isset($_POST['email']) ? 
-    htmlspecialchars($_POST['email']) : ''; ?>"></label><br>
-    <label>Age: <input type="number" name="age" value="<?php echo isset($_POST['age']) ?
-     htmlspecialchars($_POST['age']) : ''; ?>"></label><br>
-    <input type="submit" value="Submit">
-</form> `,
+<!DOCTYPE html>
+<html>
+<head>
+ <title>Required Fields Validation</title>
+ <style>.error {color: red;}</style>
+</head>
+<body>
+ <form method="post" action="<?php echo 
+htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+ Name: <input type="text" name="name" value="<?php echo $name;?>">
+ <span class="error">* <?php echo $nameErr;?></span><br><br>
+ Email: <input type="text" name="email" value="<?php echo $email;?>">
+ <span class="error">* <?php echo $emailErr;?></span><br><br>
+ <input type="submit" value="Submit">
+ </form>
+</body>
+</html>
+
+// Example 3: Data type validation
+<?php
+ $age = $email = $url = "";
+ $ageErr = $emailErr = $urlErr = "";
+ if ($_SERVER["REQUEST_METHOD"] == "POST") {
+   // Validate Age (must be an integer)
+ if (empty($_POST["age"])) {
+ $ageErr = "Age is required";
+ } else {
+ $age = htmlspecialchars(trim($_POST["age"]));
+ if (!filter_var($age, FILTER_VALIDATE_INT)) {
+ $ageErr = "Invalid age format (must be an integer)";
+ } else if ($age < 0 || $age > 120) {
+ $ageErr = "Age must be between 0 and 120";
+ }
+ }
+   // Validate Email
+ if (empty($_POST["email"])) {
+ $emailErr = "Email is required";
+ } else {
+ $email = htmlspecialchars(trim($_POST["email"]));
+ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+ $emailErr = "Invalid email format";
+ }
+ }
+  // Validate URL
+ if (!empty($_POST["url"])) {
+ $url = htmlspecialchars(trim($_POST["url"]));
+ if (!filter_var($url, FILTER_VALIDATE_URL)) {
+ $urlErr = "Invalid URL format";
+ }
+ }
+ if (empty($ageErr) && empty($emailErr) && empty($urlErr)) {
+ echo "<p>All data types are valid!</p>";
+ echo "Age: " . $age . "<br>";
+ echo "Email: " . $email . "<br>";
+ echo "URL: " . $url . "<br>";
+ } else {
+ echo "<p>Please correct the data type errors.</p>";
+ }
+ }
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+ <title>Data Type Validation</title>
+ <style>.error {color: red;}</style>
+</head>
+<body>
+ <form method="post" action="<?php echo 
+htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+ Age: <input type="text" name="age" value="<?php echo $age;?>">
+ <span class="error">* <?php echo $ageErr;?></span><br><br>
+ Email: <input type="text" name="email" value="<?php echo $email;?>">
+ <span class="error">* <?php echo $emailErr;?></span><br><br>
+ Website: <input type="text" name="url" value="<?php echo $url;?>">
+ <span class="error"><?php echo $urlErr;?></span><br><br>
+ <input type="submit" value="Submit">
+ </form>
+</body>
+</html>
+
+
+// Example 4: Custom validation rules
+ <?php
+ $password = $studentId = "";
+ $passwordErr = $studentIdErr = "";
+ if ($_SERVER["REQUEST_METHOD"] == "POST") {
+ // Custom Password Validation: At least 8 characters, one uppercase, 
+one lowercase, one number, one special character
+ if (empty($_POST["password"])) {
+ $passwordErr = "Password is required";
+ } else {
+ $password = htmlspecialchars(trim($_POST["password"]));
+ $pattern = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).
+{8,}$/";
+ if (!preg_match($pattern, $password)) {
+ $passwordErr = "Password must be at least 8 characters long 
+and contain at least one uppercase letter, one lowercase letter, one number, 
+and one special character.";
+ }
+ }
+  // Custom Student ID Validation: Format like 'S1234567' (S followed 
+by 7 digits)
+ if (empty($_POST["student_id"])) {
+ $studentIdErr = "Student ID is required";
+ } else {
+ $studentId = htmlspecialchars(trim($_POST["student_id"]));
+ if (!preg_match("/^S\d{7}$/", $studentId)) {
+ $studentIdErr = "Invalid Student ID format (e.g., S1234567)";
+ }
+ }
+ if (empty($passwordErr) && empty($studentIdErr)) {
+ echo "<p>Custom validation passed!</p>";
+ echo "Password (hashed for display): " . 
+password_hash($password, PASSWORD_DEFAULT) . "<br>";
+ echo "Student ID: " . $studentId . "<br>";
+ } else {
+ echo "<p>Please correct the custom validation errors.</p>";
+ }
+ }
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+ <title>Custom Validation Rules</title>
+ <style>.error {color: red;}</style>
+</head>
+<body>
+ <form method="post" action="<?php echo 
+htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+ Password: <input type="password" name="password" value="<?php echo 
+$password;?>">
+ <span class="error">* <?php echo $passwordErr;?></span><br><br>
+ Student ID: <input type="text" name="student_id" value="<?php echo 
+$studentId;?>">
+ <span class="error">* <?php echo $studentIdErr;?></span><br><br>
+ <input type="submit" value="Submit">
+ </form>
+</body>
+</html>`,
+
 
     "PHP File Handling": `
-    <?php
-    $file = fopen(\"test.txt\", \"r\");
-    while(!feof($file)) {
-    echo fgets($file) . \"<br>\";
-    }
-    fclose($file);
-    ?>`,
+// Example 1: Opening and closing files   
+<?php
+ $filename = "my_log.txt";
+   // Open file for writing (creates if not exists, truncates if exists)
+ $fileHandle = fopen($filename, "w");
+ if ($fileHandle) {
+ echo "File '" . $filename . "' opened successfully for writing.<br>";
+   // Perform write operations here
+ fwrite($fileHandle, "Log entry: " . date("Y-m-d H:i:s") . " - 
+Application started.\n");
+ fclose($fileHandle);
+ echo "File closed.<br>";
+ } else {
+ echo "Error: Could not open file '" . $filename . "' for writing.
+<br>";
+ }
+   // Open file for reading
+ $fileHandleRead = fopen($filename, "r");
+ if ($fileHandleRead) {
+ echo "File '" . $filename . "' opened successfully for reading.<br>";
+   // Perform read operations here
+ $content = fread($fileHandleRead, filesize($filename));
+ echo "Content: " . htmlspecialchars($content) . "<br>";
+ fclose($fileHandleRead);
+ echo "File closed.<br>";
+ } else {
+ echo "Error: Could not open file '" . $filename . "' for reading.
+<br>";
+ }
+?>
+   
+// Example 2: Reading from files
+<?php
+ $filename = "data.txt";
+    // Create a dummy file for reading
+ file_put_contents($filename, "Line 1\nLine 2\nLine 3\n");
+ echo "<p>Reading entire file with file_get_contents():</p>";
+ $content = file_get_contents($filename);
+ echo nl2br(htmlspecialchars($content)) . "<br>";
+ echo "<p>Reading file line by line with fgets():</p>";
+ $fileHandle = fopen($filename, "r");
+ if ($fileHandle) {
+ while (!feof($fileHandle)) { // Loop until end of file
+ echo htmlspecialchars(fgets($fileHandle)) . "<br>";
+ }
+ fclose($fileHandle);
+ }
+ echo "<p>Reading file into an array with file():</p>";
+ $lines = file($filename);
+ foreach ($lines as $lineNumber => $lineContent) {
+ echo "Line " . ($lineNumber + 1) . ": " . 
+htmlspecialchars($lineContent) . "<br>";
+ }
+?>
+  
+// Example 3: Writing to files
+  <?php
+ $logFile = "app_log.txt";
+ // Write (overwrite) content to file
+ file_put_contents($logFile, "First log entry.\n");
+ echo "'" . $logFile . "' created/overwritten with 'First log entry.'.
+<br>";
+   // Append content to file
+ file_put_contents($logFile, "Second log entry (appended).\n", 
+FILE_APPEND);
+ echo "'Second log entry' appended to '" . $logFile . "'.<br>";
+   // Using fopen and fwrite for more control
+ $fileHandle = fopen("notes.txt", "w");
+ if ($fileHandle) {
+ fwrite($fileHandle, "My important note.\n");
+ fwrite($fileHandle, "Another line of notes.\n");
+ fclose($fileHandle);
+ echo "'notes.txt' created and written to.<br>";
+ } else {
+ echo "Error: Could not open 'notes.txt' for writing.<br>";
+ }
+?>
+   
+// Example 4: File permissions
+   <?php
+ $fileToProtect = "secret_data.txt";
+ file_put_contents($fileToProtect, "This is sensitive information.");
+ echo "Original permissions of '" . $fileToProtect . "': " . 
+substr(sprintf('%o', fileperms($fileToProtect)), -4) . "<br>";
+  // Set permissions to 0600 (owner read/write, no one else access)
+ if (chmod($fileToProtect, 0600)) {
+ echo "Permissions changed to 0600 for '" . $fileToProtect . "'.<br>";
+ } else {
+ echo "Failed to change permissions for '" . $fileToProtect . "'.
+<br>";
+ }
+ echo "New permissions: " . substr(sprintf('%o', 
+fileperms($fileToProtect)), -4) . "<br>";
+  // Attempt to read by others (will fail if web server user is not owner)
+  // This part depends on your server's user configuration
+  // $content = file_get_contents($fileToProtect);
+  // echo "Content (if readable): " . htmlspecialchars($content) . "<br>";
+?>
+
+// Example 5: File uploads
+  // HTML Form for File Upload ( upload_form.html or upload_form.php ):
+<!DOCTYPE html>
+<html>
+<head>
+ <title>File Upload</title>
+</head>
+<body>
+ <h2>Upload an Image</h2>
+ <form action="upload.php" method="post" enctype="multipart/form-data">
+ Select image to upload:
+ <input type="file" name="fileToUpload" id="fileToUpload"><br><br>
+ <input type="submit" value="Upload Image" name="submit">
+ </form>
+</body>
+</html>
+
+  // PHP Script for Handling Upload ( upload.php ):
+
+<?php
+ $target_dir = "uploads/"; // Directory where uploaded files will be 
+stored
+ $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+ $uploadOk = 1;
+ $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+  // Check if image file is a actual image or fake image
+ if(isset($_POST["submit"])) {
+ $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+ if($check !== false) {
+ echo "File is an image - " . $check["mime"] . ".<br>";
+ $uploadOk = 1;
+ } else {
+ echo "File is not an image.<br>";
+ $uploadOk = 0;
+ }
+ }
+   // Check if file already exists
+ if (file_exists($target_file)) {
+ echo "Sorry, file already exists.<br>";
+ $uploadOk = 0;
+ }
+   // Check file size (e.g., max 500KB)
+ if ($_FILES["fileToUpload"]["size"] > 500000) {
+ echo "Sorry, your file is too large.<br>";
+ $uploadOk = 0;
+ }
+   // Allow certain file formats
+ if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType 
+!= "jpeg"
+ && $imageFileType != "gif" ) {
+ echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.<br>";
+ $uploadOk = 0;
+ }
+   // Check if $uploadOk is set to 0 by an error
+ if ($uploadOk == 0) {
+ echo "Sorry, your file was not uploaded.<br>";
+   // if everything is ok, try to upload file
+ } else {
+ if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], 
+$target_file)) {
+ echo "The file ". htmlspecialchars( basename( 
+$_FILES["fileToUpload"]["name"])) . " has been uploaded.<br>";
+ } else {
+ echo "Sorry, there was an error uploading your file.<br>";
+ }
+ }
+?> `,
+
+
 
     "PHP Cookies and Sessions": `
     <?php
@@ -979,222 +2009,814 @@ if ($_FILES["file"]["error"] == 0) {
 const getPHPCodeExplanation = (lessonTitle) => {
   const explanations = {
     "Introduction to PHP": `
-**Code Explanation:**
-This is the fundamental "Hello, World!" program in PHP that introduces basic PHP syntax:
+### Example 1 
+**What is PHP and its Role in Web Development**
+PHP, which stands for Hypertext Preprocessor, is a server-side scripting language designed specifically for web development. 
+Its primary role is to process data on a web server and generate dynamic content, such as HTML, which is then sent to a web browser. 
+Unlike static HTML pages that display the same content to every user, PHP allows you to create websites that can interact with databases, 
+handle forms, manage sessions, and deliver personalized content. Think of it as the engine behind a website, making it dynamic and interactive.
 
-1. **PHP Tags**: The \`<?php ... ?>\` tags tell the web server to process the code inside as PHP rather than plain HTML.
+### Example 2
+**Basic PHP Syntax and Structure**
+PHP code is embedded within HTML documents using special PHP tags. The most common
+and recommended tag is \`<?php ... ?>\` . Any code within these tags is interpreted as PHP code
+by the server. PHP statements are typically terminated with a semicolon (\`;\`).
 
-2. **Echo Statement**: The \`echo\` command outputs text to the browser. It's one of the most basic ways to display content in PHP.
+**Code Explanation**
+- The \`<?php and ?>\` tags define the boundaries of the PHP code block. Everything
+outside these tags is treated as plain HTML.
+- \`//\` is used for single-line comments.
+- \`/* ... */\` is used for multi-line comments.
+- The \`echo\` statement is a PHP construct used to output strings to the browser. In this
+case, it outputs an HTML paragraph.
 
-3. **String Literal**: "Hello, World!" is a string literal - text enclosed in quotes that represents a sequence of characters.
+### Example 3
+**Writing Your First PHP Script**
+Writing your first PHP script is straightforward. You just need a text editor and a local web server environment 
+(like XAMPP, WAMP, or MAMP) to run the code.
 
-**Why This Matters:**
-- This demonstrates how PHP can generate dynamic content for web pages
-- Shows the basic structure every PHP script follows
-- Introduces the concept of server-side processing where PHP code runs on the server before sending HTML to the browser
+- **Create a file**: Open a text editor and save the file with a \`.php\` extension (e.g., \`index.php\`).
+- **Add PHP tags**: Start by adding the opening \`<?php\` and closing \`?>\` tags.
+- **Write your code**: Use the \`echo\` or \`print\` statement to output text.
+- Save the file and place it in your web server's root directory (e.g., \`htdocs\` for XAMPP).
 
-**Learning Outcome:** Understanding how PHP integrates with HTML and produces output for web browsers.`,
+Run it in your browser: Navigate to \`http://localhost/your_file_name.php\`.
+
+**Code Explanation**:
+The script simply uses \`echo\` to print two lines of text to the browser. The \`<br>\` is an HTML tag that creates a line break, 
+demonstrating how PHP can output HTML markup.
+
+### Example 4 
+**PHP Tags and Output Statements**
+PHP offers a few different ways to enclose code and display output.
+
+- **Standard Tags**: \`<?php ... ?>\` are the recommended and most common tags.
+- **Short Tags**: \`<? ... ?>\` are an older, less-common syntax that can be disabled on some servers.
+- **Echo Short Tag**: \`<?= ... ?>\` is a shorthand for \`<?php echo ... ?>\`, commonly used for quickly outputting a variable's value.
+
+\`echo\` vs. \`print\`:
+Both \`echo\` and \`print\` are used to output strings. The key difference is that \`echo\` is a language construct that can output multiple 
+strings at once and is slightly faster, while \`print\` is a function that can only output one string and returns a value of \`1\`.
+
+**Code Explanation**
+The \`<?= $username ?>\` short tag is a clean and efficient way to display the \`$username\` variable directly in the HTML. The example also highlights 
+the difference between \`echo\` and \`print\`, showing that \`echo\` can accept multiple comma-separated arguments.
+    `,
 
     "PHP Syntax and Variables": `
-**Code Explanation:**
-This example demonstrates PHP's variable system and basic syntax:
+### Example 1 
+**PHP Syntax Rules and Conventions**
+PHP code is executed on the server, and the result (usually HTML) is sent to the browser. It's an easy language to embed within HTML.
+- **Opening and Closing Tags**: PHP code blocks start with \`<?php\` and end with \`?>\`.
+- **Case-Sensitivity**: PHP is case-sensitive for variable names but case-insensitive for keywords like \`if\`, \`else\`, and \`while\`.
+- **Statements**: Each statement must end with a semicolon (\`;\`).
 
-1. **Variable Declaration**: Variables in PHP start with \`$\` and don't require explicit type declaration. PHP automatically determines the data type.
+**Code Explanation**
+The code block \`<?php ... ?>\` contains all the PHP logic. The \`echo\` statement is a language construct used to output text to the browser. 
+Notice the semicolon at the end of each PHP line. The variable \`$message\` is case-sensitive, so \`$MESSAGE\` would be a different variable.
 
-2. **String Variable**: \`$greeting = "Hello"\` stores a text value that can be used throughout the script.
+### Example 2
+**Variable Declaration and Naming**
+In PHP, a variable is declared by simply writing a dollar sign ($) followed by the variable name.
 
-3. **Numeric Variable**: \`$number = 42\` stores an integer value.
+- **Start with \`$\`**: All variable names must begin with a dollar sign.
+- **Naming Rules**: Variable names must start with a letter or an underscore, followed by any number of letters, numbers, or underscores. 
+They cannot contain spaces or other special characters.
+- **Dynamic Typing**: You do not need to declare the data type of a variable. PHP determines the type automatically based on the value assigned.
 
-4. **Constant Declaration**: \`const PI = 3.14\` creates a constant that cannot be changed after definition.
+**Code Explanation**
+The example shows several correctly named variables. The **dot** (\`.\`) is the string concatenation operator in PHP, used to join strings and variables. 
+The invalid names are commented out because they would cause a parsing error.
 
-5. **String Concatenation**: The \`.\` operator joins strings together. \`$greeting . " World"\` combines the variable value with additional text.
+### Example 3
+**Data Type Basics**
+PHP supports a range of fundamental data types.
 
-**Why This Matters:**
-- Variables allow you to store and reuse data in your programs
-- Constants provide values that should never change (like mathematical constants)
-- String concatenation is essential for building dynamic content
+- **String**: A sequence of characters.
+- **Integer**: A whole number.
+- **Float**: A number with a decimal point.
+- **Boolean**: \`true\` or \`false\`.
+- **Array**: A collection of values.
+- **Object**: An instance of a class.
+- **NULL**: A variable with no value.
 
-**Learning Outcome:** Understanding how to store data and manipulate text in PHP.`,
+**Code Explanation**
+The \`gettype()\` function is used to check a variable's data type. The \`var_dump()\` function is a powerful tool for debugging, 
+as it displays detailed information about a variable, including its type and value.
+
+### Example 4
+**Variable Scope**
+Variable scope determines where a variable can be accessed or used within a program. 
+PHP has three main scopes:
+- **Local**: Declared inside a function and only accessible within that function.
+- **Global**: Declared outside any function. To access a \`global\` variable from within a function, you must use the global keyword.
+- **Static**: Declared inside a function but retains its value between function calls.
+
+**Code Explanation**
+The \`$globalVar\` can only be accessed inside \`testScope()\` by using the \`global\` keyword. The \`$localVar\` exists only within the \`testScope()\` function. 
+The \`staticCounter()\` function demonstrates a static variable, which retains its value between calls, unlike a normal local variable that would be re-initialized each time.
+    
+### Example 5
+**Constants and Magic Constants**
+A constant is an identifier (name) for a simple value. As the name suggests, that value
+cannot change during the execution of the script. Constants are defined using the \`define()\`
+function or the \`const\` keyword.
+
+**Rules for PHP constants**:
+- Constants are case-sensitive by default (though \`define()\` allows for case-insensitivity).
+- Conventionally, constant names are always in uppercase.
+- Constants do not need a \`$\` sign before them.
+- Constants can be accessed from anywhere in the script, regardless of scope.
+
+**Code Explanation**
+Constants like \`PI\` and \`GREETING\` are declared once with \`define()\` and cannot be changed later. \`_ _LINE_ _\` and \`_ _FILE_ _\` 
+are examples of magic constants that provide dynamic information about the script's execution context. 
+These are useful for debugging and logging.`,
+
 
     "PHP Data Types": `
-**Code Explanation:**
-This example showcases PHP's dynamic typing system and the main data types:
+### Example 1
+**Scalar Types**
+Scalar types are the most basic data types in PHP, holding a single value.
+- **String**: A sequence of characters. Strings can be enclosed in single quotes (\`'...'\`) or double quotes (\`"..."\`). 
+Double quotes allow for variable parsing and escape sequences.
+- **Integer**: A non-fractional number. The range of an integer depends on the platform, 
+but it's typically 32-bit (for 32-bit systems) or 64-bit (for 64-bit systems).
+- **Float**: A number with a decimal point or in exponential form. Also known as a "floating-point number" or "double".
+- **Boolean**: Represents a truth value. It can be either \`true\` or \`false\`. These values are case-insensitive.
 
-1. **String Type**: \`$string = "Hello"\` - Stores text data. Strings can contain letters, numbers, and special characters.
+**Code Explanation**
+The example demonstrates the four scalar types. We use the \`gettype()\` function to confirm the data type of each variable. 
+The conditional \`($is_active ? 'Yes' : 'No')\` is a ternary operator that checks the boolean value to output a readable string.
 
-2. **Integer Type**: \`$int = 42\` - Stores whole numbers (positive, negative, or zero) without decimal points.
+### Example 2
+**Compound Types**
+Compound types can hold multiple values.
+- **Array**: A data structure that stores a collection of values. Arrays can be indexed numerically, associatively (with string keys), or both.
+- **Object**: An instance of a user-defined class. It encapsulates both data (properties) and functions (methods).
 
-3. **Float Type**: \`$float = 3.14\` - Stores decimal numbers. Floats can represent fractional values.
+**Code Explanation**
+The \`$person\` variable is an associative array where keys are strings. Values are accessed using the bracket notation (\`$person["name"]\`). 
+The \`Car\` class is a blueprint for objects. The \`$myCar\` variable is an **object** of the \`Car\` class. Its properties are accessed 
+using the arrow operator (\`->\`). \`var_dump()\` is used again to display the structure and content of both the array and the object.
 
-4. **Boolean Type**: \`$bool = true\` - Stores logical values (true or false). Used for conditional logic.
+### Example 3
+**Special Types**
+PHP has two special data types.
+- **NULL**: A variable of type \`NULL\` has no value. A variable is considered \`NULL\` if it has been assigned the constant \`NULL\`, 
+has not been assigned a value yet, or has been \`unset()\`.
+- **Resource**: A resource is a special variable that holds a reference to an external resource, such as a file handle, a database connection, or a stream. 
+Resources are typically created by a special function and are automatically freed by PHP's garbage collector when no longer needed.
 
-**Why This Matters:**
-- PHP automatically determines the data type based on the value assigned
-- Different data types have different operations and behaviors
-- Understanding data types is crucial for proper data handling and calculations
+**Code Explanation**
+When \`$x\ is \`unset()\`, \`var_dump($x)\` shows that it is \`NULL\`. The \`fopen()\` function returns a resource type, which is confirmed by \`gettype($file)\`. 
+This resource allows you to interact with the file system. \`fclose()\` is used to close the file handle.
 
-**Learning Outcome:** Recognizing PHP's data types and how they affect program behavior.`,
+### Example 4
+**Type Juggling and Type Casting**
+- **Type Juggling**: PHP's flexibility allows it to automatically convert data types as needed. This is known as **type juggling**. 
+For example, when adding a string to an integer, PHP will automatically try to convert the string to a number.
+- **Type Casting**: This is a manual conversion of a variable from one data type to another. You can do this by placing the desired type 
+in parentheses before the variable (\`(int)\`, \`(float)\`, \`(string)\`, \`(array)\`, \`(bool)\`, \`(object)\`).
 
+**Code Explanation**
+In the first example, PHP automatically converts the string \`"20"\` to an integer \`20\` to perform the addition. This is type juggling. 
+In the second example, we explicitly use \`(int)\` and \`(float)\` to cast the string to different data types, demonstrating the manual process of type casting.
+
+### Example 5 
+**Type Checking Functions**
+PHP provides several functions to check a variable's data type.
+
+- \`is_string()\`: Checks if a variable is a string.
+- \`is_int()\`: Checks if a variable is an integer.
+- \`is_float()\`: Checks if a variable is a float.
+- \`is_bool()\`: Checks if a variable is a boolean.
+- \`is_array()\`: Checks if a variable is an array.
+- \`is_object()\`: Checks if a variable is an object.
+- \`is_null()\`: Checks if a variable is NULL.
+
+**Code Explanation**
+The is_... functions are a safe way to check a variable's type before performing operations on it. 
+This helps prevent type-related errors and makes your code more robust. The functions return true or false, 
+allowing them to be used directly within conditional statements like if.
+
+`,
     "PHP Operators": `
-**Code Explanation:**
+### Example 1
+Operators in PHP are used to perform operations on variables and values.
+They are grouped into arithmetic, assignment, comparison, logical, and increment/decrement operators.
 
-This example demonstrates arithmetic operators in PHP:
+**Arithmetic Operators** are special symbols or keywords that perform operations on values (operands). 
+They are used to manipulate data, perform calculations, compare values, and combine logical conditions.
 
-1. **Addition (\`+\`)**: \`$a + $b\` adds two numbers together, resulting in 8.
+| Operator | Description           | Example     | Result |
+| :------- | :-------------------- | :---------- | :----- |
+| \`+\`      | Addition              | \`2 + 5\`     | \`7\`    |
+| \`-\`      | Subtraction           | \`7 - 2\`     | \`5\`    |
+| \`*\`      | Multiplication        | \`3 * 3\`     |\`9\`   |
+| \`/\`      | Division              | \`15 / 5\`    | \`3\`    |
+| \`%\`      | Modulus (remainder)   | \`10 % 3\`    | \`1\`    |
+| \`**\`     | Exponentiation (ES2016) | \`2**3\`    | \`8\`    |
 
-2. **Subtraction (\`-\`)**: \`$a - $b\` subtracts the second number from the first, resulting in 2.
 
-3. **Multiplication (\`*\`)**: \`$a * $b\` multiplies two numbers, resulting in 15.
+  
+### Example 2 
+**Assignment Operator** are used to assign values to variables.
 
-4. **Division (\`/\`)**: \`$a / $b\` divides the first number by the second, resulting in approximately 1.67.
+| Operator | Description                                    | Example        | Result  |
+| :------- | :--------------------------------------------- | :------------- | :------ |
+| \`=\`      | Assigns value from right to left                | \`x = 5\`        | \`x = 5\` |
+| \`+=\`     | Adds right operand to left operand and assigns  | \`x = 3; x += 2\`| \`x = 5\` |
+| \`-=\`     | Subtracts right operand and assigns             | \`x = 5; x -= 2\`| \`x = 3\` |
+| \`*=\`     | Multiplies right operand and assigns            | \`x = 4; x *= 3\`| \`x = 12\`|
+| \`/=\`     | Divides left operand by right operand and assigns| \`x = 10; x /= 2\`| \`x = 5.0\`|
+| \`%=\`     | Takes modulus and assigns                       | \`x = 7; x %= 3\`| \`x = 1\` |
+| \`**=\`    | Performs exponentiation and assigns             | \`x = 2; x **= 3\`| \`x = 8\` |
+| \`//=\`    | Performs floor division and assigns             | \`x = 7; x //= 2\`| \`x = 3\` |
+
+
+### Example 3
+Comparison Operators compare two values and return a boolean ( true or false ).
+
+| Operator | Description               | Example       | Result  |
+| :------- | :------------------------ | :------------ | :------ |
+| \`==\`     |  Equal                  | \`5 == 5\`      | \`True\`  |
+| \`!=\`     |  not equal              | \`5 != 3\`      | \`True\`  |
+| \`>\`      | Greater than            | \`7 > 4\`       | \`True\`  |
+| \`<\`      | less than               | \`3 < 5\`       | \`True\`  |
+| \`>=\`     | greater or equal        | \`5 >= 5\`      | \`True\`  |
+| \`<=\`     | less or equal           | \`4 <= 6\`      | \`True\`  |
+| \`===\`    |  strictly equal         | \`4 === "4"\`   | \`False\`  |
+| \`!==\`    | Cstrictly not equal     | \`5 !== 5\`     | \`False\`  |
+
+### Example 4
+Logical operators are Used for combining conditions and boolean logic.
+
+**Logical Operators (Truth Table Style)**
+| Operator | Description | Example             | Result  |
+| :------- | :---------- | :------------------ | :------ |
+| \`AND\`    | AND         | \`True and False\`    | \`False\` |
+| \`OR\`     | OR          | \`True or False\`     | \`True\`  |
+| \`NOT\`    | NOT         | \`not True\`          | \`False\` |
+
+
+### Example 5 
+Increment/Decrement Operators: Increase or decrease a variable's value by one. The \`++\` operator increments, and \`--\` decrements. 
+They can be placed before (pre-increment/decrement) or after (post-increment/decrement) the variable.
+
+**Increment/Decrement Operators**
+| Operator | Description       | Example     | Result |
+| :------- | :-----------------| :---------- | :----- |
+| \`++\`   | Increment         | \`$x = 5; $x++;\`    | \`$x is now 6\`    |
+| \`--\`   | Decrement         | \`$e = 8; $e--;\`    | \`$e is now 7\`    |
 
 **Why This Matters:**
 - Arithmetic operators are fundamental for mathematical calculations
 - The results show how different operations produce different outcomes
-- Understanding operator precedence helps write correct mathematical expressions
-
-**Learning Outcome:** Mastering basic mathematical operations in PHP for calculations and data processing.`,
+- Understanding operator precedence helps write correct mathematical expressions`,
 
     "PHP Control Structures": `
+### Example 1 
 **Code Explanation:**
-This example demonstrates conditional logic using if-else statements:
+- \`$score\` is the value we’re grading; \`$isMakeUp\` adds a second business rule.
+- \`if (!is_numeric($score))\` validates the type before comparing; this avoids accidental loose comparisons like \`"eighty" >= 70\`.
+- \`elseif ($score < 0 || $score > 100)\` enforces a valid range early, keeping later branches simpler.
+- \`elseif ($score >= 70)\` handles the highest band first (top-down ordering prevents overlapping ranges from misfiring).
+- The nested if under the 70+ branch demonstrates that you can refine logic after a broad match. Here we cap exactly 70 if it was a make-up.
+- Subsequent \`elseif\` blocks handle descending ranges. Each range uses \`>=\` with descending thresholds so there are no gaps.
+- The final else is a catch-all for anything below 45.
+- Braces \`{}\` are used even for one-liners—this prevents bugs when adding lines later.
+- Because PHP is loosely typed, validating with \`is_numeric()\` is safer than relying on automatic casting.
 
-1. **Condition Check**: \`$age >= 18\` evaluates whether the age variable is greater than or equal to 18.
+### Example 2 
+**Code Explanation**
+- \`switch ($day)\` compares \`$day\` against each \`case\`.
+- **Fall-through**: \`case 6\`: flows directly into \`case 7\`: until a \`break;\` appears, so both produce “Weekend”. This is a common pattern to group multiple matches.
+- \`break;\` stops the switch; without it, execution “falls through” into the next case, often causing unintended output.
+- \`default:\` runs when no case matches—always include it to handle unexpected values.
+- **Important PHP nuance**: \`switch\` comparisons are loose (like \`==\`). A string \`"3"\` will match case \`3\`. If you require strict checks, either normalize types 
+(e.g., cast to \`int\`) before the switch or use PHP 8’s match (strict), not covered here.
 
-2. **If Statement**: If the condition is true (age is 18 or older), the code inside the first block executes.
+### Example 3 
+**while, do-while loops**
+Loops are used to execute a block of code repeatedly as long as a specified condition is true.
+- \`while\` loop: Executes a block of code as long as the specified condition is true. The
+condition is evaluated before each iteration.
+- \`do...while\` loop: Executes a block of code once, and then repeats the loop as long as the
+specified condition is true. The condition is evaluated *after* each iteration, guaranteeing
+that the block of code is executed at least once.
+ 
+**Code Explanation** 
+***While block***
+-nInitialize \`$i\` and \`$sum\`. Initialization should happen outside the loop.
+- \`while ($i <= 5)\` checks the condition before each iteration; if \`$i\` starts greater than 5, it never runs.
+- \`$sum += $i;\` is the loop’s work (accumulation).
+- \`$i++;\` is the update step; omitting it creates an infinite loop.
+- After the loop, \`$sum\` is printed.
 
-3. **Else Statement**: If the condition is false (age is under 18), the code inside the else block executes.
+***Do-while block***
+- \`$attempts\` counts tries; \`$connected\` simulates a connection status.
+- The body runs once before the condition is checked—useful for “try at least once” flows (e.g., menu display, first fetch).
+- We simulate success on the second attempt: \`($attempts === 2)\`.
+- The condition \`(!$connected && $attempts < $maxAttempts)\` ensures we stop on success or when attempts are exhausted.
+- The final message reports the outcome.
 
-4. **Output**: The program will display either "Adult" or "Minor" based on the age value.
+### Example 4 
+**for, foreach loops**
+- **for loop**: Used when you know how many times you want to execute a block of code. It
+consists of three parts: initialization, condition, and increment/decrement.
+- **foreach loop**: Specifically designed to iterate over arrays and objects. It provides an
+easy way to loop through each item in a collection.
 
-**Why This Matters:**
-- Conditional logic allows programs to make decisions based on data
-- This is essential for creating interactive and responsive applications
-- Control structures form the backbone of program flow and decision-making
+**Code Explanation**
+***For loop**
+- for \`($i = 1; $i <= 10; $i++) \`packs init; condition; update in one line—ideal for known iteration counts.
+- Inside, we filter with if \`($i % 2 === 0)\` to act only on even numbers.
+- Using \`===\` prevents loose comparisons; although \`%\` yields integers, strictness is a good habit.
 
-**Learning Outcome:** Understanding how to create programs that respond differently based on conditions.`,
+***Foreach (key/value)***
+- \`foreach ($prices as $item => $naira)\` gives both key and value each iteration.
+- This avoids manual indexing and is safer for associative arrays.
+- \`ucfirst()\` just prettifies the item name for output.
 
+***Foreach by reference***
+- \`foreach ($discounts as &$d)\` uses \`&\` to get a reference to the element so assigning to \`$d\` changes the original array.
+- We apply \`10%\` off and cast to \`int\` to avoid floating decimals in currency.
+- \`unset($d)\` is critical—it breaks the lingering reference. Without it, \`$d\` might still be bound to the last element and 
+later assignments to \`$d\` could unexpectedly modify the array.
+
+### Example 5 
+**break and continue statements**
+- **break statement**: Used to terminate the execution of the current loop (or switch
+statement) immediately. Control passes to the statement immediately following the
+terminated loop.
+- **continue statement**: Used to skip the rest of the current iteration of the loop and
+proceed to the next iteration. Control passes to the condition (for while and do-while )
+or the increment/decrement part (for for loop).
+
+**Code Explanation**
+- We iterate through \`$nums\`.
+- continue; skips the rest of the current iteration when a negative is found—no push to \`$positives\`.
+- When we hit \`0\`, \`break;\` exits the loop completely—nothing after runs, and remaining elements aren’t processed.
+- Only positive numbers before the first zero are collected.
+`,
     "PHP Functions": `
-**Code Explanation:**
-This example demonstrates function creation and usage in PHP:
+### Example 1 
+Functions are blocks of code that perform a specific task and can be reused throughout
+your program. PHP has a vast library of built-in functions, and you can also define your own
+custom functions.
+**Function declaration and calling**
+To declare a function in PHP, you use the function keyword, followed by the function name,
+parentheses (which may contain parameters), and curly braces {} that enclose the
+function's code
 
-1. **Function Definition**: \`function greet($name)\` creates a reusable block of code that accepts a parameter.
+**Code Explanation**
+- \`function sayHello() { ... }\` defines a function named greet.
+- Functions must start with \`function\`, followed by a name (letters, numbers, underscore, no starting digit).
+- The function body \`{ ... }\` holds the code that runs when called.
+- \`greet();\` executes the function. It can be called multiple times without rewriting the logic.
+- Functions should be declared before they’re called (though PHP allows calling earlier if in the same file).
 
-2. **Parameter**: \`$name\` is a parameter that receives a value when the function is called.
+### Example 2 
+**Parameters and return values**
+Functions can accept input values called parameters (or arguments) and can return a value
+using the return statement.
+- **Parameters**: Variables listed inside the parentheses in the function definition. They act
+as placeholders for the values that will be passed into the function when it is called.
+- **Return Values**: A function can return a single value (of any type) using the return
+statement. Once a return statement is executed, the function terminates, and the
+returned value is sent back to the caller.
 
-3. **Return Statement**: \`return\` sends a value back to wherever the function was called from.
+**Code Explanation**
+- \`function addNumbers($a, $b)\` → \`$a\` and \`$b\` are parameters (inputs).
+- \`return $a + $b;\` → sends result back to the caller instead of printing directly.
+- \`$sum1 = addNumbers(10, 5);\` stores the return value in a variable.
+- Functions can have default parameter values \`($name = "Guest")\` if no argument is provided.
+- Parameters are passed by value by default—changing inside doesn’t affect outside unless passed by reference \`(&$param)\`.
 
-4. **String Concatenation**: The \`.\` operator joins the string "Hello, " with the parameter value.
+### Example 3
+**Variable scope in functions**
+As discussed in Section 2.4, variables in PHP have different scopes. Inside a function,
+variables declared are local to that function. To access global variables within a function,
+you need to use the \`global\` keyword or the \`$GLOBALS\` superglobal array
 
-5. **Function Call**: \`greet("John")\` executes the function with "John" as the parameter.
+### Example 4 
+**Anonymous function as a callback**
+Anonymous functions (also known as closures) are functions that have no specified name.
+They can be assigned to variables and passed as arguments to other functions. They are
+particularly useful as callback functions.
 
-**Why This Matters:**
-- Functions allow code reuse and organization
-- Parameters make functions flexible and reusable
-- Return values allow functions to provide results to the calling code
+**Code Explanation**
+- \`$greet = function($name) { ... };\` assigns a function to a variable.
+-  \`$greet("Charlie")\` calls it just like a normal function.
+- Functions can be passed as arguments to other functions.
 
-**Learning Outcome:** Understanding how to create modular, reusable code blocks in PHP.`,
+### Example 5 
+**Built-in functions**
+PHP comes with a vast library of built-in functions that perform a wide range of tasks, from
+string manipulation and mathematical calculations to file handling and database
+interaction. Using these functions saves development time and ensures robust code.
+**Examples of common built-in functions:**
+***String Functions:**
+- \`strlen()\` : Returns the length of a string.
+- \`str_replace()\` : Replaces all occurrences of a substring with another substring.
+- \`strtoupper()\` : Converts a string to uppercase.
+- \`strtolower()\` : Converts a string to lowercase.
+
+***Array Functions:**
+- \`count()\` : Returns the number of elements in an array.
+- \`array_push()\` : Adds one or more elements to the end of an array.
+- \`array_pop()\` : Removes the last element from an array.
+- \`in_array()\` : Checks if a value exists in an array.
+
+***Mathematical Functions:***
+- \`rand()\` : Generates a random integer.
+- \`sqrt()\` : Returns the square root of a number.
+- \`round()\` : Rounds a floating-point number.
+
+***Date and Time Functions:***
+- \`date()\` : Formats a local date/time.
+- \`time()\` : Returns the current Unix timestamp
+
+`,
 
     "PHP Arrays": `
-**Code Explanation:**
-This example demonstrates array creation and iteration:
+### Example 1 
+Arrays are powerful data structures that allow you to store multiple values in a single
+variable. PHP arrays are highly flexible and can serve as indexed arrays, associative arrays,
+or even multidimensional arrays.
+**Indexed arrays**
+Indexed arrays are arrays where each element has a numeric index, starting from 0 by
+default. You can create them by simply assigning values or by using the \`array()\` constructor
+or square brackets \`[]\` .
 
-1. **Array Declaration**: \`$fruits = ["Apple", "Banana", "Cherry"]\` creates an indexed array with three string values.
+**Code Explanation**
+- \`["Apple", "Banana", "Cherry"]\` creates an array with numeric indexes 0,1,2.
+- \`$fruits[0]\` retrieves the value at index 0.
+- \`$fruits[]\` automatically appends a new item.
+- \`count($fruits)\` returns the length of the array.
+- For loops are common for iterating indexed arrays.
 
-2. **Foreach Loop**: \`foreach ($fruits as $fruit)\` iterates through each element in the array.
+### Example 2 
+**Associative arrays**
+Associative arrays use named keys that you assign to them, instead of numeric indices. This
+allows you to use meaningful names to reference array elements.
 
-3. **Loop Variable**: \`$fruit\` holds the current array element during each iteration.
+### Example 3
+**Multidimensional arrays**
+A multidimensional array is an array containing one or more arrays. This allows you to store
+data in a table-like structure (rows and columns) or even more complex hierarchies.
 
-4. **String Concatenation**: \`$fruit . "\\n"\` adds a newline character after each fruit name.
+### Example 4 
+**Array functions**
+PHP provides a rich set of built-in functions for manipulating arrays. These functions allow
+you to perform various operations like sorting, searching, merging, filtering, and more.
 
-5. **Output**: Each fruit is printed on a separate line.
+**Common PHP Array Functions**
 
-**Why This Matters:**
-- Arrays allow you to store multiple related values in a single variable
-- Foreach loops provide a clean way to process each element in an array
-- This pattern is commonly used for displaying lists of data
+| Function        | Description                                                     |
+|-----------------|-----------------------------------------------------------------|
+| \`count()\`     | Returns the number of elements in an array.                     |
+| \`sort()\`      | Sorts an indexed array in ascending order.                      |
+| \`rsort()\`     | Sorts an indexed array in descending order.                     |
+| \`asort()\`     | Sorts an associative array by value in ascending order.         |
+| \`ksort()\`     | Sorts an associative array by key in ascending order.           |
+| \`array_push()\`| Adds one or more elements to the end of an array.               |
+| \`array_pop()\`   | Removes the last element from an array.                         |
+| \`array_merge()\` | Merges one or more arrays.                                      |
+| \`in_array()\`    | Checks if a value exists in an array.                           |
+| \`array_keys()\`  | Returns all the keys or a subset of the keys of an array.       |
+| \`array_values()\`| Returns all the values of an array.                             |
+| \`array_unique()\`| Removes duplicate values from an array.                         |
 
-**Learning Outcome:** Understanding how to work with collections of data and process them efficiently.`,
+
+### Example 5
+**Array iteration**
+Iterating through arrays is a common task in PHP. The foreach loop is the most common
+and convenient way to iterate over array elements.`,
 
     "PHP Strings": `
-**Code Explanation:**
-This example demonstrates string manipulation functions:
+### Example 1 
+**PHP Strings**
+Strings are fundamental data types in PHP, used to represent sequences of characters. PHP
+provides extensive functionality for creating, manipulating, and formatting strings.
 
-1. **String Variable**: \`$str = "Hello, World!"\` stores a text string.
+**String creation and manipulation**
+Strings can be created using single quotes (\`'\`) or double quotes (\`"\`). The choice between
+them often depends on whether you need variable parsing or escape sequences.
+- **Single Quoted Strings**: Literal interpretation. Variables and most escape sequences are
+not parsed.
+- **Double Quoted Strings**: Variables are parsed, and most escape sequences (like \n for
+newline, \t for tab) are interpreted.
 
-2. **strlen() Function**: \`strlen($str)\` returns the number of characters in the string (13 characters).
+### Example 2 
+**String Manipulation**
+PHP offers numerous functions for manipulating strings, such as getting length, finding
+substrings, replacing parts, and changing case.
 
-3. **strtoupper() Function**: \`strtoupper($str)\` converts all characters to uppercase, resulting in "HELLO, WORLD!".
+### Example 3 
+**String functions**
+PHP has a comprehensive set of built-in string functions. Here are some commonly used
+one
 
-**Why This Matters:**
-- String functions help manipulate and analyze text data
-- These functions are essential for text processing and formatting
-- Understanding string operations is crucial for web development
+| Function          | Description                                                                 |
+|-------------------|-----------------------------------------------------------------------------|
+| \`strlen()\`      | Returns the length of a string.                                             |
+| \`str_word_count()\`  | Counts the number of words in a string.                                 |
+| \`strrev()\`      | Reverses a string.                                                          |
+| \`strpos()\`      | Finds the position of the first occurrence of a substring in a string.      |
+| \`str_replace()\` | Replaces all occurrences of a substring with another substring.             |
+| \`substr()\`      | Returns a part of a string.                                                 |
+| \`trim()\`       | Removes whitespace or other characters from both sides of a string.         |
+| \`ltrim()\`      | Removes whitespace or other characters from the left side of a string.      |
+| \`rtrim()\`      | Removes whitespace or other characters from the right side of a string.     |
+| \`strtoupper()\` | Converts a string to uppercase.                                             |
+| \`strtolower()\` | Converts a string to lowercase.                                             |
+| \`ucfirst()\`    | Converts the first character of a string to uppercase.                      |
+| \`lcfirst()\`    | Converts the first character of a string to lowercase.                      |
+| \`ucwords()\`    | Converts the first character of each word in a string to uppercase.         |
+| \`implode()\`    | Joins array elements with a string.                                         |
+| \`explode()\`    | Splits a string by a string.                                                |
 
-**Learning Outcome:** Mastering common string manipulation techniques for text processing.`,
+
+### Example 4 
+String concatenation
+String concatenation is the process of joining two or more strings together to form a single
+string. In PHP, the dot ( \`.\`) operator is used for string concatenation.
+
+
+### Example 5 
+**String formatting**
+String formatting involves presenting strings in a specific layout or style. PHP provides
+functions like sprintf() and printf() for formatted output, similar to C-style formatting.
+- \`sprintf()\` : Returns a formatted string.
+- \`printf()\` : Prints a formatted string.
+Format Specifiers (common ones):
+- \`%s\` : String
+- \`%d\` : Signed decimal integer
+- \`%f\` : Floating-point number
+- \`%%\` : A literal percent sign
+
+### Example 6 
+**Regular expressions**
+Regular expressions (regex) are powerful patterns used for searching, matching, and
+manipulating strings based on complex rules. PHP uses PCRE (Perl Compatible Regular
+Expressions) functions, which are prefixed with \`preg_\` .
+Common \`preg_\` functions:
+- \`preg_match()\` : Performs a regular expression match.
+- \`preg_match_all()\` : Performs a global regular expression match.
+- \`preg_replace()\` : Performs a regular expression search and replace.
+- \`preg_split()\` : Splits a string by a regular expression.
+*Basic Regex Syntax Elements:*
+- \`/pattern/modifiers\` : Delimiters (usually \`/\` ), pattern, and optional modifiers.
+- \`.\` : Any character (except newline).
+- \`*\` : Zero or more occurrences of the preceding character/group.
+- \`+\` : One or more occurrences.
+- \`?\` : Zero or one occurrence.
+- \`[abc]\` : Any character from the set a, b, or c.
+- \`[^abc]\` : Any character NOT from the set.
+- \`[0-9]\` : Any digit.
+- \`[a-z]\` : Any lowercase letter.
+- \`\d\` : Any digit (equivalent to [0-9] ).
+- \`\w\` : Any word character (alphanumeric + underscore).
+- \`\s\` : Any whitespace character.
+- \`^\` : Start of the string.
+- \`$\` : End of the string`,
+
 
     "PHP Forms and User Input": `
-**Code Explanation:**
-This example demonstrates how to process form submissions:
+### Example 1 
+**PHP Forms and User Input**
+Handling HTML forms and processing user input is a core aspect of web development. PHP
+provides robust ways to collect, validate, and utilize data submitted through forms.
+**HTML forms**
+HTML forms are used to collect user input. They consist of various input elements (text
+fields, checkboxes, radio buttons, submit buttons, etc.) enclosed within \`<form>\` tags. The
+\`action\` attribute specifies where the form data should be sent, and the \`method\` attribute
+( \`GET\` or \`POST\` ) defines how the data is sent.
 
-1. **Request Method Check**: \`$_SERVER["REQUEST_METHOD"] == "POST"\` verifies that the form was submitted using the POST method.
+### Example 2 
+**Form submission methods**
+HTML forms can submit data using two primary HTTP methods: \`GET\` and \`POST\` .
+**GET Method**:
+- Appends form data to the URL as query strings (e.g., \`process.php?\`
+\`username=John&email=john@example.com\` ).
+- Data is visible in the URL, making it unsuitable for sensitive information.
+- Limited by URL length (typically around 2048 characters).
+- Suitable for non-sensitive data, search queries, or when users might want to
+bookmark the URL.
+ **POST Method**:
+- Sends form data in the HTTP request body.
+- Data is not visible in the URL, making it more secure for sensitive information (like
+passwords).
+- No practical limits on data size.
+- Suitable for submitting large amounts of data, sensitive data, or when the
+submission results in changes on the server (e.g., creating a new record).
 
-2. **Superglobal Array**: \`$_POST\` is a built-in array that contains all data submitted via POST method.
+### Example 3
+**Handling form data**
+PHP provides superglobal arrays to access form data: \`$_GET\` , \`$_POST\` , and \`$_REQUEST\` .
+- \`$_GET\` : An associative array of variables passed to the current script via the URL
+parameters.
+- \`$_POST\` : An associative array of variables passed to the current script via the HTTP
+POST method.
+- \`$_REQUEST\` : An associative array that by default contains the contents of \`$_GET\` ,
+\`$_POST\` , and \`$_COOKIE\` .
+It's crucial to always check if form fields are set and not empty before using them, typically
+using \`isset()\` and \`empty()\`.
 
-3. **Form Data Access**: \`$_POST["name"]\` retrieves the value from the form field named "name".
+### Example 4 
+**Input validation**
+Input validation is the process of ensuring that user-supplied data meets specific criteria
+before it is processed or stored. This is critical for security, data integrity, and preventing
+errors. Never trust user input!
+***Key aspects of input validation:***
+- **Required Fields**: Check if mandatory fields are filled.
+- **Data Type Validation**: Ensure data is of the expected type (e.g., number, email, URL).
+- **Format Validation**: Check if data adheres to a specific format (e.g., email address
+pattern, phone number format).
+- **Range/Length Validation**: Ensure numeric values are within a certain range, or strings
+are within a certain length.
+- **Sanitization**: Remove or escape potentially harmful characters (e.g., HTML tags, SQL
+injection attempts).
+PHP provides functions like \`filter_var()\` for validation and sanitization, and \`preg_match()\` for
+custom pattern matching.
 
-4. **Output**: The script displays a personalized greeting using the submitted name.
+### Example 5
+**Security considerations**
+Form handling is a common entry point for malicious attacks. It's paramount to implement
+robust security measures to protect your application and user data. Never trust user input,
+and always validate and sanitize it.
+***Common Security Threats and Mitigations:***
+- **SQL Injection**: Occurs when an attacker inserts malicious SQL code into input fields,
+which is then executed by the database. **Mitigation:** Use prepared statements with
+parameterized queries (see Section 22.2) instead of concatenating user input directly
+into SQL queries.
+- **Cross-Site Scripting (XSS)**: Involves injecting malicious client-side scripts (e.g.,
+JavaScript) into web pages viewed by other users. Mitigation: Always sanitize output
+using htmlspecialchars() or strip_tags() when displaying user-supplied data to prevent it
+from being interpreted as HTML or JavaScript.
+- **Cross-Site Request Forgery (CSRF)**: Tricks a user's browser into making an unwanted
+request to a web application where they are authenticated. **Mitigation:** Implement
+CSRF tokens (unique, unpredictable tokens) in your forms. The server generates a
+token, embeds it in the form, and verifies it upon submission.
+- **File Upload Vulnerabilities:** Malicious files (e.g., PHP scripts) can be uploaded and
+executed on the server. **Mitigation:**
+- Validate file type (MIME type, not just extension).
+- Limit file size.
+- Store uploaded files outside the web root or with restricted permissions.
+- Rename uploaded files to prevent execution.
+- Scan uploaded files for malware.
+- **Session Hijacking/Fixation**: Attackers steal or fixate a user's session ID to impersonate
+them. **Mitigation:**
+- Use \`session_regenerate_id()\` after login to prevent session fixation.
+- Set \`HttpOnly\` flag on session cookies to prevent JavaScript access.
+- Use \`Secure\` flag for HTTPS-only cookies.
+- Implement session timeouts.`,
 
-**Why This Matters:**
-- Form processing is essential for interactive web applications
-- POST method is more secure than GET for sensitive data
-- Understanding superglobal arrays is crucial for web development
-
-**Learning Outcome:** Understanding how to collect and process user input from web forms.`,
 
     "PHP Form Validation": `
-**Code Explanation:**
-This example demonstrates basic form validation:
+### Example 1: 
+**Client-side vs server-side validation**
+Form validation can occur on the client-side (in the user's browser) or on the server-side (on
+the web server).
+- **Client-side Validation:**
+- **Where**: Performed in the user's web browser using HTML5 attributes (e.g., \`required\` ,
+\`type="email"\` , \`pattern\` ) or JavaScript.
+- **Pros**: Provides immediate feedback to the user, improves user experience, and
+reduces server load by catching simple errors early.
+- **Cons**: Can be bypassed by disabling JavaScript or manipulating browser requests.
+**Cannot be relied upon for security**.
+- **Server-side Validation**:
+- **Where**: Performed on the web server using PHP (or other server-side languages).
+- **Pros**: Essential for security and data integrity. Cannot be bypassed by malicious
+users. Ensures data is valid before processing or storing.
+- **Cons**: Requires a round trip to the server, which can be slower and impact user
+experience if errors are frequent.
+**Best Practice:** Always use both client-side and server-side validation. Client-side validation
+enhances user experience, while server-side validation provides the necessary security and
+data integrity
 
-1. **Variable Initialization**: \`$name = ""\` and \`$nameErr = ""\` initialize variables to store the name and any error messages.
+### Example 2 
+**Required fields**
+Ensuring that mandatory fields are filled out is a basic but crucial part of form validation. In
+PHP, you typically check if a field is empty using the \`empty()\` function or by checking its
+length after trimming whitespace
 
-2. **Request Method Check**: Ensures the form was submitted via POST method.
+### Example 3 
+**Data type validation**
+Data type validation ensures that the submitted data conforms to the expected type (e.g.,
+integer, float, email, URL). PHP's \`filter_var()\` function is highly recommended for this
+purpose as it provides various filters for common data types.
 
-3. **Empty Check**: \`empty($_POST["name"])\` verifies if the name field was left blank.
+### Example 4 
+**Custom validation rules**
+While \`filter_var()\` covers many common validation scenarios, you often need to implement
+custom validation rules for specific business logic or complex data formats. Regular
+expressions (\`preg_match()\`) are invaluable for this.
 
-4. **Error Handling**: If the field is empty, an error message is stored in \`$nameErr\`.
+**Error handling**
+Effective error handling in form validation involves providing clear, user-friendly feedback
+when validation fails. This typically means displaying error messages next to the
+problematic input fields and retaining valid user input so they don't have to re-enter
+everything.
+*Key principles*:
+- **Collect Errors**: Store all validation errors in an array or separate variables.
+- **Display Errors**: Iterate through the errors and display them prominently, usually near
+the input field they relate to.
+- **Retain Input**: Populate form fields with the data the user previously entered (if valid) so
+they only need to correct errors.
+***Example (integrated into previous examples):***
+The examples in 1, 3, and 4 already demonstrate basic error handling by:
+- Initializing error variables (e.g., \`$nameErr\` , \`$emailErr\` ) to empty strings.
+- Assigning error messages to these variables if validation fails.
+- Displaying the error messages next to the input fields using \`<span>\` tags with a distinct
+class (e.g., \`error\` ).
+- Populating the \`value\` attribute of input fields with \`<?php echo $name;?>\` (or similar) to
+retain user input.
+This approach ensures a good user experience by guiding them to correct their input
+efficiently.`,
 
-5. **Data Processing**: If the field has a value, it's processed by the \`test_input()\` function (presumably for sanitization).
-
-**Why This Matters:**
-- Form validation prevents invalid or malicious data from being processed
-- Error messages help users understand what went wrong
-- Data sanitization is crucial for security
-
-**Learning Outcome:** Understanding how to validate user input and provide meaningful feedback.`,
 
     "PHP File Handling": `
-**Code Explanation:**
-This example demonstrates basic file reading operations:
+### Example 1
+**PHP File Handling**
+PHP provides robust capabilities for interacting with the file system, allowing you to create,
+read, write, and manage files on the server. This is essential for tasks like logging, content
+management, and data storage.
+**Opening and closing files**
+Before you can perform any operations on a file, you must first open it using the \`fopen()\`
+function. After you're done with the file, it's crucial to close it using \`fclose()\` to free up
+system resources.
+- \`fopen(filename, mode)\`: Opens a file or URL.
+- \`filename\`: The path to the file.
+- \`mode\`: Specifies the type of access you require to the stream.
+- \`"r"\`: Read only. Pointer at the beginning. (Default)
+- \`"w"\`: Write only. Creates new file or truncates existing. Pointer at the beginning.
+- \`"a"\`: Append only. Creates new file or appends to existing. Pointer at the end.
+- \`"x"\`: Create and write only. Returns FALSE if file already exists. Pointer at the
+beginning.
+- \`"r+"\`: Read/Write. Pointer at the beginning.
+- \`"w+"\`: Read/Write. Creates new file or truncates existing. Pointer at the
+beginning.
+- \`"a+"\`: Read/Write. Creates new file or appends to existing. Pointer at the end.
+- \`fclose(file_handle)\`: Closes an open file pointer.
 
-1. **File Opening**: \`fopen("test.txt", "r")\` opens a file named "test.txt" in read mode ("r").
+### Example 2
+**Reading from files**
+PHP offers several functions to read content from files, depending on whether you want to
+read the entire file, line by line, or character by character.
+- \`fread(file_handle, length)\`: Reads up to length bytes from the file pointer.
+- \`fgets(file_handle)\`: Reads a single line from the file pointer.
+- \`file_get_contents(filename)\`: Reads entire file into a string. This is often the simplest way
+to read a whole file.
+- \`file(filename)\`: Reads entire file into an array, with each element representing a line.
 
-2. **While Loop**: \`while(!feof($file))\` continues looping until the end of the file is reached.
+### Example 3 
+Writing to files
+To write data to a file, you typically use \`fwrite()\` after opening the file in a write (\`"w"\`),
+append (\`"a"\`), or read/write (\`"w+"\`,\`"a+"\`) mode. For simple writes, \`file_put_contents()\` is a
+convenient shortcut.
+- **fwrite(file_handle, string)**: Writes string to the file pointer.
+- **file_put_contents(filename, data, flags)**: Writes data to filename . If filename does not
+exist, it is created. If it exists, it is overwritten unless \`FILE_APPEND\` flag is used.
 
-3. **feof() Function**: Checks if the end-of-file has been reached.
+### Example 4
+**File permissions**
+File permissions determine who can read, write, or execute files and directories on the
+server. Correct permissions are crucial for security and proper application functioning.
+Permissions are typically represented by a three-digit octal number (e.g., 755, 644).
+- **chmod(filename, mode)**: Changes file mode (permissions).
+- ***mode**: An octal number representing permissions.
+- First digit: Owner permissions
+- Second digit: Group permissions
+- Third digit: Others (public) permissions
+**Common Permissions:**
+- \`7 (rwx)\` : Read, Write, Execute
+- \`6 (rw-)\` : Read, Write
+- \`5 (r-x)\` : Read, Execute
+- \`4 (r--)\` : Read only
+**Example Combinations:**
+- \`0755\`: Owner can read, write, execute; Group and Others can read and execute
+(common for directories).
+- \`0644\`: Owner can read, write; Group and Others can read (common for files).
+- \`0600\`: Owner can read, write; No access for Group and Others (very restrictive).
 
-4. **fgets() Function**: \`fgets($file)\` reads one line from the file at a time.
+### Example 5
+**File uploads**
+PHP makes it relatively easy to handle file uploads from HTML forms. However, it's crucial
+to implement robust security checks to prevent malicious file uploads.
 
-5. **HTML Output**: \`"<br>"\` adds a line break for HTML display.
+**Code Explanation**
+- \`enctype="multipart/form-data"\` in the HTML form is essential for file uploads.
+- \`$_FILES\` superglobal array holds information about the uploaded file (name, type, size,
+temporary name, error code).
+- \`move_uploaded_file()\` moves the uploaded file from its temporary location to your
+specified destination. This is the only safe way to handle uploaded files.
+- **Security**: The example includes basic checks for file type, size, and existence. In a realworld application, you would need more rigorous validation (e.g., checking MIME types,
+scanning for malware, storing files outside the web root, renaming files to prevent
+execution).`,
 
-6. **File Closing**: \`fclose($file)\` properly closes the file to free up system resources.
-
-**Why This Matters:**
-- File handling is essential for reading and writing data
-- Proper file management prevents resource leaks
-- This pattern is commonly used for processing text files
-
-**Learning Outcome:** Understanding how to read files and process their contents line by line.`,
 
     "PHP Cookies and Sessions": `
 **Code Explanation:**

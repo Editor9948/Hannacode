@@ -649,8 +649,9 @@ if (role === "mentor") {
                             variant="outline"
                             onClick={() => {
                               const url = `${window.location.origin}/certificate/${certificate.certificateId}`;
-                              navigator.clipboard.writeText(url);
-                              alert('Certificate link copied to clipboard!');
+                              import('../lib/utils').then(m=>m.safeCopy(url)).then(ok=>{
+                                if(!ok) alert('Copy failed'); else alert('Certificate link copied to clipboard!');
+                              });
                             }}
                           >
                             Share

@@ -7,6 +7,7 @@ import { Card } from "../../components/ui/card"
 import { Play, Download, Copy, Save } from "lucide-react"
 import { useToast } from "../../hooks/useToast"
 import { codeApi } from "../../lib/compilerApi"
+import { safeCopy } from "../../lib/utils"
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { dracula} from 'react-syntax-highlighter/dist/esm/styles/prism'
 
@@ -33,6 +34,28 @@ export default function CodePlayground({
   const { toast } = useToast()
 
  
+  // Load incoming code (from LessonDetailPage Play button) once
+  useEffect(() => {
+    try {
+      const incoming = sessionStorage.getItem('playground:incomingCode');
+      const incomingLang = sessionStorage.getItem('playground:incomingLang');
+      if (incoming) {
+        switch(incomingLang){
+          case 'javascript':
+          case 'js': setJs(incoming); setActiveTab('js'); break;
+          case 'cpp': setCpp(incoming); setActiveTab('cpp'); break;
+          case 'python':
+          case 'py': setPy(incoming); setActiveTab('py'); break;
+          case 'html': setHtml(incoming); setActiveTab('html'); break;
+          case 'css': setCss(incoming); setActiveTab('css'); break;
+          default: setJs(incoming); setActiveTab('js');
+        }
+        sessionStorage.removeItem('playground:incomingCode');
+        sessionStorage.removeItem('playground:incomingLang');
+      }
+    } catch(e) { /* ignore */ }
+  }, []);
+
   // Test connection on mount
   useEffect(() => {
     const testConnection = async () => {
@@ -157,11 +180,12 @@ export default function CodePlayground({
     }
   };
 
-  const copyCode = (code, type) => {
-    navigator.clipboard.writeText(code)
+  const copyCode = async (code, type) => {
+    const ok = await safeCopy(code);
     toast({
-      title: "Copied to clipboard",
-      description: `${type} code has been copied to your clipboard`,
+      title: ok ? "Copied" : "Copy Failed",
+      description: ok ? `${type} code copied to clipboard` : 'Unable to copy code',
+      variant: ok ? 'success' : 'error'
     })
   }
 

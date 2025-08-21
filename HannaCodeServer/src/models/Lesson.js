@@ -62,6 +62,18 @@ const LessonSchema = new mongoose.Schema(
         explanation: String,
       },
     ],
+    codeExamples: [
+      {
+        title: { type: String, required: true },
+        language: { 
+          type: String, 
+          enum: ['javascript','css','html','python','php','dart','cpp','java','csharp','go','rust','plaintext'],
+          default: 'plaintext'
+        },
+        code: { type: String, required: true },
+        explanation: { type: String, required: true }
+      }
+    ],
     createdAt: {
       type: Date,
       default: Date.now,
