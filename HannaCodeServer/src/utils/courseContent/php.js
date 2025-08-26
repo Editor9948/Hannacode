@@ -1828,43 +1828,349 @@ try {
 ?>`,
 
     "MySQL Basics": `
-    CREATE DATABASE myDB;
-    USE myDB;
-    CREATE TABLE Users (id INT, name VARCHAR(30));`,
+// Example 1:  Database creation
+   -- Create a new database called 'schoolDB'
+CREATE DATABASE schoolDB;
+
+-- View all databases
+SHOW DATABASES;
+
+-- Select database for use
+USE schoolDB;
+
+// Example 2: Table creation
+    -- Create a 'students' table
+CREATE TABLE students (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    age INT,
+    email VARCHAR(150)
+);
+
+// Example 3: Data types
+CREATE TABLE courses (
+    course_id INT PRIMARY KEY,
+    course_name VARCHAR(100) NOT NULL,
+    credits DECIMAL(3,1),
+    start_date DATE
+);
+
+// Example 4: Primary keys
+    -- Primary key ensures unique records
+CREATE TABLE teachers (
+    teacher_id INT AUTO_INCREMENT,
+    teacher_name VARCHAR(100),
+    PRIMARY KEY (teacher_id)
+);`,
 
     "MySQL Tables and Data Types": `
-    CREATE TABLE Users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(30) NOT NULL,
-    email VARCHAR(50) UNIQUE
-    );`,
+// Example 1: - Creating tables
+CREATE TABLE users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+// Example 2: Data types in MySQL
+   CREATE TABLE employees (
+    emp_id INT PRIMARY KEY,
+    name VARCHAR(100),
+    hire_date DATE,
+    salary DECIMAL(8,2),
+    is_active BOOLEAN
+);
+
+// Example 3: Constraints
+CREATE TABLE users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(150) NOT NULL,
+    age INT CHECK (age >= 18),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+// Example 4: Indexes
+-- Add an index on the email column
+CREATE INDEX idx_email ON users(email);
+
+// Example 5: Table relationships
+CREATE TABLE departments (
+    dept_id INT AUTO_INCREMENT PRIMARY KEY,
+    dept_name VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE employees (
+    emp_id INT AUTO_INCREMENT PRIMARY KEY,
+    emp_name VARCHAR(100) NOT NULL,
+    dept_id INT,
+    FOREIGN KEY (dept_id) REFERENCES departments(dept_id)
+);`,
 
     "MySQL CRUD Operations": `
-    INSERT INTO Users (name, email) VALUES (\"John\", \"john@example.com\");
-    SELECT * FROM Users;\nUPDATE Users SET name = \"Jane\" WHERE id = 1;
-    DELETE FROM Users WHERE id = 1;`,
+// Example 1: INSERT statements
+  -- Insert a new user into the 'users' table
+INSERT INTO users (username, email, age) 
+VALUES ('john_doe', 'john@example.com', 25);
 
-    "MySQL Joins": `SELECT Users.name, Orders.order_id
-    FROM Users
-    INNER JOIN Orders ON Users.id = Orders.user_id;`,
+-- Insert multiple rows at once
+INSERT INTO users (username, email, age)
+VALUES 
+('mary_jane', 'mary@example.com', 30),
+('peter_parker', 'peter@example.com', 22);
 
-    "MySQL Indexes": `CREATE INDEX idx_name ON Users(name);`,
+// Example 2: SELECT statements
+-- Select all columns
+SELECT * FROM users;
 
-    "MySQL Transactions": `START TRANSACTION;
-    INSERT INTO Users (name) VALUES (\"John\");
-    INSERT INTO Orders (user_id) VALUES (LAST_INSERT_ID());
-    COMMIT;`,
+-- Select specific columns
+SELECT username, email FROM users;
 
-    "PHP and MySQL Integration": `<?php
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    $sql = \"SELECT * FROM Users\";
-    $result = $conn->query($sql);
-    nwhile($row = $result->fetch_assoc()) {
-     echo $row[\"name\"];
-     }
-     ?>`,
+-- Apply conditions with WHERE
+SELECT * FROM users WHERE age > 20;
+
+-- Sort results
+SELECT * FROM users ORDER BY age DESC;
+
+-- Limit number of results
+SELECT * FROM users ORDER BY age LIMIT 3;
+
+// Example 3: UPDATE statements
+-- Update a user’s email
+UPDATE users
+SET email = 'new_john@example.com'
+WHERE username = 'john_doe';
+
+-- Increase age of all users by 1
+UPDATE users
+SET age = age + 1;
+
+// Example 4: DELETE statements
+-- Delete one user
+DELETE FROM users WHERE username = 'mary_jane';
+
+-- Delete all users
+DELETE FROM users;    `,
+
+    "MySQL Joins": `
+// Example 1: INNER JOIN
+-- Table: users
++----+----------+-------------------+
+| id | username | email             |
++----+----------+-------------------+
+| 1  | John     | john@example.com  |
+| 2  | Mary     | mary@example.com  |
+| 3  | Peter    | peter@example.com |
++----+----------+-------------------+
+ //users.id is related to orders.user_id.
+-- Table: orders
++----+---------+----------+
+| id | user_id | product  |
++----+---------+----------+
+| 1  | 1       | Laptop   |
+| 2  | 1       | Phone    |
+| 3  | 2       | Tablet   |
+| 4  | 4       | Camera   |
++----+---------+----------+
+
+  //INNER JOIN
+  SELECT users.username, orders.product
+FROM users
+INNER JOIN orders ON users.id = orders.user_id;
+
+//Result
++----------+---------+
+| username | product |
++----------+---------+
+| John     | Laptop  |
+| John     | Phone   |
+| Mary     | Tablet  |
++----------+---------+
+
+// Example 2: LEFT JOIN
+SELECT users.username, orders.product
+FROM users
+LEFT JOIN orders ON users.id = orders.user_id;
+
+  //Result 
++----------+---------+
+| username | product |
++----------+---------+
+| John     | Laptop  |
+| John     | Phone   |
+| Mary     | Tablet  |
+| Peter    | NULL    |
++----------+---------+
+
+// Example 3:  RIGHT JOIN
+SELECT users.username, orders.product
+FROM users
+RIGHT JOIN orders ON users.id = orders.user_id;
+
+  //Result 
++----------+---------+
+| username | product |
++----------+---------+
+| John     | Laptop  |
+| John     | Phone   |
+| Mary     | Tablet  |
+| NULL     | Camera  |
++----------+---------+
+
+// Example 4: FULL JOIN
+SELECT users.username, orders.product
+FROM users
+LEFT JOIN orders ON users.id = orders.user_id
+
+UNION
+
+SELECT users.username, orders.product
+FROM users
+RIGHT JOIN orders ON users.id = orders.user_id;
+  
+   //Result 
++----------+---------+
+| username | product |
++----------+---------+
+| John     | Laptop  |
+| John     | Phone   |
+| Mary     | Tablet  |
+| Peter    | NULL    |
+| NULL     | Camera  |
++----------+---------+
+
+// Example 5: Self JOIN
+-- Table: employees
++----+----------+-----------+
+| id | name     | managerId |
++----+----------+-----------+
+| 1  | Alice    | NULL      |
+| 2  | Bob      | 1         |
+| 3  | Charlie  | 1         |
+| 4  | Diana    | 2         |
++----+----------+-----------+
+
+-- Query
+SELECT e.name AS Employee, m.name AS Manager
+FROM employees e
+LEFT JOIN employees m ON e.managerId = m.id;
+
+   //Result 
++----------+---------+
+| Employee | Manager |
++----------+---------+
+| Alice    | NULL    |
+| Bob      | Alice   |
+| Charlie  | Alice   |
+| Diana    | Bob     |
++----------+---------+`,
+
+    "MySQL Indexes": `
+// Example 1:  Index types
+    CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,    -- PRIMARY KEY index
+    email VARCHAR(100) UNIQUE,            -- UNIQUE index
+    username VARCHAR(50),                 
+    bio TEXT,
+    FULLTEXT(bio)                         -- FULLTEXT index
+);
+
+// Example 2: Creating indexes
+-- Create a normal index
+CREATE INDEX idx_username ON users(username);
+
+-- Create a composite index (multiple columns)
+CREATE INDEX idx_user_email ON users(username, email);
+
+// Example 3: Index optimization
+SELECT * FROM users WHERE username = 'Mary';  `,
+
+    "MySQL Transactions": `
+// Example 1: Transaction basics
+START TRANSACTION;
+
+UPDATE accounts SET balance = balance - 500 WHERE id = 1;
+UPDATE accounts SET balance = balance + 500 WHERE id = 2;
+
+COMMIT;
+
+// Example 2: Transaction management
+START TRANSACTION;  -- begins a transaction
+COMMIT;             -- saves all changes
+ROLLBACK;           -- undo changes
+
+// Example 3: Rollback and commit
+START TRANSACTION;
+
+UPDATE accounts SET balance = balance - 1000 WHERE id = 1;
+UPDATE accounts SET balance = balance + 1000 WHERE id = 999; -- error: user doesn’t exist
+
+ROLLBACK;
+
+// Example 4: Isolation levels
+SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+START TRANSACTION;`,
+
+    "PHP and MySQL Integration": `
+// Example 1: Connecting PHP to MySQL   
+    <?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "my_database";
+
+// Create connection
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+echo "Connected successfully";
+?>
+
+// Example 2: Executing queries
+<?php
+$sql = "INSERT INTO users (name, email) VALUES ('John Doe', 'john@example.com')";
+if (mysqli_query($conn, $sql)) {
+    echo "Record inserted successfully";
+} else {
+    echo "Error: " . mysqli_error($conn);
+}
+?>
+
+// Example 3: Handling results
+<?php
+$sql = "SELECT id, name, email FROM users";
+$result = mysqli_query($conn, $sql);
+
+if (mysqli_num_rows($result) > 0) {
+    while($row = mysqli_fetch_assoc($result)) {
+        echo "ID: " . $row["id"] . " - Name: " . $row["name"] . " - Email: " . $row["email"] . "<br>";
+    }
+} else {
+    echo "No records found";
+}
+?>
+
+// Example 4: Prepared statements
+$stmt = $conn->prepare("INSERT INTO users (name, email) VALUES (?, ?)");
+$stmt->bind_param("ss", $name, $email);
+
+$name = "Alice";
+$email = "alice@example.com";
+$stmt->execute();
+
+// Example 5: Error handling
+<?php
+if (!$result) {
+    echo "Error executing query: " . mysqli_error($conn);
+}
+?>
+`,
 
     "PHP Prepared Statements": `
+// Example 1: Prepared Statements
     <?php
     $stmt = $conn->prepare(\"INSERT INTO Users (name) VALUES (?)\");
     $stmt->bind_param(\"s\", $name);
@@ -2883,17 +3189,32 @@ This example demonstrates MySQL database connection using mysqli:
 **Learning Outcome:** Understanding how to establish secure database connections and handle connection errors.`,
 
     "MySQL Basics": `
-**Code Explanation:**
+### Example 1 
+MySQL is a relational database management system (RDBMS) used to store, manage, and retrieve structured data. 
+It organizes data into databases, and inside each database are tables that hold rows (records) and columns (fields)
 
-This example demonstrates basic MySQL database and table creation:
+- \`CREATE DATABASE\` → makes a new database container.
+- \`SHOW DATABASES\` → lists all existing databases.
+- \`USE\` → selects the active database so all queries run inside it.
 
-1. **Database Creation**: \`CREATE DATABASE myDB;\` creates a new database named "myDB".
+### Example 2 
+**Table Creation**:
+- \`id\` → unique identifier, auto-increments automatically.
+- \`name\` → string column (up to 100 chars).
+- \`age\` → integer.
+- \`email\` → varchar, optional (no NOT NULL).
+- PRIMARY KEY → ensures \`id\` is unique.
 
-2. **Database Selection**: \`USE myDB;\` tells MySQL to use the "myDB" database for subsequent operations.
+### Example 3 
+- Common data types in MySQL:
+- Numeric → INT, BIGINT, DECIMAL, FLOAT
+- String → CHAR(n), VARCHAR(n), TEXT
+- Date/Time → DATE, DATETIME, TIMESTAMP
+- Boolean → TINYINT(1) (0 = false, 1 = true)
 
-3. **Table Creation**: \`CREATE TABLE Users (id INT, name VARCHAR(30));\` creates a table with:
-   - An "id" column of integer type
-   - A "name" column that can store up to 30 characters
+### Example 4 
+- A primary key uniquely identifies each record.
+- \`AUTO_INCREMENT\` makes ID increase automatically when new data is inserted.
 
 **Why This Matters:**
 - Databases provide structured storage for application data
@@ -2903,137 +3224,247 @@ This example demonstrates basic MySQL database and table creation:
 **Learning Outcome:** Understanding how to create databases and tables to store application data.`,
 
     "MySQL Tables and Data Types": `
-**Code Explanation:**
+### Example 1 
+o create a table, you use the \`CREATE TABLE\` statement, specifying the table name and its columns. 
+Each column has a name and a data type.
 
-This example demonstrates advanced table creation with constraints:
+**Code Explanation**
+- This code creates a table named \`users\`. It includes four columns: \`id\`, \`username\`, \`email\`, and \`created_at\`. 
+- The \`id\` is an \`INT\` that's the primary key and auto-increments for unique identification. 
+- The \`username\` and \`email\` are \`VARCHAR\` (variable-length string) with a specified maximum length, and 
+both are \`NOT NULL\` and \`UNIQUE\`, ensuring they can't be empty and are distinct. 
+- The \`created_at\` column is a \`TIMESTAMP\` that defaults to the current time when a new row is inserted.
 
-1. **Primary Key**: \`AUTO_INCREMENT PRIMARY KEY\` creates an automatically incrementing unique identifier.
+### Example 2 
+Data types define what kind of data can be stored in a column.
 
-2. **NOT NULL Constraint**: Ensures the "name" field cannot be empty.
+1. **Numeric Types**
+- \`INT\` → whole numbers (-2B to 2B).
+- \`BIGINT\` → larger whole numbers.
+- \`DECIMAL(p,s)\` → exact decimal (e.g., DECIMAL(6,2) → 9999.99).
+- \`FLOAT\` / \`DOUBLE\` → approximate decimal numbers.
+2. **String Types**
+- \`CHAR(n)\` → fixed-length string (good for things like country codes "USA").
+- \`VARCHAR(n)\` → variable length string (most common for text).
+- \`TEXT\` → large text data (articles, descriptions).
+3. **Date/Time Types**
+- \`DATE\` → stores date (YYYY-MM-DD).
+- \`DATETIME\` → stores date + time.
+- \`TIMESTAMP\` → stores date + time, auto-updated on changes.
 
-3. **UNIQUE Constraint**: Ensures each email address can only appear once in the table.
+### Example 3 
+Constraints are rules that enforce data integrity. Common constraints are:
+- \`PRIMARY KEY\`: Uniquely identifies each row in a table.
+- \`FOREIGN KEY\`: Enforces a link between two tables.
+- \`NOT NULL\`: Ensures a column can't have a \`NULL\` value.
+- \`UNIQUE\`: Ensures all values in a column are different.
+- \`DEFAULT\`: Sets a default value for a column.
+- \`CHECK\`: Enforces a condition for all values in a column.
 
-4. **Data Types**: 
-   - \`INT\` for whole numbers
-   - \`VARCHAR(50)\` for variable-length text up to 50 characters
+### Example 4 
+Indexes are special lookup tables that the database search engine can use to speed up data retrieval. 
+Think of an index like the index in the back of a book. It helps you find information quickly without 
+reading every page. The \`PRIMARY KEY\` constraint automatically creates a clustered index.
 
-**Why This Matters:**
-- Constraints ensure data integrity and consistency
-- Primary keys provide unique identification for each record
-- Proper data types optimize storage and performance
+### Example 5 
+Tables often relate to each other. The three main types of relationships are:
+- **One-to-One**: A single row in the first table is linked to a single row in the second table.
+- **One-to-Many**: A single row in the first table is linked to multiple rows in the second table. This is the most common type.
+- **Many-to-Many**: Multiple rows in the first table are linked to multiple rows in the second table. 
+This requires a third junction table to manage the relationships.
 
-**Learning Outcome:** Understanding how to create robust database tables with proper constraints and data types.`,
+**Explanation**
+- \`departments\` → parent table.
+- \`employees\` → child table.
+- \`FOREIGN KEY\` (\`dept_id\`) ensures an employee must belong to an existing department.
+`,
 
     "MySQL CRUD Operations": `
-**Code Explanation:**
+### Example 1 
+CRUD stands for:
+C → Create (INSERT)
+R → Read (SELECT)
+U → Update (UPDATE)
+D → Delete (DELETE)
+These four operations are the foundation of working with databases.
 
-This example demonstrates the four basic database operations (CRUD):
+**Explanation**
+- \`INSERT INTO table (columns) VALUES (...)\` specifies which values go into which columns.
+- If a column has \`AUTO_INCREMENT\` or \`DEFAULT\`, you can omit it.
+- Multiple rows can be added in a single query (better performance).
 
-1. **CREATE (INSERT)**: \`INSERT INTO Users (name, email) VALUES ("John", "john@example.com");\` adds a new record to the table.
+*NOTE*: If you try to insert a duplicate value in a \`UNIQUE\` column → MySQL will throw an error.
 
-2. **READ (SELECT)**: \`SELECT * FROM Users;\` retrieves all records from the Users table.
+### Example 2 
+The \`SELECT\` statement retrieves data from a table
+- \`SELECT *\` → selects all columns.
+- \`WHERE\` → filters records based on conditions.
+- \`ORDER BY\` → sorts results ascending (ASC) or descending (DESC).
+- \`LIMIT\` → restricts number of returned rows.
+***Example query meaning**:
+\`SELECT username, email FROM users WHERE age > 20 ORDER BY age DESC LIMIT 3;\`
+- Fetch username + email of the top 3 oldest users over age 20.
 
-3. **UPDATE**: \`UPDATE Users SET name = "Jane" WHERE id = 1;\` modifies the name of the user with ID 1.
+### Example 3 
+The \`UPDATE\` statement modifies existing data in a table.
+- \`SET column\` = value updates column values.
+- \`WHERE\` ensures you only update specific rows.
+- Without \`WHERE\` → all rows will be updated (dangerous!).
 
-4. **DELETE**: \`DELETE FROM Users WHERE id = 1;\` removes the user with ID 1 from the table.
-
-**Why This Matters:**
-- CRUD operations are the foundation of database management
-- These operations allow you to create, retrieve, modify, and remove data
-- Understanding CRUD is essential for any database-driven application
-
-**Learning Outcome:** Mastering the four fundamental database operations for data management.`,
+### Example 4 
+The DELETE statement removes rows from a table.
+- \`DELETE FROM table WHERE condition;\` deletes specific rows.
+Omitting \`WHERE\` → deletes everything in the table.
+*Always double-check before running \`DELETE\` without a \`WHERE\` clause.*`,
 
     "MySQL Joins": `
-**Code Explanation:**
+### Example 1 
+When working with multiple tables, JOINs allow you to combine data based on relationships between them.
 
-This example demonstrates how to combine data from multiple tables:
+**INNER JOIN**: Returns only rows where both tables have matching values.
+- \`INNER JOIN\` matches users with orders where \`users.id = orders.user_id.\`
+- Peter is excluded (he has no orders).
+- Order with \`user_id = 4\` is excluded (no such user).
 
-1. **SELECT Statement**: Specifies which columns to retrieve (name from Users table, order_id from Orders table).
+### Example 2
+- Returns all rows from the left table (\`users\`) and matched rows from the right table (\`orders\`).
+- If no match exists, \`NULL\` is returned.
 
-2. **FROM Clause**: Specifies the main table (Users).
+**Explanation:**
+- All users are included.
+- Peter has no orders → \`product\` is \`NULL\`.
+- Orders with user_id = 4 are ignored (no matching user)
+ 
+### Example 3 
+- Returns all rows from the right table (\`orders\`) and matched rows from the left table (\`users\`).
+- If no match exists, \`NULL\` is returned.
 
-3. **INNER JOIN**: \`INNER JOIN Orders ON Users.id = Orders.user_id\` combines records where the user ID matches in both tables.
+**Explanation**
+- All orders are included.
+- The order with \`user_id = 4\` has no matching user → \`username\` is \`NULL\`.
 
-4. **Join Condition**: \`Users.id = Orders.user_id\` defines how the tables are related.
+### Example 4 
+MySQL doesn’t support FULL JOIN directly, but you can simulate it with UNION of LEFT + RIGHT JOIN.
 
-**Why This Matters:**
-- Joins allow you to retrieve related data from multiple tables
-- INNER JOIN only returns records that exist in both tables
-- Understanding joins is crucial for complex data queries
+**Explanation:**
+- Combines results of LEFT JOIN and RIGHT JOIN.
+- Includes users without orders (Peter) and orders without users (Camera).
+    
+### Example 5 
+A table joined with itself. Often used for hierarchical data (like employees and managers).
 
-**Learning Outcome:** Understanding how to retrieve related data from multiple database tables.`,
+**Explanation**:
+- The table \`employees\` is aliased as \`e\` (employee) and \`m\` (manager).
+- Each employee’s \`managerId\` is matched against another employee’s \`id\`.
+- Alice has no manager (\`NULL\`).`,
 
     "MySQL Indexes": `
-**Code Explanation:**
+### Example 1 
+Indexes are special lookup tables that MySQL uses to speed up data retrieval. They work like an index in a book — instead 
+of scanning every page, you jump directly to the right section.
 
-This example demonstrates index creation for performance optimization:
+**Index Types**
+MySQL supports different index types:
+- **PRIMARY KEY Index** → Uniquely identifies each row (only one per table).
+- **UNIQUE Index** → Prevents duplicate values but allows \`NULL\`.
+- **INDEX (Normal)** → Speeds up queries but allows duplicates.
+- **FULLTEXT Index** → For searching text in \`CHAR\`, \`VARCHAR\`, \`TEXT\` columns.
+- **SPATIAL Index** → For GIS (geographical) data types.
 
-1. **CREATE INDEX**: \`CREATE INDEX idx_name ON Users(name);\` creates an index on the "name" column.
+**Explanation**
+- \`id\` is a PRIMARY KEY (unique, indexed automatically).
+- \`email\` cannot have duplicates because of UNIQUE index.
+- \`bio\` can be searched using FULLTEXT for fast text-based queries (like a search engine).
 
-2. **Index Naming**: \`idx_name\` follows a common naming convention for indexes.
+### Example 2 
+Indexes can be created when a table is created or added to an existing table
+**Explanation**:
+- \`idx_username\` will make searches like \`WHERE username = 'John'\` much faster.
+- \`idx_user_email\` optimizes queries that filter by both username and email.
+   
+### Example 3
+Indexes improve read speed but come with trade-offs:
+- **Good Use Case**: Queries with \`WHERE\`, \`JOIN\`, \`ORDER BY\`, or \`GROUP BY\`.
+- **Bad Use Case**: Tables with heavy inserts/updates (indexes slow down writes).
 
-3. **Performance Impact**: Indexes speed up queries that search or sort by the indexed column.
+- Without an index → MySQL scans all rows.
+- With an index on \`username\` → MySQL jumps directly to the matching row.
 
-**Why This Matters:**
-- Indexes significantly improve query performance on large datasets
-- They're especially important for columns used in WHERE, ORDER BY, and JOIN clauses
-- Proper indexing is crucial for database performance
-
-**Learning Outcome:** Understanding how to optimize database performance through strategic indexing.`,
+**Index Limitations**:
+- Too many indexes = slower inserts/updates.
+- Indexes take up extra storage space.
+- Indexes don’t work well on small tables (full table scan may be faster).
+- FULLTEXT only works on CHAR, VARCHAR, TEXT (not BLOB)`,
 
     "MySQL Transactions": `
-**Code Explanation:**
+### Example 1 
+Transactions allow grouping multiple SQL operations into a single unit of work.
+They ensure data remains consistent even in case of errors.
 
-This example demonstrates transaction management for data integrity:
+**Transaction Basics**
+A transaction is a sequence of SQL statements that execute together.
+It either fully completes (COMMIT) or fully rolls back (ROLLBACK).
 
-1. **START TRANSACTION**: Begins a transaction that groups multiple operations together.
+**Explanation:**
+- User 1 sends $500 to User 2.
+- Both statements are part of one transaction.
+- If one fails, the whole transaction is rolled back.
 
-2. **INSERT Operations**: Adds a new user and creates an order for that user.
+**ACID Properties**
+*Transactions follow ACID:*
+- **Atomicity** → All or nothing (either full success or full rollback).
+- **Consistency** → Data remains valid before and after transaction.
+- **Isolation** → Multiple transactions don’t interfere with each other.
+- **Durability** → Once committed, changes persist (even after crash).
 
-3. **LAST_INSERT_ID()**: Gets the ID of the most recently inserted record.
+### Example 2 
+- START TRANSACTION: Begins a new transaction.
+- COMMIT: Saves all changes made during the transaction.
+- ROLLBACK: Undoes all changes made since the transaction started.
+   
+### Example 3
+- Since the second update fails, MySQL rolls back the first one.
+- Balance of User 1 remains unchanged (no money lost).
 
-4. **COMMIT**: Permanently saves all changes made within the transaction.
+### Example 4 
+MySQL supports different levels of isolation between transactions:
+- READ UNCOMMITTED → Transactions can see uncommitted changes (dirty reads).
+- READ COMMITTED → Transactions only see committed data.
+- REPEATABLE READ (default in MySQL) → Ensures consistent reads within one transaction.
+- SERIALIZABLE → Highest level; transactions run one after another (slow but safest).`,
+    
+"PHP and MySQL Integration": `
+### Example 1 
+MySQL is the most common database used with PHP. Integration allows PHP scripts to connect, execute queries, and handle results.
 
-**Why This Matters:**
-- Transactions ensure data consistency across multiple operations
-- If any operation fails, the entire transaction can be rolled back
-- This prevents partial updates that could leave data in an inconsistent state
+**Connecting PHP to MySQL**
+PHP uses MySQLi or PDO to connect. PDO is more flexible, but let’s use MySQLi (procedural)above
+- \`mysqli_connect()\` opens a connection.
+- If credentials or DB name are wrong → \`mysqli_connect_error()\` will show error.
 
-**Learning Outcome:** Understanding how to maintain data integrity through transaction management.`,
+### Example 2 
+- Queries (\`INSERT\`, \`UPDATE\`, \`DELETE\`, \`SELECT\`) can be executed with \`mysqli_query()\`.
+- Always handle errors using \`mysqli_error()\`.
 
-    "PHP and MySQL Integration": `
-**Code Explanation:**
+### Example 3 
+- \`mysqli_num_rows()\` checks if rows exist.
+- \`mysqli_fetch_assoc()\` fetches each row as an associative array.
 
-This example demonstrates how PHP interacts with MySQL databases:
+### Example 4 
+- \`?\` placeholders prevent SQL injection.
+- \`bind_param("ss", ...)\` binds two strings (s, s).
 
-1. **Database Connection**: Establishes a connection to the MySQL database.
-
-2. **SQL Query**: \`SELECT * FROM Users\` retrieves all records from the Users table.
-
-3. **Query Execution**: \`$conn->query($sql)\` sends the SQL command to the database.
-
-4. **Result Processing**: \`while($row = $result->fetch_assoc())\` loops through each row in the result set.
-
-5. **Data Access**: \`$row["name"]\` accesses the "name" column from the current row.
-
-**Why This Matters:**
-- This integration allows PHP to retrieve and display dynamic data from databases
-- It's the foundation of dynamic web applications
-- Understanding this pattern is essential for database-driven websites
-
-**Learning Outcome:** Understanding how to retrieve and display database data in PHP applications.`,
-
+### Example 5 
+Always check for errors in your database operations.
+`, 
     "PHP Prepared Statements": `
+### Example 1 
 **Code Explanation:**
 This example demonstrates secure database operations using prepared statements:
 
 1. **Statement Preparation**: \`$conn->prepare()\` creates a prepared statement with a placeholder (?).
-
 2. **Parameter Binding**: \`bind_param("s", $name)\` binds the variable \`$name\` to the placeholder, where "s" indicates a string type.
-
 3. **Variable Assignment**: Sets the value for the parameter.
-
 4. **Statement Execution**: \`execute()\` runs the prepared statement with the bound parameters.
 
 **Why This Matters:**
@@ -3048,11 +3479,8 @@ This example demonstrates secure database operations using prepared statements:
 This example demonstrates secure database querying:
 
 1. **Prepared Statement**: Creates a parameterized query that prevents SQL injection.
-
 2. **Parameter Binding**: \`bind_param("i", $id)\` binds an integer parameter, where "i" indicates integer type.
-
 3. **Variable Assignment**: Sets the ID value to search for.
-
 4. **Secure Execution**: The prepared statement safely executes with the provided parameter.
 
 **Why This Matters:**

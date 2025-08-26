@@ -54,6 +54,11 @@ const LessonSchema = new mongoose.Schema(
         },
       },
     ],
+    // Parsed from markdown section: ### Practice Exercises
+    exercises: {
+      type: [String],
+      default: [],
+    },
     quiz: [
       {
         question: String,

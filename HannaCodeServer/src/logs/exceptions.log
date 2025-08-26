@@ -1555,3 +1555,15 @@ TypeError: BlogAggregatorService is not a constructor
     at Module.require (node:internal/modules/cjs/loader:1340:12)
     at require (node:internal/modules/helpers:138:16)
     at Object.<anonymous> (C:\Users\USER\Desktop\Hanna\HannaCodeServer\src\app.js:48:20)
+2025-08-26 05:53:45 error: uncaughtException: Route.post() requires a callback function but got a [object Undefined]
+Error: Route.post() requires a callback function but got a [object Undefined]
+    at Route.<computed> [as post] (C:\Users\USER\Desktop\Hanna\HannaCodeServer\node_modules\express\lib\router\route.js:216:15)
+    at proto.<computed> [as post] (C:\Users\USER\Desktop\Hanna\HannaCodeServer\node_modules\express\lib\router\index.js:521:19)
+    at Object.<anonymous> (C:\Users\USER\Desktop\Hanna\HannaCodeServer\src\routes\admin.js:14:8)
+    at Module._compile (node:internal/modules/cjs/loader:1565:14)
+    at Object..js (node:internal/modules/cjs/loader:1708:10)
+    at Module.load (node:internal/modules/cjs/loader:1318:32)
+    at Function._load (node:internal/modules/cjs/loader:1128:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:219:24)
+    at Module.require (node:internal/modules/cjs/loader:1340:12)

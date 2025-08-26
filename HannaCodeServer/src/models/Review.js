@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+const { pushCourseMetrics } = require('../services/courseMetricsService')
 
 const ReviewSchema = new mongoose.Schema(
   {
@@ -55,6 +56,32 @@ ReviewSchema.index({ user: 1, course: 1 }, { unique: true })
 ReviewSchema.pre("save", function (next) {
   this.updatedAt = Date.now()
   next()
+})
+
+// Hooks to broadcast metrics updates
+ReviewSchema.post('save', async function(doc) {
+  if (doc?.course) {
+    await pushCourseMetrics(doc.course)
+  }
+})
+
+ReviewSchema.post('remove', async function(doc) {
+  if (doc?.course) {
+    await pushCourseMetrics(doc.course)
+  }
+})
+
+ReviewSchema.post('findOneAndUpdate', async function(result) {
+  try {
+    const doc = await this.model.findOne(this.getQuery())
+    if (doc?.course) await pushCourseMetrics(doc.course)
+  } catch (_) {}
+})
+
+ReviewSchema.post('findOneAndDelete', async function(result) {
+  try {
+    if (result?.course) await pushCourseMetrics(result.course)
+  } catch (_) {}
 })
 
 module.exports = mongoose.model("Review", ReviewSchema) 

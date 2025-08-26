@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from "../../components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar";
-import { ArrowLeft, BookOpen, Clock, Users, Star, CheckCircle} from "lucide-react";
+import { ArrowLeft, BookOpen, Clock, Users, Star, CheckCircle, Trash } from "lucide-react";
 
 const DEFAULT_PLACEHOLDER = "/placeholder.svg";
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/v1'; 
@@ -20,6 +20,12 @@ export default function CourseDetailPage() {
   const [error, setError] = useState("");
   const [lessons, setLessons] = useState([]);
   const [imageLoadError, setImageLoadError] = useState(false);
+  // Reviews state
+  const [reviewsList, setReviewsList] = useState([]);
+  const [reviewsLoading, setReviewsLoading] = useState(false);
+  const [reviewError, setReviewError] = useState("");
+  const [form, setForm] = useState({ rating: 5, title: "", comment: "" });
+  const [myReviewId, setMyReviewId] = useState(null);
   const user = JSON.parse(localStorage.getItem("user"));
   const isAdminOrMentor = user && (user.role === "admin" || user.role === "mentor");
 
@@ -148,6 +154,37 @@ export default function CourseDetailPage() {
     fetchCourse();
   }, [slug]);
 
+  // Fetch course reviews (public endpoint) once course is loaded
+  useEffect(() => {
+    const fetchReviews = async () => {
+      if (!course?.id) return;
+      try {
+        setReviewsLoading(true);
+        setReviewError("");
+        const resp = await fetch(`${API_URL}/courses/${course.id}/reviews`);
+        if (!resp.ok) throw new Error(`Failed to load reviews (${resp.status})`);
+        const json = await resp.json();
+        const arr = Array.isArray(json.data) ? json.data : [];
+        setReviewsList(arr);
+        // Determine if current user already has a review
+        const currentUserId = user?._id || user?.id;
+        const mine = currentUserId ? arr.find(r => (r.user?._id || r.user?.id) === currentUserId) : null;
+        if (mine) {
+          setMyReviewId(mine._id || mine.id);
+          setForm({ rating: mine.rating || 5, title: mine.title || "", comment: mine.comment || "" });
+        } else {
+          setMyReviewId(null);
+          setForm({ rating: 5, title: "", comment: "" });
+        }
+      } catch (e) {
+        setReviewError(e.message || "Failed to load reviews");
+      } finally {
+        setReviewsLoading(false);
+      }
+    };
+    fetchReviews();
+  }, [course?.id]);
+
   useEffect(() => {
     const startProgress = async () => {
       if (!course?.id) return;
@@ -165,6 +202,104 @@ export default function CourseDetailPage() {
       }
     };
     if (course?.id) startProgress();
+  }, [course?.id]);
+
+  const submitReview = async (e) => {
+    e?.preventDefault?.();
+    if (!course?.id) return;
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('Please login to post a review.');
+      return;
+    }
+    const payload = { rating: Number(form.rating), title: form.title?.trim(), comment: form.comment?.trim() };
+    if (!payload.title || !payload.comment) {
+      alert('Please provide both title and comment.');
+      return;
+    }
+    try {
+      setReviewsLoading(true);
+      setReviewError("");
+      const url = myReviewId
+        ? `${API_URL}/courses/${course.id}/reviews/${myReviewId}`
+        : `${API_URL}/courses/${course.id}/reviews`;
+      const method = myReviewId ? 'PUT' : 'POST';
+      const resp = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify(payload)
+      });
+      const json = await resp.json();
+      if (!resp.ok || !json.success) {
+        throw new Error(json.message || `Failed to ${myReviewId ? 'update' : 'create'} review`);
+      }
+      // Refresh list
+      const listResp = await fetch(`${API_URL}/courses/${course.id}/reviews`);
+      const listJson = await listResp.json();
+      setReviewsList(Array.isArray(listJson.data) ? listJson.data : []);
+      const currentUserId = user?._id || user?.id;
+      const mine = currentUserId ? (listJson.data || []).find(r => (r.user?._id || r.user?.id) === currentUserId) : null;
+      setMyReviewId(mine ? (mine._id || mine.id) : null);
+    } catch (e) {
+      setReviewError(e.message || 'Review failed');
+    } finally {
+      setReviewsLoading(false);
+    }
+  };
+
+  const deleteMyReview = async () => {
+    if (!course?.id || !myReviewId) return;
+    const token = localStorage.getItem('token');
+    if (!token) return alert('Please login.');
+    try {
+      setReviewsLoading(true);
+      const resp = await fetch(`${API_URL}/courses/${course.id}/reviews/${myReviewId}`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const json = await resp.json();
+      if (!resp.ok || !json.success) throw new Error(json.message || 'Delete failed');
+      // Refresh
+      const listResp = await fetch(`${API_URL}/courses/${course.id}/reviews`);
+      const listJson = await listResp.json();
+      setReviewsList(Array.isArray(listJson.data) ? listJson.data : []);
+      setMyReviewId(null);
+      setForm({ rating: 5, title: "", comment: "" });
+    } catch (e) {
+      setReviewError(e.message || 'Delete failed');
+    } finally {
+      setReviewsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    // Subscribe to SSE metrics when course is loaded
+    if (!course?.id) return;
+
+    const url = `${API_URL}/courses/${course.id}/stream`;
+    const es = new EventSource(url, { withCredentials: true });
+
+    es.addEventListener('metrics', (evt) => {
+      try {
+        const data = JSON.parse(evt.data);
+        setCourse((prev) => prev ? ({
+          ...prev,
+          enrolledStudents: typeof data.enrolledStudents === 'number' ? data.enrolledStudents : prev.enrolledStudents,
+          rating: typeof data.rating === 'number' ? data.rating : prev.rating,
+          reviews: typeof data.reviews === 'number' ? data.reviews : prev.reviews,
+        }) : prev);
+      } catch (e) {
+        // ignore
+      }
+    });
+
+    es.onerror = () => {
+      // Let browser auto-reconnect; nothing to do
+    };
+
+    return () => {
+      es.close();
+    };
   }, [course?.id]);
 
   const handleImageError = (e) => {
@@ -476,14 +611,102 @@ const renderQuiz = (lesson) => {
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className={`h-5 w-5 ${
-                          i < Math.floor(course.rating) ? "fill-primary text-primary" : "text-muted-foreground"
-                        }`}
+                        className={`h-5 w-5 ${i < Math.floor(course.rating) ? 'fill-primary text-primary' : 'text-muted-foreground'}`}
                       />
                     ))}
                   </div>
                   <span className="text-xl font-bold">{course.rating}</span>
                   <span className="text-muted-foreground ml-2">({course.reviews} reviews)</span>
+                </div>
+
+                {/* Review form */}
+                <Card className="mb-6">
+                  <CardHeader>
+                    <CardTitle>{myReviewId ? 'Update your review' : 'Write a review'}</CardTitle>
+                    {reviewError && <CardDescription className="text-red-600">{reviewError}</CardDescription>}
+                  </CardHeader>
+                  <CardContent>
+                    <form onSubmit={submitReview} className="space-y-3">
+                      <div className="flex items-center gap-3">
+                        <label className="text-sm w-24">Rating</label>
+                        <select
+                          className="border rounded px-2 py-1 bg-background"
+                          value={form.rating}
+                          onChange={(e) => setForm((f) => ({ ...f, rating: Number(e.target.value) }))}
+                        >
+                          {[5,4,3,2,1].map(v => (
+                            <option key={v} value={v}>{v}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <label className="text-sm w-24">Title</label>
+                        <input
+                          type="text"
+                          className="flex-1 border rounded px-3 py-2 bg-background"
+                          placeholder="Great course!"
+                          value={form.title}
+                          onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
+                          maxLength={100}
+                          required
+                        />
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <label className="text-sm w-24 mt-2">Comment</label>
+                        <textarea
+                          className="flex-1 border rounded px-3 py-2 bg-background"
+                          rows={4}
+                          placeholder="Share your experience..."
+                          value={form.comment}
+                          onChange={(e) => setForm((f) => ({ ...f, comment: e.target.value }))}
+                          maxLength={1000}
+                          required
+                        />
+                      </div>
+                      <div className="flex gap-2">
+                        <Button type="submit" disabled={reviewsLoading}>
+                          {myReviewId ? 'Update Review' : 'Post Review'}
+                        </Button>
+                        {myReviewId && (
+                          <Button type="button" variant="destructive" onClick={deleteMyReview} disabled={reviewsLoading}>
+                            <Trash className="h-4 w-4 mr-2" /> Delete
+                          </Button>
+                        )}
+                      </div>
+                    </form>
+                  </CardContent>
+                </Card>
+
+                {/* Reviews list */}
+                <div className="space-y-4">
+                  {reviewsLoading && reviewsList.length === 0 && (
+                    <div className="text-muted-foreground">Loading reviews...</div>
+                  )}
+                  {!reviewsLoading && reviewsList.length === 0 && (
+                    <div className="text-muted-foreground">No reviews yet. Be the first to review!</div>
+                  )}
+                  {reviewsList.map((rev) => (
+                    <Card key={rev._id || rev.id}>
+                      <CardHeader className="pb-2">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <div className="font-semibold">{rev.title}</div>
+                            <div className="text-sm text-muted-foreground">
+                              {rev.user?.name || 'Anonymous'} • {new Date(rev.createdAt || rev.updatedAt || Date.now()).toLocaleDateString()}
+                            </div>
+                          </div>
+                          <div className="flex">
+                            {[...Array(5)].map((_, i) => (
+                              <Star key={i} className={`h-4 w-4 ${i < Math.floor(rev.rating || 0) ? 'fill-primary text-primary' : 'text-muted-foreground'}`} />
+                            ))}
+                          </div>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="pt-0">
+                        <p className="text-sm leading-relaxed">{rev.comment}</p>
+                      </CardContent>
+                    </Card>
+                  ))}
                 </div>
               </div>
             </TabsContent>

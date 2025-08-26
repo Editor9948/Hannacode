@@ -570,9 +570,6 @@ const observer = new IntersectionObserver(entries => {
 });
 observer.observe(img);
 `,
-
-
-
   }
   return examples[lessonTitle] || "// Example code will be provided"
 }

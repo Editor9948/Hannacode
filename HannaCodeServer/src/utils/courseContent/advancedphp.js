@@ -258,7 +258,7 @@ const getAdvancedPHPCodeExample = (lessonTitle) => {
 
       "PHP Inheritance":`
       <?php
-// PHP Inheritance Example: Vehicle Management System
+// Example 1: Vehicle Management System
 
 // Base/Parent Class
 abstract class Vehicle {

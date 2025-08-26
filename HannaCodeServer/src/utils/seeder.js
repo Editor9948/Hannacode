@@ -348,32 +348,33 @@ const createLessons = async (courses) => {
     "CSS Styling Mastery": [
       "Introduction to CSS",
       "CSS Fundamentals and Selectors",
+      "CSS Units and Values",
       "CSS Box Model and Layout",
       "CSS Colors and Typography",
       "CSS Backgrounds and Borders",
       "CSS Display and Positioning",
       "CSS Flexbox Layout",
       "CSS Grid Layout",
-      "CSS Transitions and Animations",
-      "CSS Transformations",
-      "CSS Media Queries",
-      "CSS Variables and Custom Properties",
       "CSS Pseudo-classes and Pseudo-elements",
-      "CSS Specificity and Cascade",
-      "CSS Units and Values",
-      "CSS Box Shadow and Text Effects",
-      "CSS Gradients and Patterns",
-      "CSS Filters and Blend Modes",
-      "CSS Responsive Images",
-      "CSS Custom Fonts and Icon Fonts",
       "CSS Tables and Lists Styling",
       "CSS Forms and Input Styling",
       "CSS Navigation and Menu Design",
-      "CSS Card and Component Design",
-      "CSS Modal and Popup Design",
-      "CSS Loading and Animation Effects",
-      "CSS Layout Patterns",
-      
+       "CSS Card and Component Design",
+        "CSS Specificity and Cascade",
+        "CSS Transitions, Animations and Effects",
+        "CSS Transformations(2D & 3D)",
+         "CSS Media Queries",
+        "CSS Variables and Custom Properties",
+        "CSS Gradients and Patterns",
+        "CSS Box Shadow and Text Effects",
+        "CSS Filters and Blend Modes",
+        "CSS Responsive Images",
+         "CSS Custom Fonts and Icon Fonts",
+        "CSS Modal and Popup Design",
+        "CSS Layout Patterns",
+        "CSS Performance & Best Practices",
+       
+
     ],
       "Advanced CSS Styling":[
         "CSS Performance Optimization",
@@ -1160,78 +1161,221 @@ ${dartContent.getDartExercises(lessonTitle)}
   const lessonCount = lessonCounts[course.title];
   const content = courseContent[course.title];
 
-  // Create a single module for each course (you can split into multiple modules if you want)
-  const moduleDoc = await Module.create({
-    title: `${course.title} Module 1`,
-    course: course._id,
-    order: 1,
-    lessons: []
-  });
+  // Special module structure for CSS course only (use explicit plan to avoid affecting other courses)
+  if (course.title === "CSS Styling Mastery") {
+    if (!course.modules) course.modules = [];
 
-  const lessonsForModule = [];
+    // Prefer explicit module plan from css.js; fallback to even slicing if unavailable
+    const plan = (cssContent && typeof cssContent.getCSSModules === 'function')
+      ? cssContent.getCSSModules()
+      : null;
 
-  for (let i = 0; i < lessonCount; i++) {
-    const lessonTitle = content[i];
-    const lessonContent = getLessonContent(course.title, lessonTitle);
+    if (Array.isArray(plan) && plan.length) {
+      // Map: lessonTitle -> index from the main content array to preserve original ordering where needed
+      const indexByTitle = new Map();
+      (content || []).forEach((t, idx) => indexByTitle.set(t, idx));
 
-    let exercisesArr = [];
-  if (lessonContent.content && lessonContent.content.includes('### Practice Exercises')) {
-    const match = lessonContent.content.match(/### Practice Exercises([\s\S]*?)(?:\n##|$)/);
-    if (match) {
-      exercisesArr = match[1]
-        .split('\n')
-        .map(line => line.replace(/^\s*[-*0-9.]+\s*/, '').trim())
-        .filter(line => line.length > 0);
-    }
-  }
+      // Use a global lesson order counter per course to keep (course, order) unique across modules
+      let globalOrder = 1;
 
-  // Sanitize quiz: ensure array of objects; if not, default to []
-  const safeQuiz = Array.isArray(lessonContent.quiz) ? lessonContent.quiz : [];
+      for (let m = 0; m < plan.length; m++) {
+        const mod = plan[m];
+        const moduleDoc = await Module.create({
+          title: mod.title,
+          course: course._id,
+          order: m + 1,
+          lessons: []
+        });
 
-  const lesson = await Lesson.create({
-      title: lessonTitle,
-      description: `Learn ${lessonTitle.toLowerCase()} with practical examples and exercises.`,
-      content: lessonContent.content,
-      topic: lessonTitle.split(' ')[0],
-      course: course._id,
-      module: moduleDoc._id, // associate lesson with module
-      order: i + 1,
-      duration: 30,
-  codeExamples: extractStructured(lessonContent.content, course.language).codeExamples,
-      resources: [
-        {
-          title: `${lessonTitle} Guide`,
-          type: "pdf",
-          url: `https://example.com/resources/${course._id}/lesson-${i + 1}-guide.pdf`,
-        },
-        {
-          title: `${lessonTitle} Code Examples`,
-          type: "code",
-          url: `https://example.com/resources/${course._id}/lesson-${i + 1}-code.zip`,
-        },
-        {
-          title: `${lessonTitle} Practice Exercises`,
-          type: "other",
-          url: `https://example.com/resources/${course._id}/lesson-${i + 1}-exercises.pdf`,
+        const lessonsForModule = [];
+        // Use only lesson titles that exist in this course's content
+        const plannedLessons = (mod.lessons || [])
+          .filter(t => indexByTitle.has(t))
+          .sort((a, b) => indexByTitle.get(a) - indexByTitle.get(b));
+
+        for (let j = 0; j < plannedLessons.length; j++) {
+          const lessonTitle = plannedLessons[j];
+          const i = indexByTitle.get(lessonTitle); // original index for resource numbering
+          const lessonContent = getLessonContent(course.title, lessonTitle);
+
+          let exercisesArr = [];
+          if (lessonContent.content && lessonContent.content.includes('### Practice Exercises')) {
+            const match = lessonContent.content.match(/### Practice Exercises([\s\S]*?)(?:\n##|$)/);
+            if (match) {
+              exercisesArr = match[1]
+                .split('\n')
+                .map(line => line.replace(/^\s*[-*0-9.]+\s*/, '').trim())
+                .filter(line => line.length > 0);
+            }
+          }
+
+          const safeQuiz = Array.isArray(lessonContent.quiz) ? lessonContent.quiz : [];
+
+          const lesson = await Lesson.create({
+            title: lessonTitle,
+            description: `Learn ${lessonTitle.toLowerCase()} with practical examples and exercises.`,
+            content: lessonContent.content,
+            topic: lessonTitle.split(' ')[0],
+            course: course._id,
+            module: moduleDoc._id,
+            order: globalOrder++,
+            duration: 30,
+            exercises: exercisesArr,
+            codeExamples: extractStructured(lessonContent.content, course.language).codeExamples,
+            resources: [
+              { title: `${lessonTitle} Guide`, type: "pdf", url: `https://example.com/resources/${course._id}/lesson-${(i ?? j) + 1}-guide.pdf` },
+              { title: `${lessonTitle} Code Examples`, type: "code", url: `https://example.com/resources/${course._id}/lesson-${(i ?? j) + 1}-code.zip` },
+              { title: `${lessonTitle} Practice Exercises`, type: "other", url: `https://example.com/resources/${course._id}/lesson-${(i ?? j) + 1}-exercises.pdf` }
+            ],
+            quiz: safeQuiz,
+            createdAt: getRandomDate(),
+            updatedAt: getRandomDate(),
+          });
+
+          lessonsForModule.push(lesson._id);
+          lessons.push(lesson);
         }
-      ],
-  quiz: safeQuiz,
-      createdAt: getRandomDate(),
-      updatedAt: getRandomDate(),
+
+        moduleDoc.lessons = lessonsForModule;
+        await moduleDoc.save();
+        course.modules.push(moduleDoc._id);
+      }
+
+      await course.save();
+    } else {
+      // Fallback to simple 3-way slicing if plan not available
+  const total = lessonCount;
+      const per = Math.floor(total / 3) || total;
+      const ranges = [
+        { title: 'Beginner', start: 0, end: per },
+        { title: 'Intermediate', start: per, end: per * 2 },
+        { title: 'Advanced', start: per * 2, end: total },
+      ];
+
+  // Global order counter across all modules in fallback mode
+  let globalOrder = 1;
+
+      for (let m = 0; m < ranges.length; m++) {
+        const { title: modTitle, start, end } = ranges[m];
+        if (start >= end) continue;
+
+        const moduleDoc = await Module.create({
+          title: modTitle,
+          course: course._id,
+          order: m + 1,
+          lessons: []
+        });
+        const lessonsForModule = [];
+
+        for (let i = start; i < end; i++) {
+          const lessonTitle = content[i];
+          const lessonContent = getLessonContent(course.title, lessonTitle);
+
+          // Extract exercises similar to plan path
+          let exercisesArr = [];
+          if (lessonContent.content && lessonContent.content.includes('### Practice Exercises')) {
+            const match = lessonContent.content.match(/### Practice Exercises([\s\S]*?)(?:\n##|$)/);
+            if (match) {
+              exercisesArr = match[1]
+                .split('\n')
+                .map(line => line.replace(/^\s*[-*0-9.]+\s*/, '').trim())
+                .filter(line => line.length > 0);
+            }
+          }
+
+          const safeQuiz = Array.isArray(lessonContent.quiz) ? lessonContent.quiz : [];
+          const lesson = await Lesson.create({
+            title: lessonTitle,
+            description: `Learn ${lessonTitle.toLowerCase()} with practical examples and exercises.`,
+            content: lessonContent.content,
+            topic: lessonTitle.split(' ')[0],
+            course: course._id,
+            module: moduleDoc._id,
+            order: globalOrder++,
+            duration: 30,
+            exercises: exercisesArr,
+            codeExamples: extractStructured(lessonContent.content, course.language).codeExamples,
+            resources: [
+              { title: `${lessonTitle} Guide`, type: "pdf", url: `https://example.com/resources/${course._id}/lesson-${i + 1}-guide.pdf` },
+              { title: `${lessonTitle} Code Examples`, type: "code", url: `https://example.com/resources/${course._id}/lesson-${i + 1}-code.zip` },
+              { title: `${lessonTitle} Practice Exercises`, type: "other", url: `https://example.com/resources/${course._id}/lesson-${i + 1}-exercises.pdf` }
+            ],
+            quiz: safeQuiz,
+            createdAt: getRandomDate(),
+            updatedAt: getRandomDate(),
+          });
+
+          lessonsForModule.push(lesson._id);
+          lessons.push(lesson);
+        }
+
+        moduleDoc.lessons = lessonsForModule;
+        await moduleDoc.save();
+        course.modules.push(moduleDoc._id);
+      }
+
+      await course.save();
+    }
+  } else {
+    // Default: single-module structure for all other courses
+    const moduleDoc = await Module.create({
+      title: `${course.title} Module 1`,
+      course: course._id,
+      order: 1,
+      lessons: []
     });
 
-    lessonsForModule.push(lesson._id);
-     lessons.push(lesson);
+    const lessonsForModule = [];
+
+    for (let i = 0; i < lessonCount; i++) {
+      const lessonTitle = content[i];
+      const lessonContent = getLessonContent(course.title, lessonTitle);
+
+      let exercisesArr = [];
+      if (lessonContent.content && lessonContent.content.includes('### Practice Exercises')) {
+        const match = lessonContent.content.match(/### Practice Exercises([\s\S]*?)(?:\n##|$)/);
+        if (match) {
+          exercisesArr = match[1]
+            .split('\n')
+            .map(line => line.replace(/^\s*[-*0-9.]+\s*/, '').trim())
+            .filter(line => line.length > 0);
+        }
+      }
+
+      const safeQuiz = Array.isArray(lessonContent.quiz) ? lessonContent.quiz : [];
+
+      const lesson = await Lesson.create({
+        title: lessonTitle,
+        description: `Learn ${lessonTitle.toLowerCase()} with practical examples and exercises.`,
+        content: lessonContent.content,
+        topic: lessonTitle.split(' ')[0],
+        course: course._id,
+        module: moduleDoc._id, // associate lesson with module
+        order: i + 1,
+        duration: 30,
+  exercises: exercisesArr,
+        codeExamples: extractStructured(lessonContent.content, course.language).codeExamples,
+        resources: [
+          { title: `${lessonTitle} Guide`, type: "pdf", url: `https://example.com/resources/${course._id}/lesson-${i + 1}-guide.pdf` },
+          { title: `${lessonTitle} Code Examples`, type: "code", url: `https://example.com/resources/${course._id}/lesson-${i + 1}-code.zip` },
+          { title: `${lessonTitle} Practice Exercises`, type: "other", url: `https://example.com/resources/${course._id}/lesson-${i + 1}-exercises.pdf` }
+        ],
+        quiz: safeQuiz,
+        createdAt: getRandomDate(),
+        updatedAt: getRandomDate(),
+      });
+
+      lessonsForModule.push(lesson._id);
+      lessons.push(lesson);
+    }
+
+    moduleDoc.lessons = lessonsForModule;
+    await moduleDoc.save();
+
+    if (!course.modules) course.modules = [];
+    course.modules.push(moduleDoc._id);
+    await course.save();
   }
-
-  // Update module with its lessons
-  moduleDoc.lessons = lessonsForModule;
-  await moduleDoc.save();
-
-  // Update course with its modules (array of module IDs)
-  if (!course.modules) course.modules = [];
-  course.modules.push(moduleDoc._id);
-  await course.save();
 }
       
 return lessons;

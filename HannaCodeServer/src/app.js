@@ -17,7 +17,10 @@ const path = require("path")
 const errorHandler = require("./middleware/errorMiddleware")
 const connectDB = require("./config/database")
 const logger = require("./utils/logger")
+// Ensure Mongoose models are registered early
 require("./models/Module");
+require("./models/Course");
+require("./models/Review");
 const socketService = require("./services/socketService");
 const compilerRoutes = require("./routes/compilerRoutes");
 

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose")
 const slugify = require("slugify")
+const { pushCourseMetrics } = require('../services/courseMetricsService')
 
 const CourseSchema = new mongoose.Schema(
  
@@ -140,6 +141,25 @@ CourseSchema.virtual("averageRating", {
   foreignField: "course",
   justOne: false,
   options: { sort: { createdAt: -1 } },
+})
+
+// Broadcast metrics on key changes
+CourseSchema.post('save', async function(doc) {
+  try {
+    if (doc?.isModified && (doc.isModified('enrolledStudents') || doc.isModified('rating'))) {
+      await pushCourseMetrics(doc._id)
+    } else {
+      // For some mongoose versions, isModified not available here; push anyway
+      await pushCourseMetrics(doc._id)
+    }
+  } catch (_) {}
+})
+
+CourseSchema.post('findOneAndUpdate', async function(result) {
+  try {
+    const doc = await this.model.findOne(this.getQuery()).select('_id')
+    if (doc?._id) await pushCourseMetrics(doc._id)
+  } catch (_) {}
 })
 
 module.exports = mongoose.model("Course", CourseSchema)

@@ -135,7 +135,7 @@ const getDartLessonConcepts = (lessonTitle) => {
 const getDartCodeExample = (lessonTitle) => {
   const examples = {
     "Introduction to Dart & Setup": `
-// Example 1: 
+// Example 1: Introduction to Dart & Setup
 // main.dart
 void main() {
   print('Hello, Dart! 👋');
@@ -1805,14 +1805,13 @@ time. This helps prevent errors and makes your code more robust.
 **Variable declaration (var, final, const, late)**
 Dart provides several keywords for declaring variables, each with specific characteristics regarding
 mutability and initialization.
-\`var\`
+
 The \`var\` keyword is used for type inference. When you declare a variable with var , Dart infers its
 type based on the initial value assigned to it. Once the type is inferred, it cannot be changed.
 In the example above, \`name\` is inferred as a \`String\` , \`age\` as an \`int\` , and \`price\` as a \`double\` . While
 \`var\` provides flexibility during declaration, the variable's type becomes fixed after initialization.
  
 ### Example 2 
-\`final\`
 The \`final\` keyword is used to declare a variable that can only be set once. Its value cannot be
 changed after it has been initialized. \`final\` variables are initialized at runtime, meaning their value
 can be determined based on calculations or external factors that are not known at compile time.
@@ -1846,8 +1845,8 @@ when \`expensiveCalculation\` is first accessed.
 ### Example 5 
 **Built-in data types (int, double, String, bool)***
 Dart comes with a set of built-in data types to represent common kinds of values.
-\`int\`
-Represents integer numbers (whole numbers) up to 6 4 bits on platforms that support it, or 3 2 bits
+
+\`int\` Represents integer numbers (whole numbers) up to 6 4 bits on platforms that support it, or 3 2 bits
 otherwise. Dart integers are arbitrary-precision on the web.
   
 ### Example 6 
@@ -1855,7 +1854,6 @@ otherwise. Dart integers are arbitrary-precision on the web.
 Represents floating-point numbers (numbers with decimal points). double is a 6 4 -bit (double-precision) floating-point number
 
 ### Example 7 
-\`num\`
 \`num\` is an abstract class that is the supertype of both int and double . You can use num if you want
 a variable to hold either an integer or a double.
 
@@ -1904,7 +1902,7 @@ overall program flow.
 
  "String interpolation and manipulation":`
 ### Example 1 
-**String interpolation and manipulation**
+**String interpolation and manipulation**:
 Dart provides powerful and convenient ways to work with strings, including interpolation for
 embedding expressions and various methods for manipulation.
 
@@ -1941,7 +1939,8 @@ delimiter.
 - \`trimmedText.startsWith('Hello')\` / \`endsWith('World')\`: Checks if the string begins or ends with
 the specified substring.
  
- Numeric type conversion
+### Example 3
+**Numeric type conversion**: 
 Dart allows conversion between numeric types ( int and double ) using various methods
  
 **Code Explanation**
@@ -1956,15 +1955,14 @@ parsed, instead of throwing an exception.
 - \`myInt.toString()\` / \`myDouble.toString()\`: Converts numeric types to their \`String\`
 representation.
 - \`value.toStringAsFixed(2)\`: Formats a \`double\` to a string with a specified number of decimal
-places, rounding as necessary
- `,
+places, rounding as necessary`,
 
   "Operators in Dart":`
 ### Example 1 
 Operators are special symbols that perform operations on one, two, or three operands. Dart provides
 a rich set of operators that are similar to those in other C-style languages.
 
-**Arithmetic Operators**
+**Arithmetic Operators**:
 These operators perform basic mathematical calculations
 | Operator | Description           | Example     | Result |
 | :------- | :-------------------- | :---------- | :----- |

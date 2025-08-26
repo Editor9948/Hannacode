@@ -6,6 +6,7 @@ const MasterCertificate = require("../models/MasterCertificate")
 const Subscription = require("../models/Subscription")
 const asyncHandler = require("../middleware/async")
 const ErrorResponse = require("../utils/errorResponse")
+const { pushCourseMetrics } = require("../services/courseMetricsService")
 
 // Helper function to check if user has premium access
 const checkPremiumAccess = async (userId) => {
@@ -429,16 +430,32 @@ exports.getCourseProgress = asyncHandler(async (req, res, next) => {
 
 exports.startCourseProgress = asyncHandler(async (req, res, next) => {
   const { courseId } = req.params;
+  // Check if progress already exists for this user/course
   let progress = await Progress.findOne({ user: req.user.id, course: courseId });
+  let isNew = false;
+
   if (!progress) {
+    // Create initial progress record
     progress = await Progress.create({
       user: req.user.id,
       course: courseId,
       completedLessons: [],
       percentageCompleted: 0,
     });
+    isNew = true;
+
+    // Increment enrolledStudents exactly once per user on first start
+    try {
+      await Course.findByIdAndUpdate(courseId, { $inc: { enrolledStudents: 1 } }, { new: false });
+    } catch (e) {
+      // ignore increment failure but continue
+    }
   }
-  res.status(200).json({ success: true, data: progress });
+
+  // Push latest metrics to any SSE subscribers
+  try { await pushCourseMetrics(courseId); } catch (_) {}
+
+  res.status(200).json({ success: true, data: progress, newlyEnrolled: isNew });
 });
 
 // @desc    Update lesson progress
@@ -909,6 +926,10 @@ exports.getProgressOverview = asyncHandler(async (req, res, next) => {
   // Transform data similar to getUserProgress but with premium status
   const formatCourseData = async (progressRecord) => {
     const course = progressRecord.course
+    // If the related course was deleted or not populated, skip this record safely
+    if (!course) {
+      return null;
+    }
     
     let lastLessonName = "N/A"
     if (progressRecord.lastAccessedLesson && progressRecord.lastAccessedLesson.title) {
@@ -921,7 +942,7 @@ exports.getProgressOverview = asyncHandler(async (req, res, next) => {
     }
     
     let certificateInfo = null
-    if (progressRecord.percentageCompleted === 100) {
+  if (progressRecord.percentageCompleted === 100 && course && course._id) {
       const certificate = await Certificate.findOne({
         user: progressRecord.user,
         course: course._id
@@ -938,7 +959,7 @@ exports.getProgressOverview = asyncHandler(async (req, res, next) => {
       }
     }
     
-    return {
+  return {
       _id: course._id,
       title: course.title,
       description: course.description,
@@ -964,8 +985,8 @@ exports.getProgressOverview = asyncHandler(async (req, res, next) => {
     .filter(p => p.percentageCompleted === 100)
     .map(formatCourseData)
 
-  const inProgress = await Promise.all(inProgressPromises)
-  const completed = await Promise.all(completedPromises)
+  const inProgress = (await Promise.all(inProgressPromises)).filter(Boolean)
+  const completed = (await Promise.all(completedPromises)).filter(Boolean)
 
   // Check for master certificate eligibility
   let masterCertificateInfo = null
