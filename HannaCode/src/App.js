@@ -44,6 +44,7 @@ import CertificatePage from "./Pages/Certificates/CertificatePage";
 import Certificates from "./Pages/Certificates/Certificates";
 import VerifyCertificate from "./Pages/Certificates/VerifyCertificate";
 import MasterCertificatePage from "./Pages/Certificates/MasterCertificatePage";
+import ScrollToTop from "./components/ui/ScrollToTop.jsx";
 
 // NotFound component
 const NotFound = () => (
@@ -59,6 +60,7 @@ export default function App() {
   return (
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
       <Router>
+        <ScrollToTop />
         <ToastContainer />
         <Layout>
           <Routes>
