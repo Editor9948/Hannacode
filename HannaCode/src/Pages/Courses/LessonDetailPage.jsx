@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { BookOpen, Info, Layers } from "lucide-react";
+import { BookOpen, Info, Layers, Copy as CopyIcon } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import axios from "axios";
@@ -500,19 +500,131 @@ const LessonDetailPage = () => {
   };
   const sectionData = multi ? multi.sections.map(buildSectionExamples) : [];
 
+  // Simple sanitizer that strips script tags (sandbox also blocks scripts)
+  const sanitizeHtml = (html) => html
+    .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
+    .replace(/on\w+\s*=\s*"[^"]*"/gi, '')
+    .replace(/on\w+\s*=\s*'[^']*'/gi, '')
+    .replace(/on\w+\s*=\s*[^\s>]+/gi, '');
+
+  // Build iframe srcDoc for html/css examples
+  const buildPreviewDoc = (lang, code) => {
+    const baseStyles = `
+      *{box-sizing:border-box} body{margin:0;padding:16px;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;background:#f9fafb;color:#111827}
+      .grid{display:grid;gap:12px}
+      .row{display:flex;gap:12px;flex-wrap:wrap}
+      .box{width:100px;height:100px;background:#10b981;color:#fff;display:flex;align-items:center;justify-content:center;border-radius:8px}
+      img.preview{max-width:140px;border-radius:8px}
+      .card{padding:12px;border:1px solid #e5e7eb;border-radius:8px;background:#fff}
+      .title{font-weight:600;margin:0 0 8px}
+      .note{font-size:12px;color:#6b7280;margin-top:8px}
+    `;
+
+    // Detect and split combined blocks like /*HTML*/ ... /*CSS*/ ...
+    const htmlMarker = /\/\*\s*HTML\s*\*\//i;
+    const cssMarker = /\/\*\s*CSS\s*\*\//i;
+    if (htmlMarker.test(code) && cssMarker.test(code)) {
+      let htmlPart = '';
+      let cssPart = '';
+      // Find positions to decide ordering
+      const htmlIdx = code.search(htmlMarker);
+      const cssIdx = code.search(cssMarker);
+      if (htmlIdx < cssIdx) {
+        const between = code.slice(htmlIdx).split(cssMarker);
+        htmlPart = between[0].replace(htmlMarker, '').trim();
+        cssPart = between.slice(1).join(cssMarker.source).trim();
+      } else {
+        const between = code.slice(cssIdx).split(htmlMarker);
+        cssPart = between[0].replace(cssMarker, '').trim();
+        htmlPart = between.slice(1).join(htmlMarker.source).trim();
+      }
+      const safeHtml = sanitizeHtml(htmlPart);
+      return `<!doctype html><html><head><meta charset="utf-8"/><style>${baseStyles}\n${cssPart}</style></head><body>${safeHtml}</body></html>`;
+    }
+
+  if (lang === 'markup' || /<\w+[^>]*>/.test(code)) {
+      const safe = sanitizeHtml(code.trim());
+      const hasHtmlShell = /<html[\s\S]*<\/html>/i.test(safe);
+      if (hasHtmlShell) return safe; // already a full doc
+      return `<!doctype html><html><head><meta charset="utf-8"/><style>${baseStyles}</style></head><body>${safe}</body></html>`;
+    }
+    if (lang === 'css') {
+      const css = code.trim();
+      // Minimal demo markup to visualize common CSS selectors
+      const demo = `
+        <div class="grid">
+          <div class="row">
+            <div class="box">.box</div>
+            <div class="box" id="special">#special</div>
+            <div class="box circle" style="border-radius:9999px">.circle</div>
+          </div>
+          <div class="card">
+            <h3 class="title">Sample Content</h3>
+            <p>Try typography, spacing, transforms, filters, and more.</p>
+            <img class="preview" src="/favicon.png" alt="preview"/>
+            <p class="note">This is a generic preview surface for CSS-only examples.</p>
+          </div>
+        </div>`;
+      return `<!doctype html><html><head><meta charset="utf-8"/><style>${baseStyles}\n${css}</style></head><body>${demo}</body></html>`;
+    }
+    return null;
+  };
+
   const CodeExampleBlock = ({ language, example }) => {
     const lang = languageMapFull[language.toLowerCase()] || language.toLowerCase();
-    const handleCopy = () => { navigator.clipboard.writeText(example.code).catch(()=>{}); };
+    const [copied, setCopied] = useState(false);
+    const handleCopy = async () => {
+      try {
+        await navigator.clipboard.writeText(example.code);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1200);
+      } catch (_) {
+        // no-op
+      }
+    };
+  const canPreview = lang === 'markup' || lang === 'css' || /<\w+[^>]*>/.test(example.code || '') || /\/\*\s*(HTML|CSS)\s*\*\//i.test(example.code || '');
+    const [showPreview, setShowPreview] = useState(false);
+    const srcDoc = canPreview ? buildPreviewDoc(lang, example.code) : null;
     return (
       <div className="my-6 rounded-lg overflow-hidden bg-neutral-900 border border-green-700 shadow-sm">
         <div className="flex items-center justify-between px-4 py-2 bg-green-800 text-green-100 text-sm font-medium">
           <span className="font-semibold">{example.title}</span>
           <div className="flex gap-2">
-            <button onClick={handleCopy} className="px-2 py-1 rounded bg-green-900 hover:bg-green-700 text-xs">Copy</button>
+            {canPreview && (
+              <button onClick={() => setShowPreview((v) => !v)} className="px-2 py-1 rounded bg-emerald-600 hover:bg-emerald-500 text-xs">
+                {showPreview ? 'Hide Preview' : 'Preview'}
+              </button>
+            )}
+            <button
+              onClick={handleCopy}
+              className="px-2 py-1 rounded bg-green-900 hover:bg-green-700 text-xs flex items-center justify-center"
+              aria-label={copied ? "Copied" : "Copy code"}
+              title={copied ? "Copied" : "Copy code"}
+            >
+              <CopyIcon className="w-4 h-4" />
+            </button>
+            {copied && (
+              <span
+                className="ml-1 px-1.5 py-0.5 rounded bg-emerald-700 text-white text-[10px]"
+                aria-live="polite"
+              >
+                Copied
+              </span>
+            )}
             <button onClick={() => window.open('/playground','_blank')} className="px-2 py-1 rounded bg-green-600 hover:bg-green-500 text-xs">Play</button>
           </div>
         </div>
-  <SyntaxHighlighter style={okaidia} language={lang} PreTag="div" showLineNumbers className="!m-0" customStyle={{ padding: '1.25rem', fontSize: 14 }}>
+        {showPreview && srcDoc && (
+          <div className="bg-white">
+            <iframe
+              title={`preview-${example.number}`}
+              sandbox="allow-same-origin"
+              style={{ width: '100%', height: 320, border: 'none' }}
+              srcDoc={srcDoc}
+            />
+          </div>
+        )}
+        <SyntaxHighlighter style={okaidia} language={lang} PreTag="div" showLineNumbers className="!m-0" customStyle={{ padding: '1.25rem', fontSize: 14 }}>
           {example.code}
         </SyntaxHighlighter>
       </div>
