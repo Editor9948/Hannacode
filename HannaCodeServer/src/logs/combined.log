@@ -3023,3 +3023,20 @@
 2025-08-26 16:57:19 info: Socket.IO initialized
 2025-08-26 16:57:19 info: [1m[33mServer running in development mode on port 5000[39m[22m
 2025-08-26 16:57:23 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-01.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-29 00:32:57 info: Socket.IO initialized
+2025-08-29 00:32:57 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-29 00:33:04 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
+2025-08-29 00:47:33 error: Error: Not authorized to access this route
+2025-08-29 00:47:35 error: Error: Not authorized to access this route
+2025-08-29 00:47:35 error: Error: Not authorized to access this route
+2025-08-29 00:47:35 error: Error: Not authorized to access this route
+2025-08-29 00:47:35 error: Error: Not authorized to access this route
+2025-08-29 00:47:37 error: Error: Not authorized to access this route
+2025-08-29 00:47:45 error: Error: Not authorized to access this route
+2025-08-29 00:47:45 error: Error: Not authorized to access this route
+2025-08-29 00:47:45 error: Error: Not authorized to access this route
+2025-08-29 00:47:45 error: Error: Not authorized to access this route
+2025-08-29 00:49:40 error: MongoServerSelectionError: getaddrinfo ENOTFOUND ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net
+2025-08-29 01:24:22 info: Socket.IO initialized
+2025-08-29 01:24:22 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-08-29 01:24:24 error: [31mDatabase Connection Error: querySrv EREFUSED _mongodb._tcp.cluster0.jxpglfb.mongodb.net[39m

@@ -2808,17 +2808,17 @@ const getHTMLCodeExplanation = (lessonTitle) => {
   const explanations = {
     "Introduction to HTML": `
 ### Example 1 
-**What is HTML**
+## **What is HTML**
 HTML, which stands for HyperText Markup Language, is the standard markup language
 for documents designed to be displayed in a web browser. It can be assisted by
 technologies such as Cascading Style Sheets (CSS) and scripting languages such as
 JavaScript.
-**Role of HTML in web development**
+#### **Role of HTML in web development**
 HTML provides the structure of a web page. Think of it as the skeleton of a house.
 Without HTML, there would be no web pages as we know them. It defines the meaning
 and structure of web content.
 
-***The example shows a basic HTML document structure:***
+#### ***The example shows a basic HTML document structure:***
 - \`<!DOCTYPE html>\` declares the document as HTML5.
 - The \`<html>\` element wraps the entire page.
 - The \`<head>\` contains meta information and the page title.
@@ -2833,10 +2833,10 @@ has an extra forward slash in it.) Each HTML element tells the browser
 something about the information that sits between its opening and 
 closing tags.
 
-**Creating your first HTML page**
+## **Creating your first HTML page**
 Creating your first HTML page is a straightforward process. You only need a text editor (like Notepad on Windows, TextEdit on Mac, or more advanced editors 
 like VS Code, Sublime Text, or Atom) and a web browser.
-***Follow these steps:***
+#### ***Follow these steps:***
 - **Open a text editor**: Launch your preferred text editor.
 - **Write the HTML code**: Type or paste the basic HTML structure provided earlier into the editor:
 - **Save the file**: Save the file with a \`.html\` or \`.html\` extension (e.g., \`index.html\`). Make sure to select
@@ -2846,7 +2846,7 @@ displaying "Hello, World!" as a heading and "This is my very first HTML page." a
 *Congratulations! You've just created and viewed your first HTML page.*
 
 ### Example 2 
-**HTML Elements and Tags**
+## **HTML Elements and Tags**
 **Elements** are the building blocks, defined by tags. Tags instruct browsers on content
 rendering. Attributes
 The three main parts of the HTML elements are: 
@@ -2854,10 +2854,10 @@ The three main parts of the HTML elements are:
 - **Content**:The Contents that are visible on the browser 
 - **Closing Tag**: It marks the end of the element. Usually, it start with a backward slash "/".
 
-**HTML Tag**
+#### **HTML Tag**: 
 A **tag** is just the *syntax* we use in HTML to define or mark up content.
 - Tags tell the browser how to interpret and render content.
-- Tags are enclosed in **angle brackets \`< >\`
+- Tag are enclosed in **angle brackets** \`< >\`
 - Tags usually come in pairs:
 -  Opening tag → \`<h1>\`
 -  Closing tag → \`</h1>\`
@@ -2867,7 +2867,7 @@ Some are self-closing (void) tags (don’t need closing): \`<br>\`, \`<img>\`, \
 - \`<h1>\` → opening tags 
 - \`</h1>\` → closing tags 
 - \`This is a heading here\` → content 
-Together → \`<h1>This is a heading here</h1>\` is a **Heading element**`,
+- Together → \`<h1>This is a heading here</h1>\` is a **Heading element**`,
 
     "HTML Document Structure": `
 ### Example 1 
@@ -2883,11 +2883,11 @@ such as its title, links to stylesheets, and scripts.
 - \`<body>\`: This element contains the visible page content.
 
 ### Example 3 
-**Meta tags and character encoding**
+## **Meta tags and character encoding**
 \`<meta>\` tags provide metadata about the HTML document. Metadata is data about data, and in the context of HTML, it describes characteristics of the document itself. 
 While not displayed on the page, meta tags are vital for browsers, search engines, and other web services to understand and process the page correctly.
 
-**Character Encoding (charset)**:
+#### **Character Encoding (charset)**:
 The \`charset\` attribute in a meta tag specifies the character encoding for the HTML document. 
 The most commonly used and recommended character encoding is \`UTF-8\` (\`<meta charset="UTF-8">\`).
 
@@ -2993,7 +2993,7 @@ to specify the domain name in the URL. You can use a shorthand known as a
 **(relative URL)**. If all the pages of the site are in the same folder, then the value 
 of the href attribute is just the name of the file.
 
-***Difference between Absolute URLs and Relative URLs***
+#### ***Difference between Absolute URLs and Relative URLs***
 - An Absolute URL contains the full web address, including the protocol and domain
 While A Relative URL provides a partial path, usually relative to the current page.
 - Absolute URL often used for linking to external websites.
@@ -3050,7 +3050,7 @@ Browsers typically display \`<ul>\` items with a bullet point by default.
 You can change the numbering style using the type attribute (e.g., \`type="a"\` for lowercase letters).
 
 ### Example 3 
-**Nested lists and hierarchy**
+## **Nested lists and hierarchy**
 - You can create hierarchical structures by placing one list inside a list item of another list. This allows for outlining complex information.
 - The inner \`<ol>\` is placed inside the \`<li>\` of the outer \`<ul>\`. This creates a sub-list for each major topic,
 demonstrating a clear parent-child relationship between the list items.
@@ -3150,16 +3150,10 @@ The \`for\` attribute on the \`<label>\` links it to the \`id\` of the \`<input>
 ### Example 6 
 **Form styling and layout**
 CSS is used for form styling. You can style inputs, labels, and buttons to match your website's design.
-CSS \`display: flex;\` and \`flex-direction: column;\` are used to stack form elements vertically. \`padding\`, \`border\`, and \`border-radius\` are used to style the input fields and buttons, 
+- CSS \`display: flex;\` and \`flex-direction: column;\` are used to stack form elements vertically. 
+- \`padding\`, \`border\`, and \`border-radius\` are used to style the input fields and buttons, 
 giving them a modern appearance.
-
-
-
-
-
-
-
--The \`<button>\` element was introduced to allow users more control over how their buttons 
+- The \`<button>\` element was introduced to allow users more control over how their buttons 
 appear, and to allow other elements to appear inside the button.
 `,
 
@@ -3169,7 +3163,7 @@ appear, and to allow other elements to appear inside the button.
 - The \`<input>\` element is used to create several different form controls. The value of the type
 attribute determines what kind of input they will be creating. 
 - The \`<input type="text">\` When the type attribute has a value of \`text\`, it creates a single-line text input field.
--The \`<textarea>\` element is used to create a mutli-line text input.
+- The \`<textarea>\` element is used to create a mutli-line text input.
 Any text that appears between the opening \`<textarea>\` and closing \`</textarea>\` tags will 
 appear in the text box when the page loads.
 
@@ -3194,7 +3188,7 @@ The text inside the \`<option>\` is what the user sees.
 - The \`type="file"\` input creates the "Choose File" button.
 
 ### Example 5 
-**Hidden fields
+**Hidden fields**
 - \`<input type="hidden">\` creates an input field that is not visible to the user. It's used to store data that needs to be sent with the 
 form submission but doesn't need user interaction.
 - The \`product_id\` is sent with the form data without the user ever seeing or being able to modify it. This is useful for storing things like 
@@ -3207,8 +3201,9 @@ session tokens, item IDs, or other backend data.
 - \`<button type="reset">\`: Resets all form fields to their initial values.
 
 **Explanation**
-Both \`<input type="submit">\` and \`<button type="submit">\` perform the same function. The \`<button>\` tag is often preferred because 
-it's more versatile and can contain other HTML elements. The \`reset\` button clears the form. `,
+- Both \`<input type="submit">\` and \`<button type="submit">\` perform the same function. 
+- The \`<button>\` tag is often preferred because it's more versatile and can contain other HTML elements. 
+- The \`reset\` button clears the form. `,
 
  "HTML Input Types":` 
 ### Example 1 
@@ -3217,8 +3212,8 @@ it's more versatile and can contain other HTML elements. The \`reset\` button cl
 - \`type="password"\`: A text field where characters are masked for security.
 
 **Explanation**
-\`type="text"\` is for general-purpose text entry. \`type="password"\` visually hides the characters, 
-which is essential for sensitive information like passwords.
+- \`type="text"\` is for general-purpose text entry. 
+- \`type="password"\` visually hides the characters, which is essential for sensitive information like passwords.
 
 ### Example 2 
 **Email and URL inputs**
@@ -3232,9 +3227,9 @@ The browser will check the format before the form is submitted, providing a bett
 **Number and range inputs**
 - \`type="number"\`: For numerical input. Can have \`min\`, \`max\`, and \`step\` attributes.
 - \`type="range"\`: A slider for selecting a number within a range.
-
-The \`min\` and \`max\` attributes constrain the acceptable values for both types. \`type="number"\` also 
-prevents non-numeric input. \`type="range"\` is visually represented as a slider.
+- The \`min\` and \`max\` attributes constrain the acceptable values for both types. 
+- \`type="number"\` also prevents non-numeric input. 
+- \`type="range"\` is visually represented as a slider.
  
 ### Example 4 
 **Date and time inputs**
@@ -3268,15 +3263,15 @@ showing a message like "Please fill out this field."
 - The \`pattern="[0-9]{5}"\` requires the input to be exactly five digits. The \`title\` attribute provides a tooltip to inform the user of the expected format.
 
 ### Example 3 
-**Custom validation messages**
+**Custom validation messages**: 
 You can override the browser's default validation messages using JavaScript. The \`setCustomValidity()\` method is used on an input element.
 
-**Explanation**
+#### **Explanation**
 The JavaScript listens for the \`invalid\` event. If the \`valueMissing\` property is true (meaning the field is empty), it sets a custom message. 
 This gives you more control over the user feedback.
 
 ### Example 4 
-HTML5 validation attributes
+## HTML5 validation attributes
 Besides \`required\` and \`pattern\`, other attributes like \`min\`, \`max\`, \`minlength\`, \`maxlength\`, and \`type\` (e.g., \`email\`, \`number\`) are part of HTML5 validation. 
 They provide a quick, declarative way to enforce constraints.
 
@@ -3285,7 +3280,7 @@ They provide a quick, declarative way to enforce constraints.
 - \`minlength="4"\` and \`maxlength="10"\` ensure the username has a length between 4 and 10 characters.
 
 ### Example 5 
-**Error handling and user feedback**
+## Error handling and user feedback
 Effective error handling provides clear, non-intrusive feedback to the user. This can be done by displaying error messages near the problematic field.
 This code uses JavaScript to check the validity of each field on form submission. It then injects a text message into a \`<span>\` element 
 if an error is found, giving the user immediate visual feedback.`,
@@ -3297,27 +3292,27 @@ if an error is found, giving the user immediate visual feedback.`,
 - \`<div>\` elements are often used to group together sections of a page.
  
 ### Example 2 
-**Nesting and grouping elements with <div> **
+### Nesting and grouping elements with <div>
 You can place \`<div>\` elements inside other <div> elements to create a hierarchical structure. 
 This nesting is a fundamental technique for building complex, multi-column layouts and organizing content into logical blocks.
 
 **Explanation**
-The \`.container\` \`<div>\` holds the entire page layout. Inside it, a \`.header\` \`<div>\` and a \`.main-content\` \`<div>\` group the main sections. 
-The \`.main-content\` \`<div>\` further nests \`.sidebar\` and \`.article\` divs, demonstrating a layered structure.
+- The \`.container\` \`<div>\` holds the entire page layout. Inside it, a \`.header\` \`<div>\` and a \`.main-content\` \`<div>\` group the main sections. 
+- The \`.main-content\` \`<div>\` further nests \`.sidebar\` and \`.article\` divs, demonstrating a layered structure.
 
 ### Example 3 
-**Styling <div> with CSS**
+**Styling <div> with CSS**: 
 CSS is where the power of the \`<div>\` element becomes apparent. You can apply a wide range of styles to \`<div>\` elements to control their appearance, position, and layout.
 
 **Explanation**: 
-The \`.box\` class styles a \`<div>\` with a background color, a border, and spacing (\`padding\` and \`margin\`). 
-The \`.flex-container\` \`<div>\` uses CSS Flexbox (\`display: flex\`) to create a horizontal layout for its child elements, which are styled with \`.flex-item\`.
+- The \`.box\` class styles a \`<div>\` with a background color, a border, and spacing (\`padding\` and \`margin\`). 
+- The \`.flex-container\` \`<div>\` uses CSS Flexbox (\`display: flex\`) to create a horizontal layout for its child elements, which are styled with \`.flex-item\`.
 `,
 
 
   "HTML Classes":`
 ### Example 1 
-**class attributes to elements**
+## class attributes to elements
 The HTML \`class\` attribute is used to specify a class for an HTML element.
 Multiple HTML elements can share the same \`class\`.
 The \`class\` attribute is often used to point to a class name in a style sheet. 
@@ -3326,19 +3321,19 @@ The class attribute on any element can share the same value. So, in this example
 value of city could be used on headings and links, too
   
 ### Example 2 
-**Using multiple classes on the same element**
+## Using multiple classes on the same element
 An HTML element can have multiple classes. You simply list the class names in the class attribute, 
 separated by spaces. This allows for modular styling where an element can inherit styles from several different class rules.
 
 **Explanation**
-The first button has the \`button\` and \`primary\` classes. The third button has \`button\`, \`primary\`, and \`large\`, inheriting styles from 
+- The first button has the \`button\` and \`primary\` classes. The third button has \`button\`, \`primary\`, and \`large\`, inheriting styles from 
 all three CSS rules. This is a powerful technique for creating reusable and flexible components.
 
 ### Example 3 
-**Styling elements with classes in CSS**
+**Styling elements with classes in CSS**: 
 In CSS, a class is selected by a period (\`.\`) followed by the class name. This is the most common way to apply styles to a group of elements.
 
-**Explanation**
+#### **Explanation**
 The \`.card\` class styles the container \`<div>\`, giving it a border, padding, and a subtle shadow. The \`.card-title\` class styles the \`<h2>\` within the card. 
 Both elements are easily and consistently styled across multiple instances.`,
 
@@ -3356,16 +3351,16 @@ define the CSS properties within curly braces { }.
  must not contain whitespaces (spaces, tabs, etc.).
 
 **Explanation**:
-Each \`id\` (\`main-heading\` and \`introduction\`) is unique to its element. You cannot have two elements with the same \`id\` on the same page. 
+- Each \`id\` (\`main-heading\` and \`introduction\`) is unique to its element. You cannot have two elements with the same \`id\` on the same page. 
 This uniqueness is what makes it useful for targeting a single element.
 
 ### Example 2 
-**Styling elements with id selectors in CSS**
+## Styling elements with id selectors in CSS
 In CSS, an id is selected by a hash symbol (\`#\`) followed by the id name. Because ids are unique, this selector 
 is the most specific way to target an element in CSS.
 
 **Explanation**
-The \`#unique-button\` selector specifically targets and styles only the button with that particular \`id\`. 
+- The \`#unique-button\` selector specifically targets and styles only the button with that particular \`id\`. 
 This is typically used for elements that appear only once on a page, like a main content area or a hero section.
 
 ### Example 3 
@@ -3374,7 +3369,7 @@ The \`id\` attribute is essential for creating in-page navigation (also known as
 You can create a link (\`<a>\`) that, when clicked, jumps the user to the element with the corresponding \`id\` on the same page.
 
 **Explanation**
-The \`href="#section1"\` attribute on the first link targets the element with the \`id\` of \`section1\`. When clicked, the browser will automatically 
+- The \`href="#section1"\` attribute on the first link targets the element with the \`id\` of \`section1\`. When clicked, the browser will automatically 
 scroll the page to that heading. This is a common and highly effective way to create a table of contents or navigate long pages.`,
 
 "HTML Semantic Elements": `
@@ -3415,12 +3410,12 @@ Compare that to non-semantic elements like \`<div>\` and \`<span>\`, which tell 
 They are just generic containers.
 
 ### Example 6 
-**Accessibility improvements**:
+## Accessibility improvements:
 Semantic elements are crucial for accessibility. Screen readers and other assistive devices use these 
 tags to understand the page structure and help users navigate the content. For example, a screen reader 
 can use the \`<nav>\` tag to announce "navigation region" and the \`<h1>\` to announce the page's main heading.
 
-**Explanation**:
+#### **Explanation**:
 The \`<h1>\`, \`<header>\`, and \`<main>\` tags are all considered landmark roles. A screen reader user can navigate 
 between these landmarks, skipping over repetitive or non-essential content, significantly improving their browsing experience.
 `,
@@ -3428,11 +3423,11 @@ between these landmarks, skipping over repetitive or non-essential content, sign
 
     "HTML5 New Features": `
 ### Example 1 
-**HTML5 New Features**
+## HTML5 New Features
 HTML5 introduced significant new features to make web development more powerful and efficient. These new features include 
 semantic elements for better document structure, native support for multimedia, client-side storage, and APIs for more interactive applications.
    
-**New Semantic Elements
+## New Semantic Elements
 HTML5 introduced new semantic elements to give more meaning to the structure of a webpage. These elements, like \`<header>\`, \`<footer>\`, 
 \`<nav>\`, \`<article>\`, and \`<section>\`, help both developers and search engines understand the purpose of each part of the document. 
 This is a move away from the generic \`<div>\` tag that was used for everything in older HTML versions.
@@ -3444,7 +3439,7 @@ This is a move away from the generic \`<div>\` tag that was used for everything 
 - The \`<article>\` is used for a self-contained piece of content, and \`<aside>\` is for content tangentially related to the main content, like a sidebar.
 
 ### Example  2 
-**Audio and Video Elements**
+**Audio and Video Elements**: 
 HTML5 introduced \`<audio>\` and \`<video>\` tags, allowing developers to embed media directly into a webpage without relying on third-party plugins like Flash.
 
 **Explanation**:
@@ -3461,8 +3456,8 @@ games, animations, and dynamic charts.
 SVG is ideal for logos, icons, and scalable graphics that retain quality at any size.
 
 **Explanation**
-The Canvas example creates a drawing area, and the JavaScript code draws a light blue rectangle on it. 
-The SVG example directly defines the rectangle using XML attributes within the \`<svg>\` tag.
+- The Canvas example creates a drawing area, and the JavaScript code draws a light blue rectangle on it. 
+- The SVG example directly defines the rectangle using XML attributes within the \`<svg>\` tag.
 
 ### Example 4 
 **Local Storage**
@@ -3471,16 +3466,16 @@ user's browser, with no expiration date. Unlike cookies, data stored in local st
 
 **Explanation**
 - The \`localStorage.setItem()\` method saves a key-value pair to the browser's local storage. \`localStorage.getItem()\` retrieves the value. 
-The data persists even after the browser is closed.
+- The data persists even after the browser is closed.
 
 ### Example 5 
-**Geolocation API**
+## Geolocation API
 The Geolocation API allows a user to provide their location to a web application. It is privacy-friendly, 
 as it requires the user's explicit permission to access their location.
 
 **Explanation:
-The \`navigator.geolocation.getCurrentPosition()\` method attempts to get the user's location. 
-It takes two callback functions: one for a successful retrieval (\`showPosition\`) and one for an error (\`showError\`), which handles cases where the user denies permission or the location cannot be found.
+- The \`navigator.geolocation.getCurrentPosition()\` method attempts to get the user's location. 
+- It takes two callback functions: one for a successful retrieval (\`showPosition\`) and one for an error (\`showError\`), which handles cases where the user denies permission or the location cannot be found.
 
 ### Example 6 
 **Web Workers**:
@@ -3498,26 +3493,26 @@ Organizing your HTML is key to maintainability. This involves using semantic tag
 (e.g., \`<header>\`, \`<main>\`, \`<footer>\`), grouping related elements in \`<div>\`s with descriptive 
 class names, and placing external resources (like CSS and JavaScript) in their appropriate locations (\`<head>\` and before \`</body>\`).
 
-**Explanation**:
+### Explanation:
 The code is wrapped in a \`.site-wrapper\` \`div\`. Semantic tags like \`<header>\`, \`<main>\`, and \`<footer>\` are used, 
 and sections are logically grouped with class names like intro-section and feature-section. The stylesheet is linked in the \`<head>\`, 
 and the script is placed just before the closing \`<body>\` tag to ensure the page loads faster.
 
 ### Example 3 
-**Naming conventions**:
+## Naming conventions
 Consistent naming conventions make code easier to read and understand. For class and ID names, it's best to use lowercase letters and hyphens to 
 separate words (e.g., \`main-nav\` or \`product-card\`). Avoid camelCase (mainNav) or underscores (main_nav).
 Follow kebab-case (lowercase with dashes).
 
 ### Example 4 
-**Indentation and formatting**
+## Indentation and formatting
 Proper indentation and formatting create a clear visual hierarchy of the code, making it easy to see which elements are nested inside others. 
 A common practice is to indent by two or four spaces for each nested level.`,
 
 
      "HTML Meta Tags":`
 ### Example 1 
-**Character encoding**:
+## Character encoding:
 The \`<meta charset="UTF-8">\` tag is one of the most important meta tags. It specifies the character encoding for the HTML document. 
 **UTF-8** is the recommended encoding as it supports almost all characters and symbols in the world, preventing display issues.
 Placing this tag at the very beginning of the \`<head>\` section ensures the browser correctly renders all text characters on the page, regardless of language.
@@ -3536,7 +3531,7 @@ These meta tags provide information to search engines.
 - The meta keywords tag was historically used for SEO but is now largely ignored by major search engines.
 
 ### Example 4 
-**Social media meta tags**:
+## Social media meta tags:
 These tags, part of the Open Graph protocol (for Facebook, LinkedIn, etc.) and Twitter Cards, control how a page's content is displayed when shared on social media. 
 They allow you to specify the title, description, image, and URL for the shared post.
 
@@ -3544,25 +3539,25 @@ The \`og:title\` sets the title of the shared link, \`og:description\` provides 
 Twitter uses a similar set of tags prefixed with twitter:.
 
 ### Example 5 
-**Robots meta tags**:
+## Robots meta tags:
 The \`robots\` meta tag provides instructions to search engine crawlers. It can tell them not to index a page, not to follow links on a page, or both.
 The \`content="noindex"\` value prevents the page from appearing in search results, and \`content="nofollow\`" prevents crawlers from following any links on the page. 
 This is useful for private pages or content you don't want public. 
 
 ### Example 6 
-Refresh and redirect meta tags
+## **Refresh and redirect meta tags**
 The \`http-equiv="refresh"\` meta tag can be used to automatically reload a page after a specified amount of time or to redirect the user to a different URL. 
 However, this method is generally discouraged for accessibility and SEO reasons in favor of server-side redirects or JavaScript.
 `,
       
     "HTML Character Entities":`
 ### Example 1 
-**Special characters**
+## Special characters
 Special characters in HTML are characters that have a special meaning or are not found on a standard keyboard. These include symbols like \`<\` and \`>\`, which are used to define HTML tags, as well as typographic symbols like \`&\` and \`"\`. 
 To display these characters correctly, you must use character entities or Unicode.
 
 ### Example 2 
-**HTML entities**
+## HTML entities
 An HTML entity is a sequence of characters that represents a single special character. It starts with an ampersand (\`&\`) and ends with a semicolon (\`;\`). 
 Entities are used to display characters that would otherwise be interpreted as code or are not easily typed.
 
@@ -3573,28 +3568,28 @@ render correctly on all browsers and operating systems.
 Unicode is a universal character encoding standard that assigns a unique number to every character, including letters from different languages, symbols, and emojis. 
 You can represent a Unicode character in HTML using a numeric character reference, which starts with \`&#\` followed by the decimal code, or \`&#x\` for the hexadecimal code
     
-***HTML Character Entities Cheat Sheet***
-- **Special Characters**
-| Entity Code | Decimal Code | Hex Code    | Display | Description           |
-|-------------|--------------|-------------|---------|-----------------------|
+## HTML Character Entities Cheat Sheet
+### Special Characters
+| Entity Code    | Decimal Code    | Hex Code       | Display    | Description           |
+| :------------- | :-------------- | :------------- | :--------- | :-----------------------|
 | \`&lt;\`      | \`&#60;\`      | \`&#x3C;\`    | <       | Less-than             |
 | \`&gt;\`      | \`&#62;\`      | \`&#x3E;\`    | >       | Greater-than          |
 | \`&amp;\`     | \`&#38;\`      | \`&#x26;\`    | &       | Ampersand             |
 | \`&quot;\`    | \`&#34;\`      | \`&#x22;\`    | "       | Double quote          |
 | \`&apos;\`    | \`&#39;\`      | \`&#x27;\`    | '       | Apostrophe / single quote |
 
-- **Currency Symbols**
+### Currency Symbols
 | Entity Code | Decimal Code | Hex Code    | Display | Description           |
-|-------------|--------------|-------------|---------|-----------------------|
+| :------------- | :-------------- | :------------- | :--------- | :-----------------------|
 | \`&euro;\`    | \`&#8364;\`    | \`&#x20AC;\`  | €       | Euro                  |
 | \`&pound;\`   | \`&#163;\`     | \`&#x00A3;\`  | £       | Pound Sterling        |
 | \`&yen;\`     | \`&#165;\`     | \`&#x00A5;\`  | ¥       | Yen / Yuan            |
 | \`&cent;\`    | \`&#162;\`     | \`&#x00A2;\`  | ¢       | Cent                  |
 | —             | \`&#36;\`      | \`&#x24;\`    | $       | Dollar sign           |
 
-- **Common Symbols**
+### Common Symbols
 | Entity Code | Decimal Code | Hex Code    | Display | Description           |
-|-------------|--------------|-------------|---------|-----------------------|
+| :------------- | :-------------- | :------------- | :--------- | :-----------------------|
 | \`&copy;\`    | \`&#169;\`     | \`&#x00A9;\`  | ©       | Copyright             |
 | \`&reg;\`     | \`&#174;\`     | \`&#x00AE;\`  | ®       | Registered trademark  |
 | \`&trade;\`   | \`&#8482;\`    | \`&#x2122;\`  | ™       | Trademark             |
@@ -3602,9 +3597,9 @@ You can represent a Unicode character in HTML using a numeric character referenc
 | \`&para;\`    | \`&#182;\`     | \`&#x00B6;\`  | ¶       | Paragraph sign        |
 | \`&bull;\`    | \`&#8226;\`    | \`&#x2022;\`  | •       | Bullet                |
 
-- **Mathematical Symbols**
+#### **Mathematical Symbols**
 | Entity Code | Decimal Code | Hex Code    | Display | Description           |
-|-------------|--------------|-------------|---------|-----------------------|
+| :------------- | :-------------- | :------------- | :--------- | :-----------------------|
 | \`&plusmn;\`  | \`&#177;\`     | \`&#x00B1;\`  | ±       | Plus–minus            |
 | \`&times;\`   | \`&#215;\`     | \`&#x00D7;\`  | ×       | Multiplication        |
 | \`&divide;\`  | \`&#247;\`     | \`&#x00F7;\`  | ÷       | Division              |
@@ -3612,18 +3607,18 @@ You can represent a Unicode character in HTML using a numeric character referenc
 | \`&infin;\`   | \`&#8734;\`    | \`&#x221E;\`  | ∞       | Infinity              |
 | \`&sum;\`     | \`&#8721;\`    | \`&#x2211;\`  | ∑       | Summation             |
 
-- **International Characters**
+### International Characters
 | Entity Code | Decimal Code | Hex Code    | Display | Description                     |
-|-------------|--------------|-------------|---------|---------------------------------|
+| :------------- | :-------------- | :------------- | :--------- | :-----------------------|
 | \`&eacute;\`  | \`&#233;\`     | \`&#x00E9;\`  | é       | Latin small letter e (acute)    |
 | \`&uuml;\`    | \`&#252;\`     | \`&#x00FC;\`  | ü       | Latin small letter u (umlaut)   |
 | \`&aacute;\`  | \`&#225;\`     | \`&#x00E1;\`  | á       | Latin small letter a (acute)    |
 | \`&ntilde;\`  | \`&#241;\`     | \`&#x00F1;\`  | ñ       | Latin small letter n (tilde)    |
 | \`&szlig;\`   | \`&#223;\`     | \`&#x00DF;\`  | ß       | German sharp s (Eszett)         |
 
-- **Emojis / Special Unicode**
+### Emojis / Special Unicode
 | Entity Code | Decimal Code | Hex Code    | Display | Description       |
-|-------------|--------------|-------------|---------|-------------------|
+| :------------- | :-------------- | :------------- | :--------- | :------------------- |
 | —           | \`&#128512;\`  | \`&#x1F600;\` | 😀      | Grinning face     |
 | —           | \`&#128514;\`  | \`&#x1F602;\` | 😂      | Face with tears   |
 | —           | \`&#128151;\`  | \`&#x1F497;\` | 💗      | Heart with ribbon |
@@ -3633,7 +3628,7 @@ You can represent a Unicode character in HTML using a numeric character referenc
 
 "HTML Colors and Backgrounds":`
 ### Example 1 
-**Color values and formats**
+## **Color values and formats**
 Colors in HTML and CSS can be defined in several ways. The most common formats are:
 - **Hexadecimal**: A six-digit code preceded by a \`#\` (e.g., \`#FF0000\` for red).
 - **RGB**: A function \`rgb(red, green, blue)\` with values from 0-255 (e.g., \`rgb(255, 0, 0)\` for red).
@@ -3642,13 +3637,13 @@ Colors in HTML and CSS can be defined in several ways. The most common formats a
 - **Named Colors**: Pre-defined color names like red, blue, or green.
 
 ### Example 2 
-**Background colors**:
+## **Background colors**:
 You can add a background color to any HTML element using the \`background-color\` CSS property.
 The \`body\` selector applies a light gray background to the entire page. The \.box\` class applies a steel 
 blue background to the \`<div>\`, along with white text for readability.
 
 ### Example 3 
-**Background images**:
+## **Background images**:
 The \`background-image\` CSS property allows you to set an image as the background of an element. 
 You can also control its position, size, and repeat behavior.
 
@@ -3656,7 +3651,7 @@ The \`background-image\` property sets the image. \`background-size: cover;\` en
 \`background-position: center;\` centers the image, and \`height\` gives the \`div\` a specific dimension.
 
 ### Example 4 
-**Gradient backgrounds**
+## **Gradient backgrounds**
 You can create smooth color transitions using CSS gradients. These are a type of \`background-image\`. 
 There are two main types: \`linear-gradient\` (in a straight line) and \`radial-gradient\` (from a central point).
 
@@ -3664,7 +3659,7 @@ There are two main types: \`linear-gradient\` (in a straight line) and \`radial-
 - The second uses \`radial-gradient\` to create a circular transition from light gray to dark gray.
 
 ### Example 5 
-**Color accessibility**:
+## **Color accessibility**:
 Color choices are critical for accessibility. Avoid using color as the only way to convey information. 
 Use **sufficient contrast** between text and background colors to ensure readability for people with visual impairments.
 
@@ -3672,13 +3667,13 @@ Use **sufficient contrast** between text and background colors to ensure readabi
 - The \`.inaccessible-text\` example uses light gray text on a very light background, making it hard for many users to read.
 
 ### Example 6 
-**Color contrast**:
+## **Color contrast**:
 Color contrast is the difference in brightness between two colors. The Web Content Accessibility Guidelines (WCAG) recommend
 a minimum contrast ratio of 4.5:1 for normal text and 3:1 for large text. Tools can check this ratio for you.`,
     
-"HTML Layout Techniques": `
+   "HTML Layout Techniques": `
 ### Example 1 
-**Div-based layouts**
+## **Div-based layouts**
 Before modern CSS layout techniques like Flexbox and Grid, layouts were primarily created using \`<div>\` elements, floats, and positioning. 
 While still functional, this approach can be complex and less flexible than modern methods.
 
@@ -3686,7 +3681,7 @@ While still functional, this approach can be complex and less flexible than mode
 - The \`.clearfix\` class is a standard trick to prevent the container from collapsing around the floated elements.
 
 ### Example 2 
-**CSS Grid basics**:
+## **CSS Grid basics**:
 CSS Grid is a two-dimensional layout system that allows you to create complex, responsive layouts with rows and columns. 
 It's ideal for building entire page layouts and components.
 
@@ -3694,7 +3689,7 @@ It's ideal for building entire page layouts and components.
 (one fraction of the space), and the second is \`2fr\` (two fractions), making it twice as wide.
 
 ### Example 3 
-**Flexbox basics**:
+## **Flexbox basics**:
 Flexbox (or Flexible Box Module) is a one-dimensional layout system for aligning items in a row or a column. 
 It's perfect for distributing space among items in a single line, such as a navigation bar or a row of cards.
 
@@ -3703,7 +3698,7 @@ It's perfect for distributing space among items in a single line, such as a navi
 - \`align-items: center;\` centers the items vertically.
 
 ### Example 4 
-**Responsive layouts**
+## **Responsive layouts**
 Responsive layouts use CSS media queries to adapt to different screen sizes, providing a good user experience on desktops, tablets, and phones. 
 Modern layout systems like Grid and Flexbox are inherently responsive.
 
@@ -3713,7 +3708,7 @@ making the layout respond to the size of the browser window.
 
     "HTML iframes":`
 ### Example 1 
-**iframe basics**:
+## **iframe basics**:
 An HTML \`<iframe>\` (inline frame) is used to embed another HTML document within the current document. 
 It creates a nested browsing context, effectively a mini web page inside a web page. 
 This is commonly used for embedding content from other sites, like videos from YouTube or maps from Google Maps.
@@ -3723,7 +3718,7 @@ This is commonly used for embedding content from other sites, like videos from Y
 - The \`frameborder="0"\` removes the border around the iframe, giving it a more integrated look.
   
 ### Example 2 
-**iframe attributes**:
+**iframe attributes**: 
 \`<iframe>\` elements have several attributes that control their behavior and appearance.
 
 - \`src\`: The URL of the document to embed.
@@ -3733,21 +3728,21 @@ This is commonly used for embedding content from other sites, like videos from Y
 - \`loading\`: Specifies when the browser should load the iframe's content (\`lazy\` for off-screen iframes).
 
 ### Example 3
-The \`sandbox\` attribute restricts what the iframe can do. By default, it imposes a wide range of restrictions, like preventing scripts from running or pop-ups from being opened. 
-You can selectively enable features by listing them in the attribute's value. 
-The \`allow-scripts\` allows JavaScript to run, while \`allow-same-origin\` allows the content to be treated as being from the same origin as the parent document.
+- The \`sandbox\` attribute restricts what the iframe can do. By default, it imposes a wide range of restrictions, like preventing scripts from running or pop-ups from being opened. 
+- You can selectively enable features by listing them in the attribute's value. 
+- The \`allow-scripts\` allows JavaScript to run, while \`allow-same-origin\` allows the content to be treated as being from the same origin as the parent document.
   
 ### Example 4 
-**Responsive iframes**
+**Responsive iframes**: 
 Making iframes responsive ensures they scale correctly on different screen sizes. A common technique is to use CSS to maintain a specific aspect ratio, especially for videos.
 
 ### Example 5 
-**iframe best practices**
+## **iframe best practices**
 To use iframes effectively and securely, follow these best practices:
 - **Use them sparingly**: Only use iframes when you must embed content from a different domain.
 - **Always include the \`title\` attribute**: This is crucial for accessibility.
 - **Use the \`sandbox\` attribute for untrusted content**: This is a vital security measure.
--** Make them responsive**: Ensure the embedded content scales with the viewport.
+- ** Make them responsive**: Ensure the embedded content scales with the viewport.
 - **Use** \`loading="lazy"\`: Defer loading of off-screen iframes to improve page performance.`,
 
 
@@ -3835,12 +3830,6 @@ updated to move the rectangle, and \`requestAnimationFrame(draw)\` schedules the
 - **Avoid floating-point numbers**: Use \`Math.floor()\` to convert coordinates to integers for faster rendering.
 - **Pre-render complex objects**: Draw complex shapes once to an off-screen canvas and then draw that canvas to the main one.`, 
 
-
-
-
-
-
-
 "HTML SVG Graphics":`
 ### Example 1 
 SVG (Scalable Vector Graphics) is an XML-based vector image format that describes 
@@ -3860,7 +3849,7 @@ SVG provides several basic shape elements that form the foundation of vector
 graphics. Each shape has specific attributes that control its appearance and 
 position.
 
-*Shape Elements & Properties*:
+***Shape Elements & Properties***
 - \`<rect>\`: Creates rectangles with \`x\`, \`y\`, \`width\`, \`height\`, \`rx\`, \`ry\` for rounded corners
 - \`<circle>\`: Creates circles with \`cx\`, \`cy\` (center coordinates), \`r\` (radius)
 - \`<ellipse>\`: Creates ellipses with \`cx\`, \`cy\`, \`rx\`, \`ry\` (radii)
@@ -3869,12 +3858,12 @@ position.
 - \`<polyline>\`: Creates open shapes with \`points\` attribute
 
 ### Example 3 
-*Explanation*:
+## **Explanation**:
 The \`<path>\` element is the most powerful SVG shape, allowing you to create complex 
 curves and shapes using path commands. The \`d\` attribute contains a series of commands 
 that define the path.
 
-*Path Commands*:
+#### ***Path Commands***
 - \`M\` (moveto): Move to a point without drawing
 - \`L\` (lineto): Draw a straight line to a point
 - \`H\` (horizontal lineto): Draw horizontal line
@@ -3888,12 +3877,12 @@ that define the path.
 
 
 ### Example 4 
-*Explanation*:
+## ***Explanation***:
 SVG supports text rendering with advanced typography features and can embed 
 raster images. Text in SVG is selectable and searchable, making it accessible 
 and SEO-friendly.
 
-*Text Properties*:
+#### ***Text Properties***:
 - \`x\`, \`y\`: Text position coordinates
 - \`font-family\`, \`font-size\`, \`font-weight\`: Typography properties
 - \`text-anchor\`: Text alignment (start, middle, end)
@@ -3902,24 +3891,24 @@ and SEO-friendly.
 - \`textPath\`: Text along a path
 
 ### Example 5 
-*Explanation*:
+## **Explanation**:
 SVG supports both declarative animations using SMIL (Synchronized Multimedia Integration Language) 
 elements and CSS-based animations. These animations can transform properties 
 over time, creating dynamic graphics.
 
-*Animation Elements*:
+#### ***Animation Elements***:
 - \`<animate>\`: Animates attribute values over time
 - \`<animateTransform>\`: Animates transformation attributes
 - \`<animateMotion>\`: Animates movement along a path
 - CSS animations and transitions can also be applied to SVG elements
 
 ### Example 6 
-*Explanation*:
+## **Explanation**:
 SVG optimization involves reducing file size and improving performance through 
 various techniques including code cleanup, path simplification, and proper 
 structuring. This is crucial for web performance and user experience.
 
-*Optimization Techniques*:
+#### ***Optimization Techniques***:
 - Remove unnecessary elements and attributes
 - Simplify paths and reduce decimal precision
 - Use \`<defs>\` for reusable elements
@@ -3931,27 +3920,27 @@ structuring. This is crucial for web performance and user experience.
 
  "HTML Project: Building a Complete Website": `
 ### Example 1 
-**Structure and Organization**:
+## **Structure and Organization**:
 Proper HTML structure and file organization create maintainable, scalable 
 websites. This involves semantic markup, logical file hierarchy, naming 
 conventions, and modular code organization. Good structure improves SEO, 
 accessibility, and developer experience.
 
 ### Example 2
-*Explanation*:
+## ***Explanation***:
 Project planning is the foundation of successful web development. It involves 
 defining goals, target audience, content strategy, technical requirements, 
 and project timeline. Proper planning prevents scope creep and ensures the 
 final product meets user needs.
 
-*Planning Components*:
+***Planning Components***:
 - **Site Architecture:** Information hierarchy and navigation structure
 - **User Experience (UX):** User journeys and interaction design
 - **Technical Specifications:** Browser support, performance requirements
 - **Content Strategy:** Content types, creation workflow, and management
 - **Timeline and Milestones:** Project phases and deliverable dates
 
-*Organizational Principles*:
+***Organizational Principles***:
 - **Semantic HTML**: Use appropriate HTML5 elements for content meaning
 - **File Structure**: Logical directory organization for assets and pages
 - **Naming Conventions**: Consistent, descriptive naming for files and classes

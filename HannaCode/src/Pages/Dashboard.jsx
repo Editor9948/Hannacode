@@ -1,13 +1,15 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Link, useNavigate, useLocation } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { Button } from "../components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../components/ui/card"
 import { Badge } from "../components/ui/badge"
 import { ArrowRight, BookOpen, Clock, Award, BarChart, BookMarked, CheckCircle } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs"
 import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar"
+import { Input } from "../components/ui/input"
+import { ShieldCheck, UserX, Crown, BadgeCheck } from "lucide-react"
 
 const API_URL = process.env.REACT_APP_API_URL 
 export default function DashboardPage() {
@@ -15,13 +17,13 @@ export default function DashboardPage() {
   const [inProgressCourses, setInProgressCourses] = useState([])
   const [completedCourses, setCompletedCourses] = useState([])
   const [certificates, setCertificates] = useState([])
-  const [recommendedCourses, setRecommendedCourses] = useState([])
+  const [recommendedCourses] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
   const [isPremium, setIsPremium] = useState(false)
   const [premiumFeatures, setPremiumFeatures] = useState(null)
   const [upgradeMessage, setUpgradeMessage] = useState("")
-   const navigate = useNavigate();
+  // const navigate = useNavigate(); // not used
    const location = useLocation();
    const [stats, setStats] = useState({
   totalUsers: 0,
@@ -116,7 +118,7 @@ const role = user?.role;
     if (user?.role === "premium" || user?.role === "admin") {
       fetchMentorshipSessions();
     }
-  }, [location.pathname, user?.role]);
+  }, [location.pathname, user?.role, isPremium]);
 
   // Fetch mentorship sessions
   const fetchMentorshipSessions = async () => {
@@ -213,6 +215,18 @@ if (role === "admin") {
           </CardContent>
         </Card>
 
+      </div>
+      {/* Admin Controls: Grant/Revoke Roles */}
+      <div className="mb-8">
+        <Card>
+          <CardHeader>
+            <CardTitle>Admin Controls</CardTitle>
+            <CardDescription>Grant or revoke Premium and Mentor roles by User ID</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <AdminRoleManager />
+          </CardContent>
+        </Card>
       </div>
       <div className="mb-8">
         <Card>
@@ -942,6 +956,95 @@ if (role === "mentor") {
           )}
         </div>
       </div>
+    </div>
+  )
+}
+
+// Inline component for admin role management
+function AdminRoleManager() {
+  const [userId, setUserId] = useState("")
+  const [email, setEmail] = useState("")
+  const [foundUser, setFoundUser] = useState(null)
+  const [status, setStatus] = useState("")
+  const [busy, setBusy] = useState(false)
+  const API_URL = process.env.REACT_APP_API_URL
+
+  const search = async () => {
+    if (!email && !userId) { setStatus("Enter email or user ID"); return }
+    setBusy(true); setStatus("")
+    try {
+      const token = localStorage.getItem("token")
+      const params = email ? `email=${encodeURIComponent(email)}` : `id=${encodeURIComponent(userId)}`
+      const res = await fetch(`${API_URL}/admin/users/search?${params}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      const data = await res.json()
+      if (!res.ok || data?.success === false) throw new Error(data?.message || `Search failed: ${res.status}`)
+      setFoundUser(data.data)
+      setUserId(data.data._id || userId)
+      setStatus("User found and ID filled")
+    } catch (e) {
+      setFoundUser(null)
+      setStatus(e.message || "Search failed")
+    } finally { setBusy(false) }
+  }
+
+  const call = async (path) => {
+    if (!userId) { setStatus("Enter a user ID"); return }
+    setBusy(true); setStatus("")
+    try {
+      const token = localStorage.getItem("token")
+      const res = await fetch(`${API_URL}/admin/users/${userId}/${path}`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+      })
+      const data = await res.json().catch(()=>({}))
+      if (!res.ok || data?.success === false) throw new Error(data?.message || `Request failed: ${res.status}`)
+      setStatus(data?.message || "Success")
+    } catch (e) {
+      setStatus(e.message || "Request failed")
+    } finally { setBusy(false) }
+  }
+
+  return (
+    <div className="space-y-3">
+      <div className="flex flex-col gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <Input placeholder="Enter Email (optional)" value={email} onChange={e=>setEmail(e.target.value)} />
+          <Input placeholder="Enter User ID (ObjectId)" value={userId} onChange={e=>setUserId(e.target.value)} />
+          <Button disabled={busy} onClick={search} variant="outline">Lookup</Button>
+        </div>
+        {busy && (
+          <div className="flex items-center gap-2 text-sm text-muted-foreground mt-2">
+            <span className="inline-block h-4 w-4 border-2 border-primary border-t-transparent rounded-full animate-spin"></span>
+            Searching…
+          </div>
+        )}
+        {foundUser && !busy && (
+          <div className="text-xs text-muted-foreground">
+            Found: {foundUser.name} ({foundUser.email}) • Role: {foundUser.role}
+          </div>
+        )}
+        <div className="flex flex-wrap gap-2">
+          <Button disabled={busy} onClick={()=>call('grant-premium')} className="bg-amber-600 hover:bg-amber-700">
+            <Crown className="h-4 w-4 mr-1"/> Grant Premium
+          </Button>
+          <Button disabled={busy} onClick={()=>call('revoke-premium')} variant="outline">
+            <UserX className="h-4 w-4 mr-1"/> Revoke Premium
+          </Button>
+          <Button disabled={busy} onClick={()=>call('grant-mentor')} className="bg-emerald-600 hover:bg-emerald-700">
+            <ShieldCheck className="h-4 w-4 mr-1"/> Grant Mentor
+          </Button>
+          <Button disabled={busy} onClick={()=>call('revoke-mentor')} variant="outline">
+            <BadgeCheck className="h-4 w-4 mr-1"/> Revoke Mentor
+          </Button>
+        </div>
+      </div>
+      {status && (
+        <div className="text-sm mt-1">
+          {status}
+        </div>
+      )}
     </div>
   )
 }

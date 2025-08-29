@@ -81,8 +81,7 @@ const getPHPLessonConcepts = (lessonTitle) => {
 - Setting and retrieving cookies
 - Session management
 - Session security
-- Cookie security
-- Best practices`,
+- Cookie security`,
 
     "PHP Error Handling": `
 - Error types
@@ -95,8 +94,7 @@ const getPHPLessonConcepts = (lessonTitle) => {
 - Connecting to MySQL
 - Connection parameters
 - Error handling
-- Connection pooling
-- Best practices`,
+- Connection pooling`,
 
     "MySQL Basics": `
 - MySQL introduction
@@ -158,8 +156,7 @@ const getPHPLessonConcepts = (lessonTitle) => {
 - SQL injection prevention
 - Input validation
 - Escaping output
-- Secure connections
-- Best practices`,
+- Secure connections`,
 
     "PHP Authentication": `
 - User authentication
@@ -186,63 +183,54 @@ const getPHPLessonConcepts = (lessonTitle) => {
 - File upload basics
 - Handling file uploads
 - File validation
-- Security considerations
-- Best practices`,
+- Security considerations`,
 
     "PHP Image Processing": `
 - Image manipulation
 - Image upload
 - Image validation
-- Security considerations
-- Best practices`,
+- Security considerations`,
 
     "PHP Email Handling": `
 - Sending emails
 - Email validation
 - Email templates
-- Security considerations
-- Best practices`,
+- Security considerations`,
 
     "PHP Date and Time": `
 - Date and time functions
 - Time zones
 - Date formatting
-- Date calculations
-- Best practices`,
+- Date calculations`,
 
     "PHP Regular Expressions": `
 - Regular expression basics
 - Pattern matching
 - String replacement
-- Validation
-- Best practices`,
+- Validation`,
 
     "PHP JSON Handling": `
 - JSON encoding
 - JSON decoding
 - JSON validation
-- Error handling
-- Best practices`,
+- Error handling`,
 
     "PHP XML Processing": `
 - XML basics
 - XML parsing
 - XML generation
-- XML validation
-- Best practices`,
+- XML validation`,
 
     "PHP RESTful APIs": `
 - RESTful API basics
 - API endpoints
 - HTTP methods
-- Authentication
-- Best practices`,
+- Authentication`,
 
     "PHP Project Structure": `
 - Project organization
 - File structure
 - Naming conventions
-- Best practices
 - Documentation`,
 
     "PHP Best Practices": `
@@ -1562,268 +1550,192 @@ $_FILES["fileToUpload"]["name"])) . " has been uploaded.<br>";
 ?> `,
 
 
-
     "PHP Cookies and Sessions": `
-    <?php
-    setcookie(\"user\", \"John\", time() + 3600);
-    session_start();
-    $_SESSION[\"user\"] = \"John\";
-    ?>
-    Another Example
-    <?php
+// Example 1: Setting and retrieving cookies
+  <?php
+// Setting a cookie named "user" with value "John Doe"
+// It will expire in 1 hour (3600 seconds)
+setcookie("user", "John Doe", time() + 3600, "/");
+
+// Check if the cookie is set
+if(isset($_COOKIE["user"])) {
+    echo "Cookie 'user' is set!<br>";
+    echo "Value is: " . $_COOKIE["user"];
+} else {
+    echo "Cookie 'user' is not set.";
+}
+?>
+
+// Example 2: Session management
+<?php
+// Start the session
 session_start();
 
 // Set session variables
-$_SESSION["user_id"] = 123;
-$_SESSION["username"] = "john_doe";
-$_SESSION["login_time"] = time();
+$_SESSION["favcolor"] = "green";
+$_SESSION["favanimal"] = "dog";  
+echo "Session variables are set.";
 
-// Check if user is logged in
-if (isset($_SESSION["user_id"])) {
-    echo "Welcome, " . $_SESSION["username"] . "!";
-    echo "<br>Login time: " . date("Y-m-d H:i:s", $_SESSION["login_time"]);
-} else {
-    echo "Please log in.";
-}
+// To retrieve session data on another page
+// Make sure to call session_start() on that page as well
+// echo "Favorite color is " . $_SESSION["favcolor"] . ".";
 
-// Destroy session (logout)
-if (isset($_GET["logout"])) {
-    session_destroy();
-    echo "Logged out successfully.";
-}
-?>
-Session Management 
-<?php
+// To destroy a session
+// session_unset();   // Unset all session variables
+// session_destroy(); // Destroy the session
+?> 
+    
+// Example 3: Session security
+ <?php
 session_start();
 
-// Session configuration
-ini_set('session.cookie_httponly', 1);
-ini_set('session.use_only_cookies', 1);
-ini_set('session.cookie_secure', 1);
-
-// Login simulation
-if (isset($_POST['login'])) {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    
-    // Simulate authentication
-    if ($username === 'admin' && $password === 'password123') {
-        $_SESSION['user_id'] = 1;
-        $_SESSION['username'] = $username;
-        $_SESSION['login_time'] = time();
-        $_SESSION['role'] = 'admin';
-        
-        // Regenerate session ID for security
-        session_regenerate_id(true);
-        
-        echo "Login successful!";
-    } else {
-        echo "Invalid credentials!";
-    }
+// After successful login, regenerate the session ID
+if (isset($_POST['login_success'])) {
+    session_regenerate_id(true); // true deletes the old session file
+    $_SESSION['loggedin'] = true;
+    echo "Session ID regenerated successfully.";
 }
+?>
 
-// Logout
-if (isset($_GET['logout'])) {
-    // Clear all session variables
-    $_SESSION = array();
-    
-    // Destroy the session cookie
-    if (isset($_COOKIE[session_name()])) {
-        setcookie(session_name(), '', time() - 3600, '/');
-    }
-    
-    // Destroy the session
-    session_destroy();
-    
-    echo "Logged out successfully!";
-}
+// Example 4: Cookie security
+<?php
+// Set a secure and HttpOnly cookie
+$cookie_name = "secure_user";
+$cookie_value = "Jane Doe";
+$expiration = time() + 3600; // 1 hour
 
-// Check if user is logged in
-if (isset($_SESSION['user_id'])) {
-    echo "<h3>Welcome, " . htmlspecialchars($_SESSION['username']) . "!</h3>";
-    echo "Login time: " . date('Y-m-d H:i:s', $_SESSION['login_time']) . "<br>";
-    echo "Role: " . $_SESSION['role'] . "<br>";
-    echo "Session ID: " . session_id() . "<br>";
-    echo "<a href='?logout=1'>Logout</a>";
-} else {
-    echo "<h3>Please log in:</h3>";
-    echo "<form method='POST'>";
-    echo "Username: <input type='text' name='username'><br>";
-    echo "Password: <input type='password' name='password'><br>";
-    echo "<input type='submit' name='login' value='Login'>";
-    echo "</form>";
-}
+// The secure flag requires HTTPS
+// The HttpOnly flag prevents JavaScript from accessing the cookie
+setcookie($cookie_name, $cookie_value, [
+    'expires' => $expiration,
+    'path' => '/',
+    'secure' => true,    // Requires HTTPS
+    'httponly' => true   // Prevents JavaScript access
+]);
 ?>`,
 
     "PHP Error Handling": `
-    <?php
-    function customError($errno, $errstr) {
-    echo \"<b>Error:</b> [$errno] $errstr\";
-    }
-    set_error_handler(\"customError\");
-    echo($test);
-    ?>
+// Example 1: Error types
+   // No code example 
+
+// Example 2: Error reporting
+<?php
+// Turn off all error reporting
+error_reporting(0);
+
+// Report all errors except notices
+error_reporting(E_ALL & ~E_NOTICE);
+
+// Display errors in the browser (for development)
+ini_set('display_errors', 1);
+
+// Hide errors from the browser (for production)
+ini_set('display_errors', 0);
+?>
+
+// Example 3: Custom error handling
+<?php
+// Custom error handler function
+function customErrorHandler($errno, $errstr, $errfile, $errline) {
+    echo "<b>Custom Error:</b> [$errno] $errstr<br>";
+    echo "Error on line $errline in $errfile<br>";
+}
+
+// Set the custom error handler
+set_error_handler("customErrorHandler");
+
+// Trigger a warning to test the handler
+$test = 10 / 0;
+?>
     
-     Another Example
-    <?php
+// Example 4: Exception handling
+<?php
+function divide($numerator, $denominator) {
+    if ($denominator == 0) {
+        throw new Exception("Division by zero is not allowed.");
+    }
+    return $numerator / $denominator;
+}
+
 try {
-    $servername = "localhost";
-    $username = "username";
-    $password = "password";
-    $conn = new mysqli($servername, $username, $password);
-    
-    if ($conn->connect_error) {
-        throw new Exception("Connection failed: " . $conn->connect_error);
-    }
-    echo "Connected successfully";
+    echo divide(10, 2) . "<br>";
+    echo divide(10, 0);
 } catch (Exception $e) {
-    echo "Error: " . $e->getMessage();
+    echo "Caught exception: " . $e->getMessage();
+} finally {
+    echo "<br>This block always executes.";
 }
 ?>
 
-Another comprehensive error handling examples
+// Example 5: Logging errors
 <?php
-// Custom exception class
-class DatabaseException extends Exception {
-    public function __construct($message, $code = 0, Exception $previous = null) {
-        parent::__construct($message, $code, $previous);
-    }
-    
-    public function __toString() {
-        return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
-    }
-}
+// Set a custom error log file
+ini_set('log_errors', 1);
+ini_set('error_log', 'php-error.log');
 
-// Custom error handler
-function customErrorHandler($errno, $errstr, $errfile, $errline) {
-    $errorType = [
-        E_ERROR => 'ERROR',
-        E_WARNING => 'WARNING',
-        E_PARSE => 'PARSE',
-        E_NOTICE => 'NOTICE',
-        E_CORE_ERROR => 'CORE_ERROR',
-        E_CORE_WARNING => 'CORE_WARNING',
-        E_COMPILE_ERROR => 'COMPILE_ERROR',
-        E_COMPILE_WARNING => 'COMPILE_WARNING',
-        E_USER_ERROR => 'USER_ERROR',
-        E_USER_WARNING => 'USER_WARNING',
-        E_USER_NOTICE => 'USER_NOTICE',
-        E_STRICT => 'STRICT',
-        E_RECOVERABLE_ERROR => 'RECOVERABLE_ERROR',
-        E_DEPRECATED => 'DEPRECATED',
-        E_USER_DEPRECATED => 'USER_DEPRECATED',
-    ];
-    
-    $type = isset($errorType[$errno]) ? $errorType[$errno] : 'UNKNOWN';
-    
-    $message = "[$type] $errstr in $errfile on line $errline";
-    
-    // Log error
-    error_log($message);
-    
-    // Display error (only in development)
-    if (defined('DEVELOPMENT_MODE') && DEVELOPMENT_MODE) {
-        echo "<div style='color: red; border: 1px solid red; padding: 10px; margin: 10px;'>";
-        echo $message;
-        echo "</div>";
-    }
-    
-    return true;
-}
-
-// Set error handler
-set_error_handler("customErrorHandler");
-
-// Example usage with try-catch
-try {
-    // Simulate database connection
-    $host = 'localhost';
-    $dbname = 'nonexistent_db';
-    
-    if (!file_exists($dbname)) {
-        throw new DatabaseException("Database '$dbname' does not exist");
-    }
-    
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname", "user", "pass");
-    
-} catch (DatabaseException $e) {
-    echo "Database Error: " . $e->getMessage() . "<br>";
-    echo "File: " . $e->getFile() . "<br>";
-    echo "Line: " . $e->getLine() . "<br>";
-    
-} catch (PDOException $e) {
-    echo "PDO Error: " . $e->getMessage() . "<br>";
-    
-} catch (Exception $e) {
-    echo "General Error: " . $e->getMessage() . "<br>";
-    
-} finally {
-    echo "This code always executes<br>";
-}
-
-// Trigger different types of errors
-trigger_error("This is a user warning", E_USER_WARNING);
-trigger_error("This is a user notice", E_USER_NOTICE);
+// Log a custom message to the file
+error_log("This is a test error message.");
 ?>`,
 
     "PHP Database Connection": `
-    <?php
-    $servername = \"localhost\";
-    $username = \"username\";
-    $password = \"password\";
-    $conn = new mysqli($servername, $username, $password);
-    if ($conn->connect_error) {
-    die(\"Connection failed: \" . $conn->connect_error);
-    }
-    ?>
-    
-    Another Examples 
-    <?php
+// Example 1:  Connecting to MySQL
+<?php
+$servername = "localhost";
+$username = "root";
+$password = "password";
+$dbname = "myDB";
+
 try {
-    $pdo = new PDO("mysql:host=localhost;dbname=test", "username", "password");
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
-    // Create table if not exists
-    $sql = "CREATE TABLE IF NOT EXISTS users (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(50) NOT NULL,
-        email VARCHAR(100) UNIQUE NOT NULL,
-        created_at TIMESTAMP DEFAULT _TIMESTAMP
-    )";
-    $pdo->exec($sql);
-    
-    // Insert multiple records
-    $stmt = $pdo->prepare("INSERT INTO users (name, email) VALUES (?, ?)");
-    $users = [
-        ["John Doe", "john@example.com"],
-        ["Jane Smith", "jane@example.com"],
-        ["Bob Johnson", "bob@example.com"]
-    ];
-    
-    foreach ($users as $user) {
-        $stmt->execute($user);
-    }
-    
-    // Select with conditions
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE name LIKE ? ORDER BY created_at DESC");
-    $stmt->execute(["%John%"]);
-    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-    echo "<h3>Users found:</h3>";
-    foreach ($results as $user) {
-        echo "ID: " . $user['id'] . ", Name: " . $user['name'] . ", Email: " . $user['email'] . "<br>";
-    }
-    
-    // Update record
-    $stmt = $pdo->prepare("UPDATE users SET name = ? WHERE email = ?");
-    $stmt->execute(["John Updated", "john@example.com"]);
-    
-    // Delete record
-    $stmt = $pdo->prepare("DELETE FROM users WHERE email = ?");
-    $stmt->execute(["bob@example.com"]);
-    
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    // Set the PDO error mode to exception
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    echo "Connected successfully";
 } catch(PDOException $e) {
-    echo "Error: " . $e->getMessage();
+    echo "Connection failed: " . $e->getMessage();
+}
+
+// Close the connection
+$conn = null;
+?>
+
+// Example 2: Connection parameters
+   // No code example 
+
+// Example 3: Error handling
+ <?php
+// Same as above, just highlighting the error handling
+$servername = "localhost";
+$username = "invalid_user"; // Intentional invalid username
+$password = "invalid_password";
+$dbname = "myDB";
+
+try {
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    echo "Connected successfully";
+} catch(PDOException $e) {
+    // This block will execute if the connection fails
+    echo "Connection failed: " . $e->getMessage();
+}
+?>
+
+// Example 4: Connection pooling
+<?php
+// Using a persistent connection with PDO
+$servername = "localhost";
+$username = "root";
+$password = "password";
+$dbname = "myDB";
+
+try {
+    // Add PDO::ATTR_PERSISTENT => true to the options array
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password, [
+        PDO::ATTR_PERSISTENT => true
+    ]);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    echo "Persistent connection successful";
+} catch(PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
 }
 ?>`,
 
@@ -2166,44 +2078,161 @@ $stmt->execute();
 if (!$result) {
     echo "Error executing query: " . mysqli_error($conn);
 }
-?>
-`,
+?>`,
 
     "PHP Prepared Statements": `
 // Example 1: Prepared Statements
-    <?php
-    $stmt = $conn->prepare(\"INSERT INTO Users (name) VALUES (?)\");
-    $stmt->bind_param(\"s\", $name);
-    $name = \"John\";
-    $stmt->execute();
-    ?>`,
+   // No code example 
+
+// Example 2: Creating prepared statements
+<?php
+// Assuming $pdo is a valid PDO connection object
+$sql = "INSERT INTO users (name, email) VALUES (?, ?)";
+$stmt = $pdo->prepare($sql);
+?>
+
+// Example 3: Binding parameters
+<?php
+$name = "Alice";
+$email = "alice@example.com";
+
+// Bind parameters to the placeholders
+$stmt->bindValue(1, $name, PDO::PARAM_STR);
+$stmt->bindValue(2, $email, PDO::PARAM_STR);
+?>
+
+// Example 4: Executing prepared statements
+<?php
+$stmt->execute();
+
+echo "New record created successfully.";
+?>`,
 
     "PHP Database Security": `
-    <?php
-    $stmt = $conn->prepare(\"SELECT * FROM Users WHERE id = ?\");
-    $stmt->bind_param(\"i\", $id);
-    $id = 1;
-    $stmt->execute();
-    ?>`,
+// Example 1: SQL injection prevention  
+   <?php
+// BAD: Vulnerable to SQL injection
+$id = $_GET['id'];
+$sql = "SELECT * FROM products WHERE id = $id";
 
-    "PHP Authentication": `
-    <?php
+// GOOD: Secure with prepared statements
+$id = $_GET['id'];
+$sql = "SELECT * FROM products WHERE id = ?";
+$stmt = $pdo->prepare($sql);
+$stmt->execute([$id]);
+?>
+
+// Example 2: Input validation
+<?php
+// Validate and sanitize an email address
+$email = $_POST['email'];
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    die("Invalid email format.");
+}
+?>
+
+// Example 3: Escaping output
+<?php
+// Assume $username contains potentially malicious data
+$username = "<script>alert('xss');</script>";
+?>
+
+<p>Welcome, <?php echo $username; ?></p>
+
+<p>Welcome, <?php echo htmlspecialchars($username); ?></p> `,
+
+
+  "PHP Authentication": `
+// Example 1: User authentication
+ <?php
+// In a login script
+$user_input_password = $_POST['password'];
+$stored_hash = "..."; // Get this from the database for the given username
+
+if (password_verify($user_input_password, $stored_hash)) {
+    // Authentication successful
     session_start();
-    if ($_SERVER[\"REQUEST_METHOD\"] == \"POST\") {
-    $username = $_POST[\"username\"];
-    $password = $_POST[\"password\"];
-    // Verify credentials
-    }
-    ?>`,
+    $_SESSION['user_id'] = $user_id;
+    echo "Login successful!";
+} else {
+    // Authentication failed
+    echo "Invalid password.";
+}
+?>
+
+// Example 2: Password hashing
+<?php
+// Hashing a password for storage
+$plain_password = "mysecretpassword";
+$hashed_password = password_hash($plain_password, PASSWORD_DEFAULT);
+
+echo $hashed_password; // e.g., $2y$10$...
+?>
+  
+// Example 3: Session management
+<?php
+// On login
+session_start();
+$_SESSION['user_id'] = $user_id;
+
+// On a different page
+session_start();
+if (isset($_SESSION['user_id'])) {
+    echo "Welcome back, user " . $_SESSION['user_id'];
+} else {
+    echo "You are not logged in.";
+}
+?>
+
+// Example 4: Remember me functionality
+<?php
+// On login: store a persistent token in the database
+$token = bin2hex(random_bytes(16));
+$hashed_token = hash('sha256', $token);
+// Store $hashed_token in the database with user ID and expiration
+setcookie('remember_me', $token, time() + (86400 * 30), "/", "", true, true);
+?>`,
 
     "PHP Authorization": `
-    <?php
-    if ($_SESSION[\"role\"] == \"admin\") {
-    // Allow access
-    } else {
+// Example 1: Role-based access control
+<?php
+// Assuming the user's role is stored in a session
+session_start();
+$user_role = $_SESSION['user_role'] ?? 'guest';
+
+if ($user_role === 'admin') {
+    // Show admin-specific content
+    echo "Welcome, Administrator! You have full access.";
+} elseif ($user_role === 'editor') {
+    // Show editor-specific content
+    echo "You can edit content.";
+} else {
     // Deny access
-   }
-    ?>`,
+    echo "You do not have permission to view this page.";
+}
+?>
+
+// Example 2: Access control lists
+ <?php
+// A simple ACL array
+$acl = [
+    'admin' => ['create', 'read', 'update', 'delete'],
+    'editor' => ['create', 'read', 'update']
+];
+
+function hasPermission($role, $permission) {
+    global $acl;
+    return in_array($permission, $acl[$role] ?? []);
+}
+
+// Check if the current user can delete a post
+$user_role = 'editor';
+if (hasPermission($user_role, 'delete')) {
+    echo "You can delete this post.";
+} else {
+    echo "Access denied.";
+}
+?>`,
 
     "PHP Password Hashing": `
     <?php
@@ -2316,14 +2345,14 @@ const getPHPCodeExplanation = (lessonTitle) => {
   const explanations = {
     "Introduction to PHP": `
 ### Example 1 
-**What is PHP and its Role in Web Development**
+## **What is PHP and its Role in Web Development**
 PHP, which stands for Hypertext Preprocessor, is a server-side scripting language designed specifically for web development. 
 Its primary role is to process data on a web server and generate dynamic content, such as HTML, which is then sent to a web browser. 
 Unlike static HTML pages that display the same content to every user, PHP allows you to create websites that can interact with databases, 
 handle forms, manage sessions, and deliver personalized content. Think of it as the engine behind a website, making it dynamic and interactive.
 
 ### Example 2
-**Basic PHP Syntax and Structure**
+#### **Basic PHP Syntax and Structure**
 PHP code is embedded within HTML documents using special PHP tags. The most common
 and recommended tag is \`<?php ... ?>\` . Any code within these tags is interpreted as PHP code
 by the server. PHP statements are typically terminated with a semicolon (\`;\`).
@@ -2337,7 +2366,7 @@ outside these tags is treated as plain HTML.
 case, it outputs an HTML paragraph.
 
 ### Example 3
-**Writing Your First PHP Script**
+#### **Writing Your First PHP Script**
 Writing your first PHP script is straightforward. You just need a text editor and a local web server environment 
 (like XAMPP, WAMP, or MAMP) to run the code.
 
@@ -2353,7 +2382,7 @@ The script simply uses \`echo\` to print two lines of text to the browser. The \
 demonstrating how PHP can output HTML markup.
 
 ### Example 4 
-**PHP Tags and Output Statements**
+## PHP Tags and Output Statements
 PHP offers a few different ways to enclose code and display output.
 
 - **Standard Tags**: \`<?php ... ?>\` are the recommended and most common tags.
@@ -2371,7 +2400,7 @@ the difference between \`echo\` and \`print\`, showing that \`echo\` can accept 
 
     "PHP Syntax and Variables": `
 ### Example 1 
-**PHP Syntax Rules and Conventions**
+## PHP Syntax Rules and Conventions
 PHP code is executed on the server, and the result (usually HTML) is sent to the browser. It's an easy language to embed within HTML.
 - **Opening and Closing Tags**: PHP code blocks start with \`<?php\` and end with \`?>\`.
 - **Case-Sensitivity**: PHP is case-sensitive for variable names but case-insensitive for keywords like \`if\`, \`else\`, and \`while\`.
@@ -2382,7 +2411,7 @@ The code block \`<?php ... ?>\` contains all the PHP logic. The \`echo\` stateme
 Notice the semicolon at the end of each PHP line. The variable \`$message\` is case-sensitive, so \`$MESSAGE\` would be a different variable.
 
 ### Example 2
-**Variable Declaration and Naming**
+### Variable Declaration and Naming
 In PHP, a variable is declared by simply writing a dollar sign ($) followed by the variable name.
 
 - **Start with \`$\`**: All variable names must begin with a dollar sign.
@@ -2395,7 +2424,7 @@ The example shows several correctly named variables. The **dot** (\`.\`) is the 
 The invalid names are commented out because they would cause a parsing error.
 
 ### Example 3
-**Data Type Basics**
+### Data Type Basics
 PHP supports a range of fundamental data types.
 
 - **String**: A sequence of characters.
@@ -2411,7 +2440,7 @@ The \`gettype()\` function is used to check a variable's data type. The \`var_du
 as it displays detailed information about a variable, including its type and value.
 
 ### Example 4
-**Variable Scope**
+### Variable Scope
 Variable scope determines where a variable can be accessed or used within a program. 
 PHP has three main scopes:
 - **Local**: Declared inside a function and only accessible within that function.
@@ -2423,12 +2452,12 @@ The \`$globalVar\` can only be accessed inside \`testScope()\` by using the \`gl
 The \`staticCounter()\` function demonstrates a static variable, which retains its value between calls, unlike a normal local variable that would be re-initialized each time.
     
 ### Example 5
-**Constants and Magic Constants**
+### Constants and Magic Constants
 A constant is an identifier (name) for a simple value. As the name suggests, that value
 cannot change during the execution of the script. Constants are defined using the \`define()\`
 function or the \`const\` keyword.
 
-**Rules for PHP constants**:
+#### **Rules for PHP constants**:
 - Constants are case-sensitive by default (though \`define()\` allows for case-insensitivity).
 - Conventionally, constant names are always in uppercase.
 - Constants do not need a \`$\` sign before them.
@@ -2442,7 +2471,7 @@ These are useful for debugging and logging.`,
 
     "PHP Data Types": `
 ### Example 1
-**Scalar Types**
+## Scalar Types
 Scalar types are the most basic data types in PHP, holding a single value.
 - **String**: A sequence of characters. Strings can be enclosed in single quotes (\`'...'\`) or double quotes (\`"..."\`). 
 Double quotes allow for variable parsing and escape sequences.
@@ -2456,18 +2485,18 @@ The example demonstrates the four scalar types. We use the \`gettype()\` functio
 The conditional \`($is_active ? 'Yes' : 'No')\` is a ternary operator that checks the boolean value to output a readable string.
 
 ### Example 2
-**Compound Types**
+### Compound Types
 Compound types can hold multiple values.
 - **Array**: A data structure that stores a collection of values. Arrays can be indexed numerically, associatively (with string keys), or both.
 - **Object**: An instance of a user-defined class. It encapsulates both data (properties) and functions (methods).
 
 **Code Explanation**
-The \`$person\` variable is an associative array where keys are strings. Values are accessed using the bracket notation (\`$person["name"]\`). 
-The \`Car\` class is a blueprint for objects. The \`$myCar\` variable is an **object** of the \`Car\` class. Its properties are accessed 
+- The \`$person\` variable is an associative array where keys are strings. Values are accessed using the bracket notation (\`$person["name"]\`). 
+- The \`Car\` class is a blueprint for objects. The \`$myCar\` variable is an **object** of the \`Car\` class. Its properties are accessed 
 using the arrow operator (\`->\`). \`var_dump()\` is used again to display the structure and content of both the array and the object.
 
 ### Example 3
-**Special Types**
+### Special Types
 PHP has two special data types.
 - **NULL**: A variable of type \`NULL\` has no value. A variable is considered \`NULL\` if it has been assigned the constant \`NULL\`, 
 has not been assigned a value yet, or has been \`unset()\`.
@@ -2479,18 +2508,18 @@ When \`$x\ is \`unset()\`, \`var_dump($x)\` shows that it is \`NULL\`. The \`fop
 This resource allows you to interact with the file system. \`fclose()\` is used to close the file handle.
 
 ### Example 4
-**Type Juggling and Type Casting**
+### Type Juggling and Type Casting
 - **Type Juggling**: PHP's flexibility allows it to automatically convert data types as needed. This is known as **type juggling**. 
 For example, when adding a string to an integer, PHP will automatically try to convert the string to a number.
 - **Type Casting**: This is a manual conversion of a variable from one data type to another. You can do this by placing the desired type 
 in parentheses before the variable (\`(int)\`, \`(float)\`, \`(string)\`, \`(array)\`, \`(bool)\`, \`(object)\`).
 
 **Code Explanation**
-In the first example, PHP automatically converts the string \`"20"\` to an integer \`20\` to perform the addition. This is type juggling. 
-In the second example, we explicitly use \`(int)\` and \`(float)\` to cast the string to different data types, demonstrating the manual process of type casting.
+- In the first example, PHP automatically converts the string \`"20"\` to an integer \`20\` to perform the addition. This is type juggling. 
+- In the second example, we explicitly use \`(int)\` and \`(float)\` to cast the string to different data types, demonstrating the manual process of type casting.
 
 ### Example 5 
-**Type Checking Functions**
+### Type Checking Functions
 PHP provides several functions to check a variable's data type.
 
 - \`is_string()\`: Checks if a variable is a string.
@@ -2542,7 +2571,7 @@ They are used to manipulate data, perform calculations, compare values, and comb
 
 
 ### Example 3
-Comparison Operators compare two values and return a boolean ( true or false ).
+**Comparison Operators** compare two values and return a boolean ( true or false ).
 
 | Operator | Description               | Example       | Result  |
 | :------- | :------------------------ | :------------ | :------ |
@@ -2556,9 +2585,9 @@ Comparison Operators compare two values and return a boolean ( true or false ).
 | \`!==\`    | Cstrictly not equal     | \`5 !== 5\`     | \`False\`  |
 
 ### Example 4
-Logical operators are Used for combining conditions and boolean logic.
+**Logical operators** are Used for combining conditions and boolean logic.
 
-**Logical Operators (Truth Table Style)**
+### **Logical Operators (Truth Table Style)**
 | Operator | Description | Example             | Result  |
 | :------- | :---------- | :------------------ | :------ |
 | \`AND\`    | AND         | \`True and False\`    | \`False\` |
@@ -2567,10 +2596,10 @@ Logical operators are Used for combining conditions and boolean logic.
 
 
 ### Example 5 
-Increment/Decrement Operators: Increase or decrease a variable's value by one. The \`++\` operator increments, and \`--\` decrements. 
+**Increment/Decrement Operators**: Increase or decrease a variable's value by one. The \`++\` operator increments, and \`--\` decrements. 
 They can be placed before (pre-increment/decrement) or after (post-increment/decrement) the variable.
 
-**Increment/Decrement Operators**
+### Increment/Decrement Operators
 | Operator | Description       | Example     | Result |
 | :------- | :-----------------| :---------- | :----- |
 | \`++\`   | Increment         | \`$x = 5; $x++;\`    | \`$x is now 6\`    |
@@ -2604,7 +2633,7 @@ They can be placed before (pre-increment/decrement) or after (post-increment/dec
 (e.g., cast to \`int\`) before the switch or use PHP 8’s match (strict), not covered here.
 
 ### Example 3 
-**while, do-while loops**
+### **while, do-while loops**
 Loops are used to execute a block of code repeatedly as long as a specified condition is true.
 - \`while\` loop: Executes a block of code as long as the specified condition is true. The
 condition is evaluated before each iteration.
@@ -2613,14 +2642,14 @@ specified condition is true. The condition is evaluated *after* each iteration, 
 that the block of code is executed at least once.
  
 **Code Explanation** 
-***While block***
--nInitialize \`$i\` and \`$sum\`. Initialization should happen outside the loop.
+### While block
+- nInitialize \`$i\` and \`$sum\`. Initialization should happen outside the loop.
 - \`while ($i <= 5)\` checks the condition before each iteration; if \`$i\` starts greater than 5, it never runs.
 - \`$sum += $i;\` is the loop’s work (accumulation).
 - \`$i++;\` is the update step; omitting it creates an infinite loop.
 - After the loop, \`$sum\` is printed.
 
-***Do-while block***
+### Do-while block
 - \`$attempts\` counts tries; \`$connected\` simulates a connection status.
 - The body runs once before the condition is checked—useful for “try at least once” flows (e.g., menu display, first fetch).
 - We simulate success on the second attempt: \`($attempts === 2)\`.
@@ -2628,31 +2657,31 @@ that the block of code is executed at least once.
 - The final message reports the outcome.
 
 ### Example 4 
-**for, foreach loops**
+### for, foreach loops
 - **for loop**: Used when you know how many times you want to execute a block of code. It
 consists of three parts: initialization, condition, and increment/decrement.
 - **foreach loop**: Specifically designed to iterate over arrays and objects. It provides an
 easy way to loop through each item in a collection.
 
 **Code Explanation**
-***For loop**
+### For loop
 - for \`($i = 1; $i <= 10; $i++) \`packs init; condition; update in one line—ideal for known iteration counts.
 - Inside, we filter with if \`($i % 2 === 0)\` to act only on even numbers.
 - Using \`===\` prevents loose comparisons; although \`%\` yields integers, strictness is a good habit.
 
-***Foreach (key/value)***
+### Foreach (key/value)
 - \`foreach ($prices as $item => $naira)\` gives both key and value each iteration.
 - This avoids manual indexing and is safer for associative arrays.
 - \`ucfirst()\` just prettifies the item name for output.
 
-***Foreach by reference***
+### Foreach by reference
 - \`foreach ($discounts as &$d)\` uses \`&\` to get a reference to the element so assigning to \`$d\` changes the original array.
 - We apply \`10%\` off and cast to \`int\` to avoid floating decimals in currency.
 - \`unset($d)\` is critical—it breaks the lingering reference. Without it, \`$d\` might still be bound to the last element and 
 later assignments to \`$d\` could unexpectedly modify the array.
 
 ### Example 5 
-**break and continue statements**
+### break and continue statements
 - **break statement**: Used to terminate the execution of the current loop (or switch
 statement) immediately. Control passes to the statement immediately following the
 terminated loop.
@@ -2671,7 +2700,8 @@ or the increment/decrement part (for for loop).
 Functions are blocks of code that perform a specific task and can be reused throughout
 your program. PHP has a vast library of built-in functions, and you can also define your own
 custom functions.
-**Function declaration and calling**
+
+### Function declaration and calling
 To declare a function in PHP, you use the function keyword, followed by the function name,
 parentheses (which may contain parameters), and curly braces {} that enclose the
 function's code
@@ -2684,7 +2714,7 @@ function's code
 - Functions should be declared before they’re called (though PHP allows calling earlier if in the same file).
 
 ### Example 2 
-**Parameters and return values**
+### Parameters and return values
 Functions can accept input values called parameters (or arguments) and can return a value
 using the return statement.
 - **Parameters**: Variables listed inside the parentheses in the function definition. They act
@@ -2701,13 +2731,13 @@ returned value is sent back to the caller.
 - Parameters are passed by value by default—changing inside doesn’t affect outside unless passed by reference \`(&$param)\`.
 
 ### Example 3
-**Variable scope in functions**
+### Variable scope in functions
 As discussed in Section 2.4, variables in PHP have different scopes. Inside a function,
 variables declared are local to that function. To access global variables within a function,
 you need to use the \`global\` keyword or the \`$GLOBALS\` superglobal array
 
 ### Example 4 
-**Anonymous function as a callback**
+### Anonymous function as a callback
 Anonymous functions (also known as closures) are functions that have no specified name.
 They can be assigned to variables and passed as arguments to other functions. They are
 particularly useful as callback functions.
@@ -2718,11 +2748,12 @@ particularly useful as callback functions.
 - Functions can be passed as arguments to other functions.
 
 ### Example 5 
-**Built-in functions**
+## Built-in functions
 PHP comes with a vast library of built-in functions that perform a wide range of tasks, from
 string manipulation and mathematical calculations to file handling and database
 interaction. Using these functions saves development time and ensures robust code.
-**Examples of common built-in functions:**
+
+### Examples of common built-in functions:
 ***String Functions:**
 - \`strlen()\` : Returns the length of a string.
 - \`str_replace()\` : Replaces all occurrences of a substring with another substring.
@@ -2751,7 +2782,8 @@ interaction. Using these functions saves development time and ensures robust cod
 Arrays are powerful data structures that allow you to store multiple values in a single
 variable. PHP arrays are highly flexible and can serve as indexed arrays, associative arrays,
 or even multidimensional arrays.
-**Indexed arrays**
+
+### Indexed arrays
 Indexed arrays are arrays where each element has a numeric index, starting from 0 by
 default. You can create them by simply assigning values or by using the \`array()\` constructor
 or square brackets \`[]\` .
@@ -2764,22 +2796,21 @@ or square brackets \`[]\` .
 - For loops are common for iterating indexed arrays.
 
 ### Example 2 
-**Associative arrays**
+### Associative arrays
 Associative arrays use named keys that you assign to them, instead of numeric indices. This
 allows you to use meaningful names to reference array elements.
 
 ### Example 3
-**Multidimensional arrays**
+### Multidimensional arrays
 A multidimensional array is an array containing one or more arrays. This allows you to store
 data in a table-like structure (rows and columns) or even more complex hierarchies.
 
 ### Example 4 
-**Array functions**
+### Array functions
 PHP provides a rich set of built-in functions for manipulating arrays. These functions allow
 you to perform various operations like sorting, searching, merging, filtering, and more.
 
-**Common PHP Array Functions**
-
+### Common PHP Array Functions
 | Function        | Description                                                     |
 |-----------------|-----------------------------------------------------------------|
 | \`count()\`     | Returns the number of elements in an array.                     |
@@ -2797,17 +2828,23 @@ you to perform various operations like sorting, searching, merging, filtering, a
 
 
 ### Example 5
-**Array iteration**
+### Array iteration
 Iterating through arrays is a common task in PHP. The foreach loop is the most common
-and convenient way to iterate over array elements.`,
+and convenient way to iterate over array elements.
+
+### Example 6 
+Iterating through arrays is a common task in PHP.
+`,
+
+
 
     "PHP Strings": `
 ### Example 1 
-**PHP Strings**
+## PHP Strings
 Strings are fundamental data types in PHP, used to represent sequences of characters. PHP
 provides extensive functionality for creating, manipulating, and formatting strings.
 
-**String creation and manipulation**
+### String creation and manipulation
 Strings can be created using single quotes (\`'\`) or double quotes (\`"\`). The choice between
 them often depends on whether you need variable parsing or escape sequences.
 - **Single Quoted Strings**: Literal interpretation. Variables and most escape sequences are
@@ -2816,12 +2853,12 @@ not parsed.
 newline, \t for tab) are interpreted.
 
 ### Example 2 
-**String Manipulation**
+### String Manipulation
 PHP offers numerous functions for manipulating strings, such as getting length, finding
 substrings, replacing parts, and changing case.
 
 ### Example 3 
-**String functions**
+### String functions
 PHP has a comprehensive set of built-in string functions. Here are some commonly used
 one
 
@@ -2846,34 +2883,37 @@ one
 
 
 ### Example 4 
-String concatenation
+### String concatenation
 String concatenation is the process of joining two or more strings together to form a single
 string. In PHP, the dot ( \`.\`) operator is used for string concatenation.
 
 
 ### Example 5 
-**String formatting**
+### String formatting
 String formatting involves presenting strings in a specific layout or style. PHP provides
 functions like sprintf() and printf() for formatted output, similar to C-style formatting.
 - \`sprintf()\` : Returns a formatted string.
 - \`printf()\` : Prints a formatted string.
-Format Specifiers (common ones):
+
+**Format Specifiers (common ones)**:
 - \`%s\` : String
 - \`%d\` : Signed decimal integer
 - \`%f\` : Floating-point number
 - \`%%\` : A literal percent sign
 
 ### Example 6 
-**Regular expressions**
+### Regular expressions
 Regular expressions (regex) are powerful patterns used for searching, matching, and
 manipulating strings based on complex rules. PHP uses PCRE (Perl Compatible Regular
-Expressions) functions, which are prefixed with \`preg_\` .
-Common \`preg_\` functions:
+Expressions) functions, which are prefixed with \`preg_\`.
+ 
+**Common \`preg_\` functions**:
 - \`preg_match()\` : Performs a regular expression match.
 - \`preg_match_all()\` : Performs a global regular expression match.
 - \`preg_replace()\` : Performs a regular expression search and replace.
 - \`preg_split()\` : Splits a string by a regular expression.
-*Basic Regex Syntax Elements:*
+
+***Basic Regex Syntax Elements***:
 - \`/pattern/modifiers\` : Delimiters (usually \`/\` ), pattern, and optional modifiers.
 - \`.\` : Any character (except newline).
 - \`*\` : Zero or more occurrences of the preceding character/group.
@@ -2892,7 +2932,7 @@ Common \`preg_\` functions:
 
     "PHP Forms and User Input": `
 ### Example 1 
-**PHP Forms and User Input**
+## **PHP Forms and User Input**
 Handling HTML forms and processing user input is a core aspect of web development. PHP
 provides robust ways to collect, validate, and utilize data submitted through forms.
 **HTML forms**
@@ -2902,8 +2942,9 @@ fields, checkboxes, radio buttons, submit buttons, etc.) enclosed within \`<form
 ( \`GET\` or \`POST\` ) defines how the data is sent.
 
 ### Example 2 
-**Form submission methods**
+### **Form submission methods**
 HTML forms can submit data using two primary HTTP methods: \`GET\` and \`POST\` .
+
 **GET Method**:
 - Appends form data to the URL as query strings (e.g., \`process.php?\`
 \`username=John&email=john@example.com\` ).
@@ -2911,7 +2952,8 @@ HTML forms can submit data using two primary HTTP methods: \`GET\` and \`POST\` 
 - Limited by URL length (typically around 2048 characters).
 - Suitable for non-sensitive data, search queries, or when users might want to
 bookmark the URL.
- **POST Method**:
+
+**POST Method**:
 - Sends form data in the HTTP request body.
 - Data is not visible in the URL, making it more secure for sensitive information (like
 passwords).
@@ -2920,7 +2962,7 @@ passwords).
 submission results in changes on the server (e.g., creating a new record).
 
 ### Example 3
-**Handling form data**
+### **Handling form data**
 PHP provides superglobal arrays to access form data: \`$_GET\` , \`$_POST\` , and \`$_REQUEST\` .
 - \`$_GET\` : An associative array of variables passed to the current script via the URL
 parameters.
@@ -2932,10 +2974,11 @@ It's crucial to always check if form fields are set and not empty before using t
 using \`isset()\` and \`empty()\`.
 
 ### Example 4 
-**Input validation**
+### **Input validation**
 Input validation is the process of ensuring that user-supplied data meets specific criteria
 before it is processed or stored. This is critical for security, data integrity, and preventing
 errors. Never trust user input!
+
 ***Key aspects of input validation:***
 - **Required Fields**: Check if mandatory fields are filled.
 - **Data Type Validation**: Ensure data is of the expected type (e.g., number, email, URL).
@@ -2949,10 +2992,11 @@ PHP provides functions like \`filter_var()\` for validation and sanitization, an
 custom pattern matching.
 
 ### Example 5
-**Security considerations**
+## **Security considerations**
 Form handling is a common entry point for malicious attacks. It's paramount to implement
 robust security measures to protect your application and user data. Never trust user input,
 and always validate and sanitize it.
+
 ***Common Security Threats and Mitigations:***
 - **SQL Injection**: Occurs when an attacker inserts malicious SQL code into input fields,
 which is then executed by the database. **Mitigation:** Use prepared statements with
@@ -2983,7 +3027,7 @@ them. **Mitigation:**
 
     "PHP Form Validation": `
 ### Example 1: 
-**Client-side vs server-side validation**
+## **Client-side vs server-side validation**
 Form validation can occur on the client-side (in the user's browser) or on the server-side (on
 the web server).
 - **Client-side Validation:**
@@ -3004,29 +3048,30 @@ enhances user experience, while server-side validation provides the necessary se
 data integrity
 
 ### Example 2 
-**Required fields**
+## **Required fields**
 Ensuring that mandatory fields are filled out is a basic but crucial part of form validation. In
 PHP, you typically check if a field is empty using the \`empty()\` function or by checking its
 length after trimming whitespace
 
 ### Example 3 
-**Data type validation**
+## **Data type validation**
 Data type validation ensures that the submitted data conforms to the expected type (e.g.,
 integer, float, email, URL). PHP's \`filter_var()\` function is highly recommended for this
 purpose as it provides various filters for common data types.
 
 ### Example 4 
-**Custom validation rules**
+## **Custom validation rules**
 While \`filter_var()\` covers many common validation scenarios, you often need to implement
 custom validation rules for specific business logic or complex data formats. Regular
 expressions (\`preg_match()\`) are invaluable for this.
 
-**Error handling**
+### **Error handling**
 Effective error handling in form validation involves providing clear, user-friendly feedback
 when validation fails. This typically means displaying error messages next to the
 problematic input fields and retaining valid user input so they don't have to re-enter
 everything.
-*Key principles*:
+
+***Key principles***:
 - **Collect Errors**: Store all validation errors in an array or separate variables.
 - **Display Errors**: Iterate through the errors and display them prominently, usually near
 the input field they relate to.
@@ -3046,11 +3091,12 @@ efficiently.`,
 
     "PHP File Handling": `
 ### Example 1
-**PHP File Handling**
+## **PHP File Handling**
 PHP provides robust capabilities for interacting with the file system, allowing you to create,
 read, write, and manage files on the server. This is essential for tasks like logging, content
 management, and data storage.
-**Opening and closing files**
+
+### **Opening and closing files**
 Before you can perform any operations on a file, you must first open it using the \`fopen()\`
 function. After you're done with the file, it's crucial to close it using \`fclose()\` to free up
 system resources.
@@ -3069,7 +3115,7 @@ beginning.
 - \`fclose(file_handle)\`: Closes an open file pointer.
 
 ### Example 2
-**Reading from files**
+## **Reading from files**
 PHP offers several functions to read content from files, depending on whether you want to
 read the entire file, line by line, or character by character.
 - \`fread(file_handle, length)\`: Reads up to length bytes from the file pointer.
@@ -3079,7 +3125,7 @@ to read a whole file.
 - \`file(filename)\`: Reads entire file into an array, with each element representing a line.
 
 ### Example 3 
-Writing to files
+### **Writing to files**
 To write data to a file, you typically use \`fwrite()\` after opening the file in a write (\`"w"\`),
 append (\`"a"\`), or read/write (\`"w+"\`,\`"a+"\`) mode. For simple writes, \`file_put_contents()\` is a
 convenient shortcut.
@@ -3088,7 +3134,7 @@ convenient shortcut.
 exist, it is created. If it exists, it is overwritten unless \`FILE_APPEND\` flag is used.
 
 ### Example 4
-**File permissions**
+### **File permissions**
 File permissions determine who can read, write, or execute files and directories on the
 server. Correct permissions are crucial for security and proper application functioning.
 Permissions are typically represented by a three-digit octal number (e.g., 755, 644).
@@ -3097,11 +3143,13 @@ Permissions are typically represented by a three-digit octal number (e.g., 755, 
 - First digit: Owner permissions
 - Second digit: Group permissions
 - Third digit: Others (public) permissions
+
 **Common Permissions:**
 - \`7 (rwx)\` : Read, Write, Execute
 - \`6 (rw-)\` : Read, Write
 - \`5 (r-x)\` : Read, Execute
 - \`4 (r--)\` : Read only
+
 **Example Combinations:**
 - \`0755\`: Owner can read, write, execute; Group and Others can read and execute
 (common for directories).
@@ -3109,7 +3157,7 @@ Permissions are typically represented by a three-digit octal number (e.g., 755, 
 - \`0600\`: Owner can read, write; No access for Group and Others (very restrictive).
 
 ### Example 5
-**File uploads**
+## **File uploads**
 PHP makes it relatively easy to handle file uploads from HTML forms. However, it's crucial
 to implement robust security checks to prevent malicious file uploads.
 
@@ -3125,68 +3173,121 @@ execution).`,
 
 
     "PHP Cookies and Sessions": `
-**Code Explanation:**
-This example demonstrates both cookies and sessions:
+### Example 1
+## **PHP Cookies and Sessions**
+Cookies and Sessions are mechanisms used to store data about a user across multiple requests. 
+Cookies store data on the user's browser, while Sessions store data on the server.
 
-1. **Cookie Setting**: \`setcookie("user", "John", time() + 3600)\` creates a cookie that:
-- Has the name "user"
-- Contains the value "John"
-- Expires in 1 hour (3600 seconds from current time)
+### **Setting and Retrieving Cookies**
+You set a cookie using the \`setcookie()\` function. To retrieve its value, you access the \`$_COOKIE\` superglobal array.
 
-2. **Session Start**: \`session_start()\` initializes a new session or resumes an existing one.
+**Code Explanation**
+- The \`setcookie()\` function takes the cookie name, value, expiration time, and path as arguments. The \`time() + 3600\` sets the expiration for one hour from the current time. 
+- The \`$_COOKIE["user"]\` retrieves the value of the cookie named "user" that was previously set.
 
-3. **Session Variable**: \`$_SESSION["user"] = "John"\` stores data in the session that persists across page requests.
+### Example 2
+## **Session Management**
+To use sessions, you must start the session with \`session_start()\` at the beginning of your script. Session data is stored in the \`$_SESSION\` superglobal array.
 
-**Why This Matters:**
-- Cookies store data on the client side (browser)
-- Sessions store data on the server side
-- Both are essential for maintaining user state across web pages
+#### **Code Explanation**
+\`session_start()\` initializes a new session or resumes an existing one. Variables stored in the \`$_SESSION\` superglobal will be available across different pages for the same user, 
+as long as the session is active. \`session_unset()\` and \`session_destroy()\` are used to clear and terminate the session, respectively.
 
-**Learning Outcome:** Understanding how to maintain user information across multiple page requests.`,
+### Example 3 
+## **Session Security**
+Session hijacking and fixation are common attacks. To mitigate these risks, regenerate the session ID periodically and after a user logs in.
+
+**Code Explanation**
+- \`session_regenerate_id(true)\` creates a new unique session ID for the user and invalidates the old one, making it difficult for an attacker to hijack a session. 
+- The \`true\` parameter ensures the old session file is deleted from the server.
+
+### Example 4 
+## **Cookie Security**
+To make cookies more secure, use the \`HttpOnly\` and \`Secure\` flags.
+
+**Code Explanation**
+- The \`secure\` flag ensures that the cookie is only sent over HTTPS connections, protecting it from being intercepted. 
+- The \`httponly\` flag prevents client-side scripts (like JavaScript) from accessing the cookie, which helps mitigate cross-site scripting (XSS) attacks.`,
+
 
     "PHP Error Handling": `
-**Code Explanation:**
-This example demonstrates custom error handling:
+### Example 1 
+## **PHP Error Handling**
+Effective error handling is crucial for creating robust applications. PHP provides several ways to manage errors, from simple reporting to advanced exception handling.
 
-1. **Custom Error Function**: \`customError($errno, $errstr)\` defines how errors should be displayed.
+### **Error Types**
+PHP has different levels of errors, including:
+- \`E_ERROR\`: Fatal runtime errors that halt script execution.
+- \`E_WARNING\`: Non-fatal runtime errors; the script continues.
+- \`E_NOTICE\`: Minor runtime errors; the script continues.
+- \`E_PARSE\`: Compile-time parse errors, stopping the script.
 
-2. **Error Parameters**: 
-   - \`$errno\` contains the error number
-   - \`$errstr\` contains the error message
+### Example 2 
+You can control which errors are displayed using the \`error_reporting()\` and \`display_errors\` functions.
 
-3. **Error Handler Registration**: \`set_error_handler("customError")\` tells PHP to use our custom function for error handling.
+**Code Explanation**
+- \`error_reporting()\` is used to specify which types of errors should be reported. 
+- \`ini_set('display_errors', 1)\` is a configuration setting that determines whether errors should be shown in the browser output.
+- It is highly recommended to set \`display_errors\` to \`0\` in a live production environment to prevent sensitive information from being exposed to users.
 
-4. **Error Trigger**: \`echo($test)\` intentionally causes an error because \`$test\` is undefined.
+### Example 3 
+You can define a custom function to handle all PHP errors using \`set_error_handler()\`.
 
-5. **Custom Output**: Instead of PHP's default error message, our custom function displays a formatted error.
+**Code Explanation**
+The \`customErrorHandler\` function is called whenever a PHP error occurs. It receives the error number, string, file, and line number as arguments. 
+This allows you to log errors, display a user-friendly message, or perform other actions instead of using PHP's default error behavior.
 
-**Why This Matters:**
-- Custom error handling provides better user experience
-- It allows you to log errors or display them in a user-friendly way
-- Proper error handling is crucial for production applications
+### Example 4 
+Exceptions are a modern approach to handling errors. A \`try...catch\` block is used to catch and handle exceptions gracefully.
 
-**Learning Outcome:** Understanding how to control error display and create user-friendly error messages.`,
+**Code Explanation**
+The \`try\` block contains the code that might throw an exception. 
+If an exception is thrown, the script execution is transferred to the \`catch\` block, where you can handle the error. 
+The \`finally\` block is optional and executes regardless of whether an exception was caught.
+
+### Example 5
+You can log errors to a file instead of displaying them to the user. This is a crucial practice for debugging in a production environment.
+
+**Code Explanation**
+- \`ini_set('log_errors', 1)\` enables error logging, and \`ini_set('error_log', 'php-error.log')\` specifies the file where errors will be logged. 
+- The \`error_log() \`function writes a custom message to this file.`,
 
     "PHP Database Connection": `
-**Code Explanation:**
-This example demonstrates MySQL database connection using mysqli:
+### Example 1 
+## **PHP Database Connection**
+Connecting to a database is a fundamental task for most web applications. PHP supports several ways to connect to MySQL, 
+with \`PDO\` (PHP Data Objects) and \`MySQLi\` being the most common.
 
-1. **Connection Parameters**: Defines the server name, username, and password for database access.
+### **Connecting to MySQL**
+PDO provides a flexible and secure way to connect to various database types, not just MySQL.
 
-2. **mysqli Object**: \`new mysqli()\` creates a new database connection object.
+**Code Explanation**
+- The \`PDO\` class is instantiated with a DSN (Data Source Name) string, username, and password. 
+- The \`try...catch\` block handles any connection errors. 
+- \`$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION)\` configures PDO to throw exceptions on errors, which allows for robust error handling. 
+- The connection is closed by setting the variable to \`null\`.
 
-3. **Error Checking**: \`$conn->connect_error\` checks if the connection was successful.
+### Example 2
+## **Connection Parameters**
+The connection parameters are:
+- \`$servername\`: The hostname of the database server (e.g., localhost).
+- \`$username\`: The username for the database.
+- \`$password\`: The password for the database.
+- \`$dbname\`: The name of the database you want to connect to.
 
-4. **Error Handling**: If connection fails, \`die()\` stops script execution and displays an error message.
+### Example 3 
+As shown in the connection example, using a \`try...catch\` block with PDO is the standard and recommended way to handle connection errors.
 
-5. **Connection Object**: \`$conn\` can now be used to execute database queries.
+The \`PDOException\` is a specific class for PDO-related errors. By catching this exception, you can display a 
+user-friendly error message or log the error without exposing sensitive database credentials.
 
-**Why This Matters:**
-- Database connections are essential for dynamic web applications
-- Proper error handling prevents applications from crashing
-- The mysqli extension provides a secure way to interact with MySQL databases
+### Example 4 
+PHP doesn't have a native connection pooling feature like some other languages. However, you can achieve a similar effect using persistent connections
 
-**Learning Outcome:** Understanding how to establish secure database connections and handle connection errors.`,
+#### **Code Explanation**
+The \`PDO::ATTR_PERSISTENT\` option creates a persistent connection that is reused by subsequent scripts in the same web server process. 
+This can reduce the overhead of establishing new connections for every request, improving performance. However, it's important to be mindful of its side effects,
+as the connection state might not be reset between requests.`,
 
     "MySQL Basics": `
 ### Example 1 
@@ -3459,77 +3560,152 @@ Always check for errors in your database operations.
 `, 
     "PHP Prepared Statements": `
 ### Example 1 
-**Code Explanation:**
-This example demonstrates secure database operations using prepared statements:
+## **PHP Prepared Statements**
+Prepared statements are a fundamental feature for database interaction in PHP, offering a way to execute the same or similar SQL statements multiple times with high efficiency and security.
 
-1. **Statement Preparation**: \`$conn->prepare()\` creates a prepared statement with a placeholder (?).
-2. **Parameter Binding**: \`bind_param("s", $name)\` binds the variable \`$name\` to the placeholder, where "s" indicates a string type.
-3. **Variable Assignment**: Sets the value for the parameter.
-4. **Statement Execution**: \`execute()\` runs the prepared statement with the bound parameters.
+### **Benefits of Prepared Statements**
+Prepared statements provide two main benefits:
+- **Security**: They are the most effective way to prevent SQL injection attacks. By separating the SQL query from the user-provided data, 
+they ensure that user input is never interpreted as part of the SQL command.
+- **Performance**: The database parses and compiles the SQL statement once, even if it's executed multiple times with different data. 
+This reduces overhead and speeds up the query execution, especially in loops or for repetitive tasks.
 
-**Why This Matters:**
-- Prepared statements prevent SQL injection attacks
-- They improve performance by reusing query plans
-- This is the recommended way to handle user input in database queries
+### Example 2
+## **Creating Prepared Statements**
+You create a prepared statement using a database connection object's \`prepare()\` method. The SQL query contains placeholders (typically ?) 
+for values that will be provided later.
 
-**Learning Outcome:** Understanding how to securely interact with databases using prepared statements.`,
+**Code Explanation**
+- The \`prepare()\` method on the \`$pdo\` object returns a statement object (\`$stmt\`). 
+- The question marks (\`?\`) in the SQL string are positional placeholders for the data that will be inserted.
+
+### Example 3 
+## **Binding Parameters**
+You bind data to the placeholders using the \`bindValue()\` or \`bindParam()\` methods. 
+This is the crucial step where you separate the SQL logic from the data.
+
+#### **Code Explanation**
+\`bindValue()\` takes three arguments: the parameter number (1-indexed), the value, and an optional data type constant (\`PDO::PARAM_STR\` for string, \`PDO::PARAM_INT\` for integer, etc.). 
+This explicit type declaration adds an extra layer of security.
+
+### Example 4 
+After binding the parameters, you execute the statement using the \`execute()\` method.
+
+**Code Explanation**
+The \`execute()\` method sends the prepared statement and the bound data to the database server.
+
+### **Security Considerations**
+The primary security benefit of prepared statements is preventing SQL injection. By using them, you never have to worry about sanitizing 
+or escaping user input manually for database queries, as the database engine handles the separation of logic and data for you.`,
 
     "PHP Database Security": `
-**Code Explanation:**
-This example demonstrates secure database querying:
+### Example 1 
+Database security involves a set of practices to protect your database from unauthorized access, modification, and destruction.
 
-1. **Prepared Statement**: Creates a parameterized query that prevents SQL injection.
-2. **Parameter Binding**: \`bind_param("i", $id)\` binds an integer parameter, where "i" indicates integer type.
-3. **Variable Assignment**: Sets the ID value to search for.
-4. **Secure Execution**: The prepared statement safely executes with the provided parameter.
+### **SQL injection prevention**
+SQL injection is an attack where an attacker inserts malicious SQL code into input fields to manipulate or gain unauthorized access to a database. 
+Prepared statements are the single best defense against this.
 
-**Why This Matters:**
-- SQL injection is a major security vulnerability
-- Prepared statements automatically escape and validate input
-- This is essential for protecting against malicious user input
+**Code Explanation**
+- In the "BAD" example, if an attacker enters \`1 OR 1=1\` for the \`id\`, the query becomes \`SELECT * FROM products WHERE id = 1 OR 1=1\`, which bypasses the intended filter. 
+- The "GOOD" example uses a placeholder, so \`1 OR 1=1\` is treated as a simple string value, not part of the SQL command.
 
-**Learning Outcome:** Understanding how to protect database applications from security vulnerabilities.`,
+### Example 2
+Input validation ensures that user-provided data is in the expected format before it is processed. This is a crucial security layer, 
+but it should not replace prepared statements for database queries.
 
-    "PHP Authentication": `
-**Code Explanation:**
+**Code Explanation**
+- The \`filter_var()\` function with \`FILTER_VALIDATE_EMAIL\` checks if the email string is in a valid format. 
+- This prevents malformed data from reaching your application logic.
 
-This example demonstrates basic authentication logic:
+### Example 3
+You should always escape output before displaying it to the browser to prevent Cross-Site Scripting (XSS) attacks.
 
-1. **Session Management**: \`session_start()\` initializes or resumes a session.
+**Code Example**
+- \`htmlspecialchars()\` converts special characters like \`<\`,\`>\`, and " into their HTML entities (\`&lt;\`, \`&gt;\`, \`&quot;\`). 
+- This prevents the browser from interpreting the user input as executable code.
 
-2. **Form Processing**: Checks if the form was submitted via POST method.
+### **Secure Connections**
+Always use a secure connection like SSL/TLS (HTTPS) to encrypt data transmitted between your PHP application and the database server. 
+This prevents attackers from snooping on sensitive data like credentials.`,
+    
 
-3. **Input Retrieval**: Gets username and password from the form submission.
+     "PHP Authentication": `
+### Example 1 
+**Authentication** is the process of verifying a user's identity, typically through a username and password.
 
-4. **Authentication Logic**: The comment indicates where credential verification would occur.
+### **User Authentication**
+A basic authentication process involves comparing the user-provided password with a stored, hashed password.
 
-**Why This Matters:**
-- Authentication is essential for secure web applications
-- Sessions allow you to maintain user login state
-- Proper authentication protects user accounts and sensitive data
+**Code Explanation**
+- The \`password_verify()\` function safely compares the user's input password with the 
+hashed password stored in the database.
 
-**Learning Outcome:** Understanding how to implement basic user authentication systems.`,
+### Example 2
+Never store plain-text passwords in your database. Instead, use a strong, 
+one-way hashing algorithm like \`Bcrypt\` or \`Argon2\` to hash passwords.
 
-    "PHP Authorization": `
-**Code Explanation:**
+**Code Explanation**
+- \`password_hash()\` is the recommended function for hashing passwords in PHP. 
+- \`PASSWORD_DEFAULT\` ensures that PHP will use the strongest hashing algorithm available.
 
-This example demonstrates role-based access control:
+### Example 3 
+Once a user is authenticated, a session is used to maintain their logged-in state across multiple page requests.
 
-1. **Session Check**: \`$_SESSION["role"]\` retrieves the user's role from the session.
+**Code Explanation**
+- The \`$_SESSION\` superglobal array stores user-specific data on the server, which is tied to a unique 
+session ID stored in a cookie on the user's browser.
 
-2. **Role Verification**: Checks if the user has the "admin" role.
+### Example 4 
+The "remember me" feature keeps a user logged in for an extended period using a 
+persistent cookie and a secure token system.
 
-3. **Access Control**: 
-- If the user is an admin, access is granted
-- If not, access is denied
+**Code Explanation**
+A secure "remember me" system should use a randomly generated token that is hashed before being stored in the database. 
+The plain token is sent to the user's browser as a secure, HTTP-only cookie.
 
-**Why This Matters:**
-- Authorization controls what users can access based on their roles
-- This prevents unauthorized access to sensitive features
-- Role-based access is a common security pattern
+### **Security Considerations**
+- **HTTPS**: Always use HTTPS to prevent credentials and session cookies from being intercepted.
+- **Rate Limiting**: Implement rate limiting on login attempts to prevent brute-force attacks.
+- **Session ID Regeneration**: Regenerate the session ID after a user logs in to prevent session fixation.`,
 
-**Learning Outcome:** Understanding how to implement access control based on user roles.`,
+   "PHP Authorization": `
+Authorization is the process of determining what an authenticated user is allowed to do.
 
+### **Role-Based Access Control (RBAC)**
+RBAC is a common authorization model where permissions are grouped into roles, and users are assigned to those roles.
+
+**Code Explanation**
+The code checks the user's role from the session and then grants or denies access to certain parts of 
+the application based on predefined rules.
+
+### **Permission Management**
+This involves defining specific actions (\`read_post\`, \`edit_post\`, \`delete_post\`) and assigning them to roles.
+
+### Example 2 
+ACLs define specific permissions for each user or group on a per-resource basis. This is a more fine-grained approach than RBAC.
+
+**Code Explanation**
+- The \`acl\` array maps roles to an array of permissions. 
+- The \`hasPermission()\` function checks if the given role has the requested permission. 
+- This is a simple implementation of an ACL.
+
+### **Security Best Practices**
+- **Principle of Least Privilege**: A user should only have the minimum permissions necessary to perform their task.
+- **Deny by Default**: Assume a user has no access unless explicitly granted.
+- **Check on Every Request**: Authorization checks must be performed on every request to a protected resource.
+
+#### **Implementation**
+Authorization logic should be implemented in a centralized location, such as a controller or a dedicated service 
+class, to ensure consistency and avoid scattered checks throughout the application.
+
+
+
+
+
+
+
+`,
     "PHP Password Hashing": `
 **Code Explanation:**
 

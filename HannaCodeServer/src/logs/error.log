@@ -693,3 +693,15 @@
 2025-08-26 06:03:33 error: TypeError: Cannot read properties of null (reading '_id')
 2025-08-26 06:27:40 error: TypeError: Cannot read properties of null (reading '_id')
 2025-08-26 06:28:10 error: TypeError: Cannot read properties of null (reading '_id')
+2025-08-29 00:47:33 error: Error: Not authorized to access this route
+2025-08-29 00:47:35 error: Error: Not authorized to access this route
+2025-08-29 00:47:35 error: Error: Not authorized to access this route
+2025-08-29 00:47:35 error: Error: Not authorized to access this route
+2025-08-29 00:47:35 error: Error: Not authorized to access this route
+2025-08-29 00:47:37 error: Error: Not authorized to access this route
+2025-08-29 00:47:45 error: Error: Not authorized to access this route
+2025-08-29 00:47:45 error: Error: Not authorized to access this route
+2025-08-29 00:47:45 error: Error: Not authorized to access this route
+2025-08-29 00:47:45 error: Error: Not authorized to access this route
+2025-08-29 00:49:40 error: MongoServerSelectionError: getaddrinfo ENOTFOUND ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net
+2025-08-29 01:24:24 error: [31mDatabase Connection Error: querySrv EREFUSED _mongodb._tcp.cluster0.jxpglfb.mongodb.net[39m

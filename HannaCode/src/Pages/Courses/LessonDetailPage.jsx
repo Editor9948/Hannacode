@@ -700,7 +700,7 @@ const LessonDetailPage = () => {
           </button>
         </div>
       ) : (
-        <code className="bg-slate-300 dark:bg-slate-300 px-1 rounded text-red-500">{children}</code>
+        <code className="bg-slate-100 dark:bg-slate-300 px-1 rounded text-red-500">{children}</code>
       );
     }
   };
