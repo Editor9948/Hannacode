@@ -3074,3 +3074,8 @@
 2025-09-04 21:08:54 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
 2025-09-04 21:14:07 info: Socket.IO initialized
 2025-09-04 21:14:07 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-04 22:07:34 info: Socket.IO initialized
+2025-09-04 22:07:34 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-04 22:07:40 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-04 22:17:04 info: Socket.IO initialized
+2025-09-04 22:17:04 info: [1m[33mServer running in development mode on port 5000[39m[22m

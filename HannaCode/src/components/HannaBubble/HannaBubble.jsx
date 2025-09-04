@@ -106,17 +106,62 @@ export default function HannaAIBubble() {
         </Bubble>
       )}
 
-      {showUpgrade && (
-        <div style={{ position: "fixed", inset: 0, zIndex: 10000, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(0,0,0,0.4)" }} onClick={() => setShowUpgrade(false)}>
-          <div onClick={(e) => e.stopPropagation()} className="border rounded-xl" style={{ background: "white", padding: 20, width: "min(92vw, 420px)" }}>
+     {showUpgrade && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 10000,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: "rgba(0,0,0,0.4)",
+          }}
+          onClick={() => setShowUpgrade(false)}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="border rounded-xl"
+            style={{
+              // shadcn theme tokens with safe fallbacks
+              background: "hsl(var(--card, 0 0% 100%))",
+              color: "hsl(var(--card-foreground, 222.2 47.4% 11.2%))",
+              padding: 20,
+              width: "min(92vw, 420px)",
+              borderColor: "hsl(var(--border, 214.3 31.8% 91.4%))",
+            }}
+          >
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
               <img src="/hannaai-logo.png" alt="HannaAI" width={24} height={24} />
-              <h3 style={{ fontWeight: 600 }}>HannaAI is Premium</h3>
+              <h3 style={{ fontWeight: 600, color: "inherit" }}>HannaAI is Premium</h3>
             </div>
-            <p style={{ fontSize: 14, opacity: 0.8, marginBottom: 12 }}>Upgrade to Premium to use HannaAI for unlimited programming help.</p>
+            <p style={{ fontSize: 14, opacity: 0.8, marginBottom: 12, color: "inherit" }}>
+              Upgrade to Premium to use HannaAI for unlimited programming help.
+            </p>
             <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
-              <button onClick={() => setShowUpgrade(false)} className="border rounded-md px-3 py-2 text-sm">Maybe later</button>
-              <a href="/pricing" className="rounded-md px-3 py-2 text-sm" style={{ background: "var(--primary, #6c5ce7)", color: "#fff" }}>Upgrade</a>
+              <button
+                onClick={() => setShowUpgrade(false)}
+                className="border rounded-md px-3 py-2 text-sm"
+                style={{
+                  background: "transparent",
+                  color: "hsl(var(--foreground, 222.2 47.4% 11.2%))",
+                  borderColor: "hsl(var(--border, 214.3 31.8% 91.4%))",
+                }}
+              >
+                Maybe later
+              </button>
+              <a
+                href="/pricing"
+                className="rounded-md px-3 py-2 text-sm"
+                style={{
+                  background: "hsl(var(--primary, 221.2 83.2% 53.3%))",
+                  color: "hsl(var(--primary-foreground, 210 40% 98%))",
+                }}
+              >
+                Upgrade
+              </a>
             </div>
           </div>
         </div>
