@@ -1,0 +1,19 @@
+{
+  "title": "JavaScript Essentilas",
+  "description": "All downloadable JavaScript resources.",
+  "cheatSheets": [],
+  "exercises": [],
+  "projectFiles": [],
+  "books": [
+    {
+      "id": "javascript-book-01",
+      "title": "JavaScript Handbook",
+      "description": "Complete JavaScript reference.",
+      "type": "Book",
+      "fileType": "PDF",
+      "fileSize": "1.88 MB",
+      "isPremium": false,
+      "downloadUrl": "/resources/javascript-essentials/HannaCode_JavaScript_Book.pdf"
+    }
+  ]
+}

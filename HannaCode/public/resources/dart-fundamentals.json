@@ -1,0 +1,19 @@
+{
+  "title": "Dart Fundamentals",
+  "description": "All downloadable Dart resources.",
+  "cheatSheets": [],
+  "exercises": [],
+  "projectFiles": [],
+  "books": [
+    {
+      "id": "dart-book-01",
+      "title": "Dart Handbook",
+      "description": "Complete Dart reference.",
+      "type": "Book",
+      "fileType": "PDF",
+      "fileSize": "1.42 MB",
+      "isPremium": false,
+      "downloadUrl": "/resources/dart-fundamentals/Dart_Programming_Guide.pdf"
+    }
+  ]
+}

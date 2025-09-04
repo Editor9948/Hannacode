@@ -1,0 +1,19 @@
+{
+  "title": "Python Basic",
+  "description": "All downloadable Python resources.",
+  "cheatSheets": [],
+  "exercises": [],
+  "projectFiles": [],
+  "books": [
+    {
+      "id": "python-book-01",
+      "title": "Python Handbook",
+      "description": "Complete Python reference.",
+      "type": "Book",
+      "fileType": "PDF",
+      "fileSize": "522 KB",
+      "isPremium": false,
+      "downloadUrl": "/resources/python-basic/Python_Programming_Guide.pdf"
+    }
+  ]
+}

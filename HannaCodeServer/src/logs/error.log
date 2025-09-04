@@ -705,3 +705,17 @@
 2025-08-29 00:47:45 error: Error: Not authorized to access this route
 2025-08-29 00:49:40 error: MongoServerSelectionError: getaddrinfo ENOTFOUND ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net
 2025-08-29 01:24:24 error: [31mDatabase Connection Error: querySrv EREFUSED _mongodb._tcp.cluster0.jxpglfb.mongodb.net[39m
+2025-09-03 21:57:19 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-09-03 21:57:27 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-09-04 19:54:44 error: MongoServerSelectionError: getaddrinfo ENOTFOUND ac-cktbf1f-shard-00-01.jxpglfb.mongodb.net
+2025-09-04 19:54:49 error: MongoServerSelectionError: getaddrinfo ENOTFOUND ac-cktbf1f-shard-00-01.jxpglfb.mongodb.net
+2025-09-04 19:55:04 error: MongoServerSelectionError: getaddrinfo ENOTFOUND ac-cktbf1f-shard-00-01.jxpglfb.mongodb.net
+2025-09-04 20:02:10 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-09-04 20:04:15 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-09-04 20:10:55 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-09-04 20:12:16 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-09-04 20:30:53 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-09-04 21:05:32 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-09-04 21:05:44 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-09-04 21:08:45 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-09-04 21:08:54 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.

@@ -1,0 +1,19 @@
+{
+  "title": "C++ Essentials",
+  "description": "All downloadable C++ resources.",
+  "cheatSheets": [],
+  "exercises": [],
+  "projectFiles": [],
+  "books": [
+    {
+      "id": "cpp-book-01",
+      "title": "C++ Handbook",
+      "description": "Complete C++ reference.",
+      "type": "Book",
+      "fileType": "PDF",
+      "fileSize": "613 KB",
+      "isPremium": false,
+      "downloadUrl": "/resources/cpp-essentials/cpp_guide.pdf"
+    }
+  ]
+}

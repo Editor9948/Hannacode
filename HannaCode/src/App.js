@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 import Layout from "./components/Layout";
 import Home from "./Pages/Home/Home";
 import Login from "./Pages/Login";
@@ -13,7 +14,6 @@ import PlaygroundPage from "./Pages/playground";
 import CoursePlaygroundPage from "./Pages/Courses/Slug/playground";
 import BookMentorship from "./Pages/mentorship/book";
 import MentorshipPage from "./Pages/mentorship/mentorship";
-import ResourcesPage from "./Pages/Courses/Slug/resources";
 import CheckoutPage from "./Pages/Payment/checkout";
 import PaymentVerification from "./Pages/Payment/verification";
 import PaymentSuccessPage from "./Pages/Payment/success";
@@ -45,6 +45,7 @@ import Certificates from "./Pages/Certificates/Certificates";
 import VerifyCertificate from "./Pages/Certificates/VerifyCertificate";
 import MasterCertificatePage from "./Pages/Certificates/MasterCertificatePage";
 import ScrollToTop from "./components/ui/ScrollToTop.jsx";
+import HannaAIBubble from "./components/HannaBubble/HannaBubble";
 
 // NotFound component
 const NotFound = () => (
@@ -81,7 +82,7 @@ export default function App() {
             <Route path="/mentorship" element={<MentorshipPage />} />
             <Route path="/mentorship/book/:id" element={<BookMentorship />} />
             <Route path="/mentorship/chat/:mentorshipId" element={<ChatPage />} />
-            <Route path="/resources/:slug" element={<ResourcesPage />} />
+           
             <Route path="/admin/users" element={<AdminUsersPage />} />
             <Route path="/admin/courses" element={<AdminCoursesPage />} />
             <Route path="/mentorship/inbox" element={<MentorInbox />} />
@@ -94,7 +95,8 @@ export default function App() {
             <Route path="/terms" element={<TermsOfServicePage />} />
             <Route path="/cookies" element={<CookiePolicyPage />} />
             <Route path="/blog" element={<BlogPage />} />
-            
+           
+
             {/* User Dashboard & Settings */}
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/profile" element={<Profile />} />
@@ -120,7 +122,10 @@ export default function App() {
 
             {/* 404 Not Found */}
             <Route path="*" element={<NotFound />} />
+             <Route path="/hannaaibubble" element={<HannaAIBubble />} />
           </Routes>
+              {/* Floating bubble (render once) */}
+        <HannaAIBubble />
         </Layout>
       </Router>
     </ThemeProvider>

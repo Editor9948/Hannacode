@@ -90,6 +90,7 @@ export default function Footer() {
                   Cookie Policy
                 </Link>
               </li>
+               
             </ul>
           </div>
         </div>

@@ -1,4 +1,3 @@
-"use client"
 
 import CodePlayground from "../components/code-playground/codePlayground"
 

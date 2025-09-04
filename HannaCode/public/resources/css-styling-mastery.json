@@ -1,0 +1,19 @@
+{
+  "title": "CSS Styling Mastery",
+  "description": "All downloadable CSS resources.",
+  "cheatSheets": [],
+  "exercises": [],
+  "projectFiles": [],
+  "books": [
+    {
+      "id": "css-book-01",
+      "title": "CSS Handbook",
+      "description": "Complete CSS reference.",
+      "type": "Book",
+      "fileType": "PDF",
+      "fileSize": "1.87 MB",
+      "isPremium": false,
+      "downloadUrl": "/resources/css-styling-mastery/HannaCode_CSS_Book.pdf"
+    }
+  ]
+}
