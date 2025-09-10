@@ -84,7 +84,7 @@ const createTransporter = () => {
     service: process.env.EMAIL_SERVICE,
     host: process.env.EMAIL_HOST,
     port: parseInt(process.env.EMAIL_PORT, 10),
-    secure: false, // For port 587, secure should be false
+    secure: true, // true for 465, false for 587
     auth: {
       user: process.env.EMAIL_USERNAME,
       pass: process.env.EMAIL_PASSWORD,
@@ -672,3 +672,129 @@ exports.sendPaymentInitiationEmail = async (user, plan, amount) => {
     html,
   });
 };
+
+
+/**
+ * Send submission review feedback email
+ * @param {Object} user - { name, email }
+ * @param {Object} submission - { challengeId, score, passed, feedback, reviewedAt, _id|id, reviewedBy }
+ * @param {Object} [reviewer] - { name }
+ * @returns {Promise} Promise with email info
+ */
+exports.sendSubmissionFeedback = async (user, submission, reviewer = {}) => {
+  const to = user?.email;
+  if (!to) throw new Error("sendSubmissionFeedback: missing recipient email");
+
+  const name = user?.name || "there";
+  const challengeId = submission?.challengeId || "challenge";
+  const score = typeof submission?.score === "number" ? submission.score : "N/A";
+  const passed = submission?.passed ? "✅ Passed" : "❌ Not Passed";
+  const feedback = (submission?.feedback || "").trim() || "No feedback provided.";
+  const reviewedBy = reviewer?.name || submission?.reviewedBy || "Admin";
+  const reviewedAt = submission?.reviewedAt ? new Date(submission.reviewedAt).toLocaleString() : new Date().toLocaleString();
+  const submissionId = submission?._id || submission?.id;
+  const viewUrl = submissionId
+    ? `${process.env.CLIENT_URL}/submissions?highlight=${encodeURIComponent(submissionId)}`
+    : `${process.env.CLIENT_URL}/submissions`;
+
+  const content = `
+    <div style="text-align: center; margin-bottom: 20px;">
+      <h2 style="color: #22c55e; margin-bottom: 8px;">Submission Reviewed</h2>
+      <p style="font-size: 18px; color: #000;">Hi ${user.name},</p>
+      <p style="color: #000;">Your submission has been reviewed. See the details below.</p>
+    </div>
+
+    <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); padding: 20px; border-radius: 12px; margin: 20px 0; border-left: 4px solid #22c55e;">
+      <table style="width: 100%; border-collapse: collapse; color: #000;">
+        <tr>
+          <td style="padding: 8px; font-weight: bold;">Challenge:</td>
+          <td style="padding: 8px;">${challengeId}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; font-weight: bold;">Status:</td>
+          <td style="padding: 8px;">${passed}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; font-weight: bold;">Score:</td>
+          <td style="padding: 8px;">${score}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; font-weight: bold;">Reviewed By:</td>
+          <td style="padding: 8px;">${reviewedBy}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; font-weight: bold;">Reviewed At:</td>
+          <td style="padding: 8px;">${reviewedAt}</td>
+        </tr>
+      </table>
+    </div>
+
+    <div style="background-color: #f8fafc; padding: 15px; border-radius: 8px; margin: 20px 0; border: 1px solid #e2e8f0;">
+      <p style="margin: 0 0 8px 0; color: #000; font-weight: bold;">Feedback</p>
+      <div style="white-space: pre-wrap; color: #000; line-height: 1.6;">${feedback.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</div>
+    </div>
+
+    <div style="text-align: center; margin: 25px 0;">
+      <a href="${viewUrl}" style="display: inline-block; background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: white; padding: 12px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px;">
+        View Submission
+      </a>
+    </div>
+  `;
+
+  const html = createEmailTemplate(content, "Submission Reviewed - HannaCode");
+  return this.sendEmail({
+    to,
+    subject: `Challenge Review • ${challengeId}`,
+    html,
+  });
+};
+
+
+/**
+ * Send new feature announcement email ("Daily Coding Challenge")
+ * @param {Object} user - { name, email }
+ * @returns {Promise} Promise with email info
+ */
+exports.sendDailyChallengeAnnouncement = async (user) => {
+  const challengesUrl = `${process.env.CLIENT_URL}/challenges`;
+
+  const content = `
+    <div style="text-align: center; margin-bottom: 20px;">
+      <h2 style="color: #22c55e; margin-bottom: 8px;"> Daily Coding Challenge is Live!</h2>
+      <p style="font-size: 18px; color: #000;">Hi ${user.name || "there"},</p>
+    </div>
+
+    <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); padding: 20px; border-radius: 12px; margin: 20px 0; border-left: 4px solid #22c55e;">
+      <p style="margin: 0; font-size: 16px; color: #000;">
+        We just launched <strong>Daily Coding Challenge</strong> on HannaCode!<br>
+        Solve a fresh problem every day, build consistency, and climb the leaderboard.
+      </p>
+    </div>
+
+    <ul style="color: #000; line-height: 1.8; margin: 20px 0 0 0; padding-left: 20px;">
+      <li>🧩 New problem every day across multiple languages</li>
+      <li>📈 Track streaks and progress</li>
+      <li>🏆 Earn badges and get featured</li>
+      <li>💬 Learn from community solutions</li>
+    </ul>
+
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="${challengesUrl}" style="display: inline-block; background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: white; padding: 15px 35px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px;">
+        Try Today's Challenge
+      </a>
+    </div>
+
+    <p style="color: #000; font-size: 14px; margin: 20px 0;">
+      Tip: Bookmark the page and come back daily to keep your streak alive!
+    </p>
+  `;
+
+  const html = createEmailTemplate(content, "New Feature: Daily Coding Challenge ");
+
+  return this.sendEmail({
+    to: user.email,
+    subject: "New Feature: Daily Coding Challenge on HannaCode",
+    html,
+  });
+};
+

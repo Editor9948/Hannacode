@@ -1,0 +1,24 @@
+ {
+    "id": "2025-09-19-js-operators",
+    "title": "JavaScript Operators",
+    "date": "2025-09-19",
+    "description": "Use arithmetic, comparison, and logical operators in JavaScript.",
+    "examples": [
+      {
+        "input": "let a = 5, b = 3;\nconsole.log(a + b);\nconsole.log(a > b);\nconsole.log(a > 0 && b > 0);",
+        "output": "8\ntrue\ntrue"
+      }
+    ],
+    "constraints": [
+      "Use at least one arithmetic operator.",
+      "Use at least one comparison operator.",
+      "Use at least one logical operator."
+    ],
+    "starterCode": "function operatorsDemo() {\n  // your code here\n}",
+    "hints": [
+      "Arithmetic: +, -, *, /, %",
+      "Comparison: >, <, ===, !==",
+      "Logical: &&, ||, !"
+    ],
+    "solution": null
+  }

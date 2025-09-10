@@ -1,0 +1,23 @@
+{
+    "id": "2025-09-18-css-selectors",
+    "title": "CSS Selectors",
+    "date": "2025-09-18",
+    "description": "Apply styles using element, class, and ID selectors.",
+    "examples": [
+      {
+        "input": "<style>\n  p { color: blue; }\n  .highlight { background: yellow; }\n  #special { font-size: 20px; }\n</style>",
+        "output": "Paragraphs turn blue, elements with class highlight get yellow background, and element with ID special has larger text."
+      }
+    ],
+    "constraints": [
+      "Use element, class, and ID selectors.",
+      "Each selector must apply a visible style."
+    ],
+    "starterCode": "<!DOCTYPE html>\n<html>\n<head>\n  <style>\n    /* your CSS here */\n  </style>\n</head>\n<body>\n  <!-- your elements here -->\n</body>\n</html>",
+    "hints": [
+      "Element selector: p {}",
+      "Class selector: .classname {}",
+      "ID selector: #idname {}"
+    ],
+    "solution": null
+  }

@@ -1,0 +1,22 @@
+{
+    "id": "2025-09-16-php-echo",
+    "title": "PHP Echo Statement",
+    "date": "2025-09-16",
+    "description": "Practice using echo in PHP to output text and variables.",
+    "examples": [
+      {
+        "input": "<?php\n$name = 'Hanna';\necho 'Hello ' . $name;\n?>",
+        "output": "Hello Hanna"
+      }
+    ],
+    "constraints": [
+      "Use echo at least twice.",
+      "Output both plain text and a variable value."
+    ],
+    "starterCode": "<?php\n// your code here\n?>",
+    "hints": [
+      "Use a dot (.) to concatenate strings and variables.",
+      "You can echo multiple strings by separating them with commas."
+    ],
+    "solution": null
+  }

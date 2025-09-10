@@ -1,0 +1,24 @@
+ {
+    "id": "2025-09-24-js-loops",
+    "title": "JavaScript Loops",
+    "date": "2025-09-24",
+    "description": "Iterate with for, while, and for..of loops in JavaScript.",
+    "examples": [
+      {
+        "input": "for (let i = 1; i <= 3; i++) {\n  console.log(i);\n}",
+        "output": "1\n2\n3"
+      }
+    ],
+    "constraints": [
+      "Use a for loop.",
+      "Use a while loop.",
+      "Use a for..of loop on an array."
+    ],
+    "starterCode": "function loopsDemo() {\n  // your code here\n}",
+    "hints": [
+      "Use for for counting.",
+      "Use while for indefinite loops.",
+      "Use for..of to loop through arrays."
+    ],
+    "solution": null
+  }

@@ -1,0 +1,22 @@
+ {
+    "id": "2025-09-17-html-headings",
+    "title": "HTML Headings",
+    "date": "2025-09-17",
+    "description": "Create a webpage that demonstrates all six heading tags (h1–h6).",
+    "examples": [
+      {
+        "input": "<h1>Main Title</h1>\n<h2>Subheading</h2>",
+        "output": "Displays text with decreasing sizes."
+      }
+    ],
+    "constraints": [
+      "Use <h1> through <h6> at least once.",
+      "Headings should have meaningful text."
+    ],
+    "starterCode": "<!DOCTYPE html>\n<html>\n<body>\n  <!-- your headings here -->\n</body>\n</html>",
+    "hints": [
+      "Headings help structure content and improve accessibility.",
+      "Use <h1> only once for the main title."
+    ],
+    "solution": null
+  }

@@ -3079,3 +3079,108 @@
 2025-09-04 22:07:40 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
 2025-09-04 22:17:04 info: Socket.IO initialized
 2025-09-04 22:17:04 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-06 20:51:33 info: Socket.IO initialized
+2025-09-06 20:51:33 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-06 20:51:42 info: Socket.IO initialized
+2025-09-06 20:51:42 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-06 22:08:16 info: Socket.IO initialized
+2025-09-06 22:08:16 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-06 22:08:19 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-06 22:15:17 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-09-06 22:42:18 error: Error: Premium subscription required. Upgrade to premium to access course progress tracking, completion certificates, and advanced learning features.
+2025-09-07 12:54:58 info: Socket.IO initialized
+2025-09-07 12:54:58 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-07 12:55:02 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-07 13:24:38 info: Socket.IO initialized
+2025-09-07 13:24:38 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-07 13:24:42 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-07 13:32:41 info: Socket.IO initialized
+2025-09-07 13:32:41 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-07 13:32:46 info: Socket.IO initialized
+2025-09-07 13:32:46 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-07 13:32:50 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-01.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-07 13:41:01 info: Socket.IO initialized
+2025-09-07 13:41:01 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-07 13:41:07 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-07 13:58:19 info: Socket.IO initialized
+2025-09-07 13:58:19 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-07 13:58:22 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-01.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-07 14:23:50 info: Socket.IO initialized
+2025-09-07 14:23:50 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-07 14:23:53 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-07 14:36:06 info: Socket.IO initialized
+2025-09-07 14:36:06 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-07 14:36:11 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-07 15:05:18 info: Socket.IO initialized
+2025-09-07 15:05:18 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-07 15:05:20 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-07 15:13:57 info: Socket.IO initialized
+2025-09-07 15:13:57 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-07 15:14:00 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-07 15:27:27 info: Socket.IO initialized
+2025-09-07 15:27:27 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-07 15:27:30 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-07 15:34:40 error: Error: Not authorized to access this route
+2025-09-07 15:36:04 info: Socket.IO initialized
+2025-09-07 15:36:04 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-07 15:36:11 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-07 15:43:03 info: Socket.IO initialized
+2025-09-07 15:43:03 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-07 15:43:07 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-01.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-07 15:47:34 error: Error: No recipient email
+2025-09-07 16:01:51 info: Socket.IO initialized
+2025-09-07 16:01:51 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-07 16:01:56 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-07 16:02:40 info: Email sent: <7ae8175f-7592-1a74-f65f-7e56c4c0f9cc@hannacode.com>
+2025-09-07 16:29:23 info: Email sent: <6a7e5e64-8441-13db-c67f-17ca93bdb9a8@hannacode.com>
+2025-09-07 16:35:27 info: Email sent: <e9e63038-1eff-9282-6298-7e1b59f711d7@hannacode.com>
+2025-09-07 16:36:09 info: Email sent: <7759730a-1eaa-c0f4-177b-3ee0ff8773d7@hannacode.com>
+2025-09-07 20:40:19 info: Socket.IO initialized
+2025-09-07 20:40:19 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-07 20:40:25 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-07 21:19:00 info: Socket.IO initialized
+2025-09-07 21:19:00 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-07 21:19:03 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-07 21:33:05 info: Socket.IO initialized
+2025-09-07 21:33:05 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-07 21:33:12 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-01.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-07 22:13:32 error: Error: Not authorized to access this route
+2025-09-07 22:13:47 error: Error: Not authorized to access this route
+2025-09-07 22:13:47 error: Error: Not authorized to access this route
+2025-09-07 22:14:08 info: Socket.IO initialized
+2025-09-07 22:14:08 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-07 22:14:08 error: [31mDatabase Connection Error: querySrv ECONNREFUSED _mongodb._tcp.cluster0.jxpglfb.mongodb.net[39m
+2025-09-07 22:16:28 info: Socket.IO initialized
+2025-09-07 22:16:28 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-07 22:16:33 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-08 09:07:40 info: Socket.IO initialized
+2025-09-08 09:07:40 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-08 09:08:12 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-08 09:24:13 info: Email sent: <3ecbcc96-ab3b-211f-8990-86b3bc88f002@hannacode.com>
+2025-09-08 09:36:53 error: Error: Not authorized to access this route
+2025-09-08 09:36:53 error: Error: Not authorized to access this route
+2025-09-08 09:37:07 error: Error: Not authorized to access this route
+2025-09-08 09:37:07 error: Error: Not authorized to access this route
+2025-09-08 10:52:16 error: Error: Not authorized to access this route
+2025-09-08 14:52:08 info: Email sent: <94bdef72-4e31-4ba4-5d35-b22518f953ac@hannacode.com>
+2025-09-08 14:52:45 info: Email sent: <3f142dc1-581a-edc5-c7e4-21e1ed6517b3@hannacode.com>
+2025-09-08 14:57:19 info: Socket.IO initialized
+2025-09-08 14:57:19 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-09 08:35:11 info: Socket.IO initialized
+2025-09-09 08:35:11 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-09 08:35:18 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-01.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-09 12:19:10 info: Email sent: <dcff64cb-f3f5-d508-2a34-bb498787d7ac@hannacode.com>
+2025-09-09 12:27:03 info: Socket.IO initialized
+2025-09-09 12:27:03 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-09 12:27:06 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-09 12:28:04 info: Email sent: <35e48818-6604-a882-7ea1-83c03efac6bc@hannacode.com>
+2025-09-09 12:30:10 info: Socket.IO initialized
+2025-09-09 12:30:10 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-09 14:48:44 info: Socket.IO initialized
+2025-09-09 14:48:44 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-09 14:48:47 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-09 14:50:43 info: Email sent: <aa261764-289b-7d72-36d9-a2a403660b58@hannacode.com>
+2025-09-09 15:04:21 info: Email sent: <44a0f58d-6096-92f4-a462-9fc5b52774cb@hannacode.com>
+2025-09-10 13:33:46 info: Socket.IO initialized
+2025-09-10 13:33:46 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-10 13:33:50 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m

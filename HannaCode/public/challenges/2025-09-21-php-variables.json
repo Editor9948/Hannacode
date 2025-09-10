@@ -1,0 +1,22 @@
+{
+    "id": "2025-09-21-php-variables",
+    "title": "PHP Variables",
+    "date": "2025-09-21",
+    "description": "Declare and print variables in PHP with different data types.",
+    "examples": [
+      {
+        "input": "<?php\n$name = 'Hanna';\n$age = 25;\n$pi = 3.14;\n$isStudent = true;\necho $name, ' ', $age, ' ', $pi, ' ', $isStudent;\n?>",
+        "output": "Hanna 25 3.14 1"
+      }
+    ],
+    "constraints": [
+      "Include at least one string, integer, float, and boolean.",
+      "Print all values using echo."
+    ],
+    "starterCode": "<?php\n// your code here\n?>",
+    "hints": [
+      "In PHP, all variables start with $.",
+      "Boolean true is printed as 1, and false is printed as an empty string."
+    ],
+    "solution": null
+  }

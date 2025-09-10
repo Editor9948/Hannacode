@@ -49,6 +49,8 @@ const progressRoutes = require("./routes/progress")
 const paymentsRoutes = require("./routes/payments")
 const premiumRoutes = require("./routes/premium")
 const blogRoutes = require("./routes/blog")
+const submissionRoutes = require("./routes/submission")
+const challengesRoutes = require("./routes/challenges")
 
 
 const app = express()
@@ -132,6 +134,9 @@ app.use("/api/v1/progress", progressRoutes)
 app.use("/api/v1/payments", paymentsRoutes)
 app.use("/api/v1/premium", premiumRoutes)
 app.use("/api/v1/blog", blogRoutes)
+app.use("/api/v1", submissionRoutes)
+app.use("/api/v1/", challengesRoutes);
+
 app.use("/api/v1/admin", require("./routes/admin"));
 app.use("/api/v1/mentors", require("./routes/mentors")); 
 app.use("/api/v1/chats", require("./routes/mentors"));   

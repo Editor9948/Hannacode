@@ -82,7 +82,7 @@ export default function PricingPage() {
       {/* Pricing Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
         {/* Free Plan */}
-        <Card className="border-2 border-secondary/20">
+        <Card className="border-2 border-primary/10">
           <CardHeader>
             <CardTitle className="text-2xl">Free Plan</CardTitle>
             <CardDescription>Perfect for beginners and casual learners</CardDescription>
@@ -106,7 +106,7 @@ export default function PricingPage() {
           </CardContent>
           <CardFooter>
             <Link to="/register" className="w-full">
-              <Button variant="outline" className="w-full">
+              <Button variant="outline" className="w-full hover:bg-primary hover:text-white">
                 Sign Up Free
               </Button>
             </Link>

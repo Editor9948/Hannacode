@@ -1567,3 +1567,79 @@ Error: Route.post() requires a callback function but got a [object Undefined]
     at TracingChannel.traceSync (node:diagnostics_channel:322:14)
     at wrapModuleLoad (node:internal/modules/cjs/loader:219:24)
     at Module.require (node:internal/modules/cjs/loader:1340:12)
+2025-09-07 13:56:40 error: uncaughtException: Identifier 'adminOnly' has already been declared
+C:\Users\USER\Desktop\Hanna\HannaCodeServer\src\routes\submission.js:14
+function adminOnly(req, res, next) {
+^
+
+SyntaxError: Identifier 'adminOnly' has already been declared
+    at wrapSafe (node:internal/modules/cjs/loader:1515:18)
+    at Module._compile (node:internal/modules/cjs/loader:1537:20)
+    at Object..js (node:internal/modules/cjs/loader:1708:10)
+    at Module.load (node:internal/modules/cjs/loader:1318:32)
+    at Function._load (node:internal/modules/cjs/loader:1128:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:219:24)
+    at Module.require (node:internal/modules/cjs/loader:1340:12)
+    at require (node:internal/modules/helpers:138:16)
+    at Object.<anonymous> (C:\Users\USER\Desktop\Hanna\HannaCodeServer\src\app.js:52:26)
+2025-09-07 13:56:46 error: uncaughtException: Identifier 'adminOnly' has already been declared
+C:\Users\USER\Desktop\Hanna\HannaCodeServer\src\routes\submission.js:14
+function adminOnly(req, res, next) {
+^
+
+SyntaxError: Identifier 'adminOnly' has already been declared
+    at wrapSafe (node:internal/modules/cjs/loader:1515:18)
+    at Module._compile (node:internal/modules/cjs/loader:1537:20)
+    at Object..js (node:internal/modules/cjs/loader:1708:10)
+    at Module.load (node:internal/modules/cjs/loader:1318:32)
+    at Function._load (node:internal/modules/cjs/loader:1128:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:219:24)
+    at Module.require (node:internal/modules/cjs/loader:1340:12)
+    at require (node:internal/modules/helpers:138:16)
+    at Object.<anonymous> (C:\Users\USER\Desktop\Hanna\HannaCodeServer\src\app.js:52:26)
+2025-09-07 13:57:29 error: uncaughtException: Identifier 'adminOnly' has already been declared
+C:\Users\USER\Desktop\Hanna\HannaCodeServer\src\routes\submission.js:14
+function adminOnly(req, res, next) {
+^
+
+SyntaxError: Identifier 'adminOnly' has already been declared
+    at wrapSafe (node:internal/modules/cjs/loader:1515:18)
+    at Module._compile (node:internal/modules/cjs/loader:1537:20)
+    at Object..js (node:internal/modules/cjs/loader:1708:10)
+    at Module.load (node:internal/modules/cjs/loader:1318:32)
+    at Function._load (node:internal/modules/cjs/loader:1128:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:219:24)
+    at Module.require (node:internal/modules/cjs/loader:1340:12)
+    at require (node:internal/modules/helpers:138:16)
+    at Object.<anonymous> (C:\Users\USER\Desktop\Hanna\HannaCodeServer\src\app.js:52:26)
+2025-09-07 13:57:49 error: uncaughtException: Identifier 'adminOnly' has already been declared
+C:\Users\USER\Desktop\Hanna\HannaCodeServer\src\routes\submission.js:14
+function adminOnly(req, res, next) {
+^
+
+SyntaxError: Identifier 'adminOnly' has already been declared
+    at wrapSafe (node:internal/modules/cjs/loader:1515:18)
+    at Module._compile (node:internal/modules/cjs/loader:1537:20)
+    at Object..js (node:internal/modules/cjs/loader:1708:10)
+    at Module.load (node:internal/modules/cjs/loader:1318:32)
+    at Function._load (node:internal/modules/cjs/loader:1128:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:219:24)
+    at Module.require (node:internal/modules/cjs/loader:1340:12)
+    at require (node:internal/modules/helpers:138:16)
+    at Object.<anonymous> (C:\Users\USER\Desktop\Hanna\HannaCodeServer\src\app.js:52:26)
+2025-09-07 15:35:32 error: uncaughtException: Router.use() requires a middleware function but got a Module
+TypeError: Router.use() requires a middleware function but got a Module
+    at Function.use (C:\Users\USER\Desktop\Hanna\HannaCodeServer\node_modules\express\lib\router\index.js:469:13)
+    at Function.<anonymous> (C:\Users\USER\Desktop\Hanna\HannaCodeServer\node_modules\express\lib\application.js:227:21)
+    at Array.forEach (<anonymous>)
+    at Function.use (C:\Users\USER\Desktop\Hanna\HannaCodeServer\node_modules\express\lib\application.js:224:7)
+    at Object.<anonymous> (C:\Users\USER\Desktop\Hanna\HannaCodeServer\src\app.js:137:5)
+    at Module._compile (node:internal/modules/cjs/loader:1565:14)
+    at Object..js (node:internal/modules/cjs/loader:1708:10)
+    at Module.load (node:internal/modules/cjs/loader:1318:32)
+    at Function._load (node:internal/modules/cjs/loader:1128:12)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)

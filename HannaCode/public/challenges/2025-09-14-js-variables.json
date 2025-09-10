@@ -1,0 +1,22 @@
+ {
+    "id": "2025-09-14-js-variables",
+    "title": "JavaScript Variables",
+    "date": "2025-09-14",
+    "description": "Declare variables in JavaScript using var, let, and const. Print the values to the console.",
+    "examples": [
+      {
+        "input": "let name = 'Hanna';\nconsole.log(name);",
+        "output": "Hanna"
+      }
+    ],
+    "constraints": [
+      "Use var, let, and const at least once.",
+      "Do not overwrite a const variable."
+    ],
+    "starterCode": "function variablesDemo() {\n  // your code here\n}",
+    "hints": [
+      "Remember: var has function scope, let and const have block scope.",
+      "const variables cannot be reassigned."
+    ],
+    "solution": null
+  }

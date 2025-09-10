@@ -1,0 +1,24 @@
+{
+    "id": "2025-09-23-css-colors",
+    "title": "CSS Colors",
+    "date": "2025-09-23",
+    "description": "Apply colors to text and background using different formats: name, HEX, RGB, and HSL.",
+    "examples": [
+      {
+        "input": "<style>\n  h1 { color: red; }\n  p { color: #00ff00; }\n</style>",
+        "output": "Heading is red, paragraph is green."
+      }
+    ],
+    "constraints": [
+      "Use at least one named color.",
+      "Use at least one HEX, one RGB, and one HSL color."
+    ],
+    "starterCode": "<!DOCTYPE html>\n<html>\n<head>\n  <style>\n    /* your colors here */\n  </style>\n</head>\n<body>\n  <h1>Color Demo</h1>\n  <p>Experiment with colors</p>\n</body>\n</html>",
+    "hints": [
+      "Named: red, blue, green.",
+      "HEX: #rrggbb.",
+      "RGB: rgb(255,0,0).",
+      "HSL: hsl(0, 100%, 50%)."
+    ],
+    "solution": null
+  }

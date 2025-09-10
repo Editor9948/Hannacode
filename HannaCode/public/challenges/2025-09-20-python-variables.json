@@ -1,0 +1,22 @@
+{
+    "id": "2025-09-20-python-variables",
+    "title": "Python Variables",
+    "date": "2025-09-20",
+    "description": "Declare variables of different data types in Python and print them.",
+    "examples": [
+      {
+        "input": "name = 'Hanna'\nage = 25\npi = 3.14\nprint(name, age, pi)",
+        "output": "Hanna 25 3.14"
+      }
+    ],
+    "constraints": [
+      "Include at least one string, integer, float, and boolean.",
+      "Print all variable values."
+    ],
+    "starterCode": "def variable_demo():\n    # your code here\n    pass",
+    "hints": [
+      "In Python, you don’t declare types explicitly.",
+      "Booleans are written as True or False (capitalized)."
+    ],
+    "solution": null
+  }

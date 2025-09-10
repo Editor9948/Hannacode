@@ -248,6 +248,9 @@ if (role === "admin") {
         <Link to="/admin/courses">
           <Button>Manage Courses</Button>
         </Link>
+         <Link to="/admin/submissions">
+          <Button>Review Submissions</Button>
+        </Link>
 
         <Link to="/mentorship">
           <Button className="bg-primary hover:bg-primary/90">Mentorship Home</Button>

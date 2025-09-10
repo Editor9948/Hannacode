@@ -19,7 +19,12 @@ import PaymentVerification from "./Pages/Payment/verification";
 import PaymentSuccessPage from "./Pages/Payment/success";
 import AdminUsersPage from "./Pages/Admin/AdminUsersPage";
 import AdminCoursesPage from "./Pages/Admin/AdminCoursesPage";
+import AdminSubmissions from "./Pages/Admin/AdminSubmissions";
+import MySubmissions from "./Pages/Submissions/MySubmissions";
 import MentorInbox from "./Pages/mentorship/MentorInbox";
+import ChallengesIndex from "./Pages/Challenges/ChallengesIndex";
+import ChallengeDetail from "./Pages/Challenges/ChallengesDetail";
+import ChallengeToday from "./Pages/Challenges/ChallengesToday";
 import About from "./Pages/about";
 import Contact from "./Pages/contact";
 import SettingsPage from "./Pages/setting";
@@ -82,9 +87,13 @@ export default function App() {
             <Route path="/mentorship" element={<MentorshipPage />} />
             <Route path="/mentorship/book/:id" element={<BookMentorship />} />
             <Route path="/mentorship/chat/:mentorshipId" element={<ChatPage />} />
-           
+            <Route path="/challenges" element={<ChallengesIndex />} />
+            <Route path="/challenges/today" element={<ChallengeToday />} />
+            <Route path="/challenges/:challengeId" element={<ChallengeDetail />} />
             <Route path="/admin/users" element={<AdminUsersPage />} />
             <Route path="/admin/courses" element={<AdminCoursesPage />} />
+            <Route path="/admin/submissions" element={<AdminSubmissions />} />
+              <Route path="/submissions" element={<MySubmissions />} />
             <Route path="/mentorship/inbox" element={<MentorInbox />} />
             <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="/about" element={<About />} />

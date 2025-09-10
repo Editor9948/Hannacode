@@ -1,0 +1,22 @@
+ {
+    "id": "2025-09-15-python-print",
+    "title": "Python Print Function",
+    "date": "2025-09-15",
+    "description": "Use the print() function to display text and variables in Python.",
+    "examples": [
+      {
+        "input": "name = 'Hanna'\nprint('Hello', name)",
+        "output": "Hello Hanna"
+      }
+    ],
+    "constraints": [
+      "Use print() at least three times.",
+      "Print both text and variable values."
+    ],
+    "starterCode": "def print_demo():\n    # your code here\n    pass",
+    "hints": [
+      "Use commas inside print() to print multiple values.",
+      "You can also use f-strings for formatted text: print(f\"Hello {name}\")."
+    ],
+    "solution": null
+  }

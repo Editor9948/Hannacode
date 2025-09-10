@@ -1,0 +1,22 @@
+ {
+    "id": "2025-09-22-html-links",
+    "title": "HTML Links",
+    "date": "2025-09-22",
+    "description": "Create hyperlinks using the <a> tag.",
+    "examples": [
+      {
+        "input": "<a href=\"https://hannacode.com\">Visit HannaCode</a>",
+        "output": "Displays a clickable link 'Visit HannaCode'."
+      }
+    ],
+    "constraints": [
+      "Use at least two different links.",
+      "One link must open in a new tab."
+    ],
+    "starterCode": "<!DOCTYPE html>\n<html>\n<body>\n  <!-- your links here -->\n</body>\n</html>",
+    "hints": [
+      "Use target=\"_blank\" to open a link in a new tab.",
+      "The text between <a> and </a> is what users click."
+    ],
+    "solution": null
+  }

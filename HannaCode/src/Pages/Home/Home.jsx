@@ -203,11 +203,11 @@ export default function Home() {
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-              <Card className="border-2 border-secondary/20">
+              <Card className="border-2 border-primary/10">
                 <CardHeader>
                   <CardTitle>Free Plan</CardTitle>
                   <div className="mt-4 text-4xl font-bold">
-                    $0<span className="text-lg font-normal text-muted-foreground">/month</span>
+                    #0<span className="text-lg font-normal text-muted-foreground">/month</span>
                   </div>
                 </CardHeader>
                 <CardContent>
@@ -228,7 +228,7 @@ export default function Home() {
                 </CardContent>
                 <CardFooter>
                   <Link to="/register" className="w-full">
-                    <Button variant="outline" className="w-full">
+                    <Button variant="outline" className="w-full hover:bg-primary hover:text-white">
                       Sign Up Free
                     </Button>
                   </Link>

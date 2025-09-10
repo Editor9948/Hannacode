@@ -1,0 +1,164 @@
+[
+  
+  {
+    "id": "2025-09-10-python-print",
+    "title": "Python Print",
+    "date": "2025-09-10",
+    "summary": "Learn how to print text and variables in Python.",
+    "difficulty": "Easy",
+    "requiresPremium": false,
+    "tags": ["python", "print", "basics"],
+    "allowedLanguages": ["javascript", "python","html","css","php"]
+  },
+  {
+    "id": "2025-09-11-php-echo",
+    "title": "PHP Echo",
+    "date": "2025-09-11",
+    "summary": "Practice using echo in PHP to output text.",
+    "difficulty": "Easy",
+    "requiresPremium": false,
+    "tags": ["php", "echo", "basics"],
+    "allowedLanguages": ["javascript", "python","html","css","php"]
+    
+  },
+  {
+    "id": "2025-09-12-html-intro",
+    "title": "HTML Introduction",
+    "date": "2025-09-12",
+    "summary": "Learn the structure of an HTML document and basic tags.",
+    "difficulty": "Easy",
+    "requiresPremium": false,
+    "tags": ["html", "basics"],
+    "allowedLanguages": ["javascript", "python", "html", "css", "php"]
+  },
+  {
+    "id": "2025-09-13-css-intro",
+    "title": "CSS Introduction",
+    "date": "2025-09-13",
+    "summary": "Understand how to apply styles using inline, internal, and external CSS.",
+    "difficulty": "Easy",
+    "requiresPremium": false,
+    "tags": ["css", "basics"],
+    "allowedLanguages": ["javascript", "python", "html", "css", "php"]
+  },
+  {
+    "id": "2025-09-14-js-variables",
+    "title": "JavaScript Variables",
+    "date": "2025-09-14",
+    "summary": "Practice declaring and using variables with var, let, and const.",
+    "difficulty": "Easy",
+    "requiresPremium": false,
+    "tags": ["javascript", "variables", "basics"],
+    "allowedLanguages": ["javascript", "python", "html", "css", "php"]
+  },
+  {
+    "id": "2025-09-15-python-print",
+    "title": "Python Print Function",
+    "date": "2025-09-15",
+    "summary": "Learn how to display text and variables in Python using print().",
+    "difficulty": "Easy",
+    "requiresPremium": false,
+    "tags": ["python", "print", "basics"],
+    "allowedLanguages": ["javascript", "python", "html", "css", "php"]
+  },
+  {
+    "id": "2025-09-16-php-echo",
+    "title": "PHP Echo Statement",
+    "date": "2025-09-16",
+    "summary": "Practice using echo in PHP to output text and variables.",
+    "difficulty": "Easy",
+    "requiresPremium": false,
+    "tags": ["php", "echo", "basics"],
+    "allowedLanguages": ["javascript", "python", "html", "css", "php"]
+  },
+  {
+    "id": "2025-09-17-html-headings",
+    "title": "HTML Headings",
+    "date": "2025-09-17",
+    "summary": "Learn how to use <h1> through <h6> tags to structure content hierarchy.",
+    "difficulty": "Easy",
+    "requiresPremium": false,
+    "tags": ["html", "headings", "structure"],
+    "allowedLanguages": ["javascript", "python", "html", "css", "php"]
+  },
+  {
+    "id": "2025-09-18-css-selectors",
+    "title": "CSS Selectors",
+    "date": "2025-09-18",
+    "summary": "Practice basic CSS selectors to style elements effectively.",
+    "difficulty": "Easy",
+    "requiresPremium": false,
+    "tags": ["css", "selectors", "styling"],
+    "allowedLanguages": ["javascript", "python", "html", "css", "php"]
+  },
+  {
+    "id": "2025-09-19-js-operators",
+    "title": "JavaScript Operators",
+    "date": "2025-09-19",
+    "summary": "Learn arithmetic, comparison, and logical operators in JavaScript.",
+    "difficulty": "Easy",
+    "requiresPremium": false,
+    "tags": ["javascript", "operators", "basics"],
+    "allowedLanguages": ["javascript", "python", "html", "css", "php"]
+  },
+  {
+    "id": "2025-09-20-python-variables",
+    "title": "Python Variables",
+    "date": "2025-09-20",
+    "summary": "Understand variable declaration and data types in Python.",
+    "difficulty": "Easy",
+    "requiresPremium": false,
+    "tags": ["python", "variables", "basics"],
+    "allowedLanguages": ["javascript", "python", "html", "css", "php"]
+  },
+  {
+    "id": "2025-09-21-php-variables",
+    "title": "PHP Variables",
+    "date": "2025-09-21",
+    "summary": "Learn how to declare and use variables in PHP.",
+    "difficulty": "Easy",
+    "requiresPremium": false,
+    "tags": ["php", "variables", "basics"],
+    "allowedLanguages": ["javascript", "python", "html", "css", "php"]
+  },
+  {
+    "id": "2025-09-22-html-links",
+    "title": "HTML Links",
+    "date": "2025-09-22",
+    "summary": "Learn how to use the <a> tag to create hyperlinks.",
+    "difficulty": "Easy",
+    "requiresPremium": false,
+    "tags": ["html", "links"],
+    "allowedLanguages": ["javascript", "python", "html", "css", "php"]
+  },
+  {
+    "id": "2025-09-23-css-colors",
+    "title": "CSS Colors",
+    "date": "2025-09-23",
+    "summary": "Apply colors using names, HEX, RGB, and HSL values.",
+    "difficulty": "Easy",
+    "requiresPremium": false,
+    "tags": ["css", "colors"],
+    "allowedLanguages": ["javascript", "python", "html", "css", "php"]
+  },
+  {
+    "id": "2025-09-24-js-loops",
+    "title": "JavaScript Loops",
+    "date": "2025-09-24",
+    "summary": "Iterate with for, while, and for..of loops.",
+    "difficulty": "Easy",
+    "requiresPremium": false,
+    "tags": ["javascript", "loops"],
+    "allowedLanguages": ["javascript", "python", "html", "css", "php"]
+  },
+  {
+    "id": "2025-09-25-python-data-types",
+    "title": "Python Data Types",
+    "date": "2025-09-25",
+    "summary": "Learn about integers, floats, strings, and booleans in Python.",
+    "difficulty": "Easy",
+    "requiresPremium": false,
+    "tags": ["python", "data-types"],
+    "allowedLanguages": ["javascript", "python", "html", "css", "php"]
+  }
+]

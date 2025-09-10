@@ -1,0 +1,23 @@
+{
+    "id": "2025-09-13-css-intro",
+    "title": "CSS Introduction",
+    "date": "2025-09-13",
+    "description": "Apply styles to an HTML element using inline, internal, and external CSS.",
+    "examples": [
+      {
+        "input": "<p style=\"color: red;\">This is inline styled</p>",
+        "output": "The text appears in red."
+      }
+    ],
+    "constraints": [
+      "Demonstrate inline, internal, and external CSS at least once.",
+      "Use different properties like color, background-color, and font-size."
+    ],
+    "starterCode": "<!DOCTYPE html>\n<html>\n<head>\n  <style>\n    /* internal CSS here */\n  </style>\n  <link rel=\"stylesheet\" href=\"styles.css\">\n</head>\n<body>\n  <p><!-- inline style here --></p>\n</body>\n</html>",
+    "hints": [
+      "Inline CSS goes inside the style attribute.",
+      "Internal CSS goes inside a <style> tag in the head.",
+      "External CSS is linked using <link>."
+    ],
+    "solution": null
+  }

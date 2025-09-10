@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
-import { Menu, X, Moon, Sun, User, LogOut, Settings as SettingsIcon, LayoutDashboardIcon } from "lucide-react";
+import { Menu, X, Moon, Sun, User, LogOut, Settings as SettingsIcon, LayoutDashboardIcon, Puzzle } from "lucide-react";
 import { useTheme } from "next-themes";
 import { cn } from "../../lib/utils";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
@@ -122,6 +122,11 @@ export default function Navbar() {
                       <SettingsIcon className="mr-2 h-4 w-4" /> Settings
                     </Link>
                   </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                    <Link to="/challenges">
+                      <Puzzle className="mr-2 h-4 w-4" /> Challenges
+                    </Link>
+                  </DropdownMenuItem>
 
                   <DropdownMenuItem onClick={handleLogout}>
                     <LogOut className="mr-2 h-4 w-4" /> Logout
@@ -183,6 +188,11 @@ export default function Navbar() {
                   <Link to="/setting" onClick={() => setIsMenuOpen(false)}>
                     <Button variant="outline" className="w-full flex items-center justify-start">
                       <SettingsIcon className="mr-2 h-4 w-4" /> Settings
+                    </Button>
+                  </Link>
+                  <Link to="/challenges" onClick={() => setIsMenuOpen(false)}>
+                    <Button variant="outline" className="w-full flex items-center justify-start">
+                      <Puzzle className="mr-2 h-4 w-4" /> Challenges
                     </Button>
                   </Link>
                   <Button
