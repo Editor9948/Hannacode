@@ -774,8 +774,8 @@ exports.sendDailyChallengeAnnouncement = async (user) => {
     <ul style="color: #000; line-height: 1.8; margin: 20px 0 0 0; padding-left: 20px;">
       <li>🧩 New problem every day across multiple languages</li>
       <li>📈 Track streaks and progress</li>
-      <li>🏆 Earn badges and get featured</li>
-      <li>💬 Learn from community solutions</li>
+      <li>✅ Earn badges and get featured</li>
+      <li>✅ Learn from community solutions</li>
     </ul>
 
     <div style="text-align: center; margin: 30px 0;">
