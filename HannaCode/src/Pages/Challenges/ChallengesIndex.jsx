@@ -211,7 +211,6 @@ useEffect(() => {
   return (
     <div className="container py-8">
 
-      
       {/* Category Results (only shows content for today's category) */}
       {categoryDef && (
         <div className="mt-8">
