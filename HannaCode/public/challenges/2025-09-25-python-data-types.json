@@ -16,7 +16,7 @@
     "starterCode": "def data_types_demo():\n    # your code here\n    pass",
     "hints": [
       "Use type(variable) to check the data type.",
-      "Booleans evaluate to True or False."
+      "Booleans evaluate to True or False."  
     ],
     "solution": null
   }
