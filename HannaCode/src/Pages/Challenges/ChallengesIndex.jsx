@@ -100,7 +100,7 @@ export default function ChallengesIndex() {
   const [loadingToday, setLoadingToday] = useState(true);
   const [premium, setPremium] = useState(false);
   const [todayChallenge, setTodayChallenge] = useState(null);
-
+ const [items, setItems] = useState([]);
   // Only today's challenge is available
   const [availableChallenges, setAvailableChallenges] = useState([]);
 
@@ -114,6 +114,8 @@ export default function ChallengesIndex() {
   const q = (searchParams.get("q") || "").trim();
   const sort = (searchParams.get("sort") || "date-desc").toLowerCase();
 
+
+  
   useEffect(() => {
     setPremium(isPremiumUser());
     let mounted = true;
@@ -202,7 +204,10 @@ export default function ChallengesIndex() {
     else next.set(name, value);
     setSearchParams(next, { replace: true });
   }
-
+useEffect(() => {
+  fetch('/data/challenges.json', { cache: 'no-cache' })
+    .then(r => r.json()).then(setItems).catch(console.error);
+}, []);
   return (
     <div className="container py-8">
 
@@ -290,7 +295,7 @@ export default function ChallengesIndex() {
                             <Button size="sm">Upgrade</Button>
                           </Link>
                         ) : (
-                          <Link to={`/challenges/${ch.id}`}>
+                          <Link to={`/challenges/${encodeURIComponent(ch.id)}`}>
                             <Button size="sm" variant="secondary">Open</Button>
                           </Link>
                         )}
