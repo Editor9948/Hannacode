@@ -1,4 +1,4 @@
-const Submission = require("../models/Submission");
+const Submission = require("../models/submission");
 const User = require("../models/User");
 const asyncHandler = require("../middleware/async");
 const ErrorResponse = require("../utils/errorResponse");
