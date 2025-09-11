@@ -1,43 +1,5 @@
 [ 
-  {
-  "date": "2025-09-11",
-  "challenges": [
-  {
-    "id": "2025-09-11-python-print",
-    "title": "Python Print",
-    "date": "2025-09-11",
-     "language": "python",
-    "summary": "Learn how to print text and variables in Python.",
-    "difficulty": "Easy",
-    "requiresPremium": false,
-    "tags": ["python", "print", "basics"],
-    "allowedLanguages": ["javascript", "python","html","css","php"]
-  },
-  {
-    "id": "2025-09-11-php-echo",
-    "title": "PHP Echo",
-    "date": "2025-09-11",
-     "language": "php",
-    "summary": "Practice using echo in PHP to output text.",
-    "difficulty": "Easy",
-    "requiresPremium": false,
-    "tags": ["php", "echo", "basics"],
-    "allowedLanguages": ["javascript", "python","html","css","php"]
-    
-  },
-  {
-    "id": "2025-09-11-html-intro",
-    "title": "HTML Introduction",
-    "date": "2025-09-11",
-     "language": "html",
-    "summary": "Learn the structure of an HTML document and basic tags.",
-    "difficulty": "Easy",
-    "requiresPremium": false,
-    "tags": ["html", "basics"],
-    "allowedLanguages": ["javascript", "python", "html", "css", "php"]
-  }
-  ]
-},
+  
 {
   "date": "2025-09-12",
   "challenges": [
