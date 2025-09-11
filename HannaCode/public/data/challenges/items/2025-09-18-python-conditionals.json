@@ -1,0 +1,24 @@
+{
+  "id": "2025-09-18-python-conditionals",
+  "title": "Python Conditionals",
+  "date": "2025-09-18",
+  "description": "Practice using if, elif, and else statements to control the flow of your Python program based on conditions.",
+  "examples": [
+    {
+      "input": "x = 10\nif x > 5:\n    print('Greater than 5')\nelse:\n    print('5 or less')",
+      "output": "Greater than 5"
+    }
+  ],
+  "constraints": [
+    "Use at least one if, one elif, and one else statement.",
+    "Include a condition with a comparison operator (>, <, ==, etc.).",
+    "Handle at least three possible outcomes."
+  ],
+  "starterCode": "x = int(input(\"Enter a number: \"))\n# Write your if, elif, else conditions below\n",
+  "hints": [
+    "Use comparison operators like ==, >, <, >=, and <=.",
+    "if checks the first condition, elif checks others, else covers remaining cases.",
+    "Example: if age >= 18: print('Adult')"
+  ],
+  "solution": null
+}

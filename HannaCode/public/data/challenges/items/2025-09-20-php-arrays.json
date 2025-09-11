@@ -1,0 +1,28 @@
+{
+  "id": "2025-09-20-php-arrays",
+  "title": "PHP Arrays",
+  "date": "2025-09-20",
+  "description": "Learn how to create and use arrays in PHP, including indexed and associative arrays.",
+  "examples": [
+    {
+      "input": "<?php\n$colors = array(\"Red\", \"Green\", \"Blue\");\necho $colors[1];\n?>",
+      "output": "Green"
+    },
+    {
+      "input": "<?php\n$ages = array(\"Alice\" => 25, \"Bob\" => 30);\necho $ages[\"Bob\"];\n?>",
+      "output": "30"
+    }
+  ],
+  "constraints": [
+    "Create at least one indexed array.",
+    "Create one associative array.",
+    "Access and print at least one value from each."
+  ],
+  "starterCode": "<?php\n// Write your PHP array examples here\n?>",
+  "hints": [
+    "Indexed arrays use numeric keys (0, 1, 2...).",
+    "Associative arrays use named keys like 'name' or 'age'.",
+    "Use echo to print array values."
+  ],
+  "solution": null
+}

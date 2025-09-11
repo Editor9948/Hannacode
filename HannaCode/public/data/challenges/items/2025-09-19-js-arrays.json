@@ -1,0 +1,26 @@
+{
+  "id": "2025-09-19-js-arrays",
+  "title": "JavaScript Arrays",
+  "date": "2025-09-19",
+  "description": "Learn to create, access, and manipulate arrays with push, pop, and slice methods.",
+  "examples": [
+    {
+      "input": "let fruits = [\"Apple\", \"Banana\"];\nfruits.push(\"Cherry\");\nconsole.log(fruits);",
+      "output": "[\"Apple\", \"Banana\", \"Cherry\"]"
+    }
+  ],
+  "constraints": [
+    "Create an array with at least three elements.",
+    "Use push() to add an element.",
+    "Use pop() to remove the last element.",
+    "Use slice() to create a subarray."
+  ],
+  "starterCode": "let fruits = [\"Mango\", \"Orange\", \"Grapes\"];\n// Write your array operations here\n",
+  "hints": [
+    "push() adds to the end of an array.",
+    "pop() removes the last item.",
+    "slice(start, end) copies part of the array.",
+    "You can log arrays with console.log()."
+  ],
+  "solution": null
+}

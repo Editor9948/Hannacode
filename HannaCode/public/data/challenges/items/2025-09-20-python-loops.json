@@ -1,0 +1,28 @@
+{
+  "id": "2025-09-20-python-loops",
+  "title": "Python Loops",
+  "date": "2025-09-20",
+  "description": "Practice using for and while loops in Python to iterate through lists and control repetition.",
+  "examples": [
+    {
+      "input": "fruits = [\"Apple\", \"Banana\", \"Cherry\"]\nfor fruit in fruits:\n    print(fruit)",
+      "output": "Apple\nBanana\nCherry"
+    },
+    {
+      "input": "count = 1\nwhile count <= 3:\n    print(count)\n    count += 1",
+      "output": "1\n2\n3"
+    }
+  ],
+  "constraints": [
+    "Use at least one for loop.",
+    "Use one while loop.",
+    "Print output from both loops."
+  ],
+  "starterCode": "# Write your Python loops here\n",
+  "hints": [
+    "for loops are good for iterating over lists.",
+    "while loops run until a condition is false.",
+    "Use += to increment numbers inside a loop."
+  ],
+  "solution": null
+}

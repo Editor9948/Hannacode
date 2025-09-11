@@ -1,0 +1,25 @@
+{
+  "id": "2025-09-18-php-loops",
+  "title": "PHP Loops",
+  "date": "2025-09-18",
+  "description": "Use for, while, and foreach loops in PHP to repeat tasks and iterate over arrays.",
+  "examples": [
+    {
+      "input": "<?php\nfor ($i = 1; $i <= 3; $i++) {\n  echo \"Number: $i\\n\";\n}\n?>",
+      "output": "Number: 1\nNumber: 2\nNumber: 3"
+    }
+  ],
+  "constraints": [
+    "Use at least one for loop.",
+    "Use at least one while or do...while loop.",
+    "Use foreach with an array."
+  ],
+  "starterCode": "<?php\n// Example array\n$fruits = [\"Apple\", \"Banana\", \"Cherry\"];\n\n// Write your loops here\n?>",
+  "hints": [
+    "for is used when you know the number of iterations.",
+    "while runs until a condition is false.",
+    "foreach is used for arrays.",
+    "Example: foreach($array as $item) { echo $item; }"
+  ],
+  "solution": null
+}

@@ -58,46 +58,52 @@ function getLocalDateStr(d = new Date()) {
   const day = String(d.getDate()).padStart(2, "0");
   return `${y}-${m}-${day}`;
 }
-function pickDaily(items, d = new Date()) {
-  if (!Array.isArray(items) || !items.length) return null;
-  const seed = getLocalDateStr(d);
-  let h = 0;
-  for (let i = 0; i < seed.length; i++) { h = ((h << 5) - h) + seed.charCodeAt(i); h |= 0; }
-  return items[Math.abs(h) % items.length] || null;
+
+function normalizeToday(data) {
+  // Accept:
+  // - { date, challenges: [...] }
+  // - single object (legacy)
+  // - array of items
+  if (Array.isArray(data)) return { date: null, challenges: data };
+  if (data && Array.isArray(data.challenges)) {
+    return { date: data.date || null, challenges: data.challenges };
+  }
+  if (data && typeof data === "object") {
+    return { date: data.date || null, challenges: [data] };
+  }
+  return { date: null, challenges: [] };
 }
 
 export function getToday() {
   return once("today", async () => {
-    // API first
+    // Prefer API (you’re getting 200 here)
     if (API_V1) {
       try {
-        const r = await fetch(`${API_V1}/challenges/today`, { ...noStore(), headers: authHeaders() });
-        if (r.ok) return await r.json();
+        const r = await fetch(`${API_V1}/challenges/today`, { cache: "no-store", headers: authHeaders() });
+        if (r.ok) {
+          const raw = await r.json();
+          const norm = normalizeToday(raw);
+          if (norm.challenges.length) return norm;
+        }
       } catch {}
     }
-    // fallback to static
-    try {
-      const list = await listChallenges();
-      if (list.length) {
-        const todayStr = getLocalDateStr();
-        const meta =
-          list.find(ch => String(ch.date || "").slice(0, 10) === todayStr) ||
-          pickDaily(list); // now pickDaily is used
 
-        if (meta?.id) {
-          try {
-            const r = await fetch(`${DATA_BASE}/items/${encodeURIComponent(meta.id)}.json`, { cache: "no-store" });
-            if (r.ok) return await r.json();
-          } catch {}
-          return meta; // fallback to metadata if full file not present
+    // Fallback: derive from static index.json if needed
+    try {
+      const r = await fetch(`${DATA_BASE}/index.json`, { cache: "no-store" });
+      if (r.ok) {
+        const groups = await r.json();
+        const todayStr = getLocalDateStr();
+        const match = Array.isArray(groups) ? groups.find(g => String(g?.date) === todayStr) : null;
+        if (match && Array.isArray(match.challenges)) {
+          return { date: match.date, challenges: match.challenges };
         }
       }
     } catch {}
 
-    return null;
+    return { date: null, challenges: [] };
   });
 }
-
 export function getChallenge(id) {
   return once(`challenge:${id}`, async () => {
     // API first

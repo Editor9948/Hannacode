@@ -1,0 +1,25 @@
+{
+  "id": "2025-09-19-html-tables",
+  "title": "HTML Tables",
+  "date": "2025-09-19",
+  "description": "Create structured data tables using <table>, <tr>, <td>, and <th> tags.",
+  "examples": [
+    {
+      "input": "<table border='1'>\n  <tr>\n    <th>Name</th>\n    <th>Age</th>\n  </tr>\n  <tr>\n    <td>Alice</td>\n    <td>24</td>\n  </tr>\n</table>",
+      "output": "A table with 2 columns: 'Name' and 'Age', and one row with Alice, 24."
+    }
+  ],
+  "constraints": [
+    "Include at least one header row (<th>).",
+    "Have at least two rows of data.",
+    "Table must include a border for visibility."
+  ],
+  "starterCode": "<!DOCTYPE html>\n<html>\n<head>\n  <title>Table Demo</title>\n</head>\n<body>\n  <!-- Create your table here -->\n</body>\n</html>",
+  "hints": [
+    "Use <table> to start your table.",
+    "<tr> defines a row.",
+    "<th> is for header cells, <td> for normal cells.",
+    "Add border='1' to make the table visible."
+  ],
+  "solution": null
+}

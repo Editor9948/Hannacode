@@ -1,0 +1,24 @@
+{
+  "id": "2025-09-17-js-functions",
+  "title": "JavaScript Functions",
+  "date": "2025-09-17",
+  "description": "Learn to create and call functions with parameters and return values.",
+  "examples": [
+    {
+      "input": "function add(a, b) {\n  return a + b;\n}\n\nconsole.log(add(5, 3));",
+      "output": "8"
+    }
+  ],
+  "constraints": [
+    "Define a function with at least one parameter.",
+    "Return a value from the function.",
+    "Call the function and log the result."
+  ],
+  "starterCode": "// Define your function here\n\n// Call your function and log the result",
+  "hints": [
+    "Use function keyword to declare functions.",
+    "Parameters go inside parentheses: function myFunc(x, y).",
+    "Use return to send back a result."
+  ],
+  "solution": null
+}

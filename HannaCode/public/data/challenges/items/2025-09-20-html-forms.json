@@ -1,0 +1,25 @@
+{
+  "id": "2025-09-20-html-forms",
+  "title": "HTML Forms",
+  "date": "2025-09-20",
+  "description": "Learn to create simple forms with input fields, labels, and a submit button.",
+  "examples": [
+    {
+      "input": "<form>\n  <label for=\"name\">Name:</label>\n  <input type=\"text\" id=\"name\" name=\"name\"><br>\n  <label for=\"email\">Email:</label>\n  <input type=\"email\" id=\"email\" name=\"email\"><br>\n  <input type=\"submit\" value=\"Submit\">\n</form>",
+      "output": "A form with Name and Email fields and a submit button."
+    }
+  ],
+  "constraints": [
+    "Include at least one text input.",
+    "Include one email input.",
+    "Form must have a submit button."
+  ],
+  "starterCode": "<!DOCTYPE html>\n<html>\n<head>\n  <title>Form Example</title>\n</head>\n<body>\n  <!-- Build your form here -->\n</body>\n</html>",
+  "hints": [
+    "Use <form> to start a form.",
+    "Use <input type='text'> for text fields.",
+    "Use <input type='email'> for email fields.",
+    "Always include <input type='submit'> to send the form."
+  ],
+  "solution": null
+}

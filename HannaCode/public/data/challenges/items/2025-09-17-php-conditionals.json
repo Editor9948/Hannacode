@@ -1,0 +1,23 @@
+{
+  "id": "2025-09-17-php-conditionals",
+  "title": "PHP Conditionals",
+  "date": "2025-09-17",
+  "description": "Practice using if, else if, and else statements for decision making in PHP.",
+  "examples": [
+    {
+      "input": "<?php\n$score = 85;\nif ($score >= 90) {\n  echo \"Grade: A\";\n} elseif ($score >= 75) {\n  echo \"Grade: B\";\n} else {\n  echo \"Grade: C\";\n}\n?>",
+      "output": "Grade: B"
+    }
+  ],
+  "constraints": [
+    "Use at least one if, one elseif, and one else statement.",
+    "Check different conditions to print different outputs."
+  ],
+  "starterCode": "<?php\n$score = 70; // change value to test\n\n// Write your if-elseif-else statements here\n?>",
+  "hints": [
+    "Use if(condition) { ... } for the first case.",
+    "Use elseif for additional conditions.",
+    "Use else for the default case."
+  ],
+  "solution": null
+}

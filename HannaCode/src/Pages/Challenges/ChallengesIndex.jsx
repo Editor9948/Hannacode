@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
-import { getToday, getChallenge } from "../../lib/challengesApi";
+import { Link, useSearchParams, } from "react-router-dom";
+import { getToday } from "../../lib/challengesApi";
 import { getMySubmissions } from "../../lib/submissionsApi";
 import { isPremiumUser } from "../../lib/premium";
 import { Button } from "../../components/ui/button";
@@ -114,33 +114,24 @@ export default function ChallengesIndex() {
   const q = (searchParams.get("q") || "").trim();
   const sort = (searchParams.get("sort") || "date-desc").toLowerCase();
 
-
   
   useEffect(() => {
-    setPremium(isPremiumUser());
-    let mounted = true;
-    (async () => {
-      setLoadingToday(true);
-      try {
-        const today = await getToday();
-        if (!mounted) return;
-        if (!today?.id) {
-          setTodayChallenge(null);
-          setAvailableChallenges([]);
-          return;
-        }
-        const data = await getChallenge(today.id);
-        if (!mounted) return;
-        setTodayChallenge(data || null);
-        setAvailableChallenges(data ? [data] : []); // gate: only today's challenge
-      } finally {
-        if (mounted) setLoadingToday(false);
-      }
-    })();
-    return () => {
-      mounted = false;
-    };
-  }, []);
+  setPremium(isPremiumUser());
+  let mounted = true;
+  (async () => {
+    setLoadingToday(true);
+    try {
+      const today = await getToday(); // now returns { date, challenges: [] }
+      if (!mounted) return;
+      const arr = Array.isArray(today?.challenges) ? today.challenges : [];
+      setTodayChallenge(arr[0] || null);          // optional, keep first for display
+      setAvailableChallenges(arr);                // all today’s challenges
+    } finally {
+      if (mounted) setLoadingToday(false);
+    }
+  })();
+  return () => { mounted = false; };
+}, []);
 
   // Load my submissions once (for completed badges)
   useEffect(() => {
@@ -165,7 +156,10 @@ export default function ChallengesIndex() {
   }, [availableChallenges, mySubs]);
 
   const locked = Boolean(todayChallenge?.requiresPremium) && !premium;
-  const todayKey = useMemo(() => (todayChallenge ? detectCategory(todayChallenge) : null), [todayChallenge]);
+  const availableKeys = useMemo(
+  () => new Set((availableChallenges || []).map((ch) => detectCategory(ch)).filter(Boolean)),
+  [availableChallenges]
+);
 
   // Category results (only show today's challenge within its category)
   const categoryDef = useMemo(
@@ -258,7 +252,7 @@ useEffect(() => {
 
             {categoryDef.comingSoon ? (
              <p className="text-sm text-slate-600 dark:text-muted-foreground">Coming Soon.</p>
-          ) : selectedKey !== todayKey ? (
+          ) : !availableKeys.has(selectedKey) ? (
              <p className="text-sm text-slate-600 dark:text-muted-foreground">Not available till tomorrow.</p>
          ) : categoryItems.length === 0 ? (
             <p className="text-sm text-slate-600 dark:text-muted-foreground">No challenge available.</p>
@@ -320,9 +314,9 @@ useEffect(() => {
             ))
           : cards.map((c) => {
               const progress = c.total ? Math.min(100, Math.round((c.completed / c.total) * 100)) : 0;
-              const isTodayCategory = c.key === todayKey;
+              const isAvailableCategory = c.total > 0;
               const isComingSoon = !!c.comingSoon;
-              const lockedCategory = isComingSoon || !isTodayCategory;
+              const lockedCategory = isComingSoon || !isAvailableCategory;
 
               const card = (
                 <div className="relative rounded-xl border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800/70 p-5 hover:border-slate-300 dark:hover:border-slate-600 transition-colors">

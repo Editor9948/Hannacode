@@ -1,0 +1,25 @@
+{
+  "id": "2025-09-19-css-flexbox-intro",
+  "title": "CSS Flexbox Introduction",
+  "date": "2025-09-19",
+  "description": "Learn the basics of Flexbox layout with display: flex and basic flex properties.",
+  "examples": [
+    {
+      "input": "<style>\n  .container {\n    display: flex;\n    justify-content: space-between;\n  }\n  .box {\n    width: 100px;\n    height: 100px;\n    background: lightblue;\n  }\n</style>\n<div class='container'>\n  <div class='box'>1</div>\n  <div class='box'>2</div>\n  <div class='box'>3</div>\n</div>",
+      "output": "Three boxes aligned in a row with space between them."
+    }
+  ],
+  "constraints": [
+    "Use display: flex on the container.",
+    "Use justify-content to control alignment.",
+    "Include at least three flex items."
+  ],
+  "starterCode": "<!DOCTYPE html>\n<html>\n<head>\n  <style>\n    .container {\n      /* Apply flexbox properties here */\n    }\n    .box {\n      width: 100px;\n      height: 100px;\n      background: coral;\n    }\n  </style>\n</head>\n<body>\n  <div class=\"container\">\n    <div class=\"box\">A</div>\n    <div class=\"box\">B</div>\n    <div class=\"box\">C</div>\n  </div>\n</body>\n</html>",
+  "hints": [
+    "Use display: flex on the parent container.",
+    "justify-content: center, space-between, or space-around can align items.",
+    "align-items controls vertical alignment.",
+    "Flexbox makes responsive layouts easier."
+  ],
+  "solution": null
+}

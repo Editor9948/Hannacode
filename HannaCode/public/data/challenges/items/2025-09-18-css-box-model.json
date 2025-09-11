@@ -1,0 +1,25 @@
+{
+  "id": "2025-09-18-css-box-model",
+  "title": "CSS Box Model",
+  "date": "2025-09-18",
+  "description": "Understand and apply the CSS box model using margin, padding, border, and content.",
+  "examples": [
+    {
+      "input": "<style>\n  div {\n    width: 200px;\n    padding: 20px;\n    border: 5px solid black;\n    margin: 15px;\n  }\n</style>\n<div>Box Model Example</div>",
+      "output": "A box with 200px width, 20px padding, 5px border, and 15px margin."
+    }
+  ],
+  "constraints": [
+    "Use margin, padding, border, and width properties.",
+    "Make sure at least one side has a different padding or margin.",
+    "Border must be visible with a solid style."
+  ],
+  "starterCode": "<!DOCTYPE html>\n<html>\n<head>\n  <style>\n    div {\n      /* apply box model properties here */\n    }\n  </style>\n</head>\n<body>\n  <div>Box Model Demo</div>\n</body>\n</html>",
+  "hints": [
+    "Content is the inner text or image.",
+    "Padding adds space inside the border.",
+    "Margin adds space outside the border.",
+    "Border surrounds padding and content."
+  ],
+  "solution": null
+}

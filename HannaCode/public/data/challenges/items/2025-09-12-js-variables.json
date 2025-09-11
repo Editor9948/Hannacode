@@ -1,7 +1,7 @@
  {
-    "id": "2025-09-14-js-variables",
+    "id": "2025-09-12-js-variables",
     "title": "JavaScript Variables",
-    "date": "2025-09-14",
+    "date": "2025-09-12",
     "description": "Declare variables in JavaScript using var, let, and const. Print the values to the console.",
     "examples": [
       {

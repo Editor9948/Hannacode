@@ -1,0 +1,25 @@
+{
+  "id": "2025-09-16-css-fonts",
+  "title": "CSS Fonts",
+  "date": "2025-09-16",
+  "description": "Style text using font-family, font-size, font-weight, and font-style properties.",
+  "examples": [
+    {
+      "input": "<style>\n  h1 { font-family: Arial; font-size: 32px; font-weight: bold; font-style: italic; }\n</style>\n<h1>Hello World</h1>",
+      "output": "The heading text is displayed in Arial, bold, italic, and size 32px."
+    }
+  ],
+  "constraints": [
+    "Use at least two different font families.",
+    "Apply font-size, font-weight, and font-style.",
+    "Ensure text remains readable."
+  ],
+  "starterCode": "<!DOCTYPE html>\n<html>\n<head>\n  <style>\n    /* Style your fonts here */\n  </style>\n</head>\n<body>\n  <h1>Font Demo</h1>\n  <p>Experiment with different fonts</p>\n</body>\n</html>",
+  "hints": [
+    "font-family: Arial, 'Times New Roman', sans-serif.",
+    "font-size uses px, em, rem, or %.",
+    "font-weight: normal, bold, 100–900.",
+    "font-style: normal, italic, oblique."
+  ],
+  "solution": null
+}

@@ -1,0 +1,24 @@
+{
+  "id": "2025-09-16-html-images",
+  "title": "HTML Images",
+  "date": "2025-09-16",
+  "description": "Learn how to embed images using the <img> tag with src and alt attributes.",
+  "examples": [
+    {
+      "input": "<img src=\"cat.jpg\" alt=\"Cute cat\">",
+      "output": "A picture of a cat is displayed with 'Cute cat' as alternative text."
+    }
+  ],
+  "constraints": [
+    "Use the <img> tag with a valid src attribute.",
+    "Always provide an alt attribute for accessibility.",
+    "Add width or height to resize the image."
+  ],
+  "starterCode": "<!DOCTYPE html>\n<html>\n<head>\n  <title>Image Example</title>\n</head>\n<body>\n  <!-- Add your image here -->\n</body>\n</html>",
+  "hints": [
+    "src specifies the path to the image file.",
+    "alt provides text if the image cannot load.",
+    "Use width=\"300\" or height=\"200\" for size."
+  ],
+  "solution": null
+}

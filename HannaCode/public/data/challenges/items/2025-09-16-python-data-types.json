@@ -1,0 +1,24 @@
+{
+  "id": "2025-09-16-python-data-types",
+  "title": "Python Data Types",
+  "date": "2025-09-16",
+  "description": "Learn about integers, floats, strings, and booleans in Python.",
+  "examples": [
+    {
+      "input": "x = 10\nprint(type(x))\n\ny = 3.14\nprint(type(y))\n\nz = \"Hello\"\nprint(type(z))\n\nflag = True\nprint(type(flag))",
+      "output": "<class 'int'>\n<class 'float'>\n<class 'str'>\n<class 'bool'>"
+    }
+  ],
+  "constraints": [
+    "Use at least one integer, one float, one string, and one boolean.",
+    "Print their data types using the type() function."
+  ],
+  "starterCode": "x = # your integer here\ny = # your float here\nz = # your string here\nflag = # your boolean here\n\n# Print the data types",
+  "hints": [
+    "Integers: whole numbers like 5, 100.",
+    "Floats: numbers with decimals like 3.14.",
+    "Strings: text in quotes, e.g. \"Hello\".",
+    "Booleans: True or False."
+  ],
+  "solution": null
+}

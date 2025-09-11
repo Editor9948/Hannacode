@@ -1,0 +1,23 @@
+{
+  "id": "2025-09-17-html-lists",
+  "title": "HTML Lists",
+  "date": "2025-09-17",
+  "description": "Create ordered and unordered lists using <ul>, <ol>, and <li> tags.",
+  "examples": [
+    {
+      "input": "<ul>\n  <li>Apple</li>\n  <li>Banana</li>\n  <li>Cherry</li>\n</ul>\n\n<ol>\n  <li>First</li>\n  <li>Second</li>\n  <li>Third</li>\n</ol>",
+      "output": "Displays a bullet list of fruits and a numbered list of steps."
+    }
+  ],
+  "constraints": [
+    "Use both <ul> (unordered) and <ol> (ordered) lists.",
+    "Include at least three <li> items in each list."
+  ],
+  "starterCode": "<!DOCTYPE html>\n<html>\n<head>\n  <title>List Example</title>\n</head>\n<body>\n  <!-- Add your lists here -->\n</body>\n</html>",
+  "hints": [
+    "Use <ul> for bullet points.",
+    "Use <ol> for numbered items.",
+    "Each list item goes inside <li>."
+  ],
+  "solution": null
+}
