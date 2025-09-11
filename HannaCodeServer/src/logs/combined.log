@@ -117,3 +117,18 @@
 2025-09-10 20:35:43 info: Sent to kfakky@gmail.com
 2025-09-10 20:35:43 info: Email sent: <741d3a98-224f-a953-29ee-d80e8cd5b6f8@hannacode.com>
 2025-09-10 20:35:43 info: Sent to zeglaitytegabriele1@gmail.com
+2025-09-11 00:18:34 info: Socket.IO initialized
+2025-09-11 00:18:34 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-11 00:18:38 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-11 00:51:24 info: Socket.IO initialized
+2025-09-11 00:51:24 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-11 00:51:30 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-01.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-11 01:11:52 info: Socket.IO initialized
+2025-09-11 01:11:52 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-11 01:11:55 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-11 01:12:22 info: Socket.IO initialized
+2025-09-11 01:12:22 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-11 01:12:26 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-11 01:12:56 info: Socket.IO initialized
+2025-09-11 01:12:56 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-11 01:13:00 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m

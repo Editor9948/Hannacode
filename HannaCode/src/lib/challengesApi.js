@@ -4,6 +4,9 @@ const API_BASE = RAW.replace(/\/+$/, "").replace(/\/api(\/v\d+)?$/i, ""); // htt
 const API_V1 = API_BASE ? `${API_BASE}/api/v1` : "";
 const STATIC_BASE = (process.env.PUBLIC_URL || "").replace(/\/$/, "");
 
+const DATA_BASE = `${STATIC_BASE}/data/challenges`;
+// ...existing code...
+
 // Simple cache
 const cache = new Map();
 let inflight = new Map();
@@ -38,13 +41,29 @@ export function listChallenges() {
         }
       } catch {}
     }
-    // fallback to static
+    // fallback to static index.json
     try {
-      const r = await fetch(`${STATIC_BASE}/challenges/index.json`, { cache: "no-store" });
-      if (r.ok) return await r.json();
+      const r = await fetch(`${DATA_BASE}/index.json`, { cache: "no-store" });
+      if (r.ok) {
+        const data = await r.json();
+        return Array.isArray(data) ? data : [];
+      }
     } catch {}
     return [];
   });
+}
+function getLocalDateStr(d = new Date()) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+function pickDaily(items, d = new Date()) {
+  if (!Array.isArray(items) || !items.length) return null;
+  const seed = getLocalDateStr(d);
+  let h = 0;
+  for (let i = 0; i < seed.length; i++) { h = ((h << 5) - h) + seed.charCodeAt(i); h |= 0; }
+  return items[Math.abs(h) % items.length] || null;
 }
 
 export function getToday() {
@@ -58,17 +77,23 @@ export function getToday() {
     }
     // fallback to static
     try {
-      const r = await fetch(`${STATIC_BASE}/challenges/today.json`, { cache: "no-store" });
-      if (r.ok) return await r.json();
-    } catch {}
-    // fallback rotate via index.json
-    try {
       const list = await listChallenges();
       if (list.length) {
-        const day = Math.floor(Date.now() / 86400000);
-        return { id: list[day % list.length].id };
+        const todayStr = getLocalDateStr();
+        const meta =
+          list.find(ch => String(ch.date || "").slice(0, 10) === todayStr) ||
+          pickDaily(list); // now pickDaily is used
+
+        if (meta?.id) {
+          try {
+            const r = await fetch(`${DATA_BASE}/items/${encodeURIComponent(meta.id)}.json`, { cache: "no-store" });
+            if (r.ok) return await r.json();
+          } catch {}
+          return meta; // fallback to metadata if full file not present
+        }
       }
     } catch {}
+
     return null;
   });
 }
@@ -82,11 +107,19 @@ export function getChallenge(id) {
         if (r.ok) return await r.json();
       } catch {}
     }
-    // fallback to static
+    // Static full item file
     try {
-      const r = await fetch(`${STATIC_BASE}/challenges/${encodeURIComponent(id)}.json`, { cache: "no-store" });
+      const r = await fetch(`${DATA_BASE}/items/${encodeURIComponent(id)}.json`, { cache: "no-store" });
       if (r.ok) return await r.json();
     } catch {}
+
+    // Fallback to metadata from index.json
+    try {
+      const list = await listChallenges();
+      const item = list.find(ch => String(ch.id) === String(id));
+      if (item) return item;
+    } catch {}
+
     return null;
   });
 }

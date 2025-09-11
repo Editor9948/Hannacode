@@ -205,7 +205,7 @@ export default function ChallengesIndex() {
     setSearchParams(next, { replace: true });
   }
 useEffect(() => {
-  fetch('/data/challenges.json', { cache: 'no-cache' })
+  fetch('/data/challenges/index.json', { cache: 'no-cache' })
     .then(r => r.json()).then(setItems).catch(console.error);
 }, []);
   return (

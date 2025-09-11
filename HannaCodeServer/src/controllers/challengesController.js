@@ -5,7 +5,7 @@ const path = require("path");
 // Prefer env var; fallback to sibling HannaCode/public/challenges
 const ROOT =
   process.env.CHALLENGES_DIR ||
-  path.resolve(__dirname, "../../..", "HannaCode/public/challenges");
+  path.resolve(__dirname, "../../..", "HannaCode/public/data/challenges");
 
 function safeJoin(root, filename) {
   const p = path.resolve(root, filename);
