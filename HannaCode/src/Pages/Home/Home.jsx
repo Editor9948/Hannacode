@@ -1,4 +1,5 @@
 import {Link} from "react-router-dom"
+import { motion } from "framer-motion";
 import { Button } from "../../components/ui/button"
 import { ArrowRight, CheckCircle, Code, BookOpen, Users, Star } from "lucide-react"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../../components/ui/card"
@@ -90,13 +91,35 @@ export default function Home() {
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center space-y-4 text-center">
             <div className="space-y-2">
-              <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
-                Master Programming with <span className="gradient-text">Interactive Learning</span>
-              </h1>
-              <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
-                Learn HTML, CSS, JavaScript, and PHP through hands-on exercises, expert guidance, and a supportive
-                community.
-              </p>
+                 <div className="relative inline-block">
+                   <motion.h1
+                     initial={{ opacity: 0, y: 32 }}
+                       animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                         className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl leading-tight"
+                           >
+                            Master Programming with{" "}
+                           <span className="relative">
+                           <span className="relative z-10 bg-gradient-to-r from-primary to-emerald-500 bg-clip-text text-transparent">
+                            Interactive Learning
+                               </span>
+                               <motion.span
+                               initial={{ width: 0 }}
+                                animate={{ width: "100%" }}
+                                 transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+                             className="absolute left-0 bottom-0 h-[10px] rounded-md bg-emerald-300/40 dark:bg-emerald-500/25"
+                             />
+                           </span>
+                           </motion.h1>
+                          </div>
+              <motion.p
+                initial={{ opacity: 0, y: 16 }}
+                 animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.55, delay: 0.35 }}
+                   className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400"
+                   >
+                    Learn HTML, CSS, JavaScript, and PHP through hands-on exercises, expert guidance, and a supportive community.
+                   </motion.p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link to="/courses">

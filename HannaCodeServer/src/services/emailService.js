@@ -766,13 +766,13 @@ exports.sendDailyChallengeAnnouncement = async (user) => {
 
     <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); padding: 20px; border-radius: 12px; margin: 20px 0; border-left: 4px solid #22c55e;">
       <p style="margin: 0; font-size: 16px; color: #000;">
-        We just launched <strong>Daily Coding Challenge</strong> on HannaCode!<br>
-        Solve a fresh problem every day, build consistency, and climb the leaderboard.
+        We’re excited to announce that <strong>Daily Coding Challenges</strong> are now live on <strong>HannaCode</strong>!  
+       Sharpen your skills, stay consistent, and grow step by step—one challenge a day.
       </p>
     </div>
 
     <ul style="color: #000; line-height: 1.8; margin: 20px 0 0 0; padding-left: 20px;">
-      <li>🧩 New problem every day across multiple languages</li>
+      <li>🧩 Fresh problems every day across multiple languages</li>
       <li>📈 Track streaks and progress</li>
       <li>✅ Earn badges and get featured</li>
       <li>✅ Learn from community solutions</li>

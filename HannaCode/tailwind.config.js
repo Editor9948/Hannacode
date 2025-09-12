@@ -49,7 +49,7 @@ module.exports = {
           900: "#581c87",
         },
        
-        lavender: "#e6e6fa",
+        lavender: "#dcfce7",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
