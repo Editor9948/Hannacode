@@ -87,29 +87,36 @@ exports.createApplication = asyncHandler(async (req, res) => {
 
   await doc.save();
 
+  // Prepare expanded object including `extra` so emails have full details
+  const ex = (doc.extra && typeof doc.extra === "object") ? doc.extra : {};
+  const mailApp = {
+    id: String(doc._id),
+    _id: doc._id,
+    name: doc.name,
+    email: doc.email,
+    phone: doc.phone,
+    role: doc.role,
+    message: doc.message,
+    portfolioUrl: doc.portfolioUrl,
+    resumeUrl: doc.resumeUrl,
+    surname: ex.surname,
+    firstName: ex.firstName,
+    otherName: ex.otherName,
+    dob: ex.dob,
+    qualification: ex.qualification,
+    address: ex.address,
+    country: ex.country,
+    otherProfessionalFields: ex.otherProfessionalFields,
+    createdAt: doc.createdAt,
+  };
+
   // Fire-and-forget emails; do not block response
   Promise.allSettled([
     emailService
-      .sendApplicationAcknowledgement?.({
-        name: doc.name,
-        email: doc.email,
-        role: doc.role,
-        applicationId: String(doc._id),
-        createdAt: doc.createdAt,
-      })
+      .sendApplicationAcknowledgement?.(mailApp)
       .catch((e) => logger?.warn?.(`Ack email failed: ${e?.message}`)),
     emailService
-      .sendApplicationAdminNotification?.({
-        id: String(doc._id),
-        name: doc.name,
-        email: doc.email,
-        role: doc.role,
-        phone: doc.phone,
-        message: doc.message,
-        portfolioUrl: doc.portfolioUrl,
-        resumeUrl: doc.resumeUrl,
-        createdAt: doc.createdAt,
-      })
+      .sendApplicationAdminNotification?.(mailApp)
       .catch((e) => logger?.warn?.(`Admin notify email failed: ${e?.message}`)),
   ]).catch(() => {});
 
