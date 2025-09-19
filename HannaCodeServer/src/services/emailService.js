@@ -2,27 +2,13 @@ const nodemailer = require("nodemailer")
 const logger = require("../utils/logger")
 
 /**
- * Create HannaCode email template with banner
- * @param {string} content - Email content     <div style="text-align: center; margin-bottom: 20px;">
-      <h2 style="color: #dc2626; margin-bottom: 8px;">🔐 Reset Your Password</h2>
-      <p style="font-size: 18px; color: #000;">Hi ${user.name},</p>
-    </div>
-    
-    <div style="background: linear-gradient(135deg, #fef7f7 0%, #fee2e2 100%); padding: 20px; border-radius: 12px; margin: 20px 0; border-left: 4px solid #dc2626;">
-      <p style="margin: 0; font-size: 16px; color: #000;">
-         <strong>Password Reset Request</strong><br>
-        We received a request to reset your password for your HannaCode account.
-      </p>
-    </div>
-    
-    <p style="color: #000; line-height: 1.6; margin: 15px 0;">
-      If you requested this password reset, click the button below to create a new password:
-    </p>
-    
-    <div style="text-align: center; margin: 25px 0;">string} title - Email title
+ * Create HannaCode email template with branding
+ * @param {string} content - Email HTML content
+ * @param {string} [title="HannaCode"] - Email title
+ * @param {string} [preheader=""] - Short preview text shown in inbox clients
  * @returns {string} Complete HTML email template
  */
-const createEmailTemplate = (content, title = "HannaCode") => {
+const createEmailTemplate = (content, title = "HannaCode", preheader = "") => {
   return `
     <!DOCTYPE html>
     <html lang="en">
@@ -38,11 +24,13 @@ const createEmailTemplate = (content, title = "HannaCode") => {
         .content { padding: 20px; background-color: #ffffff; }
         .footer { background-color: #f8fafc; padding: 15px; text-align: center; font-size: 12px; color: #000; border-top: 1px solid #e5e7eb; }
         .footer a { color: #22c55e; text-decoration: none; }
-        .social-links { margin: 15px 0; }
-        .social-links a { margin: 0 10px; color: #22c55e; text-decoration: none; }
+        .footer-links { margin: 10px 0; }
+        .footer-links a { margin: 0 10px; color: #22c55e; text-decoration: none; }
+        .preheader { display: none !important; visibility: hidden; opacity: 0; color: transparent; height: 0; width: 0; overflow: hidden; mso-hide: all; }
       </style>
     </head>
     <body>
+      <span class="preheader">${preheader}</span>
       <div class="email-container">
         <!-- Header with Logo -->
         <div class="header">
@@ -59,15 +47,13 @@ const createEmailTemplate = (content, title = "HannaCode") => {
         
         <!-- Footer -->
         <div class="footer">
-          <div class="social-links">
-            <a href="${process.env.CLIENT_URL}">🌐 Website</a>
-            <a href="mailto:support@hannacode.com">📧 Email</a>
-            <a href="#">💼 LinkedIn</a>
-            <a href="#">🐦 Twitter</a>
+          <div class="footer-links">
+            <a href="${process.env.CLIENT_URL}">Website</a>
+            <a href="mailto:support@hannacode.com">Support</a>
           </div>
           <p>© ${new Date().getFullYear()} HannaCode. All rights reserved.</p>
-          <p>You're receiving this email because you're part of the HannaCode community.</p>
-          <p><a href="#">Unsubscribe</a> | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+          <p>You’re receiving this email because you interacted with HannaCode.</p>
+          <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
         </div>
       </div>
     </body>
@@ -80,16 +66,34 @@ const createEmailTemplate = (content, title = "HannaCode") => {
  * @returns {Object} Nodemailer transporter
  */
 const createTransporter = () => {
-  return nodemailer.createTransport({
-    service: process.env.EMAIL_SERVICE,
-    host: process.env.EMAIL_HOST,
-    port: parseInt(process.env.EMAIL_PORT, 10),
-    secure: true, // true for 465, false for 587
+  const service = (process.env.EMAIL_SERVICE || "").trim() || undefined;
+  const host = (process.env.EMAIL_HOST || "").trim() || undefined;
+  const port = Number.parseInt(process.env.EMAIL_PORT || "0", 10) || undefined;
+  const secure = typeof port === "number" && !Number.isNaN(port) ? port === 465 : undefined;
+
+  const base = {
     auth: {
       user: process.env.EMAIL_USERNAME,
       pass: process.env.EMAIL_PASSWORD,
     },
-  });
+    pool: true,
+    maxConnections: 5,
+    maxMessages: 100,
+    socketTimeout: 20_000,
+    greetingTimeout: 10_000,
+    connectionTimeout: 10_000,
+    tls: { rejectUnauthorized: false },
+  };
+
+  // Prefer explicit host/port when provided; else fall back to service
+  if (host && port) {
+    return nodemailer.createTransport({ ...base, host, port, secure: secure ?? false });
+  }
+  if (service) {
+    return nodemailer.createTransport({ ...base, service, secure: secure ?? false });
+  }
+  // Minimal fallback (let nodemailer defaults decide)
+  return nodemailer.createTransport(base);
 }
 
 /**
@@ -111,6 +115,7 @@ exports.sendEmail = async (options) => {
       subject: options.subject,
       text: options.text || "",
       html: options.html || "",
+      replyTo: options.replyTo || undefined,
     }
 
     const info = await transporter.sendMail(message)
@@ -814,6 +819,7 @@ function applicationSummaryPlain(app, includeId = false) {
     `First name: ${safeText(app.firstName)}`,
     `Other name: ${safeText(app.otherName || "")}`,
     `Date of birth: ${fmtDate(app.dob)}`,
+    app.gender ? `Gender: ${safeText(app.gender)}` : null,
     `Role: ${safeText(app.role)}`,
     `Qualification: ${safeText(app.qualification)}`,
     `Address: ${safeText(app.address)}`,
@@ -821,6 +827,8 @@ function applicationSummaryPlain(app, includeId = false) {
     `Email: ${safeText(app.email)}`,
     `Phone: ${safeText(app.phone)}`,
     `Other fields: ${safeText(app.otherProfessionalFields || "")}`,
+    app.portfolioUrl ? `Portfolio: ${safeText(app.portfolioUrl)}` : null,
+    app.resumeUrl ? `Resume: ${safeText(app.resumeUrl)}` : null,
     "",
     "Message:",
     safeText(app.message || ""),
@@ -833,6 +841,7 @@ function applicationSummaryHtml(app) {
       <td style="padding:8px;border-bottom:1px solid #e5e7eb;font-weight:bold;color:#000;">${k}</td>
       <td style="padding:8px;border-bottom:1px solid #e5e7eb;color:#000;">${(v ?? "").toString().replace(/</g,"&lt;").replace(/>/g,"&gt;")}</td>
     </tr>`;
+  const link = (url) => url ? `<a href="${String(url).replace(/"/g, '&quot;')}" style="color:#22c55e;word-break:break-all;">${String(url).replace(/</g, "&lt;").replace(/>/g, "&gt;")}</a>` : "";
   return `
     <h3 style="margin:0 0 12px 0;color:#22c55e;">Application Summary</h3>
     <table style="width:100%;border-collapse:collapse;">
@@ -840,6 +849,7 @@ function applicationSummaryHtml(app) {
       ${row("First name", app.firstName)}
       ${row("Other name", app.otherName || "")}
       ${row("Date of birth", fmtDate(app.dob))}
+      ${app.gender ? row("Gender", app.gender) : ""}
       ${row("Role", app.role)}
       ${row("Qualification", app.qualification)}
       ${row("Address", app.address)}
@@ -847,6 +857,8 @@ function applicationSummaryHtml(app) {
       ${row("Email", app.email)}
       ${row("Phone", app.phone)}
       ${row("Other fields", app.otherProfessionalFields || "")}
+      ${app.portfolioUrl ? row("Portfolio", link(app.portfolioUrl)) : ""}
+      ${app.resumeUrl ? row("Resume", link(app.resumeUrl)) : ""}
       ${row("Message", (app.message || "").replace(/\n/g, "<br/>"))}
     </table>
   `;
@@ -866,6 +878,8 @@ exports.sendApplicationAdminNotification = async (app) => {
     to,
     subject: `New Application – ${safeText(app.role)} – ${safeText(app.surname)} ${safeText(app.firstName)} [${app.id || app._id}]`,
     text: applicationSummaryPlain(app, true),
+    html: createEmailTemplate(applicationSummaryHtml(app), "New Application - HannaCode"),
+    replyTo: app?.email,
   });
 };
 
@@ -885,10 +899,12 @@ exports.sendApplicationAcknowledgement = async (app) => {
     </p>
     <div style="margin-top:16px;">${applicationSummaryHtml(app)}</div>
   `;
-  const html = createEmailTemplate(content, "Application received - HannaCode");
+  const preheader = `Thanks, ${safeText(first)} — your application for ${safeText(app.role)} has been received.`;
+  const html = createEmailTemplate(content, "Application received - HannaCode", preheader);
   await exports.sendEmail({
     to: app.email,
     subject: `We received your application – ${safeText(app.role)}`,
+    text: applicationSummaryPlain(app, false),
     html,
   });
 };
@@ -904,7 +920,7 @@ exports.sendApplicationDecision = async (app, status, reason = "") => {
   if (status === "accepted") {
     const content = `
       <div style="text-align:center;margin-bottom:16px;">
-        <h2 style="color:#22c55e;margin:0 0 8px 0;">Your application was accepted 🎉</h2>
+        <h2 style="color:#22c55e;margin:0 0 8px 0;">Your application was accepted</h2>
         <p style="font-size:16px;color:#000;margin:0;">Hi ${safeText(first)},</p>
       </div>
       <p style="color:#000;line-height:1.6;margin:12px 0;">
@@ -912,10 +928,11 @@ exports.sendApplicationDecision = async (app, status, reason = "") => {
         Our team will contact you with onboarding details.
       </p>
     `;
-    const html = createEmailTemplate(content, "Application accepted - HannaCode");
+    const html = createEmailTemplate(content, "Application accepted - HannaCode", `Congratulations — you’ve been accepted for ${safeText(app.role)}.`);
     await exports.sendEmail({
       to: app.email,
       subject: `Application accepted – ${safeText(app.role)} at HannaCode`,
+      text: `Hi ${safeText(first)},\n\nYour application for ${safeText(app.role)} has been accepted. Our team will contact you with next steps.`,
       html,
     });
     return;
@@ -934,10 +951,12 @@ exports.sendApplicationDecision = async (app, status, reason = "") => {
       We encourage you to apply again in the future.
     </p>
   `;
-  const html = createEmailTemplate(content, "Application update - HannaCode");
+  const preheader = `Decision update for your ${safeText(app.role)} application.`;
+  const html = createEmailTemplate(content, "Application update - HannaCode", preheader);
   await exports.sendEmail({
     to: app.email,
     subject: `Application update – ${safeText(app.role)} at HannaCode`,
+    text: `Hi ${safeText(first)},\n\nThank you for applying for ${safeText(app.role)}. We’re unable to proceed at this time.${reason ? `\n\nReason: ${safeText(reason)}` : ""}\n\nWe encourage you to apply again in the future.`,
     html,
   });
 };

@@ -99,6 +99,7 @@ exports.createApplication = asyncHandler(async (req, res) => {
     message: doc.message,
     portfolioUrl: doc.portfolioUrl,
     resumeUrl: doc.resumeUrl,
+    gender: ex.gender,
     surname: ex.surname,
     firstName: ex.firstName,
     otherName: ex.otherName,
