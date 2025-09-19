@@ -42,6 +42,15 @@ export default function ApplicationsAdmin() {
   const [detailLoading, setDetailLoading] = useState(false);
   const [detail, setDetail] = useState(null);
   const [intent, setIntent] = useState(null); // 'reject' | 'accept' | null
+  // UI confirm + notifications
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [confirmCfg, setConfirmCfg] = useState({ title: "Confirm", message: "", onConfirm: null, confirmText: "Confirm" });
+  const [notice, setNotice] = useState(null); // { type: 'success'|'error'|'info', text }
+  useEffect(() => {
+    if (!notice) return;
+    const t = setTimeout(() => setNotice(null), 3000);
+    return () => clearTimeout(t);
+  }, [notice]);
 
   // Keep token in sync with login/logout in other tabs/pages and on window focus
   useEffect(() => {
@@ -150,19 +159,41 @@ export default function ApplicationsAdmin() {
     }
   };
 
-  const removeOne = async (id) => {
-    if (!window.confirm("Delete this application? This cannot be undone.")) return;
-    try {
-  await deleteApplication(id, { headers: { Authorization: `Bearer ${token}` } });
-      await load(page);
-    } catch (e) {
-      setErr(e?.message || "Failed to delete application");
-    }
+  const removeOne = (id) => {
+    setConfirmCfg({
+      title: "Delete Application",
+      message: "This action cannot be undone. Are you sure you want to permanently delete this application?",
+      confirmText: "Delete",
+      onConfirm: async () => {
+        try {
+          await deleteApplication(id, { headers: { Authorization: `Bearer ${token}` } });
+          setNotice({ type: "success", text: "Application deleted" });
+          await load(page);
+        } catch (e) {
+          setNotice({ type: "error", text: e?.message || "Failed to delete application" });
+        }
+      },
+    });
+    setConfirmOpen(true);
   };
 
   return (
     <main className="container mx-auto px-4 py-6">
       <h1 className="text-xl font-semibold mb-4">Applications</h1>
+
+      {notice ? (
+        <div
+          className={`mb-3 px-3 py-2 rounded text-sm ${
+            notice.type === "success"
+              ? "bg-green-50 text-green-700 border border-green-200"
+              : notice.type === "error"
+              ? "bg-red-50 text-red-700 border border-red-200"
+              : "bg-gray-50 text-gray-700 border"
+          }`}
+        >
+          {notice.text}
+        </div>
+      ) : null}
 
       {!token && (
         <div className="mb-4 p-3 border rounded text-sm">
@@ -311,6 +342,20 @@ export default function ApplicationsAdmin() {
         onAccept={(r) => detail?.id && accept(detail.id, r)}
         onReject={(r) => detail?.id && reject(detail.id, r)}
       />
+
+      <ConfirmModal
+        open={confirmOpen}
+        title={confirmCfg.title}
+        message={confirmCfg.message}
+        confirmText={confirmCfg.confirmText}
+        onCancel={() => setConfirmOpen(false)}
+        onConfirm={async () => {
+          setConfirmOpen(false);
+          try {
+            await confirmCfg.onConfirm?.();
+          } catch {}
+        }}
+      />
     </main>
   );
 }
@@ -409,6 +454,22 @@ function DetailModal({ open, loading, data, onClose, onAccept, onReject, intent 
           >
             Reject
           </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ConfirmModal({ open, title = "Confirm", message = "", onCancel, onConfirm, confirmText = "Confirm" }) {
+  if (!open) return null;
+  return (
+    <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
+      <div className="bg-white w-[min(520px,96vw)] rounded shadow">
+        <div className="px-4 py-2 border-b font-semibold">{title}</div>
+        <div className="px-4 py-3 text-sm">{message}</div>
+        <div className="px-4 py-2 border-t flex items-center justify-end gap-2">
+          <button className="border rounded px-3 py-1" onClick={onCancel}>Cancel</button>
+          <button className="bg-red-600 text-white rounded px-3 py-1" onClick={onConfirm}>{confirmText}</button>
         </div>
       </div>
     </div>
