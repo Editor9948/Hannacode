@@ -836,30 +836,43 @@ function applicationSummaryPlain(app, includeId = false) {
 }
 
 function applicationSummaryHtml(app) {
-  const row = (k, v) => `
+  const escapeHtml = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\"/g, "&quot;");
+  const rowText = (k, v) => `
     <tr>
-      <td style="padding:8px;border-bottom:1px solid #e5e7eb;font-weight:bold;color:#000;">${k}</td>
-      <td style="padding:8px;border-bottom:1px solid #e5e7eb;color:#000;">${(v ?? "").toString().replace(/</g,"&lt;").replace(/>/g,"&gt;")}</td>
+      <td style="padding:8px;border-bottom:1px solid #e5e7eb;font-weight:bold;color:#000;">${escapeHtml(k)}</td>
+      <td style="padding:8px;border-bottom:1px solid #e5e7eb;color:#000;">${escapeHtml(v)}</td>
     </tr>`;
-  const link = (url) => url ? `<a href="${String(url).replace(/"/g, '&quot;')}" style="color:#22c55e;word-break:break-all;">${String(url).replace(/</g, "&lt;").replace(/>/g, "&gt;")}</a>` : "";
+  const rowHtml = (k, html) => `
+    <tr>
+      <td style="padding:8px;border-bottom:1px solid #e5e7eb;font-weight:bold;color:#000;">${escapeHtml(k)}</td>
+      <td style="padding:8px;border-bottom:1px solid #e5e7eb;color:#000;">${html || ""}</td>
+    </tr>`;
+  const linkHtml = (url) => {
+    const s = String(url || "");
+    if (!/^https?:\/\//i.test(s)) return escapeHtml(s);
+    const href = s.replace(/\"/g, "&quot;");
+    const label = escapeHtml(s);
+    return `<a href="${href}" style="color:#22c55e;word-break:break-all;">${label}</a>`;
+  };
+  const messageHtml = escapeHtml(app.message || "").replace(/\n/g, "<br/>");
   return `
     <h3 style="margin:0 0 12px 0;color:#22c55e;">Application Summary</h3>
     <table style="width:100%;border-collapse:collapse;">
-      ${row("Surname", app.surname)}
-      ${row("First name", app.firstName)}
-      ${row("Other name", app.otherName || "")}
-      ${row("Date of birth", fmtDate(app.dob))}
-      ${app.gender ? row("Gender", app.gender) : ""}
-      ${row("Role", app.role)}
-      ${row("Qualification", app.qualification)}
-      ${row("Address", app.address)}
-      ${row("Country", app.country)}
-      ${row("Email", app.email)}
-      ${row("Phone", app.phone)}
-      ${row("Other fields", app.otherProfessionalFields || "")}
-      ${app.portfolioUrl ? row("Portfolio", link(app.portfolioUrl)) : ""}
-      ${app.resumeUrl ? row("Resume", link(app.resumeUrl)) : ""}
-      ${row("Message", (app.message || "").replace(/\n/g, "<br/>"))}
+      ${rowText("Surname", app.surname)}
+      ${rowText("First name", app.firstName)}
+      ${rowText("Other name", app.otherName || "")}
+      ${rowText("Date of birth", fmtDate(app.dob))}
+      ${app.gender ? rowText("Gender", app.gender) : ""}
+      ${rowText("Role", app.role)}
+      ${rowText("Qualification", app.qualification)}
+      ${rowText("Address", app.address)}
+      ${rowText("Country", app.country)}
+      ${rowText("Email", app.email)}
+      ${rowText("Phone", app.phone)}
+      ${rowText("Other fields", app.otherProfessionalFields || "")}
+      ${app.portfolioUrl ? rowHtml("Portfolio", linkHtml(app.portfolioUrl)) : ""}
+      ${app.resumeUrl ? rowHtml("Resume", linkHtml(app.resumeUrl)) : ""}
+      ${rowHtml("Message", messageHtml)}
     </table>
   `;
 }
