@@ -798,3 +798,146 @@ exports.sendDailyChallengeAnnouncement = async (user) => {
   });
 };
 
+const safeText = (v) => String(v ?? "").slice(0, 5000);
+const fmtDate = (d) => {
+  try {
+    if (!d) return "";
+    const date = d instanceof Date ? d : new Date(d);
+    return Number.isNaN(date.getTime()) ? "" : date.toISOString().slice(0, 10);
+  } catch { return ""; }
+};
+
+function applicationSummaryPlain(app, includeId = false) {
+  return [
+    includeId ? `ID: ${app.id || app._id}` : null,
+    `Surname: ${safeText(app.surname)}`,
+    `First name: ${safeText(app.firstName)}`,
+    `Other name: ${safeText(app.otherName || "")}`,
+    `Date of birth: ${fmtDate(app.dob)}`,
+    `Role: ${safeText(app.role)}`,
+    `Qualification: ${safeText(app.qualification)}`,
+    `Address: ${safeText(app.address)}`,
+    `Country: ${safeText(app.country)}`,
+    `Email: ${safeText(app.email)}`,
+    `Phone: ${safeText(app.phone)}`,
+    `Other fields: ${safeText(app.otherProfessionalFields || "")}`,
+    "",
+    "Message:",
+    safeText(app.message || ""),
+  ].filter(Boolean).join("\n");
+}
+
+function applicationSummaryHtml(app) {
+  const row = (k, v) => `
+    <tr>
+      <td style="padding:8px;border-bottom:1px solid #e5e7eb;font-weight:bold;color:#000;">${k}</td>
+      <td style="padding:8px;border-bottom:1px solid #e5e7eb;color:#000;">${(v ?? "").toString().replace(/</g,"&lt;").replace(/>/g,"&gt;")}</td>
+    </tr>`;
+  return `
+    <h3 style="margin:0 0 12px 0;color:#22c55e;">Application Summary</h3>
+    <table style="width:100%;border-collapse:collapse;">
+      ${row("Surname", app.surname)}
+      ${row("First name", app.firstName)}
+      ${row("Other name", app.otherName || "")}
+      ${row("Date of birth", fmtDate(app.dob))}
+      ${row("Role", app.role)}
+      ${row("Qualification", app.qualification)}
+      ${row("Address", app.address)}
+      ${row("Country", app.country)}
+      ${row("Email", app.email)}
+      ${row("Phone", app.phone)}
+      ${row("Other fields", app.otherProfessionalFields || "")}
+      ${row("Message", (app.message || "").replace(/\n/g, "<br/>"))}
+    </table>
+  `;
+}
+
+/**
+ * Notify admin on new application
+ * @param {Object} app
+ */
+exports.sendApplicationAdminNotification = async (app) => {
+  const to = process.env.FROM_EMAIL || process.env.EMAIL_USERNAME;
+  if (!to) {
+    logger.warn("[mail] FROM_EMAIL not set; skipping admin notification");
+    return;
+  }
+  await exports.sendEmail({
+    to,
+    subject: `New Application – ${safeText(app.role)} – ${safeText(app.surname)} ${safeText(app.firstName)} [${app.id || app._id}]`,
+    text: applicationSummaryPlain(app, true),
+  });
+};
+
+/**
+ * Acknowledge applicant submission
+ * @param {Object} app
+ */
+exports.sendApplicationAcknowledgement = async (app) => {
+  const first = app.firstName || (app.name || "").split(" ")[0] || "there";
+  const content = `
+    <div style="text-align:center;margin-bottom:16px;">
+      <h2 style="color:#22c55e;margin:0 0 8px 0;">We received your application</h2>
+      <p style="font-size:16px;color:#000;margin:0;">Hi ${safeText(first)}, thanks for applying for <strong>${safeText(app.role)}</strong>.</p>
+    </div>
+    <p style="color:#000;line-height:1.6;margin:12px 0;">
+      Our team will review your application and get back to you by email.
+    </p>
+    <div style="margin-top:16px;">${applicationSummaryHtml(app)}</div>
+  `;
+  const html = createEmailTemplate(content, "Application received - HannaCode");
+  await exports.sendEmail({
+    to: app.email,
+    subject: `We received your application – ${safeText(app.role)}`,
+    html,
+  });
+};
+
+/**
+ * Notify applicant on decision
+ * @param {Object} app
+ * @param {"accepted"|"rejected"} status
+ * @param {string} [reason]
+ */
+exports.sendApplicationDecision = async (app, status, reason = "") => {
+  const first = app.firstName || (app.name || "").split(" ")[0] || "there";
+  if (status === "accepted") {
+    const content = `
+      <div style="text-align:center;margin-bottom:16px;">
+        <h2 style="color:#22c55e;margin:0 0 8px 0;">Your application was accepted 🎉</h2>
+        <p style="font-size:16px;color:#000;margin:0;">Hi ${safeText(first)},</p>
+      </div>
+      <p style="color:#000;line-height:1.6;margin:12px 0;">
+        Congratulations! You’ve been accepted for the role of <strong>${safeText(app.role)}</strong>.
+        Our team will contact you with onboarding details.
+      </p>
+    `;
+    const html = createEmailTemplate(content, "Application accepted - HannaCode");
+    await exports.sendEmail({
+      to: app.email,
+      subject: `Application accepted – ${safeText(app.role)} at HannaCode`,
+      html,
+    });
+    return;
+  }
+
+  const content = `
+    <div style="text-align:center;margin-bottom:16px;">
+      <h2 style="color:#ef4444;margin:0 0 8px 0;">Application update</h2>
+      <p style="font-size:16px;color:#000;margin:0;">Hi ${safeText(first)},</p>
+    </div>
+    <p style="color:#000;line-height:1.6;margin:12px 0;">
+      Thank you for applying. We’re unable to proceed at this time.
+      ${reason ? `<br/><strong>Reason:</strong> ${(safeText(reason)).replace(/\n/g,"<br/>")}` : ""}
+    </p>
+    <p style="color:#000;line-height:1.6;margin:12px 0;">
+      We encourage you to apply again in the future.
+    </p>
+  `;
+  const html = createEmailTemplate(content, "Application update - HannaCode");
+  await exports.sendEmail({
+    to: app.email,
+    subject: `Application update – ${safeText(app.role)} at HannaCode`,
+    html,
+  });
+};

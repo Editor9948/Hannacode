@@ -255,6 +255,9 @@ if (role === "admin") {
         <Link to="/mentorship">
           <Button className="bg-primary hover:bg-primary/90">Mentorship Home</Button>
           </Link>
+           <Link to="/admin/applications">
+          <Button>Applicatons</Button>
+        </Link>
       </div>
     </div>
   );

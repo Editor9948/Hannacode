@@ -90,7 +90,11 @@ export default function Footer() {
                   Cookie Policy
                 </Link>
               </li>
-               
+                <li>
+                <Link to="/team/apply" className="text-sm text-muted-foreground hover:text-primary">
+                  Apply for a Role
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

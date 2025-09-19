@@ -51,6 +51,8 @@ const premiumRoutes = require("./routes/premium")
 const blogRoutes = require("./routes/blog")
 const submissionRoutes = require("./routes/submission")
 const challengesRoutes = require("./routes/challenges")
+const applicationRoutes = require("./routes/application");
+
 
 
 const app = express()
@@ -59,7 +61,8 @@ const app = express()
 app.use(cors({
   origin: process.env.CLIENT_URL , // Use specific origin in production
   credentials: true, // Enable credentials for authentication
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  // Include PATCH so Accept/Reject (PATCH /applications/:id/decision) works across origins
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"],
   allowedHeaders: ["Content-Type", "Authorization", "Accept", "X-Requested-With"],
   exposedHeaders: ["Content-Type", "Authorization"],
   maxAge: 86400 // 24 hours
@@ -107,6 +110,8 @@ app.use(hpp())
 
 // Set static folder
 app.use(express.static(path.join(__dirname, "public")))
+// Convenience: expose /uploads directly
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')))
 
 // Swagger documentation
 const swaggerDocument = YAML.load("./docs/swagger.yaml")
@@ -123,6 +128,11 @@ app.get("/api/v1/test", (req, res) => {
   res.json({ message: "API is working!" });
 });
 
+app.use(express.json({ limit: "1mb" }));
+app.use(express.urlencoded({ extended: true }));
+
+app.use("/api/v1/applications", applicationRoutes); 
+
 // Mount routers
 app.use("/api/v1/compiler", compilerRoutes)
 app.use("/api/v1/auth", authRoutes)
@@ -137,10 +147,14 @@ app.use("/api/v1/blog", blogRoutes)
 app.use("/api/v1", submissionRoutes)
 app.use("/api/v1/", challengesRoutes);
 
+
+
+
 app.use("/api/v1/admin", require("./routes/admin"));
 app.use("/api/v1/mentors", require("./routes/mentors")); 
 app.use("/api/v1/chats", require("./routes/mentors"));   
 app.use("/api/v1/code", require("./routes/codeExecution"));
+
 
 
 

@@ -52,7 +52,8 @@
     "xss": "^1.0.15",
     "xss-clean": "^0.1.4",
     "yaml": "^2.8.0",
-    "yamljs": "^0.3.0"
+    "yamljs": "^0.3.0",
+    "zod": "^4.1.9"
   },
   "devDependencies": {
     "eslint": "^8.57.1",
