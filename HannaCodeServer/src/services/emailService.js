@@ -66,36 +66,25 @@ const createEmailTemplate = (content, title = "HannaCode", preheader = "") => {
  * @returns {Object} Nodemailer transporter
  */
 const createTransporter = () => {
-  const service = (process.env.EMAIL_SERVICE || "").trim() || undefined;
-  const host = (process.env.EMAIL_HOST || "").trim() || undefined;
-  const port = Number.parseInt(process.env.EMAIL_PORT || "0", 10) || undefined;
-  const secure = typeof port === "number" && !Number.isNaN(port) ? port === 465 : undefined;
+  const port = Number(process.env.EMAIL_PORT) || 465; // default to 465
+  const secure = port === 465; // SSL if 465, STARTTLS if 587
 
-  const base = {
+  return nodemailer.createTransport({
+    host: process.env.EMAIL_HOST || "smtp.zoho.com",
+    port,
+    secure, 
     auth: {
-      user: process.env.EMAIL_USERNAME,
-      pass: process.env.EMAIL_PASSWORD,
+      user: process.env.EMAIL_USERNAME,   // full Zoho email (e.g. you@domain.com)
+      pass: process.env.EMAIL_PASSWORD,   // Zoho App Password (not normal password)
     },
     pool: true,
     maxConnections: 5,
     maxMessages: 100,
-    socketTimeout: 20_000,
-    greetingTimeout: 10_000,
-    connectionTimeout: 10_000,
-    tls: { rejectUnauthorized: false },
-  };
-
-  // Prefer explicit host/port when provided; else fall back to service
-  if (host && port) {
-    return nodemailer.createTransport({ ...base, host, port, secure: secure ?? false });
-  }
-  if (service) {
-    return nodemailer.createTransport({ ...base, service, secure: secure ?? false });
-  }
-  // Minimal fallback (let nodemailer defaults decide)
-  return nodemailer.createTransport(base);
-}
-
+    connectionTimeout: 20000,
+    greetingTimeout: 10000,
+    socketTimeout: 20000,
+  });
+};
 /**
  * Send email
  * @param {Object} options - Email options
