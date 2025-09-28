@@ -61,30 +61,73 @@ const createEmailTemplate = (content, title = "HannaCode", preheader = "") => {
   `;
 };
 
-/**
- * Create email transporter
- * @returns {Object} Nodemailer transporter
- */
-const createTransporter = () => {
-  const port = Number(process.env.EMAIL_PORT) || 465; // default to 465
-  const secure = port === 465; // SSL if 465, STARTTLS if 587
+// --- Transporter Singleton + Health State ---
+let _transporter = null;
+let _lastVerify = { ok: false, at: null, error: null };
 
-  return nodemailer.createTransport({
-    host: process.env.EMAIL_HOST || "smtp.zoho.com",
+function buildTransporter() {
+  if (_transporter) return _transporter;
+
+  const port = Number(process.env.EMAIL_PORT) || 465;
+  const secure = port === 465; // implicit SSL for 465
+  const host = process.env.EMAIL_HOST || "smtp.zoho.com";
+  const needsStartTLS = port === 587; // Zoho STARTTLS
+
+  if (!process.env.EMAIL_USERNAME || !process.env.EMAIL_PASSWORD) {
+    logger.warn("[mail] EMAIL_USERNAME or EMAIL_PASSWORD missing – emails will fail.");
+  }
+
+  _transporter = nodemailer.createTransport({
+    host,
     port,
-    secure, 
+    secure,
     auth: {
-      user: process.env.EMAIL_USERNAME,   // full Zoho email (e.g. you@domain.com)
-      pass: process.env.EMAIL_PASSWORD,   // Zoho App Password (not normal password)
+      user: process.env.EMAIL_USERNAME,
+      pass: process.env.EMAIL_PASSWORD,
     },
     pool: true,
-    maxConnections: 5,
-    maxMessages: 100,
-    connectionTimeout: 20000,
-    greetingTimeout: 10000,
-    socketTimeout: 20000,
+    maxConnections: 4,
+    maxMessages: 40,
+    connectionTimeout: 15000,
+    greetingTimeout: 15000,
+    socketTimeout: 25000,
+    requireTLS: needsStartTLS, // STARTTLS upgrade on 587
   });
-};
+
+  // Asynchronous verify (non-blocking)
+  _transporter.verify().then(() => {
+    _lastVerify = { ok: true, at: new Date(), error: null };
+    logger.info(`[mail] SMTP verified host=${host} port=${port} secure=${secure}`);
+  }).catch(err => {
+    _lastVerify = { ok: false, at: new Date(), error: err.message };
+    logger.error(`[mail] SMTP verify failed code=${err.code || 'n/a'} msg=${err.message}`);
+  });
+
+  return _transporter;
+}
+
+exports.getEmailHealth = () => ({ ..._lastVerify });
+
+async function sendWithRetry(message, attempts = 2) {
+  const t = buildTransporter();
+  let lastErr;
+  for (let i = 0; i < attempts; i++) {
+    try {
+      return await t.sendMail(message);
+    } catch (e) {
+      lastErr = e;
+      const transient = ['ETIMEDOUT','ECONNECTION','ESOCKET','ECONNRESET','EAI_AGAIN'].includes(e.code);
+      if (transient && i < attempts - 1) {
+        const delay = 500 * (i + 1);
+        logger.warn(`[mail] send attempt ${i+1} failed (${e.code}); retrying in ${delay}ms`);
+        await new Promise(r => setTimeout(r, delay));
+        continue;
+      }
+      break;
+    }
+  }
+  throw lastErr;
+}
 /**
  * Send email
  * @param {Object} options - Email options
@@ -96,8 +139,6 @@ const createTransporter = () => {
  */
 exports.sendEmail = async (options) => {
   try {
-    const transporter = createTransporter()
-
     const message = {
       from: `${process.env.FROM_NAME} <${process.env.FROM_EMAIL}>`,
       to: options.to,
@@ -107,11 +148,11 @@ exports.sendEmail = async (options) => {
       replyTo: options.replyTo || undefined,
     }
 
-    const info = await transporter.sendMail(message)
-    logger.info(`Email sent: ${info.messageId}`)
+    const info = await sendWithRetry(message, 2)
+    logger.info(`Email sent: id=${info.messageId} to=${message.to}`)
     return info
   } catch (error) {
-    logger.error(`Email error: ${error.message}`)
+    logger.error(`Email error: code=${error.code || 'n/a'} command=${error.command || 'n/a'} msg=${error.message}`)
     throw error
   }
 }
