@@ -1,12 +1,11 @@
 [ 
-  
 {
-  "date": "2025-09-12",
+  "date": "2025-09-29",
   "challenges": [
   {
-    "id": "2025-09-12-css-intro",
+    "id": "2025-09-29-css-intro",
     "title": "CSS Introduction",
-    "date": "2025-09-12",
+    "date": "2025-09-29",
      "language": "css",
     "summary": "Understand how to apply styles using inline, internal, and external CSS.",
     "difficulty": "Easy",
@@ -15,9 +14,9 @@
     "allowedLanguages": ["javascript", "python", "html", "css", "php"]
   },
   {
-    "id": "2025-09-12-js-variables",
+    "id": "2025-09-29-js-variables",
     "title": "JavaScript Variables",
-    "date": "2025-09-12",
+    "date": "2025-09-29",
      "language": "javascript",
     "summary": "Practice declaring and using variables with var, let, and const.",
     "difficulty": "Easy",
@@ -26,9 +25,9 @@
     "allowedLanguages": ["javascript", "python", "html", "css", "php"]
   },
   {
-    "id": "2025-09-12-python-print",
+    "id": "2025-09-29-python-print",
     "title": "Python Print Function",
-    "date": "2025-09-12",
+    "date": "2025-09-29",
      "language": "python",
     "summary": "Learn how to display text and variables in Python using print().",
     "difficulty": "Easy",
@@ -39,12 +38,12 @@
   ]
 },
   {
-  "date": "2025-09-13",
+  "date": "2025-09-30",
   "challenges": [
   {
-    "id": "2025-09-13-php-echo",
+    "id": "2025-09-30-php-echo",
     "title": "PHP Echo Statement",
-    "date": "2025-09-13",
+    "date": "2025-09-30",
      "language": "php",
     "summary": "Practice using echo in PHP to output text and variables.",
     "difficulty": "Easy",
@@ -53,9 +52,9 @@
     "allowedLanguages": ["javascript", "python", "html", "css", "php"]
   },
   {
-    "id": "2025-09-13-html-headings",
+    "id": "2025-09-30-html-headings",
     "title": "HTML Headings",
-    "date": "2025-09-13",
+    "date": "2025-09-30",
      "language": "html",
     "summary": "Learn how to use <h1> through <h6> tags to structure content hierarchy.",
     "difficulty": "Easy",
@@ -64,9 +63,9 @@
     "allowedLanguages": ["javascript", "python", "html", "css", "php"]
   },
   {
-    "id": "2025-09-13-css-selectors",
+    "id": "2025-09-30-css-selectors",
     "title": "CSS Selectors",
-    "date": "2025-09-13",
+    "date": "2025-09-30",
      "language": "css",
     "summary": "Practice basic CSS selectors to style elements effectively.",
     "difficulty": "Easy",
@@ -77,12 +76,12 @@
 ]
 },
 {
-  "date": "2025-09-14",
+  "date": "2025-10-01",
   "challenges": [
   {
-    "id": "2025-09-14-js-operators",
+    "id": "2025-10-01-js-operators",
     "title": "JavaScript Operators",
-    "date": "2025-09-14",
+    "date": "2025-10-01",
      "language": "javascript",
     "summary": "Learn arithmetic, comparison, and logical operators in JavaScript.",
     "difficulty": "Easy",
@@ -91,9 +90,9 @@
     "allowedLanguages": ["javascript", "python", "html", "css", "php"]
   },
   {
-    "id": "2025-09-14-python-variables",
+    "id": "2025-10-01-python-variables",
     "title": "Python Variables",
-    "date": "2025-09-14",
+    "date": "2025-10-01",
      "language": "python",
     "summary": "Understand variable declaration and data types in Python.",
     "difficulty": "Easy",
@@ -102,9 +101,9 @@
     "allowedLanguages": ["javascript", "python", "html", "css", "php"]
   },
   {
-    "id": "2025-09-14-php-variables",
+    "id": "2025-10-01-php-variables",
     "title": "PHP Variables",
-    "date": "2025-09-14",
+    "date": "2025-10-01",
      "language": "php",
     "summary": "Learn how to declare and use variables in PHP.",
     "difficulty": "Easy",
@@ -115,12 +114,12 @@
 ]
 },
 {
-  "date": "2025-09-15",
+  "date": "2025-10-02",
   "challenges": [
   {
-    "id": "2025-09-15-html-links",
+    "id": "2025-10-02-html-links",
     "title": "HTML Links",
-    "date": "2025-09-15",
+    "date": "2025-10-02",
      "language": "html",
     "summary": "Learn how to use the <a> tag to create hyperlinks.",
     "difficulty": "Easy",
@@ -129,9 +128,9 @@
     "allowedLanguages": ["javascript", "python", "html", "css", "php"]
   },
   {
-    "id": "2025-09-15-css-colors",
+    "id": "2025-10-02-css-colors",
     "title": "CSS Colors",
-    "date": "2025-09-15",
+    "date": "2025-10-02",
      "language": "css",
     "summary": "Apply colors using names, HEX, RGB, and HSL values.",
     "difficulty": "Easy",
@@ -140,9 +139,9 @@
     "allowedLanguages": ["javascript", "python", "html", "css", "php"]
   },
   {
-    "id": "2025-09-15-js-loops",
+    "id": "2025-10-02-js-loops",
     "title": "JavaScript Loops",
-    "date": "2025-09-15",
+    "date": "2025-10-02",
      "language": "javascript",
     "summary": "Iterate with for, while, and for..of loops.",
     "difficulty": "Easy",
@@ -153,12 +152,12 @@
 ]
 },
  {
-    "date": "2025-09-16",
+    "date": "2025-10-03",
     "challenges": [
       {
-        "id": "2025-09-16-python-data-types",
+        "id": "2025-10-03-python-data-types",
         "title": "Python Data Types",
-        "date": "2025-09-16",
+        "date": "2025-10-03",
         "language": "python",
         "summary": "Learn about integers, floats, strings, and booleans in Python.",
         "difficulty": "Easy",
@@ -167,9 +166,9 @@
         "allowedLanguages": ["javascript", "python", "html", "css", "php"]
       },
       {
-        "id": "2025-09-16-html-images",
+        "id": "2025-10-03-html-images",
         "title": "HTML Images",
-        "date": "2025-09-16",
+        "date": "2025-10-03",
         "language": "html",
         "summary": "Learn how to embed images using the <img> tag with src and alt attributes.",
         "difficulty": "Easy",
@@ -178,9 +177,9 @@
         "allowedLanguages": ["javascript", "python", "html", "css", "php"]
       },
       {
-        "id": "2025-09-16-css-fonts",
+        "id": "2025-10-03-css-fonts",
         "title": "CSS Fonts",
-        "date": "2025-09-16",
+        "date": "2025-10-03",
         "language": "css",
         "summary": "Style text using font-family, font-size, font-weight, and font-style properties.",
         "difficulty": "Easy",
@@ -191,12 +190,12 @@
     ]
   },
   {
-    "date": "2025-09-17",
+    "date": "2025-10-04",
     "challenges": [
       {
-        "id": "2025-09-17-php-conditionals",
+        "id": "2025-10-04-php-conditionals",
         "title": "PHP Conditionals",
-        "date": "2025-09-17",
+        "date": "2025-10-04",
         "language": "php",
         "summary": "Practice using if, else if, and else statements for decision making in PHP.",
         "difficulty": "Easy",
@@ -205,9 +204,9 @@
         "allowedLanguages": ["javascript", "python", "html", "css", "php"]
       },
       {
-        "id": "2025-09-17-js-functions",
+        "id": "2025-10-04-js-functions",
         "title": "JavaScript Functions",
-        "date": "2025-09-17",
+        "date": "2025-10-04",
         "language": "javascript",
         "summary": "Learn to create and call functions with parameters and return values.",
         "difficulty": "Easy",
@@ -216,9 +215,9 @@
         "allowedLanguages": ["javascript", "python", "html", "css", "php"]
       },
       {
-        "id": "2025-09-17-html-lists",
+        "id": "2025-10-04-html-lists",
         "title": "HTML Lists",
-        "date": "2025-09-17",
+        "date": "2025-10-04",
         "language": "html",
         "summary": "Create ordered and unordered lists using <ul>, <ol>, and <li> tags.",
         "difficulty": "Easy",
@@ -229,12 +228,12 @@
     ]
   },
   {
-    "date": "2025-09-18",
+    "date": "2025-10-05",
     "challenges": [
       {
-        "id": "2025-09-18-python-conditionals",
+        "id": "2025-10-05-python-conditionals",
         "title": "Python Conditionals",
-        "date": "2025-09-18",
+        "date": "2025-10-05",
         "language": "python",
         "summary": "Master if, elif, and else statements for conditional logic in Python.",
         "difficulty": "Easy",
@@ -243,9 +242,9 @@
         "allowedLanguages": ["javascript", "python", "html", "css", "php"]
       },
       {
-        "id": "2025-09-18-css-box-model",
+        "id": "2025-10-05-css-box-model",
         "title": "CSS Box Model",
-        "date": "2025-09-18",
+        "date": "2025-10-05",
         "language": "css",
         "summary": "Understand margin, padding, border, and content in the CSS box model.",
         "difficulty": "Medium",
@@ -254,9 +253,9 @@
         "allowedLanguages": ["javascript", "python", "html", "css", "php"]
       },
       {
-        "id": "2025-09-18-php-loops",
+        "id": "2025-10-05-php-loops",
         "title": "PHP Loops",
-        "date": "2025-09-18",
+        "date": "2025-10-05",
         "language": "php",
         "summary": "Practice for, while, and foreach loops for iteration in PHP.",
         "difficulty": "Easy",
@@ -267,12 +266,12 @@
     ]
   },
   {
-    "date": "2025-09-19",
+    "date": "2025-10-06",
     "challenges": [
       {
-        "id": "2025-09-19-html-tables",
+        "id": "2025-10-06-html-tables",
         "title": "HTML Tables",
-        "date": "2025-09-19",
+        "date": "2025-10-06",
         "language": "html",
         "summary": "Create structured data tables using <table>, <tr>, <td>, and <th> tags.",
         "difficulty": "Medium",
@@ -281,9 +280,9 @@
         "allowedLanguages": ["javascript", "python", "html", "css", "php"]
       },
       {
-        "id": "2025-09-19-js-arrays",
+        "id": "2025-10-06-js-arrays",
         "title": "JavaScript Arrays",
-        "date": "2025-09-19",
+        "date": "2025-10-06",
         "language": "javascript",
         "summary": "Learn to create, access, and manipulate arrays with push, pop, and slice methods.",
         "difficulty": "Easy",
@@ -292,9 +291,9 @@
         "allowedLanguages": ["javascript", "python", "html", "css", "php"]
       },
       {
-        "id": "2025-09-19-css-flexbox-intro",
+        "id": "2025-10-06-css-flexbox-intro",
         "title": "CSS Flexbox Introduction",
-        "date": "2025-09-19",
+        "date": "2025-10-06",
         "language": "css",
         "summary": "Introduction to flexbox layout with display: flex and basic flex properties.",
         "difficulty": "Medium",
@@ -305,12 +304,12 @@
     ]
   },
   {
-    "date": "2025-09-20",
+    "date": "2025-10-07",
     "challenges": [
       {
-        "id": "2025-09-20-php-arrays",
+        "id": "2025-10-07-php-arrays",
         "title": "PHP Arrays",
-        "date": "2025-09-20",
+        "date": "2025-10-07",
         "language": "php",
         "summary": "Work with indexed and associative arrays in PHP.",
         "difficulty": "Easy",
@@ -319,9 +318,9 @@
         "allowedLanguages": ["javascript", "python", "html", "css", "php"]
       },
       {
-        "id": "2025-09-20-python-loops",
+        "id": "2025-10-07-python-loops",
         "title": "Python Loops",
-        "date": "2025-09-20",
+        "date": "2025-10-07",
         "language": "python",
         "summary": "Master for and while loops with range() function in Python.",
         "difficulty": "Easy",
@@ -330,9 +329,9 @@
         "allowedLanguages": ["javascript", "python", "html", "css", "php"]
       },
       {
-        "id": "2025-09-20-html-forms",
+        "id": "2025-10-07-html-forms",
         "title": "HTML Forms",
-        "date": "2025-09-20",
+        "date": "2025-10-07",
         "language": "html",
         "summary": "Create interactive forms with input, textarea, select, and button elements.",
         "difficulty": "Medium",

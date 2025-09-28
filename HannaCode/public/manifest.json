@@ -1,13 +1,15 @@
 {
   "name": "HannaCode - Learn to code Easily",
   "short_name": "HannaCode",
-  "start_url": "/",
+  "start_url": "/?v=2",
+  "scope": "/",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff",
+  "description": "HannaCode — Learn web development with hands‑on courses, interactive code playgrounds, mentorship, and certifications.",
   "icons": [
-    { "src": "/favicon-96x96.png", "sizes": "96x96", "type": "image/png" },
-    { "src": "/favicon192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
-    { "src": "/favicon512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+    { "src": "/favicon-96x96.png?v=2", "sizes": "96x96", "type": "image/png" },
+    { "src": "/web-app-manifest-192x192.png?v=2", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/web-app-manifest-512x512.png?v=2", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
   ]
 }
