@@ -1,5 +1,6 @@
 const nodemailer = require("nodemailer")
 const logger = require("../utils/logger")
+const { sendViaZohoApi, isZohoApiConfigured } = require('./zohoApiMailer');
 
 /**
  * Create HannaCode email template with branding
@@ -137,6 +138,12 @@ async function sendWithRetry(message, attempts = 2) {
  * @param {string} options.html - HTML content
  * @returns {Promise} Promise with email info
  */
+/**
+ * Core email send orchestrator
+ * Env flags:
+ *  MAIL_API_FIRST = 'true'  -> attempt Zoho HTTP API before SMTP
+ *  (SMTP still used as fallback if API fails with transport errors not related to content)
+ */
 exports.sendEmail = async (options) => {
   try {
     const message = {
@@ -147,12 +154,41 @@ exports.sendEmail = async (options) => {
       html: options.html || "",
       replyTo: options.replyTo || undefined,
     }
+    const apiFirst = String(process.env.MAIL_API_FIRST || '').toLowerCase() === 'true';
+    if (apiFirst && isZohoApiConfigured()) {
+      try {
+        const apiInfo = await sendViaZohoApi({
+          to: message.to,
+          subject: message.subject,
+          html: message.html,
+          text: message.text
+        });
+        return { channel: 'zoho-api', ...apiInfo };
+      } catch (apiErr) {
+        logger.warn(`[mail] API-first attempt failed (${apiErr.message}); falling back to SMTP`);
+      }
+    }
 
-    const info = await sendWithRetry(message, 2)
-    logger.info(`Email sent: id=${info.messageId} to=${message.to}`)
-    return info
+    const info = await sendWithRetry(message, 2);
+    logger.info(`Email sent via SMTP: id=${info.messageId} to=${message.to}`);
+    return { channel: 'smtp', ...info };
   } catch (error) {
     logger.error(`Email error: code=${error.code || 'n/a'} command=${error.command || 'n/a'} msg=${error.message}`)
+    const fallbackEligible = ['ETIMEDOUT','ECONNECTION','ESOCKET','ECONNRESET','EAI_AGAIN','EAUTH'].includes(error.code);
+    if (fallbackEligible) {
+      try {
+        logger.warn('[mail] Attempting Zoho API fallback...');
+        const apiInfo = await sendViaZohoApi({
+          to: message.to,
+            subject: message.subject,
+            html: message.html,
+            text: message.text
+        });
+        return { channel: 'zoho-api-fallback', ...apiInfo };
+      } catch (apiErr) {
+        logger.error(`[mail] Fallback Zoho API failed msg=${apiErr.message}`);
+      }
+    }
     throw error
   }
 }
@@ -1003,3 +1039,33 @@ exports.sendApplicationDecision = async (app, status, reason = "") => {
     html,
   });
 };
+
+/**
+ * ENVIRONMENT VARIABLES SUMMARY
+ *
+ * Core SMTP:
+ *  EMAIL_HOST=smtp.zoho.com
+ *  EMAIL_PORT=465|587
+ *  EMAIL_USERNAME=you@domain.com
+ *  EMAIL_PASSWORD=app_password_or_secret
+ *
+ * Branding / From:
+ *  FROM_NAME=HannaCode
+ *  FROM_EMAIL=noreply@hannacode.com (must exist / be verified in Zoho)
+ *  CLIENT_URL=https://hannacode.com
+ *
+ * Zoho Mail API (HTTP) + OAuth:
+ *  ZOHO_ACCOUNT_ID=######## (from Zoho Mail API console)
+ *  ZOHO_REGION=us|eu|in|au|jp|ca (default us)
+ *  ZOHO_CLIENT_ID=xxxxxxxx
+ *  ZOHO_CLIENT_SECRET=xxxxxxxx
+ *  ZOHO_REFRESH_TOKEN=xxxxxxxx (generated with offline access scope)
+ *  ZOHO_ACCOUNTS_DOMAIN=accounts.zoho.com (override for region if needed)
+ *
+ * Behavior Flags:
+ *  MAIL_API_FIRST=true  -> attempt HTTP API first; fall back to SMTP
+ *
+ * Notes:
+ *  - If MAIL_API_FIRST not set, SMTP attempted first then API on eligible errors.
+ *  - API requires FROM_EMAIL to be an allowed sender in Zoho Mail.
+ */
