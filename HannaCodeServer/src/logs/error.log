@@ -1,0 +1,11 @@
+2025-09-29 18:08:31 error: [31mDatabase Connection Error: querySrv ESERVFAIL _mongodb._tcp.cluster0.jxpglfb.mongodb.net[39m
+2025-09-29 18:10:18 error: [31mDatabase Connection Error: queryTxt ESERVFAIL cluster0.jxpglfb.mongodb.net[39m
+2025-09-29 18:11:05 error: [oauth-google] getaddrinfo EAI_AGAIN openidconnect.googleapis.com
+2025-09-29 18:14:03 error: [31mDatabase Connection Error: querySrv ESERVFAIL _mongodb._tcp.cluster0.jxpglfb.mongodb.net[39m
+2025-09-29 18:15:17 error: [oauth-google] User validation failed: password: Password must contain at least one uppercase letter, one lowercase letter, one number and one special character
+2025-09-29 18:18:46 error: Error: Premium subscription required to access course completion certificates. Upgrade to premium to earn and download certificates for completed courses.
+2025-09-29 18:18:46 error: Error: Admin access required for this resource
+2025-09-29 18:19:21 error: Error: Premium subscription required to access course completion certificates. Upgrade to premium to earn and download certificates for completed courses.
+2025-09-29 18:19:21 error: Error: Admin access required for this resource
+2025-09-29 18:21:06 error: Error: Premium subscription required to access course completion certificates. Upgrade to premium to earn and download certificates for completed courses.
+2025-09-29 18:21:06 error: Error: Admin access required for this resource

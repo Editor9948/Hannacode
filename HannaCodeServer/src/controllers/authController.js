@@ -229,30 +229,6 @@ exports.resetPassword = asyncHandler(async (req, res, next) => {
   sendTokenResponse(user, 200, res)
 })
 
-// @desc    Verify email
-// @route   GET /api/v1/auth/verifyemail/:verificationtoken
-// @access  Public
-exports.verifyEmail = asyncHandler(async (req, res, next) => {
-  // Get hashed token
-  const emailVerificationToken = crypto.createHash("sha256").update(req.params.verificationtoken).digest("hex")
-
-  const user = await User.findOne({ 
-    emailVerificationToken,
-    emailVerificationExpire: { $gt: Date.now() }
-  })
-
-  if (!user) {
-    return next(new ErrorResponse("Invalid or expired verification token", 400))
-  }
-
-  // Set email as verified
-  user.emailVerified = true
-  user.emailVerificationToken = undefined
-  user.emailVerificationExpire = undefined
-  await user.save()
-
-  sendTokenResponse(user, 200, res)
-})
 
 // @desc    Resend verification email
 // @route   POST /api/v1/auth/resendverification
@@ -434,6 +410,9 @@ const sendTokenResponse = (user, statusCode, res, message = "") => {
     user: userObj,
   })
 }
+
+// Export for OAuth controller reuse
+exports._sendTokenResponse = sendTokenResponse;
 
 exports.bookMentorship = asyncHandler(async (req, res, next) => {
   // ...booking logic...

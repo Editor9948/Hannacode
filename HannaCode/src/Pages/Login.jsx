@@ -175,7 +175,9 @@ localStorage.setItem("user", JSON.stringify(data.user));
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4 mt-2 w-full">
-              <Button variant="outline" className="w-full">
+              <Button variant="outline" className="w-full" type="button" onClick={() => {
+                window.location.href = `${API_URL}/auth/oauth/github/init`;
+               }}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -193,7 +195,9 @@ localStorage.setItem("user", JSON.stringify(data.user));
                 </svg>
                 GitHub
               </Button>
-              <Button variant="outline" className="w-full">
+              <Button variant="outline" className="w-full" type="button" onClick={() => {
+               window.location.href = `${API_URL}/auth/oauth/google/init`;
+                }}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"

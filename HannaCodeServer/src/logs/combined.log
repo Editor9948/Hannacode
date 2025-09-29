@@ -1,2 +1,54 @@
 2025-09-29 15:09:37 info: [zoho-oauth] Access token refreshed
 2025-09-29 15:09:39 info: [mail-zoho-api] Sent to=iyabosalau02@gmail.com subject="Test Email - HannaCode" status=[object Object]
+2025-09-29 17:37:10 info: Socket.IO initialized
+2025-09-29 17:37:10 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-29 17:37:14 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-29 17:48:23 info: Socket.IO initialized
+2025-09-29 17:48:23 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-29 17:48:27 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-01.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-29 18:08:30 info: Socket.IO initialized
+2025-09-29 18:08:30 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-29 18:08:31 error: [31mDatabase Connection Error: querySrv ESERVFAIL _mongodb._tcp.cluster0.jxpglfb.mongodb.net[39m
+2025-09-29 18:10:18 info: Socket.IO initialized
+2025-09-29 18:10:18 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-29 18:10:18 error: [31mDatabase Connection Error: queryTxt ESERVFAIL cluster0.jxpglfb.mongodb.net[39m
+2025-09-29 18:10:37 info: Socket.IO initialized
+2025-09-29 18:10:37 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-29 18:10:44 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-29 18:11:05 error: [oauth-google] getaddrinfo EAI_AGAIN openidconnect.googleapis.com
+2025-09-29 18:14:03 info: Socket.IO initialized
+2025-09-29 18:14:03 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-29 18:14:03 error: [31mDatabase Connection Error: querySrv ESERVFAIL _mongodb._tcp.cluster0.jxpglfb.mongodb.net[39m
+2025-09-29 18:14:21 info: Socket.IO initialized
+2025-09-29 18:14:21 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-29 18:14:52 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-29 18:15:14 warn: [oauth-google] userinfo attempt failed endpoint=https://openidconnect.googleapis.com/v1/userinfo attempt=1 code=EAI_AGAIN status=
+2025-09-29 18:15:14 warn: [oauth-google] userinfo attempt failed endpoint=https://openidconnect.googleapis.com/v1/userinfo attempt=2 code=EAI_AGAIN status=
+2025-09-29 18:15:15 warn: [oauth-google] userinfo attempt failed endpoint=https://openidconnect.googleapis.com/v1/userinfo attempt=3 code=EAI_AGAIN status=
+2025-09-29 18:15:17 error: [oauth-google] User validation failed: password: Password must contain at least one uppercase letter, one lowercase letter, one number and one special character
+2025-09-29 18:16:57 info: Socket.IO initialized
+2025-09-29 18:16:57 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-29 18:17:12 info: Socket.IO initialized
+2025-09-29 18:17:12 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-29 18:17:16 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-29 18:17:33 info: Socket.IO initialized
+2025-09-29 18:17:33 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-29 18:17:37 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-29 18:18:02 info: Socket.IO initialized
+2025-09-29 18:18:02 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-09-29 18:18:17 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
+2025-09-29 18:18:39 info: [oauth-google] attempting userinfo endpoint=https://openidconnect.googleapis.com/v1/userinfo
+2025-09-29 18:18:39 warn: [oauth-google] userinfo attempt failed endpoint=https://openidconnect.googleapis.com/v1/userinfo attempt=1 code=EAI_AGAIN status=
+2025-09-29 18:18:39 warn: [oauth-google] userinfo attempt failed endpoint=https://openidconnect.googleapis.com/v1/userinfo attempt=2 code=EAI_AGAIN status=
+2025-09-29 18:18:40 warn: [oauth-google] userinfo attempt failed endpoint=https://openidconnect.googleapis.com/v1/userinfo attempt=3 code=EAI_AGAIN status=
+2025-09-29 18:18:41 info: [oauth-google] attempting userinfo endpoint=https://www.googleapis.com/oauth2/v3/userinfo
+2025-09-29 18:18:46 error: Error: Premium subscription required to access course completion certificates. Upgrade to premium to earn and download certificates for completed courses.
+2025-09-29 18:18:46 error: Error: Admin access required for this resource
+2025-09-29 18:19:21 error: Error: Premium subscription required to access course completion certificates. Upgrade to premium to earn and download certificates for completed courses.
+2025-09-29 18:19:21 error: Error: Admin access required for this resource
+2025-09-29 18:21:01 info: [oauth-google] attempting userinfo endpoint=https://openidconnect.googleapis.com/v1/userinfo
+2025-09-29 18:21:06 error: Error: Premium subscription required to access course completion certificates. Upgrade to premium to earn and download certificates for completed courses.
+2025-09-29 18:21:06 error: Error: Admin access required for this resource
+2025-09-29 18:26:48 info: [oauth-google] attempting userinfo endpoint=https://openidconnect.googleapis.com/v1/userinfo
+2025-09-29 18:32:32 info: Socket.IO initialized
+2025-09-29 18:32:32 info: [1m[33mServer running in development mode on port 5000[39m[22m

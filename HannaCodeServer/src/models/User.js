@@ -80,6 +80,13 @@ location: {
       type: Boolean,
       default: false,
     },
+    // Array of linked OAuth providers (google, github, etc.)
+    oauthProviders: [{
+      provider: { type: String, enum: ['google','github'], required: true },
+      providerId: { type: String, required: true },
+      avatar: { type: String },
+      linkedAt: { type: Date, default: Date.now }
+    }],
     lastLogin: Date,
     loginAttempts: {
       type: Number,
@@ -102,6 +109,7 @@ UserSchema.index({ email: 1 });
 UserSchema.index({ resetPasswordToken: 1 });
 UserSchema.index({ emailVerificationToken: 1 });
 UserSchema.index({ lockUntil: 1 });
+UserSchema.index({ 'oauthProviders.provider': 1, 'oauthProviders.providerId': 1 });
 
 // Virtual field for user's progress
 UserSchema.virtual("progress", {

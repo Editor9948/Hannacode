@@ -31,7 +31,8 @@ export default function DashboardPage() {
   recentUsers: [],
 });
 
-const user = JSON.parse(localStorage.getItem("user"));
+const storedUser = JSON.parse(localStorage.getItem("user"));
+const [user, setUser] = useState(storedUser || null);
 const role = user?.role;
 
   // Fetch user courses from backend
@@ -165,6 +166,25 @@ const role = user?.role;
   // Fetch real mentorship sessions
   const [upcomingMentorships, setUpcomingMentorships] = useState([])
   const [mentorshipLoading, setMentorshipLoading] = useState(false)
+// Fetch authenticated user fresh to avoid stale role from previous session
+useEffect(() => {
+  const fetchUser = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+    try {
+      const res = await fetch(`${API_URL}/auth/me`, { headers: { Authorization: `Bearer ${token}` } });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && data.data) {
+          setUser(data.data);
+          localStorage.setItem('user', JSON.stringify(data.data));
+        }
+      }
+    } catch (e) { /* ignore */ }
+  };
+  fetchUser();
+}, []);
+
 useEffect(() => {
   if (role === "admin") {
     const fetchStats = async () => {

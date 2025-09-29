@@ -51,6 +51,8 @@ import CertificatePage from "./Pages/Certificates/CertificatePage";
 import Certificates from "./Pages/Certificates/Certificates";
 import VerifyCertificate from "./Pages/Certificates/VerifyCertificate";
 import MasterCertificatePage from "./Pages/Certificates/MasterCertificatePage";
+import OAuthSuccess from "./Pages/OAuthSuccess";
+import OAuthFailure from "./Pages/OAuthFailure";
 import ScrollToTop from "./components/ui/ScrollToTop.jsx";
 import HannaAIBubble from "./components/HannaBubble/HannaBubble";
 
@@ -79,6 +81,8 @@ export default function App() {
             <Route path="/verify-email-sent" element={<VerifyEmailSent />} />
             <Route path="/verify-email/:token" element={<VerifyEmail />} />
             <Route path="/resend-verification" element={<ResendVerification />} />
+            <Route path="/oauth/success" element={<OAuthSuccess />} />
+            <Route path="/oauth/failure" element={<OAuthFailure />} />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
             <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
             <Route path="/courses" element={<Courses />} />
