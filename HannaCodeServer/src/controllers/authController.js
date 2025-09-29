@@ -449,36 +449,46 @@ exports.bookMentorship = asyncHandler(async (req, res, next) => {
   }
 });
 
-// @desc    Verify email
+// @desc    Verify email (idempotent)
 // @route   GET /api/v1/auth/verifyemail/:verificationtoken
 // @access  Public
+// Notes:
+//  * Endpoint is now idempotent: repeated use of the same link after success returns 200 with an "already verified" message.
+//  * We purposely retain the hashed token after verification (and mark it expired) so we can detect replays gracefully.
 exports.verifyEmail = asyncHandler(async (req, res, next) => {
-  // Get hashed token
-  const verificationToken = crypto
-    .createHash("sha256")
-    .update(req.params.verificationtoken)
-    .digest("hex")
+  const rawToken = req.params.verificationtoken || '';
+  const verificationToken = crypto.createHash('sha256').update(rawToken).digest('hex');
 
-  const user = await User.findOne({
-    emailVerificationToken: verificationToken,
-    emailVerificationExpire: { $gt: Date.now() }
-  })
+  // Look up by token first (regardless of expiry) so we can differentiate states
+  const user = await User.findOne({ emailVerificationToken: verificationToken });
 
   if (!user) {
-    return next(new ErrorResponse("Invalid or expired verification token", 400))
+    return next(new ErrorResponse('Invalid or expired verification token', 400));
   }
 
-  // Set email as verified
-  user.emailVerified = true
-  user.emailVerificationToken = undefined
-  user.emailVerificationExpire = undefined
-  await user.save({ validateBeforeSave: false })
+  // Already verified path (idempotent)
+  if (user.emailVerified) {
+    return res.status(200).json({
+      success: true,
+      message: 'Email already verified.'
+    });
+  }
 
-  res.status(200).json({
+  // Not verified yet – check expiry explicitly
+  if (!user.emailVerificationExpire || user.emailVerificationExpire.getTime() < Date.now()) {
+    return next(new ErrorResponse('Verification link has expired. Please request a new one.', 400));
+  }
+
+  user.emailVerified = true;
+  // Retain token but mark as expired for replay detection while keeping idempotency
+  user.emailVerificationExpire = new Date(Date.now() - 1000);
+  await user.save({ validateBeforeSave: false });
+
+  return res.status(200).json({
     success: true,
-    message: "Email verified successfully. You can now login."
-  })
-})
+    message: 'Email verified successfully. You can now login.'
+  });
+});
 
 // @desc    Resend verification email
 // @route   POST /api/v1/auth/resendverification
