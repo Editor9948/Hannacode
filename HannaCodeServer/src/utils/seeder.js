@@ -17,6 +17,7 @@ const cppContent = require("./courseContent/cpp")
 const advancedcssContent = require('./courseContent/advancedcss')
 const pythonContent = require('./courseContent/python')
 const dartContent = require('./courseContent/dart')
+const gitContent = require('./courseContent/git')
 
 
 
@@ -289,6 +290,26 @@ const createCourses = async () => {
       createdAt: getRandomDate(),
       updatedAt: getRandomDate(),
        coverImage: "/images/courses/dart.png"
+    },
+    {
+      title: "Git Version Control Mastery",
+      description: "Master Git version control from basics to advanced concepts. Learn branching, merging, collaboration workflows, and best practices for professional development.",
+      shortDescription: "Master Git version control for professional development.",
+      weeks: 6,
+      tuition: 59,
+      level: "beginner",
+      scholarshipsAvailable: true,
+      user: "60d21b4667d0d8992e610c85",
+      slug: slugify("Git Version Control Mastery", { lower: true }),
+      lessonCount: 25,
+      category: "Other",
+      duration: 360, // 6 weeks * 60 minutes
+      language: "other",
+      isPremium: false,
+      isPublished: true,
+      createdAt: getRandomDate(),
+      updatedAt: getRandomDate(),
+      coverImage: "/images/courses/git.jpg"
     }
   ]
 
@@ -311,6 +332,7 @@ const createLessons = async (courses) => {
      "C++ Essentials": 15,
     "Python Basic":20,
    "Dart Fundamentals":20,
+   "Git Version Control Mastery": 25,
 
 
   }
@@ -630,6 +652,33 @@ const createLessons = async (courses) => {
         "Dart Packages & Pub.dev", 
         "Mini Project: CLI Tool or Simple API Consumer"
 
+       ],
+       "Git Version Control Mastery": [
+         "Introduction to Git and Version Control",
+         "Installing and Configuring Git",
+         "Understanding Git Repository Structure",
+         "Basic Git Commands - Getting Started",
+         "Working with Files and the Staging Area",
+         "Creating and Managing Commits",
+         "Understanding Git Branches",
+         "Branching and Merging Strategies",
+         "Working with Remote Repositories",
+         "GitHub and Git Hosting Platforms",
+         "Collaborative Git Workflows",
+         "Advanced Git Commands",
+         "Resolving Conflicts and Git Issues",
+         "Git Hooks and Automation",
+         "Git Best Practices and Workflow",
+         "Git Security and Authentication",
+         "Git Performance and Optimization",
+         "Git Integration with Development Tools",
+         "Advanced Git Concepts",
+         "Troubleshooting and Git Recovery",
+         "Git in Different Development Environments",
+         "Git Workflow Optimization",
+         "Git and Modern Development Practices",
+         "Project: Building a Git Workflow",
+         "Git Certification and Career Development"
        ]
 
     
@@ -1081,6 +1130,58 @@ ${dartContent.getDartExercises(lessonTitle)}
 - Advanced JavaScript Patterns
 - Code Examples Repository `,
 
+      },
+      "Git Version Control Mastery": {
+        content: `# ${lessonTitle}
+
+## Overview
+This lesson covers essential Git version control concepts. You'll learn how to use Git effectively for version control and collaboration.
+
+## Learning Objectives
+- Understand Git concepts and best practices
+- Master Git commands and workflows
+- Apply version control best practices
+- Complete hands-on exercises
+
+## Detailed Content
+### Key Concepts
+${gitContent.getGitLessonConcepts(lessonTitle)}
+
+### Code Examples
+\`\`\`bash
+${gitContent.getGitCodeExample(lessonTitle)}
+\`\`\`
+
+### Explanation
+${gitContent.getGitCodeExplanation(lessonTitle)}
+
+### Practice Exercises
+- Practice the Git commands shown in the examples
+- Create a sample repository and experiment with different Git features
+- Try branching and merging workflows
+- Practice resolving merge conflicts
+
+## Additional Resources
+- Git Documentation
+- GitHub Learning Lab
+- Pro Git Book
+- Git Best Practices Guide
+
+## Quiz
+Test your understanding of ${lessonTitle.toLowerCase()}.`,
+        quiz: [
+          {
+            question: "What is the purpose of Git version control?",
+            options: [
+              "To compile code",
+              "To track changes in files and coordinate work",
+              "To run tests",
+              "To deploy applications"
+            ],
+            correctAnswer: 1,
+            explanation: "Git is a distributed version control system designed to track changes in files and coordinate work among multiple people."
+          }
+        ]
       }
       
     };

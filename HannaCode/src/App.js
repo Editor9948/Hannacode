@@ -56,6 +56,7 @@ import OAuthFailure from "./Pages/OAuthFailure";
 import ScrollToTop from "./components/ui/ScrollToTop.jsx";
 import HannaAIBubble from "./components/HannaBubble/HannaBubble";
 
+
 // NotFound component
 const NotFound = () => (
   <div className="flex items-center justify-center min-h-screen">
@@ -112,7 +113,6 @@ export default function App() {
             <Route path="/terms" element={<TermsOfServicePage />} />
             <Route path="/cookies" element={<CookiePolicyPage />} />
             <Route path="/blog" element={<BlogPage />} />
-           
 
             {/* User Dashboard & Settings */}
             <Route path="/dashboard" element={<DashboardPage />} />

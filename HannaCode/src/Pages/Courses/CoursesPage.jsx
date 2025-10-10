@@ -212,6 +212,7 @@ export default function CoursesPage() {
               <SelectItem value="css">CSS</SelectItem>
               <SelectItem value="javascript">JavaScript</SelectItem>
               <SelectItem value="php">PHP</SelectItem>
+              <SelectItem value="other">Git & Others</SelectItem>
             </SelectContent>
           </Select>
           <Select defaultValue="all" onValueChange={setSelectedLevel}>

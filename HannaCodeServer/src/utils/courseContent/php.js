@@ -2235,108 +2235,2964 @@ if (hasPermission($user_role, 'delete')) {
 ?>`,
 
     "PHP Password Hashing": `
+// Example 1: Basic password hashing
     <?php
     $password = \"password123\";
     $hashed = password_hash($password, PASSWORD_DEFAULT);
     if (password_verify($password, $hashed)) {  
     echo \"Password is valid\";
     }
+    ?>
+
+// Example 2: Password hashing with custom options
+    <?php
+    $password = \"userpassword\";
+    $options = [
+        'cost' => 12,
+        'salt' => random_bytes(22)
+    ];
+    $hashed = password_hash($password, PASSWORD_BCRYPT, $options);
+    ?>
+
+// Example 3: Password verification in login
+    <?php
+    $inputPassword = $_POST['password'];
+    $storedHash = \"\$2y\$10\$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi\";
+    
+    if (password_verify($inputPassword, $storedHash)) {
+        echo \"Login successful\";
+    } else {
+        echo \"Invalid password\";
+    }
+    ?>
+
+// Example 4: Password strength validation
+    <?php
+    function validatePassword($password) {
+        if (strlen($password) < 8) {
+            return false;
+        }
+        if (!preg_match('/[A-Z]/', $password)) {
+            return false;
+        }
+        if (!preg_match('/[a-z]/', $password)) {
+            return false;
+        }
+        if (!preg_match('/[0-9]/', $password)) {
+            return false;
+        }
+        return true;
+    }
+    ?>
+
+// Example 5: Secure password reset
+    <?php
+    $resetToken = bin2hex(random_bytes(32));
+    $hashedToken = password_hash($resetToken, PASSWORD_DEFAULT);
+    $expiryTime = time() + (60 * 60); // 1 hour
+    ?>
+
+// Example 6: Password hashing with argon2
+    <?php
+    $password = \"securepassword\";
+    $hashed = password_hash($password, PASSWORD_ARGON2ID);
+    echo $hashed;
+    ?>
+
+// Example 7: Password needs rehashing check
+    <?php
+    $password = $_POST['password'];
+    $hash = $user['password_hash'];
+    
+    if (password_verify($password, $hash)) {
+        if (password_needs_rehash($hash, PASSWORD_DEFAULT)) {
+            $newHash = password_hash($password, PASSWORD_DEFAULT);
+            // Update database with new hash
+        }
+        echo \"Login successful\";
+    }
+    ?>
+
+// Example 8: Password salt generation
+    <?php
+    function generateSalt() {
+        return bin2hex(random_bytes(16));
+    }
+    
+    $salt = generateSalt();
+    $password = \"mypassword\";
+    $hashedPassword = hash('sha256', $password . $salt);
+    ?>
+
+// Example 9: Password policy enforcement
+    <?php
+    class PasswordPolicy {
+        private $minLength = 8;
+        private $requireUppercase = true;
+        private $requireLowercase = true;
+        private $requireNumbers = true;
+        private $requireSymbols = true;
+        
+        public function validate($password) {
+            $errors = [];
+            if (strlen($password) < $this->minLength) {
+                $errors[] = \"Password must be at least {$this->minLength} characters\";
+            }
+            // Additional validation logic...
+            return empty($errors) ? true : $errors;
+        }
+    }
     ?>`,
 
-    "PHP File Upload": `<?php
+    "PHP File Upload": `
+// Example 1: Basic file upload
+    <?php
     if ($_FILES[\"file\"][\"error\"] == 0) {
     move_uploaded_file($_FILES[\"file\"][\"tmp_name\"], \"uploads/\" . $_FILES[\"file\"][\"name\"]);
     }
     ?>
-    
-    Another Example
+
+// Example 2: Secure file upload with validation
     <?php
-if ($_FILES["file"]["error"] == 0) {
-    $allowed = ["jpg", "jpeg", "png", "gif"];
-    $filename = $_FILES["file"]["name"];
-    $filetype = pathinfo($filename, PATHINFO_EXTENSION);
-    
-    if (in_array(strtolower($filetype), $allowed)) {
-        $upload_path = "uploads/" . time() . "_" . $filename;
-        if (move_uploaded_file($_FILES["file"]["tmp_name"], $upload_path)) {
-            echo "File uploaded successfully to: " . $upload_path;
+    if ($_FILES["file"]["error"] == 0) {
+        $allowed = ["jpg", "jpeg", "png", "gif"];
+        $filename = $_FILES["file"]["name"];
+        $filetype = pathinfo($filename, PATHINFO_EXTENSION);
+        
+        if (in_array(strtolower($filetype), $allowed)) {
+            $upload_path = "uploads/" . time() . "_" . $filename;
+            if (move_uploaded_file($_FILES["file"]["tmp_name"], $upload_path)) {
+                echo "File uploaded successfully to: " . $upload_path;
+            } else {
+                echo "Error uploading file.";
+            }
         } else {
-            echo "Error uploading file.";
+            echo "Only JPG, JPEG, PNG & GIF files are allowed.";
         }
-    } else {
-        echo "Only JPG, JPEG, PNG & GIF files are allowed.";
     }
-}
-?>`,
+    ?>
+
+// Example 3: File upload with size validation
+    <?php
+    $maxFileSize = 5 * 1024 * 1024; // 5MB
+    if ($_FILES["file"]["size"] > $maxFileSize) {
+        echo "File too large. Maximum size is 5MB.";
+    } else {
+        // Process upload
+        move_uploaded_file($_FILES["file"]["tmp_name"], "uploads/" . $_FILES["file"]["name"]);
+    }
+    ?>
+
+// Example 4: Multiple file upload
+    <?php
+    $uploadDir = "uploads/";
+    $allowedTypes = ["jpg", "png", "gif"];
+    
+    foreach ($_FILES["files"]["error"] as $key => $error) {
+        if ($error == UPLOAD_ERR_OK) {
+            $tmpName = $_FILES["files"]["tmp_name"][$key];
+            $name = $_FILES["files"]["name"][$key];
+            $ext = strtolower(pathinfo($name, PATHINFO_EXTENSION));
+            
+            if (in_array($ext, $allowedTypes)) {
+                $newName = uniqid() . "." . $ext;
+                move_uploaded_file($tmpName, $uploadDir . $newName);
+            }
+        }
+    }
+    ?>
+
+// Example 5: File upload with MIME type validation
+    <?php
+    function validateFile($file) {
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mimeType = finfo_file($finfo, $file);
+        finfo_close($finfo);
+        
+        $allowedMimes = ["image/jpeg", "image/png", "image/gif"];
+        return in_array($mimeType, $allowedMimes);
+    }
+    
+    if (validateFile($_FILES["file"]["tmp_name"])) {
+        move_uploaded_file($_FILES["file"]["tmp_name"], "uploads/" . $_FILES["file"]["name"]);
+    }
+    ?>
+
+// Example 6: Secure file upload class
+    <?php
+    class FileUpload {
+        private $allowedTypes;
+        private $maxSize;
+        private $uploadDir;
+        
+        public function __construct($types, $maxSize, $uploadDir) {
+            $this->allowedTypes = $types;
+            $this->maxSize = $maxSize;
+            $this->uploadDir = $uploadDir;
+        }
+        
+        public function upload($file) {
+            if ($file["error"] !== UPLOAD_ERR_OK) {
+                return false;
+            }
+            
+            if ($file["size"] > $this->maxSize) {
+                return false;
+            }
+            
+            $ext = strtolower(pathinfo($file["name"], PATHINFO_EXTENSION));
+            if (!in_array($ext, $this->allowedTypes)) {
+                return false;
+            }
+            
+            $filename = uniqid() . "." . $ext;
+            return move_uploaded_file($file["tmp_name"], $this->uploadDir . $filename);
+        }
+    }
+    ?>
+
+// Example 7: File upload with database storage
+    <?php
+    function saveFileToDatabase($filename, $originalName, $size, $type) {
+        $pdo = new PDO("mysql:host=localhost;dbname=uploads", $username, $password);
+        $stmt = $pdo->prepare("INSERT INTO files (filename, original_name, size, type, uploaded_at) VALUES (?, ?, ?, ?, NOW())");
+        return $stmt->execute([$filename, $originalName, $size, $type]);
+    }
+    
+    if ($_FILES["file"]["error"] == 0) {
+        $filename = uniqid() . "_" . $_FILES["file"]["name"];
+        move_uploaded_file($_FILES["file"]["tmp_name"], "uploads/" . $filename);
+        saveFileToDatabase($filename, $_FILES["file"]["name"], $_FILES["file"]["size"], $_FILES["file"]["type"]);
+    }
+    ?>
+
+// Example 8: File upload progress tracking
+    <?php
+    session_start();
+    
+    if (isset($_POST["upload"])) {
+        $uploadDir = "uploads/";
+        $file = $_FILES["file"];
+        
+        if ($file["error"] == 0) {
+            $filename = basename($file["name"]);
+            $target = $uploadDir . $filename;
+            
+            // Simulate progress
+            for ($i = 0; $i <= 100; $i += 10) {
+                $_SESSION["upload_progress"] = $i;
+                usleep(100000); // 0.1 second delay
+            }
+            
+            move_uploaded_file($file["tmp_name"], $target);
+            echo "Upload complete!";
+        }
+    }
+    ?>
+
+// Example 9: File upload with virus scanning
+    <?php
+    function scanFile($filePath) {
+        // This is a simplified example - use actual antivirus integration
+        $suspiciousPatterns = ["eval(", "base64_decode(", "shell_exec("];
+        $content = file_get_contents($filePath);
+        
+        foreach ($suspiciousPatterns as $pattern) {
+            if (strpos($content, $pattern) !== false) {
+                return false; // Suspicious file
+            }
+        }
+        return true; // Safe file
+    }
+    
+    if ($_FILES["file"]["error"] == 0 && scanFile($_FILES["file"]["tmp_name"])) {
+        move_uploaded_file($_FILES["file"]["tmp_name"], "uploads/" . $_FILES["file"]["name"]);
+    } else {
+        echo "File rejected for security reasons.";
+    }
+    ?>`,
 
     "PHP Image Processing": `
+// Example 1: Basic image filter application
     <?php
-    $image = imagecreatefromjpeg(\"image.jpg\");\nimagefilter($image, IMG_FILTER_GRAYSCALE);
+    $image = imagecreatefromjpeg(\"image.jpg\");
+    imagefilter($image, IMG_FILTER_GRAYSCALE);
     imagejpeg($image, \"grayscale.jpg\");
+    ?>
+
+// Example 2: Image resizing
+    <?php
+    function resizeImage($source, $destination, $width, $height) {
+        $imageInfo = getimagesize($source);
+        $sourceImage = imagecreatefromjpeg($source);
+        $resizedImage = imagecreatetruecolor($width, $height);
+        
+        imagecopyresampled($resizedImage, $sourceImage, 0, 0, 0, 0, $width, $height, $imageInfo[0], $imageInfo[1]);
+        imagejpeg($resizedImage, $destination);
+        
+        imagedestroy($sourceImage);
+        imagedestroy($resizedImage);
+    }
+    
+    resizeImage(\"original.jpg\", \"thumbnail.jpg\", 150, 150);
+    ?>
+
+// Example 3: Image watermarking
+    <?php
+    function addWatermark($source, $watermark, $destination) {
+        $image = imagecreatefromjpeg($source);
+        $watermarkImage = imagecreatefrompng($watermark);
+        
+        $watermarkWidth = imagesx($watermarkImage);
+        $watermarkHeight = imagesy($watermarkImage);
+        
+        imagecopy($image, $watermarkImage, 10, 10, 0, 0, $watermarkWidth, $watermarkHeight);
+        imagejpeg($image, $destination);
+        
+        imagedestroy($image);
+        imagedestroy($watermarkImage);
+    }
+    ?>
+
+// Example 4: Image cropping
+    <?php
+    function cropImage($source, $destination, $x, $y, $width, $height) {
+        $sourceImage = imagecreatefromjpeg($source);
+        $croppedImage = imagecreatetruecolor($width, $height);
+        
+        imagecopy($croppedImage, $sourceImage, 0, 0, $x, $y, $width, $height);
+        imagejpeg($croppedImage, $destination);
+        
+        imagedestroy($sourceImage);
+        imagedestroy($croppedImage);
+    }
+    
+    cropImage(\"photo.jpg\", \"cropped.jpg\", 100, 100, 200, 200);
+    ?>
+
+// Example 5: Image format conversion
+    <?php
+    function convertImageFormat($source, $destination, $format) {
+        $image = imagecreatefromjpeg($source);
+        
+        switch ($format) {
+            case 'png':
+                imagepng($image, $destination);
+                break;
+            case 'gif':
+                imagegif($image, $destination);
+                break;
+            case 'webp':
+                imagewebp($image, $destination);
+                break;
+        }
+        
+        imagedestroy($image);
+    }
+    
+    convertImageFormat(\"photo.jpg\", \"photo.png\", 'png');
+    ?>
+
+// Example 6: Image rotation
+    <?php
+    function rotateImage($source, $destination, $angle) {
+        $image = imagecreatefromjpeg($source);
+        $rotated = imagerotate($image, $angle, 0);
+        
+        imagejpeg($rotated, $destination);
+        
+        imagedestroy($image);
+        imagedestroy($rotated);
+    }
+    
+    rotateImage(\"photo.jpg\", \"rotated.jpg\", 90);
+    ?>
+
+// Example 7: Image thumbnail generation
+    <?php
+    function generateThumbnail($source, $destination, $maxWidth = 150, $maxHeight = 150) {
+        $imageInfo = getimagesize($source);
+        $sourceImage = imagecreatefromjpeg($source);
+        
+        $ratio = min($maxWidth / $imageInfo[0], $maxHeight / $imageInfo[1]);
+        $newWidth = $imageInfo[0] * $ratio;
+        $newHeight = $imageInfo[1] * $ratio;
+        
+        $thumbnail = imagecreatetruecolor($newWidth, $newHeight);
+        imagecopyresampled($thumbnail, $sourceImage, 0, 0, 0, 0, $newWidth, $newHeight, $imageInfo[0], $imageInfo[1]);
+        
+        imagejpeg($thumbnail, $destination);
+        
+        imagedestroy($sourceImage);
+        imagedestroy($thumbnail);
+    }
+    ?>
+
+// Example 8: Image validation and processing
+    <?php
+    function validateAndProcessImage($file) {
+        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        $maxSize = 5 * 1024 * 1024; // 5MB
+        
+        if (!in_array($file['type'], $allowedTypes)) {
+            return false;
+        }
+        
+        if ($file['size'] > $maxSize) {
+            return false;
+        }
+        
+        $imageInfo = getimagesize($file['tmp_name']);
+        if ($imageInfo === false) {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    if (validateAndProcessImage($_FILES['image'])) {
+        $image = imagecreatefromjpeg($_FILES['image']['tmp_name']);
+        // Process the image
+        imagejpeg($image, 'processed_' . $_FILES['image']['name']);
+        imagedestroy($image);
+    }
+    ?>
+
+// Example 9: Advanced image effects
+    <?php
+    function applyImageEffects($source, $destination) {
+        $image = imagecreatefromjpeg($source);
+        
+        // Apply multiple filters
+        imagefilter($image, IMG_FILTER_CONTRAST, -20);
+        imagefilter($image, IMG_FILTER_BRIGHTNESS, 20);
+        imagefilter($image, IMG_FILTER_GAUSSIAN_BLUR);
+        
+        // Add border
+        $borderColor = imagecolorallocate($image, 255, 255, 255);
+        imagerectangle($image, 0, 0, imagesx($image) - 1, imagesy($image) - 1, $borderColor);
+        
+        imagejpeg($image, $destination);
+        imagedestroy($image);
+    }
+    
+    applyImageEffects(\"photo.jpg\", \"styled_photo.jpg\");
     ?>`,
 
     "PHP Email Handling": `
+// Example 1: Basic email sending
     <?php
     $to = \"recipient@example.com\";
     $subject = \"Test Email\";
     $message = \"Hello, this is a test email.\";
     mail($to, $subject, $message);
+    ?>
+
+// Example 2: HTML email with headers
+    <?php
+    $to = \"user@example.com\";
+    $subject = \"Welcome to our service\";
+    $message = \"<h1>Welcome!</h1><p>Thank you for joining us.</p>\";
+    $headers = \"MIME-Version: 1.0\" . \"\\r\\n\";
+    $headers .= \"Content-type:text/html;charset=UTF-8\" . \"\\r\\n\";
+    $headers .= \"From: noreply@example.com\" . \"\\r\\n\";
+    
+    mail($to, $subject, $message, $headers);
+    ?>
+
+// Example 3: Email with attachments
+    <?php
+    function sendEmailWithAttachment($to, $subject, $message, $attachmentPath) {
+        $boundary = md5(uniqid(time()));
+        $headers = \"MIME-Version: 1.0\\r\\n\";
+        $headers .= \"From: sender@example.com\\r\\n\";
+        $headers .= \"Content-Type: multipart/mixed; boundary=\\\"$boundary\\\"\\r\\n\";
+        
+        $body = \"--$boundary\\r\\n\";
+        $body .= \"Content-Type: text/plain; charset=UTF-8\\r\\n\";
+        $body .= \"\\r\\n$message\\r\\n\";
+        
+        if (file_exists($attachmentPath)) {
+            $fileContent = file_get_contents($attachmentPath);
+            $fileContent = base64_encode($fileContent);
+            $fileName = basename($attachmentPath);
+            
+            $body .= \"--$boundary\\r\\n\";
+            $body .= \"Content-Type: application/octet-stream; name=\\\"$fileName\\\"\\r\\n\";
+            $body .= \"Content-Transfer-Encoding: base64\\r\\n\";
+            $body .= \"Content-Disposition: attachment; filename=\\\"$fileName\\\"\\r\\n\";
+            $body .= \"\\r\\n$fileContent\\r\\n\";
+        }
+        
+        $body .= \"--$boundary--\\r\\n\";
+        
+        return mail($to, $subject, $body, $headers);
+    }
+    ?>
+
+// Example 4: Email validation
+    <?php
+    function validateEmail($email) {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return false;
+        }
+        
+        $domain = substr(strrchr($email, \"@\"), 1);
+        return checkdnsrr($domain, \"MX\");
+    }
+    
+    if (validateEmail(\"user@example.com\")) {
+        echo \"Valid email address\";
+    }
+    ?>
+
+// Example 5: Bulk email sending
+    <?php
+    function sendBulkEmails($recipients, $subject, $message) {
+        $successCount = 0;
+        $headers = \"From: newsletter@example.com\\r\\n\";
+        $headers .= \"Content-Type: text/html; charset=UTF-8\\r\\n\";
+        
+        foreach ($recipients as $email) {
+            if (mail($email, $subject, $message, $headers)) {
+                $successCount++;
+            }
+            sleep(1); // Prevent overwhelming the mail server
+        }
+        
+        return $successCount;
+    }
+    
+    $recipients = [\"user1@example.com\", \"user2@example.com\", \"user3@example.com\"];
+    $sent = sendBulkEmails($recipients, \"Newsletter\", \"<h1>Monthly Newsletter</h1>\");
+    ?>
+
+// Example 6: Email template system
+    <?php
+    class EmailTemplate {
+        private $template;
+        
+        public function __construct($templatePath) {
+            $this->template = file_get_contents($templatePath);
+        }
+        
+        public function render($data) {
+            $content = $this->template;
+            foreach ($data as $key => $value) {
+                $content = str_replace(\"{\\$key}\", $value, $content);
+            }
+            return $content;
+        }
+    }
+    
+    $template = new EmailTemplate(\"templates/welcome.html\");
+    $emailContent = $template->render([
+        'name' => 'John Doe',
+        'company' => 'Example Corp'
+    ]);
+    ?>
+
+// Example 7: Email queue system
+    <?php
+    class EmailQueue {
+        private $pdo;
+        
+        public function __construct($pdo) {
+            $this->pdo = $pdo;
+        }
+        
+        public function addEmail($to, $subject, $message, $priority = 1) {
+            $stmt = $this->pdo->prepare(\"INSERT INTO email_queue (recipient, subject, message, priority, created_at) VALUES (?, ?, ?, ?, NOW())\");
+            return $stmt->execute([$to, $subject, $message, $priority]);
+        }
+        
+        public function processQueue($limit = 10) {
+            $stmt = $this->pdo->prepare(\"SELECT * FROM email_queue WHERE status = 'pending' ORDER BY priority DESC, created_at ASC LIMIT ?\");
+            $stmt->execute([$limit]);
+            $emails = $stmt->fetchAll();
+            
+            foreach ($emails as $email) {
+                if (mail($email['recipient'], $email['subject'], $email['message'])) {
+                    $this->markAsSent($email['id']);
+                } else {
+                    $this->markAsFailed($email['id']);
+                }
+            }
+        }
+        
+        private function markAsSent($id) {
+            $stmt = $this->pdo->prepare(\"UPDATE email_queue SET status = 'sent', sent_at = NOW() WHERE id = ?\");
+            $stmt->execute([$id]);
+        }
+        
+        private function markAsFailed($id) {
+            $stmt = $this->pdo->prepare(\"UPDATE email_queue SET status = 'failed', attempts = attempts + 1 WHERE id = ?\");
+            $stmt->execute([$id]);
+        }
+    }
+    ?>
+
+// Example 8: SMTP email configuration
+    <?php
+    use PHPMailer\\PHPMailer\\PHPMailer;
+    use PHPMailer\\PHPMailer\\SMTP;
+    
+    function sendSMTPEmail($to, $subject, $body) {
+        $mail = new PHPMailer(true);
+        
+        try {
+            $mail->isSMTP();
+            $mail->Host = 'smtp.gmail.com';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'your-email@gmail.com';
+            $mail->Password = 'your-app-password';
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
+            
+            $mail->setFrom('your-email@gmail.com', 'Your Name');
+            $mail->addAddress($to);
+            
+            $mail->isHTML(true);
+            $mail->Subject = $subject;
+            $mail->Body = $body;
+            
+            return $mail->send();
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+    ?>
+
+// Example 9: Email analytics tracking
+    <?php
+    function sendTrackedEmail($to, $subject, $message, $campaignId) {
+        $trackingPixel = \"<img src='https://example.com/track.php?campaign=$campaignId&email=\" . urlencode($to) . \"' width='1' height='1'>\";
+        $trackedMessage = $message . $trackingPixel;
+        
+        $headers = \"Content-Type: text/html; charset=UTF-8\\r\\n\";
+        $headers .= \"From: marketing@example.com\\r\\n\";
+        
+        if (mail($to, $subject, $trackedMessage, $headers)) {
+            // Log email sent
+            logEmailSent($to, $campaignId);
+            return true;
+        }
+        return false;
+    }
+    
+    function logEmailSent($email, $campaignId) {
+        $pdo = new PDO(\"mysql:host=localhost;dbname=email_tracking\", $username, $password);
+        $stmt = $pdo->prepare(\"INSERT INTO email_logs (email, campaign_id, sent_at) VALUES (?, ?, NOW())\");
+        $stmt->execute([$email, $campaignId]);
+    }
     ?>`,
 
     "PHP Date and Time": `
+// Example 1: Basic date and time functions
     <?php
     echo date(\"Y-m-d H:i:s\");
     $date = new DateTime();
     echo $date->format(\"Y-m-d H:i:s\");
+    ?>
+
+// Example 2: Date formatting and manipulation
+    <?php
+    $date = new DateTime('2023-12-25');
+    echo $date->format('l, F j, Y'); // Monday, December 25, 2023
+    
+    $date->modify('+1 week');
+    echo $date->format('Y-m-d'); // 2024-01-01
+    
+    $date->setTime(14, 30, 0);
+    echo $date->format('H:i:s'); // 14:30:00
+    ?>
+
+// Example 3: Time zone handling
+    <?php
+    $date = new DateTime('now', new DateTimeZone('America/New_York'));
+    echo $date->format('Y-m-d H:i:s T'); // Current time in New York
+    
+    $date->setTimezone(new DateTimeZone('Europe/London'));
+    echo $date->format('Y-m-d H:i:s T'); // Same moment in London
+    
+    // List available time zones
+    $timezones = DateTimeZone::listIdentifiers();
+    foreach ($timezones as $timezone) {
+        echo $timezone . \"\\n\";
+    }
+    ?>
+
+// Example 4: Date calculations and comparisons
+    <?php
+    $birthday = new DateTime('1990-05-15');
+    $today = new DateTime();
+    $age = $today->diff($birthday);
+    
+    echo \"Age: \" . $age->y . \" years, \" . $age->m . \" months, \" . $age->d . \" days\";
+    
+    // Calculate days until next birthday
+    $nextBirthday = new DateTime($today->format('Y') . '-05-15');
+    if ($nextBirthday < $today) {
+        $nextBirthday->modify('+1 year');
+    }
+    $daysUntilBirthday = $today->diff($nextBirthday)->days;
+    echo \"Days until next birthday: $daysUntilBirthday\";
+    ?>
+
+// Example 5: Timestamp conversion
+    <?php
+    // Convert timestamp to date
+    $timestamp = 1703123456;
+    $date = new DateTime();
+    $date->setTimestamp($timestamp);
+    echo $date->format('Y-m-d H:i:s');
+    
+    // Convert date to timestamp
+    $dateString = '2023-12-21 15:30:45';
+    $date = new DateTime($dateString);
+    echo $date->getTimestamp();
+    
+    // Current timestamp
+    echo time();
+    echo microtime(true); // Microsecond precision
+    ?>
+
+// Example 6: Date validation and parsing
+    <?php
+    function validateDate($date, $format = 'Y-m-d') {
+        $d = DateTime::createFromFormat($format, $date);
+        return $d && $d->format($format) === $date;
+    }
+    
+    if (validateDate('2023-12-25')) {
+        echo \"Valid date\";
+    }
+    
+    // Parse various date formats
+    $dates = [
+        '2023-12-25',
+        '25/12/2023',
+        'December 25, 2023',
+        '25 Dec 2023'
+    ];
+    
+    foreach ($dates as $dateString) {
+        try {
+            $date = new DateTime($dateString);
+            echo $date->format('Y-m-d H:i:s');
+        } catch (Exception $e) {
+            echo \"Invalid date: $dateString\";
+        }
+    }
+    ?>
+
+// Example 7: Working with intervals and periods
+    <?php
+    $start = new DateTime('2023-01-01');
+    $end = new DateTime('2023-12-31');
+    $interval = new DateInterval('P1M'); // 1 month interval
+    
+    $period = new DatePeriod($start, $interval, $end);
+    foreach ($period as $date) {
+        echo $date->format('Y-m-d') . \"\\n\";
+    }
+    
+    // Custom intervals
+    $interval = new DateInterval('P1Y2M3D'); // 1 year, 2 months, 3 days
+    $date = new DateTime();
+    $date->add($interval);
+    echo $date->format('Y-m-d');
+    ?>
+
+// Example 8: Business days calculation
+    <?php
+    function getBusinessDays($start, $end) {
+        $start = new DateTime($start);
+        $end = new DateTime($end);
+        $businessDays = 0;
+        
+        while ($start <= $end) {
+            $dayOfWeek = $start->format('N'); // 1 (Monday) to 7 (Sunday)
+            if ($dayOfWeek < 6) { // Monday to Friday
+                $businessDays++;
+            }
+            $start->modify('+1 day');
+        }
+        
+        return $businessDays;
+    }
+    
+    $businessDays = getBusinessDays('2023-12-01', '2023-12-31');
+    echo \"Business days in December 2023: $businessDays\";
+    ?>
+
+// Example 9: Date localization and internationalization
+    <?php
+    // Set locale for date formatting
+    setlocale(LC_TIME, 'en_US.UTF-8');
+    echo strftime('%B %d, %Y', time()); // December 21, 2023
+    
+    // Carbon library example (if available)
+    use Carbon\\Carbon;
+    
+    $date = Carbon::now();
+    echo $date->format('Y-m-d H:i:s');
+    echo $date->diffForHumans(); // 2 hours ago
+    
+    $date->locale('fr');
+    echo $date->isoFormat('dddd, MMMM Do YYYY'); // vendredi, décembre 21ème 2023
+    
+    // Relative time
+    echo $date->subDays(5)->diffForHumans(); // 5 days ago
+    echo $date->addWeeks(2)->diffForHumans(); // in 2 weeks
     ?>`,
 
     "PHP Regular Expressions": `
+// Example 1: Basic email validation
     <?php
     $pattern = \"/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/\";
     $email = \"test@example.com\";
     if (preg_match($pattern, $email)) {
     echo \"Valid email\";
     }
+    ?>
+
+// Example 2: String pattern matching and replacement
+    <?php
+    $text = \"The quick brown fox jumps over the lazy dog.\";
+    
+    // Find all words starting with 'b'
+    preg_match_all('/\\bb\\w+/', $text, $matches);
+    print_r($matches[0]); // Array ( [0] => brown )
+    
+    // Replace all vowels with asterisks
+    $result = preg_replace('/[aeiou]/i', '*', $text);
+    echo $result; // Th* q**ck br*wn f*x j*mps *v*r th* l*zy d*g.
+    ?>
+
+// Example 3: Phone number validation
+    <?php
+    function validatePhoneNumber($phone) {
+        $patterns = [
+            '/^\\+?1?\\s?\\(?([0-9]{3})\\)?[-.\\s]?([0-9]{3})[-.\\s]?([0-9]{4})$/', // US format
+            '/^\\+?[1-9]\\d{1,14}$/', // International format
+            '/^\\(?([0-9]{3})\\)?[-.\\s]?([0-9]{3})[-.\\s]?([0-9]{4})$/' // Basic format
+        ];
+        
+        foreach ($patterns as $pattern) {
+            if (preg_match($pattern, $phone)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    $phoneNumbers = ['(555) 123-4567', '+1-555-123-4567', '555.123.4567'];
+    foreach ($phoneNumbers as $phone) {
+        echo validatePhoneNumber($phone) ? \"Valid\" : \"Invalid\";
+    }
+    ?>
+
+// Example 4: URL parsing and validation
+    <?php
+    function parseUrl($url) {
+        $pattern = '/^https?:\\/\\/([a-zA-Z0-9.-]+)(?::(\\d+))?(?:\\/(.*))?$/';
+        if (preg_match($pattern, $url, $matches)) {
+            return [
+                'protocol' => 'http' . (strpos($url, 'https') === 0 ? 's' : ''),
+                'domain' => $matches[1],
+                'port' => isset($matches[2]) ? $matches[2] : null,
+                'path' => isset($matches[3]) ? $matches[3] : ''
+            ];
+        }
+        return false;
+    }
+    
+    $urlInfo = parseUrl('https://www.example.com:8080/path/to/page');
+    print_r($urlInfo);
+    ?>
+
+// Example 5: Password strength validation
+    <?php
+    function validatePasswordStrength($password) {
+        $checks = [
+            'length' => '/^.{8,}$/',
+            'uppercase' => '/[A-Z]/',
+            'lowercase' => '/[a-z]/',
+            'number' => '/[0-9]/',
+            'special' => '/[!@#$%^&*(),.?\":{}|<>]/'
+        ];
+        
+        $results = [];
+        foreach ($checks as $check => $pattern) {
+            $results[$check] = preg_match($pattern, $password);
+        }
+        
+        return $results;
+    }
+    
+    $password = 'MySecure123!';
+    $strength = validatePasswordStrength($password);
+    print_r($strength);
+    ?>
+
+// Example 6: HTML tag extraction and cleaning
+    <?php
+    function extractHtmlTags($html) {
+        preg_match_all('/<([a-zA-Z][a-zA-Z0-9]*)[^>]*>/', $html, $matches);
+        return array_unique($matches[1]);
+    }
+    
+    function stripHtmlTags($html, $allowedTags = '') {
+        if (empty($allowedTags)) {
+            return strip_tags($html);
+        }
+        return strip_tags($html, $allowedTags);
+    }
+    
+    $html = '<div class=\"container\"><h1>Title</h1><p>Content with <strong>bold</strong> text.</p></div>';
+    $tags = extractHtmlTags($html);
+    $cleaned = stripHtmlTags($html, '<p><strong>');
+    ?>
+
+// Example 7: Data extraction from text
+    <?php
+    function extractData($text) {
+        $data = [];
+        
+        // Extract email addresses
+        preg_match_all('/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}/', $text, $emails);
+        $data['emails'] = $emails[0];
+        
+        // Extract URLs
+        preg_match_all('/https?:\\/\\/[^\\s]+/', $text, $urls);
+        $data['urls'] = $urls[0];
+        
+        // Extract phone numbers
+        preg_match_all('/\\b\\d{3}[-.]?\\d{3}[-.]?\\d{4}\\b/', $text, $phones);
+        $data['phones'] = $phones[0];
+        
+        // Extract hashtags
+        preg_match_all('/#\\w+/', $text, $hashtags);
+        $data['hashtags'] = $hashtags[0];
+        
+        return $data;
+    }
+    
+    $text = \"Contact us at support@example.com or visit https://example.com. Call 555-123-4567. #support #help\";
+    $extracted = extractData($text);
+    print_r($extracted);
+    ?>
+
+// Example 8: Advanced pattern matching with groups
+    <?php
+    function parseLogEntry($logLine) {
+        $pattern = '/^(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}) \\[(\\w+)\\] (.*?): (.*)$/';
+        
+        if (preg_match($pattern, $logLine, $matches)) {
+            return [
+                'timestamp' => $matches[1],
+                'level' => $matches[2],
+                'component' => $matches[3],
+                'message' => $matches[4]
+            ];
+        }
+        return false;
+    }
+    
+    $logLine = '2023-12-21 14:30:45 [ERROR] Database: Connection failed';
+    $parsed = parseLogEntry($logLine);
+    print_r($parsed);
+    ?>
+
+// Example 9: Regular expression optimization and performance
+    <?php
+    class RegexOptimizer {
+        private static $compiledPatterns = [];
+        
+        public static function match($pattern, $subject, $flags = 0) {
+            $key = md5($pattern . $flags);
+            
+            if (!isset(self::$compiledPatterns[$key])) {
+                self::$compiledPatterns[$key] = $pattern;
+            }
+            
+            return preg_match(self::$compiledPatterns[$key], $subject, $matches, $flags);
+        }
+        
+        public static function replace($pattern, $replacement, $subject, $limit = -1) {
+            $key = md5($pattern . serialize($replacement) . $limit);
+            
+            if (!isset(self::$compiledPatterns[$key])) {
+                self::$compiledPatterns[$key] = $pattern;
+            }
+            
+            return preg_replace(self::$compiledPatterns[$key], $replacement, $subject, $limit);
+        }
+        
+        public static function split($pattern, $subject, $limit = -1) {
+            return preg_split($pattern, $subject, $limit, PREG_SPLIT_DELIM_CAPTURE);
+        }
+    }
+    
+    // Usage example
+    $result = RegexOptimizer::match('/^\\d+$/', '12345');
+    $cleaned = RegexOptimizer::replace('/\\s+/', ' ', 'Multiple    spaces   here');
     ?>`,
 
     "PHP JSON Handling": `
+// Example 1: Basic JSON encoding and decoding
     <?php
     $data = [\"name\" => \"John\", \"age\" => 30];
     $json = json_encode($data);
     $decoded = json_decode($json, true);
+    ?>
+
+// Example 2: JSON with options and error handling
+    <?php
+    $data = [
+        'name' => 'John Doe',
+        'email' => 'john@example.com',
+        'hobbies' => ['reading', 'gaming', 'coding'],
+        'profile' => [
+            'age' => 30,
+            'city' => 'New York'
+        ]
+    ];
+    
+    $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+    
+    if (json_last_error() === JSON_ERROR_NONE) {
+        echo $json;
+    } else {
+        echo 'JSON Error: ' . json_last_error_msg();
+    }
+    ?>
+
+    // Example 3: JSON validation and sanitization
+    <?php
+    function validateJson($jsonString) {
+        json_decode($jsonString);
+        return json_last_error() === JSON_ERROR_NONE;
+    }
+    
+    function sanitizeJsonData($data) {
+        if (is_array($data)) {
+            return array_map('sanitizeJsonData', $data);
+        } elseif (is_string($data)) {
+            return htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
+        }
+        return $data;
+    }
+    
+    $userInput = '{"name": "<script>alert(\"xss\")</script>", "age": 25}';
+    if (validateJson($userInput)) {
+        $data = json_decode($userInput, true);
+        $sanitized = sanitizeJsonData($data);
+        echo json_encode($sanitized);
+    }
+    ?>
+
+// Example 4: JSON API response handling
+    <?php
+    function sendJsonResponse($data, $statusCode = 200, $message = 'success') {
+        http_response_code($statusCode);
+        header('Content-Type: application/json');
+        
+        $response = [
+            'status' => $statusCode >= 200 && $statusCode < 300 ? 'success' : 'error',
+            'message' => $message,
+            'data' => $data,
+            'timestamp' => date('Y-m-d H:i:s')
+        ];
+        
+        echo json_encode($response, JSON_PRETTY_PRINT);
+        exit;
+    }
+    
+    // Usage
+    $userData = ['id' => 1, 'name' => 'John', 'email' => 'john@example.com'];
+    sendJsonResponse($userData);
+    ?>
+
+// Example 5: JSON file operations
+    <?php
+    class JsonFileManager {
+        private $filePath;
+        
+        public function __construct($filePath) {
+            $this->filePath = $filePath;
+        }
+        
+        public function read() {
+            if (!file_exists($this->filePath)) {
+                return null;
+            }
+            
+            $content = file_get_contents($this->filePath);
+            return json_decode($content, true);
+        }
+        
+        public function write($data) {
+            $json = json_encode($data, JSON_PRETTY_PRINT);
+            return file_put_contents($this->filePath, $json) !== false;
+        }
+        
+        public function append($newData) {
+            $existingData = $this->read() ?? [];
+            if (is_array($existingData)) {
+                $existingData[] = $newData;
+            } else {
+                $existingData = [$newData];
+            }
+            return $this->write($existingData);
+        }
+    }
+    
+    $jsonManager = new JsonFileManager('data.json');
+    $jsonManager->write(['users' => [['name' => 'John'], ['name' => 'Jane']]]);
+    ?>
+
+// Example 6: JSON Web Token (JWT) handling
+    <?php
+    function createJWT($payload, $secret) {
+        $header = json_encode(['typ' => 'JWT', 'alg' => 'HS256']);
+        $payload = json_encode($payload);
+        
+        $base64Header = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($header));
+        $base64Payload = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($payload));
+        
+        $signature = hash_hmac('sha256', $base64Header . '.' . $base64Payload, $secret, true);
+        $base64Signature = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($signature));
+        
+        return $base64Header . '.' . $base64Payload . '.' . $base64Signature;
+    }
+    
+    function validateJWT($token, $secret) {
+        $parts = explode('.', $token);
+        if (count($parts) !== 3) {
+            return false;
+        }
+        
+        list($header, $payload, $signature) = $parts;
+        
+        $expectedSignature = hash_hmac('sha256', $header . '.' . $payload, $secret, true);
+        $expectedSignature = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($expectedSignature));
+        
+        return hash_equals($signature, $expectedSignature);
+    }
+    ?>
+
+// Example 7: JSON schema validation
+    <?php
+    function validateJsonSchema($data, $schema) {
+        // Simple schema validation (for production, use a library like justinrainbow/json-schema)
+        foreach ($schema['required'] as $field) {
+            if (!isset($data[$field])) {
+                return false;
+            }
+        }
+        
+        foreach ($schema['properties'] as $field => $rules) {
+            if (isset($data[$field])) {
+                if (isset($rules['type']) && gettype($data[$field]) !== $rules['type']) {
+                    return false;
+                }
+                if (isset($rules['minLength']) && strlen($data[$field]) < $rules['minLength']) {
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+    }
+    
+    $schema = [
+        'required' => ['name', 'email'],
+        'properties' => [
+            'name' => ['type' => 'string', 'minLength' => 2],
+            'email' => ['type' => 'string'],
+            'age' => ['type' => 'integer']
+        ]
+    ];
+    
+    $data = ['name' => 'John', 'email' => 'john@example.com', 'age' => 30];
+    $isValid = validateJsonSchema($data, $schema);
+    ?>
+
+// Example 8: JSON streaming for large datasets
+    <?php
+    function streamJsonArray($generator, $filename = 'output.json') {
+        $file = fopen($filename, 'w');
+        fwrite($file, '[');
+        
+        $first = true;
+        foreach ($generator as $item) {
+            if (!$first) {
+                fwrite($file, ',');
+            }
+            fwrite($file, json_encode($item));
+            $first = false;
+        }
+        
+        fwrite($file, ']');
+        fclose($file);
+    }
+    
+    function generateLargeDataset() {
+        for ($i = 0; $i < 10000; $i++) {
+            yield [
+                'id' => $i,
+                'name' => 'User ' . $i,
+                'email' => 'user' . $i . '@example.com'
+            ];
+        }
+    }
+    
+    streamJsonArray(generateLargeDataset());
+    ?>
+
+// Example 9: JSON transformation and mapping
+    <?php
+    class JsonTransformer {
+        public static function transform($data, $mapping) {
+            $result = [];
+            
+            foreach ($mapping as $newKey => $config) {
+                if (is_string($config)) {
+                    $result[$newKey] = self::getNestedValue($data, $config);
+                } elseif (is_array($config)) {
+                    $result[$newKey] = self::transform($data, $config);
+                }
+            }
+            
+            return $result;
+        }
+        
+        private static function getNestedValue($data, $path) {
+            $keys = explode('.', $path);
+            $value = $data;
+            
+            foreach ($keys as $key) {
+                if (isset($value[$key])) {
+                    $value = $value[$key];
+                } else {
+                    return null;
+                }
+            }
+            
+            return $value;
+        }
+    }
+    
+    $userData = [
+        'personal_info' => [
+            'first_name' => 'John',
+            'last_name' => 'Doe',
+            'contact' => ['email' => 'john@example.com']
+        ]
+    ];
+    
+    $mapping = [
+        'fullName' => 'personal_info.first_name',
+        'email' => 'personal_info.contact.email'
+    ];
+    
+    $transformed = JsonTransformer::transform($userData, $mapping);
+    echo json_encode($transformed);
     ?>`,
 
     "PHP XML Processing": `
+// Example 1: Basic XML parsing with SimpleXML
     <?php
     $xml = simplexml_load_string(\"<root><item>Test</item></root>\");
     echo $xml->item;
+    ?>
+
+// Example 2: XML file parsing and manipulation
+    <?php
+    $xml = simplexml_load_file('data.xml');
+    foreach ($xml->user as $user) {
+        echo \"Name: \" . $user->name . \", Email: \" . $user->email . \"\\n\";
+    }
+    
+    // Modify XML
+    $xml->user[0]->name = 'Updated Name';
+    $xml->asXML('updated_data.xml');
+    ?>
+
+// Example 3: XML generation with DOMDocument
+    <?php
+    $dom = new DOMDocument('1.0', 'UTF-8');
+    $dom->formatOutput = true;
+    
+    $root = $dom->createElement('users');
+    $dom->appendChild($root);
+    
+    $users = [
+        ['name' => 'John', 'email' => 'john@example.com'],
+        ['name' => 'Jane', 'email' => 'jane@example.com']
+    ];
+    
+    foreach ($users as $userData) {
+        $user = $dom->createElement('user');
+        $name = $dom->createElement('name', $userData['name']);
+        $email = $dom->createElement('email', $userData['email']);
+        
+        $user->appendChild($name);
+        $user->appendChild($email);
+        $root->appendChild($user);
+    }
+    
+    echo $dom->saveXML();
+    ?>
+
+// Example 4: XML validation with XSD schema
+    <?php
+    function validateXmlWithXsd($xmlFile, $xsdFile) {
+        $dom = new DOMDocument();
+        $dom->load($xmlFile);
+        
+        if ($dom->schemaValidate($xsdFile)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    // Create XSD schema
+    $xsd = '<?xml version=\"1.0\"?>
+    <xs:schema xmlns:xs=\"http://www.w3.org/2001/XMLSchema\">
+        <xs:element name=\"user\">
+            <xs:complexType>
+                <xs:sequence>
+                    <xs:element name=\"name\" type=\"xs:string\"/>
+                    <xs:element name=\"email\" type=\"xs:string\"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:element>
+    </xs:schema>';
+    
+    file_put_contents('schema.xsd', $xsd);
+    
+    $isValid = validateXmlWithXsd('data.xml', 'schema.xsd');
+    ?>
+
+// Example 5: XML parsing with XPath
+    <?php
+    $xml = simplexml_load_file('products.xml');
+    
+    // Find all products with price > 100
+    $expensiveProducts = $xml->xpath('//product[price > 100]');
+    
+    foreach ($expensiveProducts as $product) {
+        echo \"Product: \" . $product->name . \", Price: \" . $product->price . \"\\n\";
+    }
+    
+    // Find products by category
+    $electronics = $xml->xpath('//product[@category=\"electronics\"]');
+    
+    // Find product names containing 'phone'
+    $phones = $xml->xpath('//product[contains(name, \"phone\")]');
+    ?>
+
+// Example 6: XML to array conversion
+    <?php
+    function xmlToArray($xml) {
+        $array = json_decode(json_encode($xml), true);
+        return $array;
+    }
+    
+    function arrayToXml($array, $rootElement = 'root') {
+        $xml = new SimpleXMLElement(\"<?xml version='1.0'?><$rootElement></$rootElement>\");
+        arrayToXmlRecursive($array, $xml);
+        return $xml->asXML();
+    }
+    
+    function arrayToXmlRecursive($array, &$xml) {
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                if (is_numeric($key)) {
+                    $key = 'item';
+                }
+                $subnode = $xml->addChild($key);
+                arrayToXmlRecursive($value, $subnode);
+            } else {
+                $xml->addChild($key, htmlspecialchars($value));
+            }
+        }
+    }
+    
+    $data = ['users' => [['name' => 'John'], ['name' => 'Jane']]];
+    $xmlString = arrayToXml($data, 'users');
+    echo $xmlString;
+    ?>
+
+// Example 7: XML RSS feed processing
+    <?php
+    class RssProcessor {
+        public function parseRssFeed($url) {
+            $xml = simplexml_load_file($url);
+            if (!$xml) {
+                return false;
+            }
+            
+            $items = [];
+            foreach ($xml->channel->item as $item) {
+                $items[] = [
+                    'title' => (string)$item->title,
+                    'description' => (string)$item->description,
+                    'link' => (string)$item->link,
+                    'pubDate' => (string)$item->pubDate
+                ];
+            }
+            
+            return $items;
+        }
+        
+        public function generateRssFeed($items, $channelInfo) {
+            $xml = new SimpleXMLElement('<?xml version=\"1.0\"?><rss version=\"2.0\"></rss>');
+            $channel = $xml->addChild('channel');
+            
+            foreach ($channelInfo as $key => $value) {
+                $channel->addChild($key, htmlspecialchars($value));
+            }
+            
+            foreach ($items as $item) {
+                $rssItem = $channel->addChild('item');
+                foreach ($item as $key => $value) {
+                    $rssItem->addChild($key, htmlspecialchars($value));
+                }
+            }
+            
+            return $xml->asXML();
+        }
+    }
+    
+    $rssProcessor = new RssProcessor();
+    $feed = $rssProcessor->parseRssFeed('https://example.com/rss.xml');
+    ?>
+
+// Example 8: XML transformation with XSLT
+    <?php
+    function transformXmlWithXslt($xmlFile, $xsltFile) {
+        $xml = new DOMDocument();
+        $xml->load($xmlFile);
+        
+        $xsl = new DOMDocument();
+        $xsl->load($xsltFile);
+        
+        $processor = new XSLTProcessor();
+        $processor->importStylesheet($xsl);
+        
+        return $processor->transformToXML($xml);
+    }
+    
+    // Create XSLT stylesheet
+    $xslt = '<?xml version=\"1.0\"?>
+    <xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">
+        <xsl:template match=\"/\">
+            <html>
+                <body>
+                    <h1>Users</h1>
+                    <xsl:for-each select=\"users/user\">
+                        <p><strong><xsl:value-of select=\"name\"/></strong> - <xsl:value-of select=\"email\"/></p>
+                    </xsl:for-each>
+                </body>
+            </html>
+        </xsl:template>
+    </xsl:stylesheet>';
+    
+    file_put_contents('transform.xslt', $xslt);
+    $html = transformXmlWithXslt('users.xml', 'transform.xslt');
+    ?>
+
+// Example 9: XML security and sanitization
+    <?php
+    class SecureXmlParser {
+        public function sanitizeXmlInput($xmlString) {
+            // Remove potentially dangerous elements
+            $dangerousElements = ['script', 'iframe', 'object', 'embed'];
+            
+            foreach ($dangerousElements as $element) {
+                $xmlString = preg_replace(\"/<$element[^>]*>.*?<\\/$element>/is\", '', $xmlString);
+            }
+            
+            // Remove dangerous attributes
+            $xmlString = preg_replace('/on\\w+\\s*=\\s*[\"\\'][^\"\\']*[\"\\']/', '', $xmlString);
+            
+            return $xmlString;
+        }
+        
+        public function validateXmlStructure($xmlString) {
+            $dom = new DOMDocument();
+            libxml_use_internal_errors(true);
+            
+            if (!$dom->loadXML($xmlString)) {
+                return false;
+            }
+            
+            // Check for external entity references
+            if (strpos($xmlString, 'SYSTEM') !== false || strpos($xmlString, 'PUBLIC') !== false) {
+                return false;
+            }
+            
+            return true;
+        }
+        
+        public function parseXmlSecurely($xmlString) {
+            $sanitized = $this->sanitizeXmlInput($xmlString);
+            
+            if (!$this->validateXmlStructure($sanitized)) {
+                throw new Exception('Invalid or potentially dangerous XML');
+            }
+            
+            return simplexml_load_string($sanitized);
+        }
+    }
+    
+    $parser = new SecureXmlParser();
+    $xml = $parser->parseXmlSecurely($xmlString);
     ?>`,
 
     "PHP RESTful APIs": `
+// Example 1: Basic RESTful API endpoint
     <?php
     header(\"Content-Type: application/json\");
     echo json_encode([\"status\" => \"success\"]);
+    ?>
+
+// Example 2: Complete RESTful API with CRUD operations
+    <?php
+    class UserAPI {
+        private $pdo;
+        
+        public function __construct($pdo) {
+            $this->pdo = $pdo;
+        }
+        
+        public function handleRequest() {
+            $method = $_SERVER['REQUEST_METHOD'];
+            $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+            
+            switch ($method) {
+                case 'GET':
+                    return $this->getUsers($path);
+                case 'POST':
+                    return $this->createUser();
+                case 'PUT':
+                    return $this->updateUser($path);
+                case 'DELETE':
+                    return $this->deleteUser($path);
+                default:
+                    return $this->sendResponse(['error' => 'Method not allowed'], 405);
+            }
+        }
+        
+        private function getUsers($path) {
+            if (preg_match('/\\/users\\/(\\d+)/', $path, $matches)) {
+                $id = $matches[1];
+                return $this->getUserById($id);
+            }
+            return $this->getAllUsers();
+        }
+        
+        private function getAllUsers() {
+            $stmt = $this->pdo->query('SELECT * FROM users');
+            $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $this->sendResponse(['users' => $users]);
+        }
+        
+        private function getUserById($id) {
+            $stmt = $this->pdo->prepare('SELECT * FROM users WHERE id = ?');
+            $stmt->execute([$id]);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            if (!$user) {
+                return $this->sendResponse(['error' => 'User not found'], 404);
+            }
+            
+            return $this->sendResponse(['user' => $user]);
+        }
+        
+        private function createUser() {
+            $data = json_decode(file_get_contents('php://input'), true);
+            
+            $stmt = $this->pdo->prepare('INSERT INTO users (name, email) VALUES (?, ?)');
+            if ($stmt->execute([$data['name'], $data['email']])) {
+                $userId = $this->pdo->lastInsertId();
+                return $this->sendResponse(['id' => $userId, 'message' => 'User created'], 201);
+            }
+            
+            return $this->sendResponse(['error' => 'Failed to create user'], 500);
+        }
+        
+        private function updateUser($path) {
+            if (preg_match('/\\/users\\/(\\d+)/', $path, $matches)) {
+                $id = $matches[1];
+                $data = json_decode(file_get_contents('php://input'), true);
+                
+                $stmt = $this->pdo->prepare('UPDATE users SET name = ?, email = ? WHERE id = ?');
+                if ($stmt->execute([$data['name'], $data['email'], $id])) {
+                    return $this->sendResponse(['message' => 'User updated']);
+                }
+            }
+            
+            return $this->sendResponse(['error' => 'Failed to update user'], 500);
+        }
+        
+        private function deleteUser($path) {
+            if (preg_match('/\\/users\\/(\\d+)/', $path, $matches)) {
+                $id = $matches[1];
+                
+                $stmt = $this->pdo->prepare('DELETE FROM users WHERE id = ?');
+                if ($stmt->execute([$id])) {
+                    return $this->sendResponse(['message' => 'User deleted']);
+                }
+            }
+            
+            return $this->sendResponse(['error' => 'Failed to delete user'], 500);
+        }
+        
+        private function sendResponse($data, $statusCode = 200) {
+            http_response_code($statusCode);
+            header('Content-Type: application/json');
+            echo json_encode($data);
+            exit;
+        }
+    }
+    ?>
+
+// Example 3: API authentication and authorization
+    <?php
+    class APIAuth {
+        private $secretKey;
+        
+        public function __construct($secretKey) {
+            $this->secretKey = $secretKey;
+        }
+        
+        public function generateToken($userId, $expiration = 3600) {
+            $payload = [
+                'user_id' => $userId,
+                'exp' => time() + $expiration,
+                'iat' => time()
+            ];
+            
+            $header = base64_encode(json_encode(['typ' => 'JWT', 'alg' => 'HS256']));
+            $payloadEncoded = base64_encode(json_encode($payload));
+            $signature = hash_hmac('sha256', $header . '.' . $payloadEncoded, $this->secretKey, true);
+            $signatureEncoded = base64_encode($signature);
+            
+            return $header . '.' . $payloadEncoded . '.' . $signatureEncoded;
+        }
+        
+        public function validateToken($token) {
+            $parts = explode('.', $token);
+            if (count($parts) !== 3) {
+                return false;
+            }
+            
+            list($header, $payload, $signature) = $parts;
+            $expectedSignature = hash_hmac('sha256', $header . '.' . $payload, $this->secretKey, true);
+            $expectedSignature = base64_encode($expectedSignature);
+            
+            if (!hash_equals($signature, $expectedSignature)) {
+                return false;
+            }
+            
+            $payloadData = json_decode(base64_decode($payload), true);
+            
+            if ($payloadData['exp'] < time()) {
+                return false;
+            }
+            
+            return $payloadData['user_id'];
+        }
+        
+        public function requireAuth() {
+            $headers = getallheaders();
+            $authHeader = $headers['Authorization'] ?? '';
+            
+            if (!preg_match('/Bearer\\s+(.*)$/i', $authHeader, $matches)) {
+                http_response_code(401);
+                echo json_encode(['error' => 'Authorization header required']);
+                exit;
+            }
+            
+            $userId = $this->validateToken($matches[1]);
+            if (!$userId) {
+                http_response_code(401);
+                echo json_encode(['error' => 'Invalid token']);
+                exit;
+            }
+            
+            return $userId;
+        }
+    }
+    ?>
+
+// Example 4: API rate limiting
+    <?php
+    class RateLimiter {
+        private $redis;
+        private $maxRequests;
+        private $timeWindow;
+        
+        public function __construct($redis, $maxRequests = 100, $timeWindow = 3600) {
+            $this->redis = $redis;
+            $this->maxRequests = $maxRequests;
+            $this->timeWindow = $timeWindow;
+        }
+        
+        public function checkRateLimit($identifier) {
+            $key = 'rate_limit:' . $identifier;
+            $current = $this->redis->incr($key);
+            
+            if ($current === 1) {
+                $this->redis->expire($key, $this->timeWindow);
+            }
+            
+            if ($current > $this->maxRequests) {
+                return false;
+            }
+            
+            return [
+                'allowed' => true,
+                'remaining' => max(0, $this->maxRequests - $current),
+                'reset' => $this->redis->ttl($key)
+            ];
+        }
+        
+        public function enforceRateLimit($identifier) {
+            $result = $this->checkRateLimit($identifier);
+            
+            if (!$result['allowed']) {
+                http_response_code(429);
+                header('X-RateLimit-Limit: ' . $this->maxRequests);
+                header('X-RateLimit-Remaining: 0');
+                header('X-RateLimit-Reset: ' . $result['reset']);
+                echo json_encode(['error' => 'Rate limit exceeded']);
+                exit;
+            }
+            
+            header('X-RateLimit-Limit: ' . $this->maxRequests);
+            header('X-RateLimit-Remaining: ' . $result['remaining']);
+            header('X-RateLimit-Reset: ' . $result['reset']);
+        }
+    }
+    ?>
+
+// Example 5: API input validation and sanitization
+    <?php
+    class APIValidator {
+        public function validateUserData($data) {
+            $errors = [];
+            
+            if (empty($data['name'])) {
+                $errors['name'] = 'Name is required';
+            } elseif (strlen($data['name']) < 2) {
+                $errors['name'] = 'Name must be at least 2 characters';
+            }
+            
+            if (empty($data['email'])) {
+                $errors['email'] = 'Email is required';
+            } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+                $errors['email'] = 'Invalid email format';
+            }
+            
+            if (isset($data['age']) && (!is_numeric($data['age']) || $data['age'] < 0 || $data['age'] > 150)) {
+                $errors['age'] = 'Age must be a valid number between 0 and 150';
+            }
+            
+            return $errors;
+        }
+        
+        public function sanitizeInput($data) {
+            if (is_array($data)) {
+                return array_map([$this, 'sanitizeInput'], $data);
+            }
+            
+            return htmlspecialchars(trim($data), ENT_QUOTES, 'UTF-8');
+        }
+        
+        public function validateAndSanitize($data) {
+            $sanitized = $this->sanitizeInput($data);
+            $errors = $this->validateUserData($sanitized);
+            
+            return [
+                'data' => $sanitized,
+                'errors' => $errors,
+                'valid' => empty($errors)
+            ];
+        }
+    }
+    ?>
+
+// Example 6: API versioning
+    <?php
+    class APIVersionManager {
+        private $supportedVersions = ['v1', 'v2'];
+        private $defaultVersion = 'v1';
+        
+        public function getVersionFromHeader() {
+            $headers = getallheaders();
+            $acceptHeader = $headers['Accept'] ?? '';
+            
+            if (preg_match('/version=(\\w+)/', $acceptHeader, $matches)) {
+                return $matches[1];
+            }
+            
+            return null;
+        }
+        
+        public function getVersionFromURL() {
+            $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+            
+            if (preg_match('/\\/api\\/(v\\d+)\\//', $path, $matches)) {
+                return $matches[1];
+            }
+            
+            return null;
+        }
+        
+        public function getCurrentVersion() {
+            $version = $this->getVersionFromURL() ?? $this->getVersionFromHeader() ?? $this->defaultVersion;
+            
+            if (!in_array($version, $this->supportedVersions)) {
+                http_response_code(400);
+                echo json_encode([
+                    'error' => 'Unsupported API version',
+                    'supported_versions' => $this->supportedVersions
+                ]);
+                exit;
+            }
+            
+            return $version;
+        }
+        
+        public function routeToVersion($version) {
+            switch ($version) {
+                case 'v1':
+                    return new APIv1();
+                case 'v2':
+                    return new APIv2();
+                default:
+                    throw new Exception('Unsupported version');
+            }
+        }
+    }
+    ?>
+
+// Example 7: API error handling and logging
+    <?php
+    class APIErrorHandler {
+        private $logger;
+        
+        public function __construct($logger) {
+            $this->logger = $logger;
+        }
+        
+        public function handleError($exception) {
+            $errorId = uniqid('err_');
+            
+            $this->logger->error('API Error', [
+                'error_id' => $errorId,
+                'message' => $exception->getMessage(),
+                'file' => $exception->getFile(),
+                'line' => $exception->getLine(),
+                'trace' => $exception->getTraceAsString(),
+                'request_uri' => $_SERVER['REQUEST_URI'],
+                'request_method' => $_SERVER['REQUEST_METHOD']
+            ]);
+            
+            http_response_code(500);
+            echo json_encode([
+                'error' => 'Internal server error',
+                'error_id' => $errorId
+            ]);
+        }
+        
+        public function handleValidationError($errors) {
+            http_response_code(422);
+            echo json_encode([
+                'error' => 'Validation failed',
+                'errors' => $errors
+            ]);
+        }
+        
+        public function handleNotFound($resource) {
+            http_response_code(404);
+            echo json_encode([
+                'error' => 'Resource not found',
+                'resource' => $resource
+            ]);
+        }
+    }
+    
+    set_exception_handler([new APIErrorHandler($logger), 'handleError']);
+    ?>
+
+// Example 8: API documentation generation
+    <?php
+    class APIDocumentation {
+        private $routes = [];
+        
+        public function addRoute($method, $path, $description, $parameters = [], $responses = []) {
+            $this->routes[] = [
+                'method' => $method,
+                'path' => $path,
+                'description' => $description,
+                'parameters' => $parameters,
+                'responses' => $responses
+            ];
+        }
+        
+        public function generateOpenAPISpec() {
+            $spec = [
+                'openapi' => '3.0.0',
+                'info' => [
+                    'title' => 'User API',
+                    'version' => '1.0.0',
+                    'description' => 'A simple user management API'
+                ],
+                'paths' => []
+            ];
+            
+            foreach ($this->routes as $route) {
+                $spec['paths'][$route['path']][strtolower($route['method'])] = [
+                    'summary' => $route['description'],
+                    'parameters' => $route['parameters'],
+                    'responses' => $route['responses']
+                ];
+            }
+            
+            return json_encode($spec, JSON_PRETTY_PRINT);
+        }
+        
+        public function serveDocumentation() {
+            header('Content-Type: application/json');
+            echo $this->generateOpenAPISpec();
+        }
+    }
+    
+    $doc = new APIDocumentation();
+    $doc->addRoute('GET', '/users', 'Get all users', [], [
+        '200' => ['description' => 'List of users']
+    ]);
+    $doc->addRoute('POST', '/users', 'Create a new user', [
+        ['name' => 'name', 'in' => 'body', 'required' => true, 'schema' => ['type' => 'string']],
+        ['name' => 'email', 'in' => 'body', 'required' => true, 'schema' => ['type' => 'string']]
+    ], [
+        '201' => ['description' => 'User created successfully'],
+        '422' => ['description' => 'Validation error']
+    ]);
+    ?>
+
+// Example 9: API testing and mocking
+    <?php
+    class APITester {
+        private $baseUrl;
+        private $headers;
+        
+        public function __construct($baseUrl) {
+            $this->baseUrl = $baseUrl;
+            $this->headers = ['Content-Type: application/json'];
+        }
+        
+        public function setAuthToken($token) {
+            $this->headers[] = 'Authorization: Bearer ' . $token;
+        }
+        
+        public function makeRequest($method, $endpoint, $data = null) {
+            $url = $this->baseUrl . $endpoint;
+            $ch = curl_init();
+            
+            curl_setopt_array($ch, [
+                CURLOPT_URL => $url,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_CUSTOMREQUEST => $method,
+                CURLOPT_HTTPHEADER => $this->headers
+            ]);
+            
+            if ($data && in_array($method, ['POST', 'PUT', 'PATCH'])) {
+                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+            }
+            
+            $response = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+            
+            return [
+                'status_code' => $httpCode,
+                'body' => json_decode($response, true),
+                'raw_body' => $response
+            ];
+        }
+        
+        public function testEndpoint($method, $endpoint, $expectedStatus = 200, $data = null) {
+            $response = $this->makeRequest($method, $endpoint, $data);
+            
+            if ($response['status_code'] !== $expectedStatus) {
+                throw new Exception(\"Expected status $expectedStatus, got {$response['status_code']}\");
+            }
+            
+            return $response;
+        }
+    }
+    
+    $tester = new APITester('http://localhost/api/');
+    $tester->testEndpoint('GET', '/users');
+    $tester->testEndpoint('POST', '/users', 201, ['name' => 'Test User', 'email' => 'test@example.com']);
     ?>`,
 
     "PHP Project Structure": `
+// Example 1: Basic MVC project structure
     <?php
     // Project structure example
     require_once \"config/database.php\";
     require_once \"models/User.php\";
     require_once \"controllers/UserController.php\";
+    ?>
+
+// Example 2: Modern PHP project with Composer autoloading
+    <?php
+    // composer.json
+    {
+        \"name\": \"mycompany/myproject\",
+        \"description\": \"Modern PHP Application\",
+        \"type\": \"project\",
+        \"autoload\": {
+            \"psr-4\": {
+                \"App\\\\\": \"src/\",
+                \"App\\\\Controllers\\\\\": \"src/Controllers/\",
+                \"App\\\\Models\\\\\": \"src/Models/\",
+                \"App\\\\Services\\\\\": \"src/Services/\"
+            }
+        },
+        \"require\": {
+            \"php\": \">=8.0\",
+            \"monolog/monolog\": \"^3.0\",
+            \"doctrine/orm\": \"^2.14\"
+        }
+    }
+    
+    // index.php
+    require_once 'vendor/autoload.php';
+    use App\\Controllers\\UserController;
+    ?>
+
+// Example 3: Environment-based configuration
+    <?php
+    // config/app.php
+    return [
+        'app' => [
+            'name' => $_ENV['APP_NAME'] ?? 'My App',
+            'env' => $_ENV['APP_ENV'] ?? 'production',
+            'debug' => filter_var($_ENV['APP_DEBUG'] ?? false, FILTER_VALIDATE_BOOLEAN),
+            'url' => $_ENV['APP_URL'] ?? 'http://localhost'
+        ],
+        'database' => [
+            'host' => $_ENV['DB_HOST'] ?? 'localhost',
+            'port' => $_ENV['DB_PORT'] ?? 3306,
+            'database' => $_ENV['DB_DATABASE'] ?? 'myapp',
+            'username' => $_ENV['DB_USERNAME'] ?? 'root',
+            'password' => $_ENV['DB_PASSWORD'] ?? ''
+        ]
+    ];
+    
+    // .env file
+    APP_NAME=\"My Application\"
+    APP_ENV=local
+    APP_DEBUG=true
+    APP_URL=http://localhost
+    
+    DB_HOST=localhost
+    DB_PORT=3306
+    DB_DATABASE=myapp
+    DB_USERNAME=root
+    DB_PASSWORD=
+    ?>
+
+// Example 4: Service container and dependency injection
+    <?php
+    class Container {
+        private $services = [];
+        private $instances = [];
+        
+        public function bind($abstract, $concrete) {
+            $this->services[$abstract] = $concrete;
+        }
+        
+        public function singleton($abstract, $concrete) {
+            $this->bind($abstract, $concrete);
+        }
+        
+        public function make($abstract) {
+            if (isset($this->instances[$abstract])) {
+                return $this->instances[$abstract];
+            }
+            
+            $concrete = $this->services[$abstract] ?? $abstract;
+            
+            if (is_callable($concrete)) {
+                $instance = $concrete($this);
+            } else {
+                $instance = new $concrete();
+            }
+            
+            if (isset($this->services[$abstract])) {
+                $this->instances[$abstract] = $instance;
+            }
+            
+            return $instance;
+        }
+    }
+    
+    $container = new Container();
+    $container->bind('Database', function($container) {
+        return new PDO('mysql:host=localhost;dbname=myapp', 'user', 'pass');
+    });
+    $container->singleton('Logger', function($container) {
+        return new Monolog\\Logger('app');
+    });
+    ?>
+
+// Example 5: Middleware system for request handling
+    <?php
+    interface Middleware {
+        public function handle($request, $next);
+    }
+    
+    class AuthMiddleware implements Middleware {
+        public function handle($request, $next) {
+            if (!$this->isAuthenticated($request)) {
+                return new Response('Unauthorized', 401);
+            }
+            return $next($request);
+        }
+        
+        private function isAuthenticated($request) {
+            // Check authentication logic
+            return true;
+        }
+    }
+    
+    class LoggingMiddleware implements Middleware {
+        private $logger;
+        
+        public function __construct($logger) {
+            $this->logger = $logger;
+        }
+        
+        public function handle($request, $next) {
+            $this->logger->info('Request: ' . $request->getUri());
+            $response = $next($request);
+            $this->logger->info('Response: ' . $response->getStatusCode());
+            return $response;
+        }
+    }
+    
+    class MiddlewareStack {
+        private $middlewares = [];
+        
+        public function push(Middleware $middleware) {
+            $this->middlewares[] = $middleware;
+            return $this;
+        }
+        
+        public function handle($request) {
+            $next = function($request) {
+                return new Response('OK', 200);
+            };
+            
+            foreach (array_reverse($this->middlewares) as $middleware) {
+                $next = function($request) use ($middleware, $next) {
+                    return $middleware->handle($request, $next);
+                };
+            }
+            
+            return $next($request);
+        }
+    }
+    ?>
+
+// Example 6: Repository pattern for data access
+    <?php
+    interface UserRepositoryInterface {
+        public function find($id);
+        public function findByEmail($email);
+        public function save(User $user);
+        public function delete($id);
+        public function findAll($limit = 10, $offset = 0);
+    }
+    
+    class DatabaseUserRepository implements UserRepositoryInterface {
+        private $pdo;
+        
+        public function __construct(PDO $pdo) {
+            $this->pdo = $pdo;
+        }
+        
+        public function find($id) {
+            $stmt = $this->pdo->prepare('SELECT * FROM users WHERE id = ?');
+            $stmt->execute([$id]);
+            $data = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $data ? User::fromArray($data) : null;
+        }
+        
+        public function findByEmail($email) {
+            $stmt = $this->pdo->prepare('SELECT * FROM users WHERE email = ?');
+            $stmt->execute([$email]);
+            $data = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $data ? User::fromArray($data) : null;
+        }
+        
+        public function save(User $user) {
+            if ($user->getId()) {
+                return $this->update($user);
+            } else {
+                return $this->insert($user);
+            }
+        }
+        
+        private function insert(User $user) {
+            $stmt = $this->pdo->prepare('INSERT INTO users (name, email, created_at) VALUES (?, ?, ?)');
+            $stmt->execute([$user->getName(), $user->getEmail(), $user->getCreatedAt()]);
+            return $this->pdo->lastInsertId();
+        }
+        
+        private function update(User $user) {
+            $stmt = $this->pdo->prepare('UPDATE users SET name = ?, email = ? WHERE id = ?');
+            return $stmt->execute([$user->getName(), $user->getEmail(), $user->getId()]);
+        }
+        
+        public function delete($id) {
+            $stmt = $this->pdo->prepare('DELETE FROM users WHERE id = ?');
+            return $stmt->execute([$id]);
+        }
+        
+        public function findAll($limit = 10, $offset = 0) {
+            $stmt = $this->pdo->prepare('SELECT * FROM users LIMIT ? OFFSET ?');
+            $stmt->execute([$limit, $offset]);
+            return array_map(function($data) {
+                return User::fromArray($data);
+            }, $stmt->fetchAll(PDO::FETCH_ASSOC));
+        }
+    }
+    ?>
+
+// Example 7: Event system for loose coupling
+    <?php
+    interface Event {
+        public function getName();
+    }
+    
+    interface EventListener {
+        public function handle(Event $event);
+    }
+    
+    class EventDispatcher {
+        private $listeners = [];
+        
+        public function addListener($eventName, EventListener $listener) {
+            $this->listeners[$eventName][] = $listener;
+        }
+        
+        public function dispatch(Event $event) {
+            $eventName = $event->getName();
+            
+            if (!isset($this->listeners[$eventName])) {
+                return;
+            }
+            
+            foreach ($this->listeners[$eventName] as $listener) {
+                $listener->handle($event);
+            }
+        }
+    }
+    
+    class UserRegisteredEvent implements Event {
+        private $user;
+        
+        public function __construct(User $user) {
+            $this->user = $user;
+        }
+        
+        public function getName() {
+            return 'user.registered';
+        }
+        
+        public function getUser() {
+            return $this->user;
+        }
+    }
+    
+    class SendWelcomeEmailListener implements EventListener {
+        public function handle(Event $event) {
+            if ($event instanceof UserRegisteredEvent) {
+                // Send welcome email
+                echo \"Sending welcome email to: \" . $event->getUser()->getEmail();
+            }
+        }
+    }
+    
+    $dispatcher = new EventDispatcher();
+    $dispatcher->addListener('user.registered', new SendWelcomeEmailListener());
+    ?>
+
+// Example 8: API routing system
+    <?php
+    class Router {
+        private $routes = [];
+        private $middlewares = [];
+        
+        public function get($path, $handler) {
+            $this->addRoute('GET', $path, $handler);
+        }
+        
+        public function post($path, $handler) {
+            $this->addRoute('POST', $path, $handler);
+        }
+        
+        public function put($path, $handler) {
+            $this->addRoute('PUT', $path, $handler);
+        }
+        
+        public function delete($path, $handler) {
+            $this->addRoute('DELETE', $path, $handler);
+        }
+        
+        private function addRoute($method, $path, $handler) {
+            $this->routes[$method][$path] = $handler;
+        }
+        
+        public function middleware($middleware) {
+            $this->middlewares[] = $middleware;
+        }
+        
+        public function dispatch($method, $path) {
+            $handler = $this->routes[$method][$path] ?? null;
+            
+            if (!$handler) {
+                return new Response('Not Found', 404);
+            }
+            
+            // Apply middlewares
+            foreach ($this->middlewares as $middleware) {
+                $middleware->handle($this->request, function($request) use ($handler) {
+                    return call_user_func($handler, $request);
+                });
+            }
+            
+            return call_user_func($handler, $this->request);
+        }
+    }
+    
+    $router = new Router();
+    $router->middleware(new LoggingMiddleware($logger));
+    $router->middleware(new AuthMiddleware());
+    
+    $router->get('/users', function($request) {
+        return new Response(['users' => $userRepository->findAll()], 200);
+    });
+    
+    $router->post('/users', function($request) {
+        $data = $request->getBody();
+        $user = User::fromArray($data);
+        $userRepository->save($user);
+        return new Response(['message' => 'User created'], 201);
+    });
+    ?>
+
+// Example 9: Caching system integration
+    <?php
+    interface CacheInterface {
+        public function get($key);
+        public function set($key, $value, $ttl = 3600);
+        public function delete($key);
+        public function flush();
+    }
+    
+    class RedisCache implements CacheInterface {
+        private $redis;
+        
+        public function __construct($redis) {
+            $this->redis = $redis;
+        }
+        
+        public function get($key) {
+            $value = $this->redis->get($key);
+            return $value ? unserialize($value) : null;
+        }
+        
+        public function set($key, $value, $ttl = 3600) {
+            return $this->redis->setex($key, $ttl, serialize($value));
+        }
+        
+        public function delete($key) {
+            return $this->redis->del($key);
+        }
+        
+        public function flush() {
+            return $this->redis->flushdb();
+        }
+    }
+    
+    class CachedUserRepository implements UserRepositoryInterface {
+        private $repository;
+        private $cache;
+        
+        public function __construct(UserRepositoryInterface $repository, CacheInterface $cache) {
+            $this->repository = $repository;
+            $this->cache = $cache;
+        }
+        
+        public function find($id) {
+            $cacheKey = \"user:{$id}\";
+            $user = $this->cache->get($cacheKey);
+            
+            if (!$user) {
+                $user = $this->repository->find($id);
+                if ($user) {
+                    $this->cache->set($cacheKey, $user, 3600);
+                }
+            }
+            
+            return $user;
+        }
+        
+        public function save(User $user) {
+            $result = $this->repository->save($user);
+            $this->cache->delete(\"user:{$user->getId()}\");
+            return $result;
+        }
+        
+        // Implement other methods...
+    }
     ?>`,
 
     "PHP Best Practices": `
+// Example 1: Clean code principles
     <?php
     // Best practices example
     function calculateTotal($items) {
-    $total = 0; 
-    foreach ($items as $item) {
-    $total += $item->price;
-       }
-      return $total;
-      }
-      ?>`,
+        $total = 0; 
+        foreach ($items as $item) {
+            $total += $item->price;
+        }
+        return $total;
+    }
+    ?>
+
+// Example 2: Type declarations and return types
+    <?php
+    declare(strict_types=1);
+    
+    class User {
+        private int $id;
+        private string $name;
+        private string $email;
+        private DateTime $createdAt;
+        
+        public function __construct(int $id, string $name, string $email) {
+            $this->id = $id;
+            $this->name = $name;
+            $this->email = $email;
+            $this->createdAt = new DateTime();
+        }
+        
+        public function getId(): int {
+            return $this->id;
+        }
+        
+        public function getName(): string {
+            return $this->name;
+        }
+        
+        public function getEmail(): string {
+            return $this->email;
+        }
+        
+        public function getCreatedAt(): DateTime {
+            return $this->createdAt;
+        }
+        
+        public function setName(string $name): void {
+            if (empty(trim($name))) {
+                throw new InvalidArgumentException('Name cannot be empty');
+            }
+            $this->name = $name;
+        }
+        
+        public function setEmail(string $email): void {
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                throw new InvalidArgumentException('Invalid email format');
+            }
+            $this->email = $email;
+        }
+    }
+    ?>
+
+// Example 3: Error handling and logging
+    <?php
+    use Psr\\Log\\LoggerInterface;
+    
+    class UserService {
+        private LoggerInterface $logger;
+        private UserRepository $userRepository;
+        
+        public function __construct(LoggerInterface $logger, UserRepository $userRepository) {
+            $this->logger = $logger;
+            $this->userRepository = $userRepository;
+        }
+        
+        public function createUser(array $userData): User {
+            try {
+                $this->validateUserData($userData);
+                
+                $user = new User(
+                    $userData['id'],
+                    $userData['name'],
+                    $userData['email']
+                );
+                
+                $savedUser = $this->userRepository->save($user);
+                
+                $this->logger->info('User created successfully', [
+                    'user_id' => $savedUser->getId(),
+                    'email' => $savedUser->getEmail()
+                ]);
+                
+                return $savedUser;
+                
+            } catch (InvalidArgumentException $e) {
+                $this->logger->warning('Invalid user data provided', [
+                    'error' => $e->getMessage(),
+                    'user_data' => $userData
+                ]);
+                throw $e;
+                
+            } catch (Exception $e) {
+                $this->logger->error('Failed to create user', [
+                    'error' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString()
+                ]);
+                throw new UserCreationException('Failed to create user', 0, $e);
+            }
+        }
+        
+        private function validateUserData(array $data): void {
+            if (empty($data['name'])) {
+                throw new InvalidArgumentException('Name is required');
+            }
+            
+            if (empty($data['email'])) {
+                throw new InvalidArgumentException('Email is required');
+            }
+            
+            if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+                throw new InvalidArgumentException('Invalid email format');
+            }
+        }
+    }
+    ?>
+
+// Example 4: Database best practices with prepared statements
+    <?php
+    class UserRepository {
+        private PDO $pdo;
+        
+        public function __construct(PDO $pdo) {
+            $this->pdo = $pdo;
+            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        }
+        
+        public function findById(int $id): ?User {
+            $stmt = $this->pdo->prepare('SELECT * FROM users WHERE id = ?');
+            $stmt->execute([$id]);
+            
+            $data = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $data ? $this->mapToUser($data) : null;
+        }
+        
+        public function findByEmail(string $email): ?User {
+            $stmt = $this->pdo->prepare('SELECT * FROM users WHERE email = ?');
+            $stmt->execute([$email]);
+            
+            $data = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $data ? $this->mapToUser($data) : null;
+        }
+        
+        public function save(User $user): User {
+            if ($user->getId() === 0) {
+                return $this->insert($user);
+            } else {
+                return $this->update($user);
+            }
+        }
+        
+        private function insert(User $user): User {
+            $stmt = $this->pdo->prepare(
+                'INSERT INTO users (name, email, created_at) VALUES (?, ?, ?)'
+            );
+            
+            $stmt->execute([
+                $user->getName(),
+                $user->getEmail(),
+                $user->getCreatedAt()->format('Y-m-d H:i:s')
+            ]);
+            
+            $user->setId((int)$this->pdo->lastInsertId());
+            return $user;
+        }
+        
+        private function update(User $user): User {
+            $stmt = $this->pdo->prepare(
+                'UPDATE users SET name = ?, email = ? WHERE id = ?'
+            );
+            
+            $stmt->execute([
+                $user->getName(),
+                $user->getEmail(),
+                $user->getId()
+            ]);
+            
+            return $user;
+        }
+        
+        private function mapToUser(array $data): User {
+            $user = new User(
+                (int)$data['id'],
+                $data['name'],
+                $data['email']
+            );
+            
+            if (isset($data['created_at'])) {
+                $user->setCreatedAt(new DateTime($data['created_at']));
+            }
+            
+            return $user;
+        }
+    }
+    ?>
+
+// Example 5: Security best practices
+    <?php
+    class SecurityHelper {
+        public static function sanitizeInput(string $input): string {
+            return htmlspecialchars(trim($input), ENT_QUOTES, 'UTF-8');
+        }
+        
+        public static function validateCsrfToken(string $token): bool {
+            if (!isset($_SESSION['csrf_token'])) {
+                return false;
+            }
+            
+            return hash_equals($_SESSION['csrf_token'], $token);
+        }
+        
+        public static function generateCsrfToken(): string {
+            $token = bin2hex(random_bytes(32));
+            $_SESSION['csrf_token'] = $token;
+            return $token;
+        }
+        
+        public static function hashPassword(string $password): string {
+            return password_hash($password, PASSWORD_ARGON2ID, [
+                'memory_cost' => 65536,
+                'time_cost' => 4,
+                'threads' => 3
+            ]);
+        }
+        
+        public static function verifyPassword(string $password, string $hash): bool {
+            return password_verify($password, $hash);
+        }
+        
+        public static function generateSecureToken(int $length = 32): string {
+            return bin2hex(random_bytes($length));
+        }
+        
+        public static function validateFileUpload(array $file, array $allowedTypes = []): bool {
+            if ($file['error'] !== UPLOAD_ERR_OK) {
+                return false;
+            }
+            
+            if (!empty($allowedTypes)) {
+                $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                $mimeType = finfo_file($finfo, $file['tmp_name']);
+                finfo_close($finfo);
+                
+                if (!in_array($mimeType, $allowedTypes)) {
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+    }
+    ?>
+
+// Example 6: Performance optimization techniques
+    <?php
+    class PerformanceOptimizer {
+        private static array $cache = [];
+        
+        public static function cacheResult(string $key, callable $callback) {
+            if (isset(self::$cache[$key])) {
+                return self::$cache[$key];
+            }
+            
+            $result = $callback();
+            self::$cache[$key] = $result;
+            return $result;
+        }
+        
+        public static function clearCache(string $key = null): void {
+            if ($key === null) {
+                self::$cache = [];
+            } else {
+                unset(self::$cache[$key]);
+            }
+        }
+        
+        public static function optimizeDatabaseQueries(PDO $pdo): void {
+            // Enable query caching
+            $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            $pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, false);
+        }
+        
+        public static function lazyLoad(array $items, int $batchSize = 100): Generator {
+            foreach (array_chunk($items, $batchSize) as $batch) {
+                yield $batch;
+            }
+        }
+        
+        public static function optimizeMemoryUsage(): void {
+            // Clear unnecessary variables
+            unset($unusedVariables);
+            
+            // Force garbage collection
+            gc_collect_cycles();
+            
+            // Increase memory limit if needed
+            if (memory_get_usage() > (memory_get_peak_usage() * 0.8)) {
+                ini_set('memory_limit', '512M');
+            }
+        }
+    }
+    ?>
+
+// Example 7: Testing best practices
+    <?php
+    use PHPUnit\\Framework\\TestCase;
+    
+    class UserServiceTest extends TestCase {
+        private UserService $userService;
+        private LoggerInterface $mockLogger;
+        private UserRepository $mockRepository;
+        
+        protected function setUp(): void {
+            $this->mockLogger = $this->createMock(LoggerInterface::class);
+            $this->mockRepository = $this->createMock(UserRepository::class);
+            $this->userService = new UserService($this->mockLogger, $this->mockRepository);
+        }
+        
+        public function testCreateUserWithValidData(): void {
+            $userData = [
+                'id' => 1,
+                'name' => 'John Doe',
+                'email' => 'john@example.com'
+            ];
+            
+            $expectedUser = new User(1, 'John Doe', 'john@example.com');
+            
+            $this->mockRepository
+                ->expects($this->once())
+                ->method('save')
+                ->willReturn($expectedUser);
+            
+            $this->mockLogger
+                ->expects($this->once())
+                ->method('info');
+            
+            $result = $this->userService->createUser($userData);
+            
+            $this->assertInstanceOf(User::class, $result);
+            $this->assertEquals('John Doe', $result->getName());
+            $this->assertEquals('john@example.com', $result->getEmail());
+        }
+        
+        public function testCreateUserWithInvalidEmail(): void {
+            $userData = [
+                'id' => 1,
+                'name' => 'John Doe',
+                'email' => 'invalid-email'
+            ];
+            
+            $this->expectException(InvalidArgumentException::class);
+            $this->expectExceptionMessage('Invalid email format');
+            
+            $this->userService->createUser($userData);
+        }
+        
+        public function testCreateUserWithEmptyName(): void {
+            $userData = [
+                'id' => 1,
+                'name' => '',
+                'email' => 'john@example.com'
+            ];
+            
+            $this->expectException(InvalidArgumentException::class);
+            $this->expectExceptionMessage('Name is required');
+            
+            $this->userService->createUser($userData);
+        }
+    }
+    ?>
+
+// Example 8: Code documentation and standards
+    <?php
+    /**
+     * User management service
+     * 
+     * This service handles user creation, validation, and related operations.
+     * It follows the single responsibility principle and uses dependency injection.
+     * 
+     * @package App\\Services
+     * @author Your Name
+     * @version 1.0.0
+     * @since 2023-01-01
+     */
+    class UserService {
+        /**
+         * @var LoggerInterface Logger for recording service activities
+         */
+        private LoggerInterface $logger;
+        
+        /**
+         * @var UserRepository Repository for user data operations
+         */
+        private UserRepository $userRepository;
+        
+        /**
+         * Constructor
+         * 
+         * @param LoggerInterface $logger Logger instance for logging
+         * @param UserRepository $userRepository Repository for user operations
+         */
+        public function __construct(LoggerInterface $logger, UserRepository $userRepository) {
+            $this->logger = $logger;
+            $this->userRepository = $userRepository;
+        }
+        
+        /**
+         * Create a new user with validation
+         * 
+         * @param array $userData User data including name and email
+         * @return User Created user instance
+         * @throws InvalidArgumentException When user data is invalid
+         * @throws UserCreationException When user creation fails
+         * 
+         * @example
+         * \```php
+         * $userData = [
+         *     'id' => 1,
+         *     'name' => 'John Doe',
+         *     'email' => 'john@example.com'
+         * ];
+         * $user = $userService->createUser($userData);
+         * ``\`
+         */
+        public function createUser(array $userData): User {
+            // Implementation here...
+        }
+        
+        /**
+         * Validate user data
+         * 
+         * @param array $data User data to validate
+         * @throws InvalidArgumentException When validation fails
+         * @internal This method is used internally by createUser
+         */
+        private function validateUserData(array $data): void {
+            // Implementation here...
+        }
+    }
+    ?>
+
+// Example 9: Configuration and environment management
+    <?php
+    class Config {
+        private static ?array $config = null;
+        
+        public static function load(string $configPath = 'config/app.php'): void {
+            if (!file_exists($configPath)) {
+                throw new RuntimeException(\"Configuration file not found: $configPath\");
+            }
+            
+            self::$config = require $configPath;
+        }
+        
+        public static function get(string $key, mixed $default = null): mixed {
+            if (self::$config === null) {
+                self::load();
+            }
+            
+            $keys = explode('.', $key);
+            $value = self::$config;
+            
+            foreach ($keys as $k) {
+                if (!isset($value[$k])) {
+                    return $default;
+                }
+                $value = $value[$k];
+            }
+            
+            return $value;
+        }
+        
+        public static function getEnvironment(): string {
+            return self::get('app.env', 'production');
+        }
+        
+        public static function isProduction(): bool {
+            return self::getEnvironment() === 'production';
+        }
+        
+        public static function isDevelopment(): bool {
+            return self::getEnvironment() === 'development';
+        }
+        
+        public static function getDatabaseConfig(): array {
+            return [
+                'host' => self::get('database.host'),
+                'port' => self::get('database.port'),
+                'database' => self::get('database.database'),
+                'username' => self::get('database.username'),
+                'password' => self::get('database.password'),
+                'charset' => self::get('database.charset', 'utf8mb4'),
+                'options' => [
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                    PDO::ATTR_EMULATE_PREPARES => false
+                ]
+            ];
+        }
+    }
+    
+    // Load environment variables
+    if (file_exists('.env')) {
+        $lines = file('.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        foreach ($lines as $line) {
+            if (strpos($line, '=') !== false && strpos($line, '#') !== 0) {
+                list($key, $value) = explode('=', $line, 2);
+                $_ENV[trim($key)] = trim($value, '\"\\'');
+            }
+        }
+    }
+    ?>`,
   };
   return examples[lessonTitle] || "<?php\n// Example code will be provided\n?>";
 };
@@ -3707,207 +6563,312 @@ class, to ensure consistency and avoid scattered checks throughout the applicati
 
 `,
     "PHP Password Hashing": `
-**Code Explanation:**
+### Example 1
+\`password_hash()\` creates a secure hash using the default algorithm (currently bcrypt). \`password_verify()\` checks if the provided password matches the stored hash without revealing the original password.
 
-This example demonstrates secure password handling:
+### Example 2
+Custom options allow you to control the hashing process. The cost parameter controls computational complexity, while salt adds randomness to prevent rainbow table attacks.
 
-1. **Password Hashing**: \`password_hash()\` creates a secure hash of the password using the default algorithm.
+### Example 3
+Password verification in login systems compares user input with stored hashes. The hash is retrieved from the database and compared securely without storing plain text passwords.
 
-2. **Hash Verification**: \`password_verify()\` checks if the original password matches the stored hash.
+### Example 4
+Password strength validation ensures users create secure passwords. This function checks for minimum length, uppercase, lowercase, and numeric characters to enforce password policies.
 
-3. **Security**: The original password is never stored, only the hash.
+### Example 5
+Secure password reset generates cryptographically secure tokens with expiration times. The token is hashed before storage to prevent database exposure even if the database is compromised.
 
-**Why This Matters:**
-- Storing plain text passwords is a major security risk
-- Hashing converts passwords into irreversible encrypted strings
-- This protects user passwords even if the database is compromised
+### Example 6
+Argon2ID is a modern password hashing algorithm that's resistant to GPU and ASIC attacks. It provides better security than bcrypt for new applications.
 
-**Learning Outcome:** Understanding how to securely store and verify user passwords.`,
+### Example 7
+\`password_needs_rehash()\` checks if a password hash needs updating due to algorithm changes or cost increases. This ensures passwords remain secure as security standards evolve.
+
+### Example 8
+Manual salt generation with SHA256 provides an alternative to PHP's built-in functions. The salt must be cryptographically random and unique for each password.
+
+### Example 9
+Password policy enforcement ensures consistent security standards across applications. This class-based approach allows for flexible configuration and centralized validation logic.`,
 
     "PHP File Upload": `
-**Code Explanation:**
+### Example 1
+Basic file upload checks for upload errors and moves the file to the uploads directory. The error check ensures the file was uploaded successfully before processing.
 
-This example demonstrates secure file upload handling:
+### Example 2
+Secure file upload validates file types using allowed extensions. It generates unique filenames with timestamps to prevent overwrites and conflicts between uploaded files.
 
-1. **Upload Check**: \`$_FILES["file"]["error"] == 0\` verifies that the file upload was successful.
+### Example 3
+File size validation prevents users from uploading files that are too large. This protects server storage and bandwidth while maintaining reasonable file size limits.
 
-2. **File Movement**: \`move_uploaded_file()\` safely moves the uploaded file to the destination directory.
+### Example 4
+Multiple file upload handles arrays of files in a single request. The foreach loop processes each file individually, applying the same validation rules to each upload.
 
-3. **Security**: This function ensures the file was actually uploaded and not spoofed.
+### Example 5
+MIME type validation uses the fileinfo extension to check actual file content rather than relying on file extensions. This provides more reliable file type detection.
 
-**Why This Matters:**
-- File uploads are common in web applications
-- Proper handling prevents security vulnerabilities
-- This allows users to upload images, documents, and other files
+### Example 6
+Object-oriented file upload encapsulates upload logic in a reusable class. This approach provides better code organization and makes upload functionality easier to test and maintain.
 
-**Learning Outcome:** Understanding how to safely handle file uploads from users.`,
+### Example 7
+Database integration stores file metadata for tracking and management. This allows applications to maintain file inventories, track usage, and implement file management features.
+
+### Example 8
+Progress tracking provides user feedback during long uploads. Session-based progress tracking enables real-time updates on upload status for better user experience.
+
+### Example 9
+Security scanning adds an extra layer of protection by checking file content for suspicious patterns. This helps prevent malicious file uploads that could compromise server security.`,
 
     "PHP Image Processing": `
-**Code Explanation:**
+### Example 1
+Basic image filter application demonstrates how to load an image, apply a grayscale filter, and save the modified image. This is a fundamental operation for image manipulation.
 
-This example demonstrates basic image manipulation:
+### Example 2
+Image resizing scales an image to new dimensions while maintaining aspect ratio or specifying exact width and height. This is crucial for generating thumbnails or optimizing images for web display.
 
-1. **Image Loading**: \`imagecreatefromjpeg()\` loads an existing JPEG image into memory.
+### Example 3
+Image watermarking adds a transparent overlay to an image, typically for copyright protection or branding. This function demonstrates how to blend a watermark image onto a base image.
 
-2. **Filter Application**: \`imagefilter()\` applies a grayscale filter to the image.
+### Example 4
+Image cropping extracts a specific rectangular region from an image. This is useful for focusing on a particular part of an image or fitting it into predefined layouts.
 
-3. **Image Saving**: \`imagejpeg()\` saves the modified image to a new file.
+### Example 5
+Image format conversion allows changing an image from one format (e.g., JPEG) to another (e.g., PNG, GIF, WebP). This is important for compatibility and optimization.
 
-**Why This Matters:**
-- Image processing allows you to modify images programmatically
-- This is useful for creating thumbnails, applying effects, or optimizing images
-- The GD library provides powerful image manipulation capabilities
+### Example 6
+Image rotation changes the orientation of an image by a specified angle. This is useful for correcting image orientation or creating visual effects.
 
-**Learning Outcome:** Understanding how to programmatically process and modify images.`,
+### Example 7
+Image thumbnail generation creates smaller versions of images, often used in galleries or listings. This process involves resizing and can include cropping to fit specific dimensions.
+
+### Example 8
+Image validation and processing combines checks for file type, size, and integrity before performing any manipulation. This ensures only valid and safe images are processed.
+
+### Example 9
+Advanced image effects apply multiple filters and drawing operations to an image. This example shows how to adjust contrast, brightness, blur, and add a border for enhanced visual appeal.`,
 
     "PHP Email Handling": `
-**Code Explanation:**
+### Example 1
+Basic email sending uses PHP's built-in \`mail()\` function. This is suitable for simple emails but lacks advanced features like SMTP authentication or attachments.
 
-This example demonstrates basic email sending:
+### Example 2
+HTML email with headers allows sending rich-text emails. Setting \`Content-type:text/html\` in headers ensures the email client renders the HTML content correctly.
 
-1. **Recipient**: \`$to\` specifies the email address of the recipient.
+### Example 3
+Email with attachments requires constructing a multipart/mixed MIME message. This involves encoding the attachment in base64 and adding appropriate headers for file type and disposition.
 
-2. **Subject**: \`$subject\` sets the email subject line.
+### Example 4
+Email validation checks both the format of the email address using \`filter_var()\` and the existence of the domain's MX records using \`checkdnsrr()\`. This provides a more robust validation.
 
-3. **Message**: \`$message\` contains the email body text.
+### Example 5
+Bulk email sending iterates through a list of recipients. Adding a \`sleep()\` delay between emails helps prevent overwhelming the mail server and reduces the chance of being flagged as spam.
 
-4. **Email Sending**: \`mail()\` function sends the email using the server's mail configuration.
+### Example 6
+An email template system separates email content from logic. This class-based approach allows for dynamic content insertion and reusable email layouts.
 
-**Why This Matters:**
-- Email functionality is essential for user notifications and communication
-- This allows applications to send automated emails to users
-- Email handling is common in contact forms, password resets, and notifications
+### Example 7
+An email queue system stores emails in a database and sends them asynchronously. This improves application responsiveness and provides retry mechanisms for failed deliveries.
 
-**Learning Outcome:** Understanding how to send emails programmatically from PHP applications.`,
+### Example 8
+SMTP email configuration uses a library like PHPMailer for reliable email delivery through an external SMTP server. This is preferred for production environments over the native \`mail()\` function.
+
+### Example 9
+Email analytics tracking embeds a tracking pixel in HTML emails to monitor opens. This allows marketers to gather data on email engagement and campaign effectiveness.`,
 
     "PHP Date and Time": `
-**Code Explanation:**
+### Example 1
+Basic date and time functions demonstrate how to get the current date and time using \`date()\` and \`DateTime\` objects. \`DateTime\` objects offer more powerful and object-oriented date manipulation.
 
-This example demonstrates date and time handling:
+### Example 2
+Date formatting and manipulation shows how to display dates in various formats and modify them (e.g., adding a week, setting a specific time). The \`modify()\` method is versatile for relative changes.
 
-1. **Current Date/Time**: \`date()\` formats the current date and time according to the specified format.
+### Example 3
+Time zone handling is crucial for applications serving users in different geographical locations. \`DateTimeZone\` objects allow you to specify and convert between time zones, ensuring accurate time representation.
 
-2. **DateTime Object**: \`new DateTime()\` creates an object representing the current date and time.
+### Example 4
+Date calculations and comparisons use \`diff()\` to find the difference between two dates and \`modify()\` for relative date changes. This is essential for features like age calculation or countdowns.
 
-3. **Formatting**: \`format()\` method formats the DateTime object as a string.
+### Example 5
+Timestamp conversion demonstrates how to convert between Unix timestamps and \`DateTime\` objects. Timestamps are useful for storing dates in databases and performing quick comparisons.
 
-**Why This Matters:**
-- Date and time handling is essential for many applications
-- This is useful for timestamps, scheduling, and time-based features
-- Understanding date formatting is crucial for displaying time information
+### Example 6
+Date validation and parsing ensures that user-provided date strings are valid and can be converted into \`DateTime\` objects. \`DateTime::createFromFormat()\` is robust for specific formats.
 
-**Learning Outcome:** Understanding how to work with dates and times in PHP applications.`,
+### Example 7
+Working with intervals and periods allows iterating over a range of dates with a specified interval. \`DatePeriod\` is useful for generating monthly reports or recurring events.
+
+### Example 8
+Business days calculation determines the number of weekdays within a given date range. This is often required in business logic for scheduling or deadline calculations.
+
+### Example 9
+Date localization and internationalization adapts date and time display to different cultural conventions. \`setlocale()\` and libraries like Carbon (if installed) provide advanced localization features.`,
 
     "PHP Regular Expressions": `
-**Code Explanation:**
+### Example 1
+Basic email validation uses a regular expression to check if a string conforms to a standard email format. \`preg_match()\` returns true if a match is found.
 
-This example demonstrates email validation using regular expressions:
+### Example 2
+String pattern matching and replacement demonstrates \`preg_match_all()\` to find all occurrences of a pattern and \`preg_replace()\` to substitute matched patterns with new content.
 
-1. **Pattern Definition**: The regex pattern validates email format with specific rules.
+### Example 3
+Phone number validation uses multiple regular expressions to accommodate various international and local phone number formats. This ensures flexibility while maintaining data integrity.
 
-2. **Pattern Matching**: \`preg_match()\` checks if the email matches the pattern.
+### Example 4
+URL parsing and validation extracts components of a URL (protocol, domain, port, path) using capturing groups in a regular expression. This is useful for analyzing or rewriting URLs.
 
-3. **Validation Result**: If the pattern matches, the email is considered valid.
+### Example 5
+Password strength validation employs multiple regular expressions to check for different criteria like minimum length, presence of uppercase, lowercase, numbers, and special characters.
 
-**Why This Matters:**
-- Regular expressions provide powerful pattern matching capabilities
-- Email validation ensures data quality and security
-- Regex is useful for validating various types of input data
+### Example 6
+HTML tag extraction and cleaning uses regular expressions to find all HTML tags or strip them from a string. \`strip_tags()\` is a simpler alternative for basic cleaning.
 
-**Learning Outcome:** Understanding how to use regular expressions for data validation.`,
+### Example 7
+Data extraction from text uses various regular expressions to pull out specific types of information like email addresses, URLs, phone numbers, and hashtags from a larger text block.
+
+### Example 8
+Advanced pattern matching with groups allows extracting specific parts of a matched string into an associative array. This is powerful for parsing structured log entries or complex data.
+
+### Example 9
+Regular expression optimization and performance involves caching compiled patterns to avoid recompilation overhead. This can improve performance in applications that frequently use the same regex patterns.`,
 
     "PHP JSON Handling": `
-**Code Explanation:**
+### Example 1
+Basic JSON encoding and decoding converts PHP arrays/objects to JSON strings and vice-versa. \`json_encode()\` and \`json_decode()\` are fundamental for working with JSON data.
 
-This example demonstrates JSON encoding and decoding:
+### Example 2
+JSON with options and error handling demonstrates how to pretty-print JSON for readability and handle potential encoding/decoding errors using \`json_last_error()\` and \`json_last_error_msg()\`.
 
-1. **Array Creation**: Creates an associative array with name and age data.
+### Example 3
+JSON validation and sanitization ensures that incoming JSON data is well-formed and safe to process. \`htmlspecialchars()\` is used to prevent XSS attacks when displaying JSON data.
 
-2. **JSON Encoding**: \`json_encode()\` converts the PHP array to a JSON string.
+### Example 4
+JSON API response handling sets appropriate HTTP headers and status codes for API responses. This function standardizes JSON output for consistent API communication.
 
-3. **JSON Decoding**: \`json_decode()\` converts the JSON string back to a PHP array.
+### Example 5
+JSON file operations encapsulate reading from and writing to JSON files. This class provides methods for managing JSON data persistence on the file system.
 
-**Why This Matters:**
-- JSON is a common format for data exchange between applications
-- This is essential for APIs and web services
-- Understanding JSON handling is crucial for modern web development
+### Example 6
+JSON Web Token (JWT) handling demonstrates how to create and validate JWTs for secure authentication and authorization. JWTs are commonly used in stateless APIs.
 
-**Learning Outcome:** Understanding how to work with JSON data in PHP applications.`,
+### Example 7
+JSON schema validation checks if a JSON data structure conforms to a predefined schema. This ensures data consistency and helps prevent invalid data from being processed.
+
+### Example 8
+JSON streaming for large datasets uses PHP generators to process and output JSON data in chunks, preventing memory exhaustion when dealing with very large data structures.
+
+### Example 9
+JSON transformation and mapping allows restructuring JSON data based on a defined mapping. This is useful for adapting data from one format to another.`,
 
     "PHP XML Processing": `
-**Code Explanation:**
-This example demonstrates basic XML parsing:
+### Example 1
+Basic XML parsing with SimpleXML provides an easy way to read and navigate XML documents. \`simplexml_load_string()\` converts an XML string into an object, allowing property-based access.
 
-1. **XML Loading**: \`simplexml_load_string()\` parses an XML string into a SimpleXML object.
+### Example 2
+XML file parsing and manipulation demonstrates how to load XML from a file, iterate through elements, and modify the XML structure. \`asXML()\` saves changes back to a file.
 
-2. **Element Access**: \`$xml->item\` accesses the "item" element within the XML structure.
+### Example 3
+XML generation with DOMDocument offers a more robust and programmatic way to create XML documents. It allows precise control over element and attribute creation, and \`formatOutput\` ensures readability.
 
-3. **Data Extraction**: The content of the "item" element is displayed.
+### Example 4
+XML validation with XSD schema ensures that an XML document conforms to a predefined structure and data types. \`schemaValidate()\` checks against an XSD file for structural correctness.
 
-**Why This Matters:**
-- XML is a common format for structured data
-- This allows you to parse and process XML documents
-- Understanding XML processing is useful for working with various data sources
+### Example 5
+XML parsing with XPath allows for powerful querying of XML documents to find specific elements or attributes based on complex criteria. This is highly efficient for extracting targeted data.
 
-**Learning Outcome:** Understanding how to parse and extract data from XML documents.`,
+### Example 6
+XML to array conversion and vice-versa facilitates interoperability between XML and PHP's native array structures. This is useful when processing XML data in array-based logic.
+
+### Example 7
+XML RSS feed processing demonstrates how to parse existing RSS feeds and generate new ones. This is essential for news aggregators, blogs, and content syndication.
+
+### Example 8
+XML transformation with XSLT applies an XSLT stylesheet to an XML document to transform it into another format (e.g., HTML). This is powerful for separating content from presentation.
+
+### Example 9
+XML security and sanitization protects against XML-related vulnerabilities like XXE (XML External Entity) attacks and XSS (Cross-Site Scripting) by removing dangerous elements and validating structure.`,
 
     "PHP RESTful APIs": `
-**Code Explanation:**
-This example demonstrates basic API response handling:
+### Example 1
+Basic RESTful API endpoint sets appropriate headers and returns JSON responses. This is the foundation for building APIs that can communicate with web and mobile applications.
 
-1. **Content Type**: \`header()\` sets the response content type to JSON.
+### Example 2
+Complete RESTful API with CRUD operations implements all HTTP methods (GET, POST, PUT, DELETE) following REST principles. This provides a full-featured API for managing resources like users, products, or any data entity.
 
-2. **Response Data**: Creates an array with status information.
+### Example 3
+API authentication and authorization uses JWT tokens to secure API endpoints. This ensures that only authenticated users can access protected resources and perform authorized actions.
 
-3. **JSON Output**: \`json_encode()\` converts the array to JSON format for the API response.
+### Example 4
+API rate limiting prevents abuse by limiting the number of requests per client within a time window. This protects server resources and ensures fair usage among API consumers.
 
-**Why This Matters:**
-- RESTful APIs are essential for modern web applications
-- This allows different applications to communicate with each other
-- Understanding API development is crucial for building scalable systems
+### Example 5
+API input validation and sanitization ensures that incoming data meets expected criteria and is safe to process. This prevents security vulnerabilities and maintains data integrity.
 
-**Learning Outcome:** Understanding how to create basic RESTful API endpoints in PHP.`,
+### Example 6
+API versioning allows maintaining multiple versions of an API simultaneously. This enables backward compatibility while introducing new features and improvements.
+
+### Example 7
+API error handling and logging provides consistent error responses and comprehensive logging for debugging and monitoring. This improves API reliability and maintainability.
+
+### Example 8
+API documentation generation creates interactive documentation that helps developers understand and use the API effectively. This is essential for API adoption and developer experience.
+
+### Example 9
+API testing and mocking enables automated testing of API endpoints and creation of mock services for development and testing environments. This ensures API reliability and facilitates development workflows.`,
 
     "PHP Project Structure": `
-**Code Explanation:**
-This example demonstrates proper file organization:
+### Example 1
+Basic MVC project structure demonstrates the fundamental separation of concerns with Models, Views, and Controllers. This organization makes code more maintainable and follows established design patterns.
 
-1. **File Inclusion**: 
-- \`require_once\` includes files only once, preventing duplicate inclusions.
+### Example 2
+Modern PHP project with Composer autoloading uses PSR-4 autoloading standards for automatic class loading. This eliminates manual file includes and provides a clean, modern development experience.
 
-2. **Directory Structure**: Shows a typical MVC (Model-View-Controller) structure:
-- \`config/\` for configuration files
-- \`models/\` for data models
-- \`controllers/\` for business logic
+### Example 3
+Environment-based configuration separates configuration from code using environment variables. This allows different settings for development, staging, and production environments without code changes.
 
-3. **Modular Design**: Each file has a specific responsibility in the application.
+### Example 4
+Service container and dependency injection manages object creation and dependencies automatically. This promotes loose coupling, testability, and follows the inversion of control principle.
 
-**Why This Matters:**
-- Proper project structure makes code maintainable and scalable
-- This follows the MVC pattern, a common architectural approach
-- Good organization is essential for team development and code maintenance
+### Example 5
+Middleware system for request handling allows processing requests through a chain of middleware components. This enables cross-cutting concerns like authentication, logging, and validation to be handled consistently.
 
-**Learning Outcome:** Understanding how to organize PHP projects using best practices and design patterns.`,
+### Example 6
+Repository pattern for data access abstracts database operations behind interfaces. This separates data access logic from business logic and makes the code more testable and maintainable.
+
+### Example 7
+Event system for loose coupling allows components to communicate without direct dependencies. This promotes modularity and makes the system more flexible and extensible.
+
+### Example 8
+API routing system provides clean URL patterns and HTTP method handling. This creates RESTful endpoints that are intuitive and follow web standards.
+
+### Example 9
+Caching system integration improves performance by storing frequently accessed data in memory or external cache stores. This reduces database load and improves response times for better user experience.`,
 
     "PHP Best Practices": `
-**Code Explanation:**
+### Example 1
+Clean code principles emphasize readability, simplicity, and maintainability. This example shows how to write functions that are easy to understand and modify, following the single responsibility principle.
 
-This example demonstrates coding best practices:
+### Example 2
+Type declarations and return types provide better code documentation and catch errors at development time. PHP's type system helps prevent runtime errors and makes code more predictable and maintainable.
 
-1. **Function Definition**: Creates a clear, single-purpose function.
+### Example 3
+Error handling and logging ensures applications gracefully handle unexpected situations. Proper error handling with logging provides visibility into issues and helps maintain application reliability and performance.
 
-2. **Variable Initialization**: \`$total = 0\` initializes the variable before use.
+### Example 4
+Database best practices with prepared statements prevent SQL injection attacks and improve performance. Using prepared statements is essential for secure database interactions and follows security best practices.
 
-3. **Loop Processing**: \`foreach\` efficiently processes each item in the array.
+### Example 5
+Security best practices protect applications from common vulnerabilities. This includes input sanitization, CSRF protection, secure password hashing, and secure file handling to prevent security breaches.
 
-4. **Return Value**: The function returns the calculated total.
+### Example 6
+Performance optimization techniques improve application speed and resource usage. Caching, lazy loading, and memory management help applications scale and provide better user experiences.
 
-**Why This Matters:**
-- Following best practices makes code readable and maintainable
-- This prevents common programming errors and bugs
-- Good coding practices are essential for professional development
+### Example 7
+Testing best practices ensure code quality and prevent regressions. Unit testing with proper mocking and test coverage helps maintain reliable applications and enables confident refactoring.
 
-**Learning Outcome:** Understanding how to write clean, efficient, and maintainable PHP code.`
+### Example 8
+Code documentation and standards make code maintainable and help team collaboration. Clear documentation, coding standards, and examples help developers understand and work with the codebase effectively.
+
+### Example 9
+Configuration and environment management separates configuration from code and handles different deployment environments. This approach makes applications more flexible and easier to deploy across different environments.`
   };
   return explanations[lessonTitle] || "This code example demonstrates the main concepts of this lesson. Read the comments in the code for details.";
 };

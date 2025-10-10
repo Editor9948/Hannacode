@@ -54,6 +54,30 @@
   }
 }
 
+/* Theme-aware UI utilities */
+.btn {
+  @apply inline-flex items-center justify-center px-4 py-2 rounded-md font-medium shadow-sm;
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+}
+
+.btn-outline {
+  @apply inline-flex items-center justify-center px-4 py-2 rounded-md font-medium border;
+  background-color: transparent;
+  border-color: hsl(var(--border));
+  color: hsl(var(--foreground));
+}
+
+.card {
+  @apply p-4 rounded-md border;
+  background-color: hsl(var(--card));
+  color: hsl(var(--card-foreground));
+}
+
+.muted-text {
+  color: hsl(var(--muted-foreground));
+}
+
 .course-card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }

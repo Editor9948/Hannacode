@@ -1,7 +1,7 @@
 {
-  "id": "2025-10-06-css-flexbox-intro",
+  "id": "2025-10-16-css-flexbox-intro",
   "title": "CSS Flexbox Introduction",
-  "date": "2025-10-06",
+  "date": "2025-10-16",
   "description": "Learn the basics of Flexbox layout with display: flex and basic flex properties.",
   "examples": [
     {

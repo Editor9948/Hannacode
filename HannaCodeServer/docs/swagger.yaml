@@ -49,8 +49,6 @@ paths:
       responses:
         '201':
           description: User registered successfully
-        '400':
-          description: Invalid input
 
   /auth/login:
     post:

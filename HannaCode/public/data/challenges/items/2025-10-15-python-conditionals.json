@@ -1,7 +1,7 @@
 {
-  "id": "2025-10-05-python-conditionals",
+  "id": "2025-10-15-python-conditionals",
   "title": "Python Conditionals",
-  "date": "2025-10-05",
+  "date": "2025-10-15",
   "description": "Practice using if, elif, and else statements to control the flow of your Python program based on conditions.",
   "examples": [
     {
