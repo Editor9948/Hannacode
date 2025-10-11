@@ -9,3 +9,4 @@
 2025-09-29 18:19:21 error: Error: Admin access required for this resource
 2025-09-29 18:21:06 error: Error: Premium subscription required to access course completion certificates. Upgrade to premium to earn and download certificates for completed courses.
 2025-09-29 18:21:06 error: Error: Admin access required for this resource
+2025-10-11 15:46:03 error: MongoServerSelectionError: getaddrinfo ENOTFOUND ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net
