@@ -447,7 +447,69 @@ if (x > 0) {
     console.log('Non-positive number');
 }`,
     "Variables and Data Types": `
-// Example 1: Variable Declarations
+// Example 1: What Is Variable 
+let name = "Hanna";
+console.log(name);
+
+// Example 2: Declaring Variables Using \`var\`
+function exampleVar() {
+console.log(x); // Output: undefined (due to hoisting)
+var x = 10;
+console.log(x); // Output: 10
+
+var x = 20; // Re-declaration is allowed
+console.log(x); // Output: 20
+
+if (true) {
+var y = 30;
+  }
+ console.log(y); // Output: 30 (var is function-scoped)
+}
+exampleVar();
+
+// Example 3: Declaring Variables Using \`let\`
+function exampleLet() {
+// console.log(a); // ReferenceError: Cannot access 'a' before initialization
+let a = 10;
+console.log(a); // Output: 10
+
+a = 20; // Re-assignment is allowed
+console.log(a); // Output: 20
+
+// let a = 30; // SyntaxError: Identifier 'a' has already been declared
+
+if (true) {
+let b = 40;
+console.log(b); // Output: 40
+ }
+// console.log(b); // ReferenceError: b is not defined (let is block-scoped)
+}
+exampleLet();
+
+// Example 4: Declaring Variables Using \`const\`
+function exampleConst() {
+const PI = 3.14;
+console.log(PI); // Output: 3.14
+
+// PI = 3.14159; // TypeError: Assignment to constant variable.
+// const PI = 3.0; // SyntaxError: Identifier 'PI' has already been declared
+
+const user = {
+name: "Alice",
+age: 30
+};
+console.log(user); // Output: { name: 'Alice', age: 30 }
+
+user.age = 31; // Allowed: You can modify properties of an object declared
+with const
+console.log(user); // Output: { name: 'Alice', age: 31 }
+
+// user = {}; // TypeError: Assignment to constant variable. (Cannot reassign
+the object itself)
+}
+exampleConst();
+
+// Example 5: Data Types
 let name = "Alice"; // string
 const age = 30; // number
 let isStudent = true; // boolean
@@ -456,7 +518,7 @@ let data; // undefined
 const id = Symbol('id'); // symbol
 const bigNum = 9007199254740991n; // bigint
 
-// Example 2: Type Checking
+// Example 6: Type Checking
 console.log(typeof name); // "string"
 console.log(typeof age); // "number"
 console.log(typeof isStudent); // "boolean"
@@ -465,7 +527,7 @@ console.log(typeof data); // "undefined"
 console.log(typeof id); // "symbol"
 console.log(typeof bigNum); // "bigint"
 
-// Example 3: Type Conversion
+// Example 7: Type Conversion
 console.log(String(age)); // "30"
 console.log(Number("123")); // 123
 console.log(Boolean(1)); // true`,
@@ -3597,17 +3659,55 @@ and code organization principles.`,
 - **variables** act like labeled storage boxes that hold data so it can be used, 
 updated, and referenced throughout a program. They have names (identifiers) and values, 
 and their contents can change during execution.
-This block shows how to declare variables using different primitive data types. Key points:
-- Use \`let\` for reassignable block-scoped variables
-- Use \`const\` for values that should not be reassigned
-- \`var\` : Avoid using var in modern JavaScript development due to its confusing
-scoping rules and hoisting behavior. \`let\` and \`const\` offer more predictable and
-safer variable declarations
 
-### Example 2
+Here:
+- \`let\`:Is the keyword used to declare the variable 
+- \`name\`:Is the variable name or (identifier)
+- \`"Hanna"\`:Is the **value** stored in that variable. 
+
+### Example 2 
+Historically, \`var\` was the only way to declare variables in JavaScript. However, with
+the introduction of ES6 (ECMAScript 2015), \`let\` and \`const\` were added, offering more
+control over variable scope and mutability
+
+**\`var\`**
+- **Function-scoped**: Variables declared with \`var\` are accessible throughout the
+function they are declared in, regardless of block scope (like if statements or
+for loops)
+- **Can be re-declared and re-assigned**: You can declare the same \`var\` variable
+multiple times and change its value
+- **Hoisted**: \`var\` declarations are
+hoisted to the top of their function or global scope, meaning you can use them before
+they are declared in the code (though their value will be \`undefined\` until the actual
+declaration is reached).
+
+### Example 3 
+**\`let\`**
+- **Block-scoped**: Variables declared with \`let\` are limited to the block (e.g., if
+statement, \`for\` loop, or any \`{}\` block) in which they are declared. This helps
+prevent unintended side effects and makes code easier to reason about.
+- **Can be re-assigned, but not re-declared**: You can change the value of a \`let\`
+variable, but you cannot declare another variable with the same name in the
+same scope.
+- **Not hoisted (in the same way as \`var\` )**: While \`let\` declarations are technically
+hoisted, they are in a temporal dead zone until their declaration is reached. This means you cannot access
+them before they are declared.
+
+### Example 4 
+**\`const\`**
+- **Block-scoped**: Like \`let\`, \`const\` variables are block-scoped.
+- **Cannot be re-assigned or re-declared**: Once a \`const\` variable is declared and
+assigned a value, its value cannot be changed, and it cannot be re-declared. This
+makes \`const\` ideal for values that should remain constant throughout your
+program.
+- **Must be initialized**: You must assign a value to a \`const\` variable at the time of its
+declaration
+
+### Example 5
 - **Data types** specify the kind of data a variable can hold, which determines what operations 
 can be performed on it. In JavaScript, data types are divided into:
 
+### Example 6
 **Primitive types demonstrated**: 
 - \`string\` - text values (\`"Hello"\`)
 - \`number\` - numeric values (\`42, 3.14\`)
@@ -3621,7 +3721,7 @@ Here we inspect the types of the previously declared variables using \`typeof\`.
 - \`typeof null\` is historically "object" (a known JavaScript quirk)
 - Symbols and BigInts each have their own distinct type labels
 
-### Example 3
+### Example 7
 Shows explicit type conversion:
 - \`String(value)\` converts to string
 - \`Number(value)\` parses numeric strings

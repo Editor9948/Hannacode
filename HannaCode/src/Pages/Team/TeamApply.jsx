@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import { useLocation } from 'react-router-dom';
 import { submitApplication, uploadResumeFile } from "../../lib/teamApi";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
@@ -46,6 +47,14 @@ export default function TeamApply() {
   const [submitting, setSubmitting] = useState(false);
   const [status, setStatus] = useState({ ok: false, error: "" });
   const [uploading, setUploading] = useState(false);
+
+  const location = useLocation();
+  // Prefill role if navigated from Careers with role in state
+  useMemo(() => {
+    if (location?.state?.role) {
+      setRole(location.state.role);
+    }
+  }, [location]);
 
   const emailValid = useMemo(() => /\S+@\S+\.\S+/.test(email), [email]);
   const phoneValid = useMemo(() => phone.trim().length >= 7, [phone]);

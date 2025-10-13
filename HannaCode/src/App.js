@@ -118,6 +118,7 @@ export default function App() {
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/settings" element={<SettingsPage />} />
+           
             
             {/* Certificate Routes */}
             <Route path="/certificates" element={<Certificates />} />

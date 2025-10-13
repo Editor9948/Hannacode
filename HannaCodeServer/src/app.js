@@ -149,7 +149,6 @@ app.use("/api/v1/", challengesRoutes);
 
 
 
-
 app.use("/api/v1/admin", require("./routes/admin"));
 app.use("/api/v1/mentors", require("./routes/mentors")); 
 app.use("/api/v1/chats", require("./routes/mentors"));   

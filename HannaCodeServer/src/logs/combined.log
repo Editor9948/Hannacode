@@ -59,3 +59,12 @@
 2025-10-11 15:44:02 info: [1m[33mServer running in development mode on port 5000[39m[22m
 2025-10-11 15:44:05 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
 2025-10-11 15:46:03 error: MongoServerSelectionError: getaddrinfo ENOTFOUND ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net
+2025-10-13 23:53:40 info: Socket.IO initialized
+2025-10-13 23:53:40 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-10-13 23:53:44 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-00.jxpglfb.mongodb.net[39m[24m[22m
+2025-10-14 00:11:24 info: Socket.IO initialized
+2025-10-14 00:11:24 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-10-14 00:11:31 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-02.jxpglfb.mongodb.net[39m[24m[22m
+2025-10-14 00:14:42 info: Socket.IO initialized
+2025-10-14 00:14:42 info: [1m[33mServer running in development mode on port 5000[39m[22m
+2025-10-14 00:14:46 info: [1m[4m[36mMongoDB Connected: ac-cktbf1f-shard-00-01.jxpglfb.mongodb.net[39m[24m[22m

@@ -1,5 +1,4 @@
 import {Link} from "react-router-dom"
-import { Code } from "lucide-react"
 
 export default function Footer() {
   return (
@@ -88,11 +87,6 @@ export default function Footer() {
               <li>
                 <Link to="/cookies" className="text-sm text-muted-foreground hover:text-primary">
                   Cookie Policy
-                </Link>
-              </li>
-                <li>
-                <Link to="/team/apply" className="text-sm text-muted-foreground hover:text-primary">
-                  Apply for a Role
                 </Link>
               </li>
             </ul>

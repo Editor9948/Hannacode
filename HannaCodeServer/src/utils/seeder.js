@@ -18,6 +18,7 @@ const advancedcssContent = require('./courseContent/advancedcss')
 const pythonContent = require('./courseContent/python')
 const dartContent = require('./courseContent/dart')
 const gitContent = require('./courseContent/git')
+const mongodbContent = require('./courseContent/mongodb')
 
 
 
@@ -310,6 +311,26 @@ const createCourses = async () => {
       createdAt: getRandomDate(),
       updatedAt: getRandomDate(),
       coverImage: "/images/courses/git.jpg"
+    },
+    {
+      title: "MongoDB Database Mastery",
+      description: "Master MongoDB from fundamentals to advanced concepts. Learn document databases, aggregation pipelines, indexing, and real-world applications with Node.js integration.",
+      shortDescription: "Master MongoDB database development and administration.",
+      weeks: 10,
+      tuition: 89,
+      level: "intermediate",
+      scholarshipsAvailable: true,
+      user: "60d21b4667d0d8992e610c85",
+      slug: slugify("MongoDB Database Mastery", { lower: true }),
+      lessonCount: 10,
+      category: "backend",
+      duration: 600, // 10 weeks * 60 minutes
+      language: "mongodb",
+      isPremium: false,
+      isPublished: true,
+      createdAt: getRandomDate(),
+      updatedAt: getRandomDate(),
+      coverImage: "/images/courses/mongo.jpeg"
     }
   ]
 
@@ -333,6 +354,7 @@ const createLessons = async (courses) => {
     "Python Basic":20,
    "Dart Fundamentals":20,
    "Git Version Control Mastery": 25,
+   "MongoDB Database Mastery": 10,
 
 
   }
@@ -679,6 +701,18 @@ const createLessons = async (courses) => {
          "Git and Modern Development Practices",
          "Project: Building a Git Workflow",
          "Git Certification and Career Development"
+       ],
+       "MongoDB Database Mastery": [
+         "Introduction to MongoDB",
+         "MongoDB Installation and Setup",
+         "MongoDB Data Types and Documents",
+         "Basic CRUD Operations",
+         "Querying and Filtering",
+         "MongoDB Indexing",
+         "Aggregation Pipeline",
+         "MongoDB with Node.js",
+         "Advanced MongoDB Features",
+         "MongoDB Security and Performance"
        ]
 
     
@@ -1182,6 +1216,43 @@ Test your understanding of ${lessonTitle.toLowerCase()}.`,
             explanation: "Git is a distributed version control system designed to track changes in files and coordinate work among multiple people."
           }
         ]
+      },
+      "MongoDB Database Mastery": {
+        content: `# ${lessonTitle}
+
+## Overview
+This lesson covers essential MongoDB database concepts. You'll learn how to work with document databases, perform queries, and build scalable applications.
+
+## Learning Objectives
+- Understand MongoDB concepts and best practices
+- Master database operations and queries
+- Apply performance optimization techniques
+- Complete hands-on exercises
+
+## Detailed Content
+### Key Concepts
+${mongodbContent.getMongoDBLessonConcepts(lessonTitle)}
+
+### Code Examples
+\`\`\`mongodb
+${mongodbContent.getMongoDBCodeExample(lessonTitle)}
+\`\`\`
+
+### Explanation
+${mongodbContent.getMongoDBCodeExplanation(lessonTitle)}
+
+### Practice Exercises
+${mongodbContent.getMongoDBExercises(lessonTitle).map(exercise => `- ${exercise}`).join('\n')}
+
+## Additional Resources
+- MongoDB Documentation
+- MongoDB University
+- MongoDB Best Practices Guide
+- Code Examples Repository
+
+## Quiz
+Test your understanding of ${lessonTitle.toLowerCase()}.`,
+        quiz: mongodbContent.getMongoDBQuiz(lessonTitle)
       }
       
     };
@@ -1191,7 +1262,7 @@ Test your understanding of ${lessonTitle.toLowerCase()}.`,
   // Extract structured code example & explanation from generated markdown to populate schema codeExamples
   const extractStructured = (markdown, fallbackLanguage) => {
     if (!markdown) return { codeExamples: [] };
-    const allowedLangs = ['javascript','css','html','python','php','dart','cpp','java','csharp','go','rust','plaintext'];
+    const allowedLangs = ['javascript','css','html','python','php','dart','cpp','java','csharp','go','rust','mongodb','plaintext'];
     const exampleMatch = markdown.match(/### Code Examples[\s\S]*?```(\w+)?\s*\n([\s\S]*?)```/i);
     if (!exampleMatch) return { codeExamples: [] };
     let lang = (exampleMatch[1] || '').toLowerCase().trim();
@@ -1199,6 +1270,7 @@ Test your understanding of ${lessonTitle.toLowerCase()}.`,
       if (lang === 'js') lang = 'javascript';
       else if (lang === 'c++') lang = 'cpp';
       else if (lang === 'py') lang = 'python';
+      else if (lang === 'mongo') lang = 'mongodb';
     }
     if (!allowedLangs.includes(lang)) lang = allowedLangs.includes(fallbackLanguage) ? fallbackLanguage : 'plaintext';
     const rawCode = exampleMatch[2].trim();

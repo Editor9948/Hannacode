@@ -2,7 +2,7 @@ import {Link} from "react-router-dom"
 import { Button } from "../components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../components/ui/card"
 import { Badge } from "../components/ui/badge"
-import { MapPin, Briefcase, Clock, Users, ArrowRight } from 'lucide-react'
+import { MapPin, Briefcase, Clock, ArrowRight } from 'lucide-react'
 
 export default function CareersPage() {
   const openPositions = [
@@ -318,7 +318,7 @@ export default function CareersPage() {
                       </div>
                     </CardDescription>
                   </div>
-                  <Link href={`/careers/${position.id}`}>
+                  <Link to={`/careers/${position.id}`}>
                     <Button className="bg-primary hover:bg-primary/90">View Position</Button>
                   </Link>
                 </div>
@@ -335,11 +335,16 @@ export default function CareersPage() {
                 </div>
               </CardContent>
               <CardFooter className="flex justify-end">
-                <Link href={`/careers/${position.id}`}>
-                  <Button variant="ghost" className="hover:text-primary">
-                    Learn More <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </Link>
+                <div className="flex items-center gap-2">
+                  <Link to={`/careers/${position.id}`}>
+                    <Button variant="ghost" className="hover:text-primary">
+                      Learn More <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
+                  <Link to="/team/apply" state={{ role: position.title }}>
+                    <Button className="bg-primary">Apply</Button>
+                  </Link>
+                </div>
               </CardFooter>
             </Card>
           ))}
@@ -404,7 +409,7 @@ export default function CareersPage() {
           We're always looking for talented individuals to join our team. Send us your resume and tell us how you can
           contribute to our mission.
         </p>
-        <Link to="/careers/general-application">
+        <Link to="/team/apply">
           <Button className="bg-primary hover:bg-primary/90">Submit General Application</Button>
         </Link>
       </div>

@@ -72,7 +72,7 @@ const LessonSchema = new mongoose.Schema(
         title: { type: String, required: true },
         language: { 
           type: String, 
-          enum: ['javascript','css','html','python','php','dart','cpp','java','csharp','go','rust','plaintext'],
+          enum: ['javascript','css','html','python','php','dart','cpp','java','csharp','go','rust','mongodb','plaintext'],
           default: 'plaintext'
         },
         code: { type: String, required: true },
