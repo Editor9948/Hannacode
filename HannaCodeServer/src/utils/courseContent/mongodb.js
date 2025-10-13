@@ -1368,9 +1368,12 @@ BOTH ARE ESSENTIAL:
     "MongoDB Data Types and Documents": `
 ### Example 1
 ObjectId is MongoDB's default primary key format:
-
-text\nObjectId(\"507f1f77bcf86cd799439011\")\n|       |                        |\n|       |                        └─ Random bytes (3 bytes)\n|       └─ Counter (3 bytes)\n└─ Timestamp (4 bytes)\n
-
+\`ObjectId("507f1f77bcf86cd799439011")\`
+| Segment          | Example Portion | Bytes   | Description                                                                                             |
+| ---------------- | --------------- | ------- | ------------------------------------------------------------------------------------------------------- |
+| **Timestamp**    | \`507f1f77\`      | 4 bytes | The time the ObjectId was created (in seconds since Unix epoch).                                        |
+| **Counter**      | \`bcf86c\`        | 3 bytes | An incrementing counter to ensure uniqueness within the same second.                                    |
+| **Random Bytes** | \`d799439011\`    | 5 bytes | Randomly generated values (machine + process identifiers) that make the ObjectId unique across systems. |
 
 TIMESTAMP (4 bytes): Creation time in seconds since Unix epoch
 COUNTER (3 bytes): Incremental counter for uniqueness within same second
@@ -2456,7 +2459,7 @@ BEST PRACTICES:
 - Balance query performance vs write performance
 - Use compound indexes efficiently
 
-### Example 5*
+### Example 5
 ## QUERY PERFORMANCE TUNING:
 
 QUERY ANALYSIS:
