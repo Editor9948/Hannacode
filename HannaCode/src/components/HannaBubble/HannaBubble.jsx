@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 const API_BASE = (process.env.REACT_APP_API_URL || "").replace(/\/$/, "");
-const RAW_AI = (process.env.REACT_APP_HANNAAI_URL || "http://localhost:3001").trim();
+const RAW_AI = (process.env.REACT_APP_HANNAAI_URL).trim();
 const HANNAAI_URL = /^https?:\/\//i.test(RAW_AI) ? RAW_AI : `http://${RAW_AI.replace(/^\/+/, "")}`;
 
 export default function HannaAIBubble() {

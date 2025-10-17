@@ -3705,8 +3705,7 @@ declaration
 
 ### Example 5
 - **Data types** specify the kind of data a variable can hold, which determines what operations 
-can be performed on it. In JavaScript, data types are divided into:
-
+can be performed on it. In JavaScript, data types are divided into: Primitive types and Non-primitive types.
 ### Example 6
 **Primitive types demonstrated**: 
 - \`string\` - text values (\`"Hello"\`)
